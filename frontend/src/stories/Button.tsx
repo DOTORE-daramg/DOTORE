@@ -1,5 +1,17 @@
-import React from 'react';
-import './button.css';
+import React from "react";
+import styled from "styled-components";
+
+const StyledButton = styled.button`
+  border: 0;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1;
+  background-color: #6667ab;
+  padding: 10px 20px;
+  color: white;
+  font-family: "SUIT", sans-serif;
+`;
 
 interface ButtonProps {
   /**
@@ -13,7 +25,7 @@ interface ButtonProps {
   /**
    * How large should the button be?
    */
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
   /**
    * Button contents
    */
@@ -29,20 +41,14 @@ interface ButtonProps {
  */
 export const Button = ({
   primary = false,
-  size = 'medium',
+  size = "medium",
   backgroundColor,
   label,
   ...props
 }: ButtonProps) => {
-  const mode = primary ? 'storybook-button--primary' : 'storybook-button--secondary';
   return (
-    <button
-      type="button"
-      className={['storybook-button', `storybook-button--${size}`, mode].join(' ')}
-      style={{ backgroundColor }}
-      {...props}
-    >
+    <StyledButton type="button" {...props}>
       {label}
-    </button>
+    </StyledButton>
   );
 };
