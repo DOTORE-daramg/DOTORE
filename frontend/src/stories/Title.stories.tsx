@@ -16,10 +16,10 @@ const Template: ComponentStory<typeof Title> = (args) => <Title {...args} />;
 export const MainTitle = Template.bind({});
 MainTitle.args = {
   label: 'Popular NFTs',
-  size: 64,
+  size: '64px',
 }
 export const SecondaryTitle = Template.bind({});
 SecondaryTitle.args = {
   label: '1차 NFT',
-  size: 36,
+  size: '36px',
 }
