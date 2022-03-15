@@ -5,7 +5,7 @@ import { Thumbnail } from './Thumbnail';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Example/Thumbnail',
+  title: 'Example/ThumbnailGrid',
   component: Thumbnail,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
 } as ComponentMeta<typeof Thumbnail>;
@@ -19,6 +19,5 @@ MainThumbnail.args = {
   itemImageUrl: 'https://ww.namu.la/s/eac71acc34e222bd691c5f8e0ad2450976cfb81af259569252f2dfbd83d2aca1b9e3f4fb4a26d42da46ce2c802a125b24aee7f3b4fa419dca2d33f8cfcf053f1b822d3f2ef26a4b7cf6440c4291e34ba',
   itemTitle: '다람쥐',
   authorName: '이성재이성재이성재이성재이성재이성재이성재',
-  size: '14rem',
   onClick: () => {console.log('clicked!')}
 };

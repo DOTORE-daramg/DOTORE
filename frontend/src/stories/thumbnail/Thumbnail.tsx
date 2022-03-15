@@ -2,11 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 
 
-const Container = styled.div< {size: string} >`
-  position: relative;
-  width: ${props => props.size};
-  height: ${props => props.size};
-  border: 8px;
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  position: absolute;
   border-radius: 8px;
   cursor: pointer;
   &:hover div {
@@ -19,7 +18,7 @@ const Container = styled.div< {size: string} >`
 const StyledImageItem = styled.img`
   width: 100%;
   height: 100%;
-  object-fit:cover;
+  object-fit: cover;
   border-radius: 8px;
 `;
 
@@ -32,8 +31,9 @@ const StyledCoverItem = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   .author-name {
-    margin-top: 4rem;
+    margin-top: 30%;
     margin-bottom: 0.4rem;
+    font-size: 50%;
   }
   .item-title {
     margin-top: 0;
@@ -41,9 +41,8 @@ const StyledCoverItem = styled.div`
   }
 `;
 
-const StyledText = styled.p< {fontSize?: string} >`
+const StyledText = styled.p`
   color: #fff;
-  font-size: ${props => props.fontSize};
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
@@ -54,9 +53,6 @@ interface ThumbnailProps {
   itemImageUrl: string;
   itemTitle: string;
   authorName: string;
-  size: string;
-  authorNameFontSize?: string;
-  itemtitleFontSize?: string;
   onClick?: () => void;
 }
 
@@ -64,17 +60,14 @@ export const Thumbnail = ({
   itemImageUrl,
   itemTitle,
   authorName,
-  size,
-  authorNameFontSize = '1rem',
-  itemtitleFontSize = '2rem',
   onClick,
 }:ThumbnailProps) => {
   return (
-    <Container size={size} onClick={onClick}>
+    <Container onClick={onClick}>
       <StyledImageItem src={itemImageUrl} alt='thumbnail'></StyledImageItem>
       <StyledCoverItem>
-        <StyledText className="author-name" fontSize={authorNameFontSize}>{authorName}</StyledText>
-        <StyledText className="item-title" fontSize={itemtitleFontSize}>{itemTitle}</StyledText>
+        <StyledText className="author-name">{authorName}</StyledText>
+        <StyledText className="item-title">{itemTitle}</StyledText>
       </StyledCoverItem>
     </Container>
   );
