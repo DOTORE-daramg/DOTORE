@@ -4,8 +4,8 @@ import reset from "styled-reset";
 const GlobalStyles = createGlobalStyle`
     ${reset};
     html {
-        @media screen and (max-width: 500px) {
-            font-size: 7px;
+        @media screen and (max-width: 768px) {
+            font-size: 10px;
         }
     }
     li{
