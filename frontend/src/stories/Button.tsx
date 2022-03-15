@@ -11,6 +11,11 @@ const StyledButton = styled.button`
   padding: 10px 20px;
   color: white;
   font-family: "SUIT", sans-serif;
+  font-size: 1rem;
+  width: 6rem;
+  @media screen and (max-width: 768px) {
+    padding: 10px;
+  }
 `;
 
 interface ButtonProps {
