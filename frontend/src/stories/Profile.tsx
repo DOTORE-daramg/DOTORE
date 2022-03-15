@@ -4,32 +4,46 @@ import styled from "styled-components";
 import { ProfileImg } from './ProfileImg';
 
 const ProfileContainer = styled.div`
-    color: pink;
     font-family: "SUIT", sans-serif;
     font-weight: 600;
-    border: 2px;
+    /* border: solid 2px; */
     border-color: black;
     border-radius: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 233.33px;
+    height: 104px;
+    padding-left: 0px;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     @media screen and (max-width: 768px) {
     justify-content: left;
     padding-left: 8vw;
     }
 `;
 
-const ProfileImage = styled.div``;
-const StyledProfileImg = styled.img<{ size: string }>`
-    border: 2px;
-    border-radius: 400px;
-    width: ${props => props.size};
-    height: ${props => props.size};
+const ProfileImage = styled.img`
+
 `;
 
-const ProfileDescription = styled.div`
+// const StyledProfileImg = styled.img<{ size: string }>`
+//     border: 2px;
+//     border-radius: 400px;
+//     width: ${props => props.size};
+//     height: ${props => props.size};
+// `;
+const StyledProfileImgContainer = styled.div`
+    margin: 16px;
+`
+
+const ProfileDescriptionContainer = styled.div`
     display: flex;
-    color: white;
+    flex-direction: column;
+    /* color: white; */
     justify-items: center;
+    margin-right: 16px;
+    margin-top: 25px;
+    margin-bottom: 25px;
 `;
 
 // const StyledProfileImg = styled.img`
@@ -37,11 +51,15 @@ const ProfileDescription = styled.div`
 // `;
 
 const StyledProfileNickname = styled.span`
-    color: black;
+    font-size: 20px;
+    color: #6667AB;
+    font-weight: 700;
 `;
 
 const StyledProfileLevel = styled.span`
-    color: black;
+    font-size: 14px;
+    color: #8393AF;
+    font-weight: 400;
 `;
 
 interface ProfileProps {
@@ -49,7 +67,7 @@ interface ProfileProps {
     profileImgUrl: string;
     profileNickname: string;
     profileLevel: string;
-    size?: "small" | "medium" | "large";
+    size: string;
     onClick?: () => void;
 }
 
@@ -60,24 +78,24 @@ interface ProfileImgProps {
 
 function Profile({
     children,
-    //profileImgUrl,
+    profileImgUrl,
     profileNickname,
     profileLevel,
-    ...props
-}: ProfileProps, {
     size,
-    profileImgUrl,
-}: ProfileImgProps) {
+    ...props
+}: ProfileProps) {
     return (
         <ProfileContainer>
-            <StyledProfileImg size={size} src={profileImgUrl}>
-
-            </StyledProfileImg>
+            {/* <StyledProfileImg size={size} src={profileImgUrl} /> */}
             {/* {children} */}
             {/* <StyledProfileImg src={profileImgUrl} alt="profile" /> */}
-            {/* <ProfileImg /> */}
-            <StyledProfileNickname>{profileNickname}</StyledProfileNickname>
-            <StyledProfileLevel>{profileLevel}</StyledProfileLevel>
+            <StyledProfileImgContainer>
+                <ProfileImg size={size} profileImgUrl={profileImgUrl} />
+            </StyledProfileImgContainer>
+            <ProfileDescriptionContainer>
+                <StyledProfileNickname>{profileNickname}</StyledProfileNickname>
+                <StyledProfileLevel>{profileLevel}</StyledProfileLevel>
+            </ProfileDescriptionContainer>
         </ProfileContainer>
     )
 }

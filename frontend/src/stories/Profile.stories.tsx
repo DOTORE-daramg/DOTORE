@@ -16,7 +16,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 
 export default {
-    title: 'Example/Profile',
+    title: 'Main/Profile',
     component: Profile,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {
@@ -29,10 +29,11 @@ const Template: ComponentStory<typeof Profile> = (args) => <Profile {...args} />
 
 
 // 얘가 예시임
-export const ProfileEx1 = Template.bind({});
+export const MainProfile = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-ProfileEx1.args = {
+MainProfile.args = {
     profileImgUrl: 'https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg',
     profileNickname: '주비스',
-    profileLevel: 'Lv. 2 꼬맹이도토리',
+    profileLevel: 'Lv.2 꼬맹이도토리',
+    size: '72px',
 };
