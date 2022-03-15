@@ -17,8 +17,8 @@ const ProfileContainer = styled.div`
     padding-left: 0px;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
     @media screen and (max-width: 768px) {
-    justify-content: left;
-    padding-left: 8vw;
+        justify-content: left;
+        padding-left: 8vw;
     }
 `;
 
