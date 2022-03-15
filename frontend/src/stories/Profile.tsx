@@ -34,7 +34,7 @@ const ProfileImage = styled.img`
 // `;
 const StyledProfileImgContainer = styled.div`
     margin: 16px;
-`
+`;
 
 const ProfileDescriptionContainer = styled.div`
     display: flex;
