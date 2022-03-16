@@ -1,0 +1,22 @@
+import React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { ProfileBanner } from './ProfileBanner';
+
+export default {
+    title: 'Common/ProfileBanner',
+    component: ProfileBanner,
+    argTypes: {
+        backgroundColor: { control: 'color' },
+    },
+} as ComponentMeta<typeof ProfileBanner>;
+
+
+const Template: ComponentStory<typeof ProfileBanner> = (args) => <ProfileBanner {...args} />;
+
+export const MyPageProfileBannner = Template.bind({});
+MyPageProfileBannner.args = {
+    profileImgUrl: 'https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg',
+    profileNickname: '주비스',
+    profileLevel: 'Lv.2 꼬맹이도토리',
+    size: '166px',
+};
