@@ -8,7 +8,7 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 const DropDownContent = styled.div`
-  /* display: none; */
+  display: none;
   position: absolute;
   top: 55px;
   background-color: white;
@@ -60,13 +60,14 @@ export const NavMenu = ({ label, dropdown, ...props }: ButtonProps) => {
   return (
     <>
       <Wrapper>
-        <Item {...props}>{label}</Item>
-
-        <DropDownContent>
-          {dropdown &&
-            dropdown.map((menu) => <DropDownItem>{menu}</DropDownItem>)}
-          {/* <DropDownItem>hi</DropDownItem> */}
-        </DropDownContent>
+        <Item {...props}>
+          {label}
+          <DropDownContent>
+            {dropdown &&
+              dropdown.map((menu) => <DropDownItem>{menu}</DropDownItem>)}
+            {/* <DropDownItem>hi</DropDownItem> */}
+          </DropDownContent>
+        </Item>
       </Wrapper>
     </>
   );

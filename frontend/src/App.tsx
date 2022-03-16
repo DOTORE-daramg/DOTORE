@@ -1,8 +1,7 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
+import AppRouter from "./Router";
 import GlobalStyles from "./shared/GlobalStyles";
-import Main from "./pages/Main";
 import { Header } from "./stories/nav/Header";
 
 const Dotori = styled.div`
@@ -12,17 +11,7 @@ const Dotori = styled.div`
 function App() {
   return (
     <>
-      <Router>
-        <Header
-          isLoggedIn={false}
-          onLogin={() => console.log("login")}
-          onLogout={() => console.log("login")}
-          onCreateAccount={() => console.log("login")}
-        />
-        <Routes>
-          <Route path="/" element={<Main />} />
-        </Routes>
-      </Router>
+      <AppRouter />
       <GlobalStyles />
     </>
   );
