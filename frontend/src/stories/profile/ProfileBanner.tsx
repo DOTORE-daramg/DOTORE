@@ -45,11 +45,23 @@ const ProfileLevel = styled.span`
     color: #8393AF;
     font-weight: 400;
 `;
+const ProfileAddress = styled.span`
+    font-size: 14px;
+    color: #959595;
+    font-weight: 500;
+`;
+const ProfileDescription = styled.span`
+    font-size: 16px;
+    color: #4B4B4B;
+    font-weight: 500;
+`;
 
 export interface ProfileBannerProps {
     profileImgUrl: string;
     profileNickname: string;
     profileLevel: string;
+    profileAddress: string;
+    profileDescription: string;
     size: string;
     onClick?: () => void;
 }
@@ -58,6 +70,8 @@ export const ProfileBanner = ({
     profileImgUrl,
     profileNickname,
     profileLevel,
+    profileAddress,
+    profileDescription,
     size,
     ...props
 }: ProfileBannerProps) => {
@@ -71,6 +85,8 @@ export const ProfileBanner = ({
                 <ProfileDescriptionContainer>
                     <ProfileNickname>{profileNickname}</ProfileNickname>
                     <ProfileLevel>{profileLevel}</ProfileLevel>
+                    <ProfileAddress>{profileAddress}</ProfileAddress>
+                    <ProfileDescription>{profileDescription}</ProfileDescription>
                 </ProfileDescriptionContainer>
 
             </ProfileContainer>
