@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-
 const Container = styled.div`
   width: 100%;
   height: 100%;
@@ -49,7 +48,7 @@ const StyledText = styled.p`
   padding: 0 0.5rem;
 `;
 
-interface ThumbnailProps {
+export interface ThumbnailProps {
   itemImageUrl: string;
   itemTitle: string;
   authorName: string;
@@ -72,4 +71,3 @@ export const Thumbnail = ({
     </Container>
   );
 };
-

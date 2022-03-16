@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Thumbnail } from './Thumbnail';
+import { Thumbnail, ThumbnailProps } from './Thumbnail';
 
 const GridContainer = styled.div<{ size: string, columnCount: number }>`
   width: ${props => props.size};
@@ -29,15 +29,8 @@ const GridItem = styled.div`
   }
 `;
 
-interface Item {
-  itemImageUrl: string;
-  itemTitle: string;
-  authorName: string;
-  size: string;
-}
-
 interface ThumbnailGridProps {
-  itemList: Item[];
+  itemList: ThumbnailProps[];
   size: string,
   columnCount: number;
 }
