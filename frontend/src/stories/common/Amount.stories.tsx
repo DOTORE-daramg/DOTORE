@@ -13,11 +13,17 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Amount> = (args) => <Amount {...args} />;
 
-export const Primary = Template.bind({});
+export const Ethereum = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
+Ethereum.args = {
   style: "fab",
   icon: "ethereum",
   count: 123234,
   unit: "ETH",
+};
+export const Heart = Template.bind({});
+Heart.args = {
+  style: "fas",
+  icon: "heart",
+  count: 492,
 };
