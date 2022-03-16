@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Button } from "../Button";
-import { Logo } from "../Logo";
+import { Logo } from "../common/Logo";
 import { NavMenu } from "./NavMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
