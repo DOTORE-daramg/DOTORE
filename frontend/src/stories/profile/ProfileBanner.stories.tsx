@@ -20,5 +20,6 @@ MyPageProfileBannner.args = {
     profileLevel: 'Lv.2 꼬맹이도토리',
     profileAddress: '0x4836680A97a...',
     profileDescription: `안녕하세요? 주비스입니다? 반갑습니다?`,
+    profileDotoriAmount: `13928 개`,
     size: '166px',
 };
