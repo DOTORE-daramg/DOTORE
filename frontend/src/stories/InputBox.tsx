@@ -49,7 +49,7 @@ interface InputProps {
   icon?: IconDefinition,
   width: string,
   rows?: number,
-  onChange: (event:any) => void,
+  onChange?: (event:any) => void,
 }
 
 export const InputBox = ({
