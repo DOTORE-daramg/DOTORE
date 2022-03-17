@@ -3,6 +3,18 @@ import styled from "styled-components";
 import { HorizonProfile } from "../profile/HorizonProfile";
 import { Title } from "./Title";
 
+const DescriptionContainer = styled.div`
+  @media screen and (max-width: 1024px) {
+    width: 400px;
+  }
+  @media screen and (max-width: 768px) {
+    width: 300px;
+  }
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
+`;
+
 const ProfileContainer = styled.div`
   margin: 10px 0 20px 0;
 `;
