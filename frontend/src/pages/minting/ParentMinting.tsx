@@ -82,7 +82,7 @@ const ParentMinting = () => {
               icon={faHashtag}
               onChange={handleChangeTagInput}
             ></InputBox>
-            <Button label={'작품 등록'} onClick={() => console.log('작품 등록')}></Button>
+            <Button label={'작품 등록'} width="7rem" onClick={() => console.log('작품 등록')}></Button>
           </InputTextContainer>
         </InputContainer>
       </MintingContainer>
