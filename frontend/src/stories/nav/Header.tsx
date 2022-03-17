@@ -101,11 +101,11 @@ export const Header = ({
         </MenuWrapper>
         {isLoggedIn ? (
           <>
-            <Button size="small" onClick={onLogout} label="로그아웃" />
+            <Button width="6rem" onClick={onLogout} label="로그아웃" />
           </>
         ) : (
           <>
-            <Button size="small" onClick={onLogin} label="로그인" />
+            <Button width="6rem" onClick={onLogin} label="로그인" />
           </>
         )}
       </RightWrapper>
