@@ -217,6 +217,9 @@ export const Modal = ({
                     <Icon style="fas" icon='xmark' color='#9FABAE' />
                 </ModalHeader>
                 <ModalBorder></ModalBorder>
+                <ModalBody>
+                    <div className="content">{content}</div>
+                </ModalBody>
             </ModalContainer>
         </Section>
     );
