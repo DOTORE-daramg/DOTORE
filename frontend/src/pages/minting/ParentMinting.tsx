@@ -7,14 +7,14 @@ import { Button } from "../../stories/Button";
 import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
-  padding: 5.5rem 0;
+  padding: 8rem 0;
 `;
 
 const MintingContainer = styled.div`
   width: 50rem;
   margin: auto;
   @media screen and (max-width: 768px) {
-    width: 19rem;
+    width: 23rem;
   }
 `;
 
@@ -30,12 +30,19 @@ const InputContainer = styled.section`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+    gap: 4rem;
+  }
 `;
 
 const InputTextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    gap: 2rem;
+  }
 `;
 
 const ParentMinting = () => {
@@ -60,18 +67,18 @@ const ParentMinting = () => {
           <InputTextContainer>
             <InputBox
               placeholder="작품 제목"
-              width="19rem"
+              width="23rem"
               onChange={handleChangeTitleInput}
             ></InputBox>
             <TextAreaBox
               placeholder="작품 설명"
-              width="19rem"
-              rows={4}
+              width="23rem"
+              rows={6}
               onChange={handleChangeDescInput}
             ></TextAreaBox>
             <InputBox
               placeholder="태그"
-              width="19rem"
+              width="23rem"
               icon={faHashtag}
               onChange={handleChangeTagInput}
             ></InputBox>
