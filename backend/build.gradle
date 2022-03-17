@@ -4,7 +4,7 @@ plugins {
 	id 'java'
 }
 
-group = 'com.ssafy'
+group = 'com.daram'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
@@ -48,6 +48,6 @@ tasks.named('test') {
 
 bootJar {
 	archiveBaseName = '-'
-	archiveFileName = 'dotori-backend.jar'
+	archiveFileName = 'dotore-backend.jar'
 	archiveVersion = '0.1.0'
 }
