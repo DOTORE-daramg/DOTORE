@@ -1,70 +1,69 @@
 import React from "react";
 import styled from "styled-components";
 
-enum MODE {
-  DETAIL = "detail",
-  DETAIL_M = "detailM",
-  DETAIL_LIST = "detailList",
-  DETAIL_LIST_M = "detailListM",
-  LIST = "list",
-  LIST_M = "listM",
-  FEEDBACK = "feedback",
-  FEEDBACK_M = "feedbackM",
-  FEEDBACK_TITLE = "feedbackTitle",
-  FEEDBACK_TITLE_M = "feedbackTitleM",
-  TRADE = "trade",
-  TRADE_M = "tradeM",
-}
+type MODE =
+  | "detail"
+  | "detailM"
+  | "detailList"
+  | "detailListM"
+  | "list"
+  | "listM"
+  | "feedback"
+  | "feedbackM"
+  | "feedbackTitle"
+  | "feedbackTitleM"
+  | "trade"
+  | "tradeM";
 
 const StyledImage = styled.img<{ mode?: MODE }>`
   border-radius: 10px;
   width: ${(props) =>
-    props.mode === MODE.DETAIL
+    props.mode === "detail"
       ? "350px"
-      : props.mode === MODE.DETAIL_M
+      : props.mode === "detailM"
       ? "300px"
-      : props.mode === MODE.DETAIL_LIST || props.mode === MODE.FEEDBACK_M
+      : props.mode === "detailList" || props.mode === "feedbackM"
       ? "150px"
-      : props.mode === MODE.DETAIL_LIST_M
+      : props.mode === "detailListM"
       ? "90px"
-      : props.mode === MODE.LIST
+      : props.mode === "list"
       ? "240px"
-      : props.mode === MODE.LIST_M
+      : props.mode === "listM"
       ? "155px"
-      : props.mode === MODE.FEEDBACK
+      : props.mode === "feedback"
       ? "340px"
-      : props.mode === MODE.FEEDBACK_TITLE
+      : props.mode === "feedbackTitle"
       ? "75px"
-      : props.mode === MODE.FEEDBACK_TITLE_M
+      : props.mode === "feedbackTitleM"
       ? "60px"
-      : props.mode === MODE.TRADE
+      : props.mode === "trade"
       ? "42px"
-      : props.mode === MODE.TRADE_M
+      : props.mode === "tradeM"
       ? "32px"
       : "350px"};
 
   height: ${(props) =>
-    props.mode === MODE.DETAIL
+    props.mode === "detail"
       ? "350px"
-      : props.mode === MODE.DETAIL_M
+      : props.mode === "detailM"
       ? "300px"
-      : props.mode === MODE.DETAIL_LIST || props.mode === MODE.FEEDBACK_M
+      : props.mode === "detailList" || props.mode === "feedbackM"
       ? "150px"
-      : props.mode === MODE.DETAIL_LIST_M
+      : props.mode === "detailListM"
       ? "90px"
-      : props.mode === MODE.LIST
+      : props.mode === "list"
       ? "200px"
-      : props.mode === MODE.LIST_M
+      : props.mode === "listM"
       ? "130px"
-      : props.mode === MODE.FEEDBACK
+      : props.mode === "feedback"
       ? "340px"
-      : props.mode === MODE.FEEDBACK_TITLE
+      : props.mode === "feedbackTitle"
       ? "75px"
-      : props.mode === MODE.FEEDBACK_TITLE_M
+      : props.mode === "feedbackTitleM"
       ? "60px"
-      : props.mode === MODE.TRADE
+      : props.mode === "trade"
       ? "42px"
-      : props.mode === MODE.TRADE_M
+      : props.mode === "tradeM"
       ? "32px"
       : "350px"};
 `;

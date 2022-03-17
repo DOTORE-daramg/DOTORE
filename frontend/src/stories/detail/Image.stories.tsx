@@ -12,95 +12,80 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof Image> = (args) => <Image {...args} />;
 
-enum MODE {
-  DETAIL = "detail",
-  DETAIL_M = "detailM",
-  DETAIL_LIST = "detailList",
-  DETAIL_LIST_M = "detailListM",
-  LIST = "list",
-  LIST_M = "listM",
-  FEEDBACK = "feedback",
-  FEEDBACK_M = "feedbackM",
-  FEEDBACK_TITLE = "feedbackTitle",
-  FEEDBACK_TITLE_M = "feedbackTitleM",
-  TRADE = "trade",
-  TRADE_M = "tradeM",
-}
-
 export const Detail = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Detail.args = {
   imageUrl: "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
   name: "메타콩즈1",
-  mode: MODE.DETAIL,
+  mode: "detail",
 };
 export const DetailM = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 DetailM.args = {
   ...Detail.args,
-  mode: MODE.DETAIL_M,
+  mode: "detailM",
 };
 export const DetailList = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 DetailList.args = {
   ...Detail.args,
-  mode: MODE.DETAIL_LIST,
+  mode: "detailList",
 };
 export const DetailListM = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 DetailListM.args = {
   ...Detail.args,
-  mode: MODE.DETAIL_LIST_M,
+  mode: "detailListM",
 };
 export const List = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 List.args = {
   ...Detail.args,
-  mode: MODE.LIST,
+  mode: "list",
 };
 
 export const ListM = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 ListM.args = {
   ...Detail.args,
-  mode: MODE.LIST_M,
+  mode: "listM",
 };
 export const Feedback = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Feedback.args = {
   ...Detail.args,
-  mode: MODE.FEEDBACK,
+  mode: "feedback",
 };
 export const FeedbackM = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 FeedbackM.args = {
   ...Detail.args,
-  mode: MODE.FEEDBACK_M,
+  mode: "feedbackM",
 };
 export const FeedbackTitle = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 FeedbackTitle.args = {
   ...Detail.args,
-  mode: MODE.FEEDBACK_TITLE,
+  mode: "feedbackTitle",
 };
 
 export const FeedbackTitleM = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 FeedbackTitleM.args = {
   ...Detail.args,
-  mode: MODE.FEEDBACK_TITLE_M,
+  mode: "feedbackTitleM",
 };
 
 export const Trade = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Trade.args = {
   ...Detail.args,
-  mode: MODE.TRADE,
+  mode: "trade",
 };
 
 export const TradeM = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 TradeM.args = {
   ...Detail.args,
-  mode: MODE.TRADE_M,
+  mode: "tradeM",
 };
