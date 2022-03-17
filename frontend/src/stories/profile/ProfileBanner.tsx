@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import { ProfileImg } from './ProfileImg';
-import Profile from './Profile';
 
-// Banner Container =======================================
+// Banner Container ============================================
 const BannerContainer = styled.div`
     /* width: 1440px; */
     /* height: 100%; */
@@ -17,7 +16,7 @@ const BannerContainer = styled.div`
     justify-content: center;
 `;
 
-// Profile Container ===============================================
+// Profile Container ============================================
 const ProfileContainer = styled.div`
     display: flex;
     height: 100%;
@@ -30,22 +29,18 @@ const ProfileImgContainer = styled.div`
     /* margin: 16px; */
     margin-right: 62px;
 `;
-// const ProfileImage = styled.img``;
 
 // Profile Container - DescriptionContainer =========
 const ProfileDescriptionContainer = styled.div`
     display: flex;
     flex-direction: column;
-
 `;
 const ProfileDescriptionContainerTop = styled.div`
     display: flex;
     align-items: center
 `;
-
 const ProfileNickname = styled.span`
     font-size: 20px;
-    /* color: #6667AB; */
     color: #000000;
     font-weight: 700;
     margin-right: 22px;
@@ -55,7 +50,6 @@ const ProfileLevel = styled.span`
     color: #8393AF;
     font-weight: 400;
 `;
-
 const ProfileDescriptionContainerBottom = styled.div`
     display: flex;
     flex-direction: column;
@@ -102,7 +96,6 @@ export const ProfileBanner = ({
 }: ProfileBannerProps) => {
     return (
         <BannerContainer>
-            {/* <Profile profileImgUrl={profileImgUrl} size={size} profileNickname={profileNickname} profileLevel={profileLevel} /> */}
             <ProfileContainer>
                 <ProfileImgContainer>
                     <ProfileImg size={size} profileImgUrl={profileImgUrl} />
@@ -118,7 +111,6 @@ export const ProfileBanner = ({
                         <ProfileDotoriAmount>{profileDotoriAmount}</ProfileDotoriAmount>
                     </ProfileDescriptionContainerBottom>
                 </ProfileDescriptionContainer>
-
             </ProfileContainer>
         </BannerContainer>
     );
