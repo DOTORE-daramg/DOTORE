@@ -12,6 +12,7 @@ const InputDiv = styled.div<{ width: string }>`
     top: calc(50% - 0.5rem);
     left: 0.5rem;
     color: #7B7B7B;
+    font-size: 1rem;
   }
 `;
 
