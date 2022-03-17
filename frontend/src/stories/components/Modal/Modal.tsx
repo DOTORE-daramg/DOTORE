@@ -2,6 +2,7 @@ import React from 'react';
 import styled from "styled-components";
 import { Button } from '../../Button';
 import { Icon } from '../../common/Icon';
+import { ButtonProps } from '../../Button';
 
 const Section = styled.div``;
 const ModalContainer = styled.div`
@@ -141,13 +142,11 @@ const ModalBody = styled.div`
 
 const ModalFooter = styled.div`
     /* footer */
-
-
     /* Auto layout */
-
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+    justify-content: center;
     padding: 30px;
 
     position: static;
@@ -157,39 +156,41 @@ const ModalFooter = styled.div`
     top: 333px;
 
     background: #F0F1F1;
-
     /* Inside auto layout */
-
     flex: none;
     order: 3;
     flex-grow: 0;
     margin: 0px 0px;
     .buttons {
         /* buttons */
-
-
         /* Auto layout */
-
         display: flex;
         flex-direction: row;
         align-items: center;
+        justify-content: flex-end;
         padding: 0px;
-
         position: static;
-        width: 235px;
+        /* width: 235px;
         height: 50px;
-        left: 255px;
-        top: 30px;
-
-
+        left: 255px; */
+        /* top: 30px; */
         /* Inside auto layout */
-
         flex: none;
         order: 0;
         flex-grow: 0;
         margin: 10px 0px;
+        button {
+            margin-left: 10px;
+            box-shadow: 0px 6px 10px rgba(32, 37, 38, 0.1), 0px 20px 50px rgba(32, 37, 38, 0.1);
+        }
     }
 `;
+
+// const StyledButton = styled.button<ButtonProps>`
+// @media screen and (max-width: 768px) {
+//     padding: 10px;
+// }
+// `;
 
 export interface ModalProps {
     icon?: string;
@@ -222,8 +223,9 @@ export const Modal = ({
                 </ModalBody>
                 <ModalFooter>
                     <div className='buttons'>
-                        <Button width="6rem" label="취소" />
-                        <Button width="6rem" label="저장" />
+                        <Button width="6rem" label="취소" backgroundColor="#E0E0E0" />
+                        <Button width="6rem" label="저장" backgroundColor="#6667AB" />
+                        {/* <StyledButton type='button' backgroundColor='#E0E0E0'></StyledButton> */}
                     </div>
                 </ModalFooter>
             </ModalContainer>
