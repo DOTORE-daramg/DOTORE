@@ -48,17 +48,23 @@ interface InputProps {
   icon?: IconDefinition,
   width: string,
   rows?: number,
+  onChange: (event:any) => void,
 }
 
 export const InputBox = ({
   placeholder,
   icon,
   width,
+  onChange,
 }: InputProps) => {
   return (
     <InputDiv width={width}>
       {icon ? <FontAwesomeIcon icon={icon}></FontAwesomeIcon> : null}
-      <StyledInput placeholder={placeholder} isPaddingStart={!!icon}></StyledInput>
+      <StyledInput
+        placeholder={placeholder}
+        isPaddingStart={!!icon}
+        onChange={onChange}
+      ></StyledInput>
     </InputDiv>
   );
 };
@@ -67,10 +73,15 @@ export const TextAreaBox = ({
   placeholder,
   width,
   rows,
+  onChange,
 }: InputProps) => {
   return (
     <InputDiv width={width}>
-      <StyledTextArea placeholder={placeholder} rows={rows}></StyledTextArea>
+      <StyledTextArea
+        placeholder={placeholder}
+        rows={rows}
+        onChange={onChange}
+      ></StyledTextArea>
     </InputDiv>
   );
 };

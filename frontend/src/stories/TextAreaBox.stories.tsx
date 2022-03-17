@@ -18,4 +18,5 @@ ItemDescTextAreaBox.args = {
   placeholder: '작품 설명',
   width: '19rem',
   rows: 5,
+  onChange: (e) => {console.log(e.target.value)}
 };
