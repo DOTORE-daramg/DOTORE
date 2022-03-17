@@ -220,6 +220,12 @@ export const Modal = ({
                 <ModalBody>
                     <div className="content">{content}</div>
                 </ModalBody>
+                <ModalFooter>
+                    <div className='buttons'>
+                        <Button width="6rem" label="취소" />
+                        <Button width="6rem" label="저장" />
+                    </div>
+                </ModalFooter>
             </ModalContainer>
         </Section>
     );
