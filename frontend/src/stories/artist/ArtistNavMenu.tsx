@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from "styled-components";
 
-const MenuItem = styled.div`
+const MenuItem = styled.div<{ background: string, isSelected: boolean, color: string }>`
     display: flex;
-    color: #6667AB;
+    color: ${props => props.color};
     /* color: black; */
-    font-style: normal;
-    font-weight: 800;
+    font-style: Medium;
+    font-weight: 500;
     font-size: 18px;
     line-height: 22px;
     text-align: center;
@@ -19,28 +19,27 @@ const MenuItem = styled.div`
     height: 50px;
     left: 349px;
     top: 396px;
-    background: #FFFFFF;
-    /* background: #fffdf7; */
+    background: ${props => props.background};
     border-radius: 10px 10px 0px 0px;
-    /* span {
-        margin-left: 30px;
-        margin-right: 30px;
-    } */
 `;
 
 export interface ArtistNavMenuProps {
     label: string;
     isSelected: boolean;    // true면 흰배경 + 글씨색
+    background: string;
+    color: string;
     onClick?: () => void;
 }
 
 export const ArtistNavMenu = ({
     label,
     isSelected,
+    background,
+    color,
     ...props
 }: ArtistNavMenuProps) => {
     return (
-        <MenuItem {...props}>
+        <MenuItem {...props} isSelected={isSelected} background={background} color={color}>
             <span>{label}</span>
         </MenuItem>
     );

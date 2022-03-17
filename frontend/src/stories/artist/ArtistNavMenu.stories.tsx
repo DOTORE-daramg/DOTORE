@@ -15,12 +15,16 @@ const Template: ComponentStory<typeof ArtistNavMenu> = (args) => (
     <ArtistNavMenu {...args} />
 );
 
-export const isSelected = Template.bind({});
-isSelected.args = {
+export const Selected = Template.bind({});
+Selected.args = {
     label: "SelectedMenu",
+    isSelected: true,
+    background: "white",
 };
 
-export const isNotSelected = Template.bind({});
-isNotSelected.args = {
+export const NotSelected = Template.bind({});
+NotSelected.args = {
     label: "BaseMenu",
+    isSelected: false,
+    background: "none",
 };
