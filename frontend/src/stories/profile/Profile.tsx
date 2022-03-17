@@ -63,7 +63,7 @@ const StyledProfileLevel = styled.span`
 `;
 
 interface ProfileProps {
-    children?: React.ReactElement | string;
+    // children?: React.ReactElement | string;
     profileImgUrl: string;
     profileNickname: string;
     profileLevel: string;
@@ -77,7 +77,7 @@ interface ProfileImgProps {
 }
 
 function Profile({
-    children,
+    // children,
     profileImgUrl,
     profileNickname,
     profileLevel,

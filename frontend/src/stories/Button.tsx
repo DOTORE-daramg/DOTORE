@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const StyledButton = styled.button`
+const StyledButton = styled.button<ButtonProps>`
   border: 0;
   border-radius: 10px;
   cursor: pointer;
@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   color: white;
   font-family: "SUIT", sans-serif;
   font-size: 1rem;
-  width: 6rem;
+  width: ${(props) => props.width};
   @media screen and (max-width: 768px) {
     padding: 10px;
   }
@@ -30,7 +30,7 @@ interface ButtonProps {
   /**
    * How large should the button be?
    */
-  size?: "small" | "medium" | "large";
+  width?: string;
   /**
    * Button contents
    */
@@ -44,16 +44,10 @@ interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-export const Button = ({
-  primary = false,
-  size = "medium",
-  backgroundColor,
-  label,
-  ...props
-}: ButtonProps) => {
+export const Button = ({ ...props }: ButtonProps) => {
   return (
     <StyledButton type="button" {...props}>
-      {label}
+      {props.label}
     </StyledButton>
   );
 };
