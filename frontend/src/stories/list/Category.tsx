@@ -6,7 +6,10 @@ const Container = styled.div<{ isSelected: boolean }>`
   border-bottom: ${(props) =>
     props.isSelected ? "2px solid #6667ab" : "none"};
   width: fit-content;
-  font-weight: ${(props) => (props.isSelected ? "600" : "400")}; ;
+  font-weight: ${(props) => (props.isSelected ? "600" : "400")};
+  @media screen and (max-width: 768px) {
+    font-size: 0.9rem;
+  }
 `;
 
 interface CatetgoryProps {
