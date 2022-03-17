@@ -9,10 +9,9 @@ import { faLaptopCode } from "@fortawesome/free-solid-svg-icons";
 const FooterContainer = styled.footer`
   background-color: #6667ab;
   display: flex;
-  font-family: "SUIT", sans-serif;
   justify-content: center;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  height: 200px;
+  align-items: center;
 
   @media screen and (max-width: 768px) {
     justify-content: left;
@@ -41,7 +40,7 @@ const InfoContainer = styled.div``;
 
 const Description = styled.div`
   box-sizing: border-box;
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.7rem;
   display: flex;
   color: white;
   align-items: center;
