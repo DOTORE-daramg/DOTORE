@@ -8,7 +8,7 @@ import { ThumbnailGrid } from "../stories/thumbnail/ThumbnailGrid";
 import { Title } from "../stories/Title";
 
 const Container = styled.div`
-  height: 210vh;
+  height: 100%;
 `;
 
 const Banner = styled.img`
