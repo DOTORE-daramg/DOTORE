@@ -1,10 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { Icon } from "../common/Icon";
 import { Logo } from "../common/Logo";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPhone } from "@fortawesome/free-solid-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { faLaptopCode } from "@fortawesome/free-solid-svg-icons";
 
 const FooterContainer = styled.footer`
   background-color: #6667ab;
@@ -21,12 +18,12 @@ const FooterContainer = styled.footer`
 
 const LogoContainer = styled.div`
   width: 40vw;
-  margin-bottom: 1.5rem;
+  margin-bottom: 14px;
   display: flex;
   cursor: default;
   align-items: center;
   .name {
-    font-size: 2rem;
+    font-size: 28px;
     color: white;
     font-weight: 600;
   }
@@ -40,12 +37,12 @@ const InfoContainer = styled.div``;
 
 const Description = styled.div`
   box-sizing: border-box;
-  margin-bottom: 0.7rem;
+  margin-bottom: 10px;
   display: flex;
   color: white;
   align-items: center;
   cursor: default;
-  font-size: 0.8rem;
+  font-size: 14px;
   svg {
     color: white;
     width: 16px;
@@ -91,17 +88,17 @@ export const Footer = () => (
         <div className="name">DOTORI</div>
       </LogoContainer>
       <Description>
-        <FontAwesomeIcon icon={faPhone} />
+        <Icon style="fas" icon="phone" />
         <div className="title">고객센터</div>
         <div className="desc">02-1544-9001</div>
       </Description>
       <Description>
-        <FontAwesomeIcon icon={faEnvelope} />
+        <Icon style="fas" icon="envelope" />
         <div className="title">문의사항</div>
         <div className="desc">dotori@dotori.com</div>
       </Description>
       <Description>
-        <FontAwesomeIcon icon={faLaptopCode} />
+        <Icon style="fas" icon="laptop-code" />
         <div className="title">TEAM</div>
         <div className="desc">한지희 이성재 이호진 인주비 조영운 제진명</div>
       </Description>
