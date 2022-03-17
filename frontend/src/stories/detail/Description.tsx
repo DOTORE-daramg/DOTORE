@@ -1,18 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { ProfileImg } from "../profile/ProfileImg";
-import { ProfileLevel } from "../profile/ProfileLevel";
-import { ProfileNickname } from "../profile/ProfileNickname";
+import { HorizonProfile } from "../profile/HorizonProfile";
 import { Title } from "./Title";
 
-const DescriptionContainer = styled.div``;
-
 const ProfileContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 15px 0 30px 0;
+  margin: 10px 0 20px 0;
 `;
+
 const StyledDescription = styled.div`
   line-height: 25px;
 `;
@@ -32,19 +26,23 @@ export const Description = ({
   profileImgUrl,
   profileNickname,
   profileLevel,
-  size,
 }: DescriptionProps) => {
   return (
-    <DescriptionContainer>
+    <>
       <Title title={title} />
       <ProfileContainer>
-        <ProfileImg size={size} profileImgUrl={profileImgUrl} />
-        <ProfileLevel profileLevel={profileLevel} />
-        <ProfileNickname nickname={profileNickname} />
+        <HorizonProfile
+          profileImgUrl={profileImgUrl}
+          imgSize="32px"
+          NicknameSize="14px"
+          levelSize="14px"
+          profileLevel={profileLevel}
+          profileNickname={profileNickname}
+        />
       </ProfileContainer>
       <StyledDescription
         dangerouslySetInnerHTML={{ __html: descrition }}
       ></StyledDescription>
-    </DescriptionContainer>
+    </>
   );
 };
