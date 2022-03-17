@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Logo } from "../Logo";
+import { Logo } from "../common/Logo";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhone } from "@fortawesome/free-solid-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
