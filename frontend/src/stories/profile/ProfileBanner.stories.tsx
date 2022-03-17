@@ -3,7 +3,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ProfileBanner } from './ProfileBanner';
 
 export default {
-    title: 'Common/ProfileBanner',
+    title: 'Artist/ProfileBanner',
     component: ProfileBanner,
     argTypes: {
         backgroundColor: { control: 'color' },
