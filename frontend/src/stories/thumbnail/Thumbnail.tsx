@@ -1,11 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Container = styled.div`
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
   position: absolute;
   border-radius: 8px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   &:hover div {
     display: flex;
@@ -60,10 +62,10 @@ export const Thumbnail = ({
   itemTitle,
   authorName,
   onClick,
-}:ThumbnailProps) => {
+}: ThumbnailProps) => {
   return (
     <Container onClick={onClick}>
-      <StyledImageItem src={itemImageUrl} alt='thumbnail'></StyledImageItem>
+      <StyledImageItem src={itemImageUrl} alt="thumbnail"></StyledImageItem>
       <StyledCoverItem>
         <StyledText className="author-name">{authorName}</StyledText>
         <StyledText className="item-title">{itemTitle}</StyledText>
