@@ -4,10 +4,10 @@ import styled from "styled-components";
 const Container = styled.div`
   width: 100%;
   height: 100%;
-  box-sizing: border-box;
   position: absolute;
+  box-sizing: border-box;
   border-radius: 8px;
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  border: solid 1px #D9D9D9;
   cursor: pointer;
   &:hover div {
     display: flex;
