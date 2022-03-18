@@ -1,5 +1,5 @@
 # DOTORE
-> 우리의 재능이 모여 새로운 가치가 되는 곳, 도토리
+> **우리의 재능이 모여 새로운 가치가 되는 곳, 도토리**
 
 [[_TOC_]]
 
@@ -43,6 +43,12 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 
 ### 기술 스택
+---
+
+<img alt="TypeScript" src ="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>
+<img alt="React" src ="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
+<img alt="Spring" src ="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"/>
+<img alt="AWS" src ="https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white"/>
 
 - IDE
   - IntelliJ IDEA Community Edition 2021.3.1
@@ -81,3 +87,9 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 - [기능정의서](./docs/기능명세서.pdf)
 - [ERD](./docs/DOTORE_ERD설계.PNG)
 - [API Docs](./docs/API설계서.pdf)
+<br>
+
+
+## 📝 License
+
+<br>
