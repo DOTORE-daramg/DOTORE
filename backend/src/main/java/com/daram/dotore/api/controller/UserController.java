@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
-@Api(value = "유저 로그인 API", tags = {"UserController"})
+@Api(value = "유저 로그인 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
