@@ -12,7 +12,7 @@
 - SUB-PJT2(2022.02.28 ~ 2022.03.18): 세부 기획, Frontend 컴포넌트 개발, Backend api 개발
 
 
-### 개발 팀: SIXMAN
+### 개발 팀: 다람쥐
 
 - **한지희**: 팀장! Frontend, Blockchain
 - **이성재**: Frontend, Blockchain
@@ -53,7 +53,7 @@
 
 ## 💡 프로젝트 Wiki
 
-- [요구사항 명세서]()
-- [기능정의서]()
+- [요구사항 명세서](./docs/요구사항명세서.pdf)
+- [기능정의서](./docs/기능명세서.pdf)
 - [ERD]()
-- [API Docs]()
+- [API Docs](./docs/API설계서.pdf)
