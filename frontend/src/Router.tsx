@@ -19,7 +19,6 @@ import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./lib/connectors";
 import { login } from "./api/user";
-import { disconnect } from "process";
 
 const Container = styled.div`
   min-height: 100%;
