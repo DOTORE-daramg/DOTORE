@@ -18,6 +18,8 @@ import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./lib/connectors";
+import { login } from "./api/user";
+import { disconnect } from "process";
 
 const Container = styled.div`
   min-height: 100%;
@@ -44,7 +46,14 @@ const AppRouter = () => {
     deactivate,
   } = useWeb3React();
 
-  useEffect(() => {}, [account]);
+  useEffect(() => {
+    console.log(account);
+    if (account) {
+      login(account).then(() => {
+        setIsLoggedIn(true);
+      });
+    }
+  }, [account]);
 
   const onLogin = () => {
     activate(injected, (e) => {
@@ -53,13 +62,18 @@ const AppRouter = () => {
       }
     });
   };
+
+  const onLogout = () => {
+    deactivate();
+    setIsLoggedIn(false);
+  };
   return (
     <Container>
       <Router>
         <Header
           isLoggedIn={isLoggedIn}
           onLogin={onLogin}
-          onLogout={onLogin}
+          onLogout={onLogout}
           onCreateAccount={() => console.log("login")}
         />
         <Routes>
