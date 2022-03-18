@@ -10,7 +10,7 @@ import lombok.Setter;
 @ApiModel("BaseResponse")
 public class BaseRes {
 
-    @ApiModelProperty(name = "응답 메시지", example = "Success")
+    @ApiModelProperty(name = "응답 메시지")
     private String result = null;
 
     public BaseRes() {
