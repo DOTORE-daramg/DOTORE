@@ -57,5 +57,5 @@
 
 - [요구사항 명세서](./docs/요구사항명세서.pdf)
 - [기능정의서](./docs/기능명세서.pdf)
-- [ERD](./docs/DOTORE_ERD설계.png)
+- [ERD](./docs/DOTORE_ERD설계.PNG)
 - [API Docs](./docs/API설계서.pdf)
