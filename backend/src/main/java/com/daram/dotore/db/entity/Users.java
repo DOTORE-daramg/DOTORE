@@ -18,12 +18,14 @@ public class Users {
 
     @Id
     @Column(name = "address", nullable = false, unique = true)
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String address;
 
-    @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,100}")
+    @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{2,10}")
     @NotNull
     String nickname;
 
+    @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{0,100}")
     @NotNull
     String description;
 

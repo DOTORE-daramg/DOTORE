@@ -6,5 +6,5 @@ public interface UserService {
 
     Users getUserByAddress(String address);
 
-    Users insertUser(String address);
+    Users saveNewUser(String address);
 }
