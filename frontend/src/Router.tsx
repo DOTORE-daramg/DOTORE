@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Feedback from "./pages/Feedback";
 import ChildList from "./pages/list/ChildList";
@@ -16,6 +16,9 @@ import Detail from "./pages/Detail";
 import FeedbackList from "./pages/artist/FeedbackList";
 import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
+import { useWeb3React } from "@web3-react/core";
+import { injected } from "./lib/connectors";
+import { login } from "./api/user";
 
 const Container = styled.div`
   min-height: 100%;
@@ -30,13 +33,46 @@ const Container = styled.div`
 `;
 
 const AppRouter = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const {
+    connector,
+    library,
+    chainId,
+    account,
+    active,
+    error,
+    activate,
+    deactivate,
+  } = useWeb3React();
+
+  useEffect(() => {
+    console.log(account);
+    if (account) {
+      login(account).then(() => {
+        setIsLoggedIn(true);
+      });
+    }
+  }, [account]);
+
+  const onLogin = () => {
+    activate(injected, (e) => {
+      if (e.message === "No Ethereum provider was found on window.ethereum.") {
+        window.open("https://metamask.io/download.html");
+      }
+    });
+  };
+
+  const onLogout = () => {
+    deactivate();
+    setIsLoggedIn(false);
+  };
   return (
     <Container>
       <Router>
         <Header
-          isLoggedIn={false}
-          onLogin={() => console.log("login")}
-          onLogout={() => console.log("login")}
+          isLoggedIn={isLoggedIn}
+          onLogin={onLogin}
+          onLogout={onLogout}
           onCreateAccount={() => console.log("login")}
         />
         <Routes>
