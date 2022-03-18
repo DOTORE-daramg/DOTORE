@@ -39,6 +39,11 @@
   - Spring Data JPA
   - Hibernate 5.4.30
   - Lombok
+- Blockchain Environment
+  - Besu 21.10.2
+- Smart Contract
+  - Solidity 0.8.4+
+  - Truffle 5.4.24
 - DB
   - MySQL 8.0.28-0ubuntu0.20.04.3
 - Server
