@@ -7,7 +7,8 @@ const StyledButton = styled.button<ButtonProps>`
   cursor: pointer;
   display: inline-block;
   line-height: 1;
-  background-color: #6667ab;
+  /* background-color: #6667ab; */
+  background-color: ${(props) => props.backgroundColor};
   padding: 10px 20px;
   color: white;
   font-family: "SUIT", sans-serif;
@@ -18,7 +19,7 @@ const StyledButton = styled.button<ButtonProps>`
   }
 `;
 
-interface ButtonProps {
+export interface ButtonProps {
   /**
    * Is this the principal call to action on the page?
    */
