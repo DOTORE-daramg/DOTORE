@@ -2,6 +2,7 @@ import { ExternalProvider, Web3Provider } from "@ethersproject/providers";
 import { Web3ReactProvider } from "@web3-react/core";
 import React from "react";
 import ReactDOM from "react-dom";
+import { RecoilRoot } from "recoil";
 import App from "./App";
 
 function getLibrary(provide: ExternalProvider) {
@@ -12,7 +13,9 @@ function getLibrary(provide: ExternalProvider) {
 ReactDOM.render(
   <React.StrictMode>
     <Web3ReactProvider getLibrary={getLibrary}>
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
     </Web3ReactProvider>
   </React.StrictMode>,
   document.getElementById("root")
