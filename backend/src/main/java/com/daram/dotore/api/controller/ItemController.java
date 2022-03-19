@@ -32,7 +32,7 @@ public class ItemController {
     @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
-        @ApiResponse(code = 500, message = "Fail", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
     public ResponseEntity<BaseRes> login(@RequestBody ItemReq itemReq) {
 
@@ -40,7 +40,8 @@ public class ItemController {
             Items item=itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         }catch(Exception e){
-            return ResponseEntity.status(500).body(BaseRes.of("Fail"));
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
 }

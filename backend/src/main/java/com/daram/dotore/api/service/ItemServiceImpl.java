@@ -34,7 +34,7 @@ public class ItemServiceImpl implements ItemService {
             .author_address(itemReq.getAuthor_address())
             .owner_address(itemReq.getOwner_address())
             .on_sale_yn(false)
-            .is_first(itemReq.is_first())
+            .is_first(itemReq.getIs_first())
             .build());
 
         for (String tag : itemReq.getTags()) {
