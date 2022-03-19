@@ -22,19 +22,20 @@ public class Taglist {
     @Id
     @Column(name = "tag_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int tag_id;
+    int tagId;
 
+    @Column(name = "token_id")
     @NotNull
-    BigInteger token_id;
+    BigInteger tokenId;
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,20}")
     String tag;
 
     @Builder
-    public Taglist(int tag_id, BigInteger token_id, String tag) {
-        this.tag_id = tag_id;
-        this.token_id = token_id;
+    public Taglist(int tagId, BigInteger tokenId, String tag) {
+        this.tagId = tagId;
+        this.tokenId = tokenId;
         this.tag = tag;
     }
 }
