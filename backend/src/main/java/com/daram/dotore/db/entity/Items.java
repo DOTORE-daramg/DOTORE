@@ -42,10 +42,10 @@ public class Items {
     String owner_address;
 
     @NotNull
-    boolean on_sale_yn;
+    Boolean on_sale_yn;
 
     @NotNull
-    boolean is_first;
+    Boolean is_first;
 
     @Builder
     public Items(BigInteger token_id, String item_hash, String item_title,
