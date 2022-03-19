@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Feedback from "./pages/Feedback";
 import ChildList from "./pages/list/ChildList";
@@ -18,11 +18,12 @@ import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./lib/connectors";
-import { login } from "./api/user";
-import { atom, useRecoilState } from 'recoil';
+import { getUserInfo, login } from "./api/user";
+import { useRecoilState } from "recoil";
+import { isLoggedInState, isLoggedInTypes, userInfoState, userInfoTypes } from '.';
 
 const Container = styled.div`
-  min-height: 100%;
+  min-height: 100vh;
   padding-bottom: 200px;
   position: relative;
   footer {
@@ -33,30 +34,9 @@ const Container = styled.div`
   }
 `;
 
-export interface userInfoTypes {
-  address: string,
-  acorn: number,
-  description: string,
-  nickname: string,
-  profile_img_url: string,
-  result: string
-}
 
-export const userInfoState = atom<userInfoTypes>({
-  key: 'userInfoState',
-
-  default: {
-    address: '',
-    acorn: 0,
-    description: '',
-    nickname: '',
-    profile_img_url: '',
-    result: '',
-  }
-})
 
 const AppRouter = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const {
     connector,
     library,
@@ -67,14 +47,15 @@ const AppRouter = () => {
     activate,
     deactivate,
   } = useWeb3React();
+  const [isLoggedIn, setIsLoggedIn] = useRecoilState<isLoggedInTypes>(isLoggedInState);
   const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
 
-  // 로그인 시나리오 
+  // 로그인 시나리오
   // 1 세션에 저장된 address가 존재하는지 확인
   // 2.1 존재한다면 해당 address로 connect를 시도하여 account가 일치하는지 확인
   // 3 account가 일치한다면 로그인을 시도하여 userInfo를 받아와 전역에 저장
   // 2.2 존재하지 않는다면 로그인 시도 안함
-  
+
   // 계정 주소가 변하면 실행
   useEffect(() => {
     console.log(account);
@@ -82,13 +63,28 @@ const AppRouter = () => {
     console.log(connector);
     console.log(chainId);
     console.log(userInfo);
+    console.log(library);
     if (account) {
-      console.log(connector?.getChainId().then(res => console.log(res)));
-      login(account).then(() => {
-        setIsLoggedIn(true);
-      }).catch((e) => {
-        console.log("로그인 실패>>>>>>");
-      });
+      console.log(connector?.getChainId().then((res) => console.log(res)));
+      login(account)
+        .then(() => {
+          getUserInfo(account).then((res) => {
+            const data = res.data;
+            setUserInfo({
+              address: data.address,
+              acorn: data.acorn,
+              description: data.description,
+              nickname: data.nickname,
+              profile_img_url: data.profile_img_url,
+            });
+            setIsLoggedIn({
+              isLoggedIn: true,
+            });
+          });
+        })
+        .catch((e) => {
+          console.log("로그인 실패>>>>>>");
+        });
     }
   }, [account]);
 
@@ -102,13 +98,16 @@ const AppRouter = () => {
 
   const onLogout = () => {
     deactivate();
-    setIsLoggedIn(false);
+    setIsLoggedIn({
+      isLoggedIn: false
+    });
   };
+
   return (
     <Container>
       <Router>
         <Header
-          isLoggedIn={isLoggedIn}
+          isLoggedIn={isLoggedIn.isLoggedIn}
           onLogin={onLogin}
           onLogout={onLogout}
           onCreateAccount={() => console.log("login")}
