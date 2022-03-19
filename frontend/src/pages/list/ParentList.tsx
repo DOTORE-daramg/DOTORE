@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
+import Checkbox from "../../stories/list/Checkbox";
 import { Title } from "../../stories/Title";
 
 const Container = styled.div`
@@ -22,6 +23,14 @@ const CategoryContainer = styled.div`
   justify-content: space-between;
   margin: 30px 0;
 `;
+
+const CheckboxContainer = styled.div`
+  width: 10rem;
+  height: 5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
 const InnerContainer = styled.div``;
 
 const ParentList = () => {
@@ -36,6 +45,11 @@ const ParentList = () => {
             <Category label="인기순" isSelected={false} />
             <Category label="가격순" isSelected={false} />
           </CategoryContainer>
+          <CheckboxContainer>
+            <Checkbox label="이미지" />
+            <Checkbox label="영상" />
+            <Checkbox label="음성" />
+          </CheckboxContainer>
         </SideContainer>
       </InnerContainer>
     </Container>
