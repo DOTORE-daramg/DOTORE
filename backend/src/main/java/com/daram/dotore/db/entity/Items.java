@@ -36,9 +36,11 @@ public class Items {
     LocalDateTime created_at;
 
     @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String author_address;
 
     @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String owner_address;
 
     @NotNull

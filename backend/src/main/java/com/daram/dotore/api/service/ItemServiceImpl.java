@@ -5,12 +5,15 @@ import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Secondary;
 import com.daram.dotore.db.entity.Taglist;
-import com.daram.dotore.db.entity.Users;
+import com.daram.dotore.db.repository.DownloadRepository;
+import com.daram.dotore.db.repository.FormatRepository;
 import com.daram.dotore.db.repository.ItemRepository;
+import com.daram.dotore.db.repository.LikeRepository;
 import com.daram.dotore.db.repository.SecondaryRepository;
 import com.daram.dotore.db.repository.TagRepository;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +29,15 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     SecondaryRepository secondaryRepository;
+
+    @Autowired
+    DownloadRepository downloadRepository;
+
+    @Autowired
+    LikeRepository likeRepository;
+
+    @Autowired
+    FormatRepository formatRepository;
 
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
@@ -72,5 +84,30 @@ public class ItemServiceImpl implements ItemService {
     public Items updateOwner(ItemUpdateReq itemReq) {
         Items item = getItemByTokenId(itemReq.getTokenId());
         return itemRepository.save(item.setOwner(itemReq.getOwner_address()));
+    }
+
+    @Override
+    public int countDownload(BigInteger tokenId) {
+        return downloadRepository.countByTokenId(tokenId);
+    }
+
+    @Override
+    public int countLike(BigInteger tokenId) {
+        return likeRepository.countByTokenId(tokenId);
+    }
+
+    @Override
+    public String getFormat(BigInteger tokenId) {
+        return formatRepository.findById(tokenId).get().getFormat();
+    }
+
+    @Override
+    public String[] getTags(BigInteger tokenId) {
+        List<Taglist> list=tagRepository.findByTokenId(tokenId);
+        String[] tags=new String[list.size()];
+        for (int i=0; i<list.size();i++){
+            tags[i]=list.get(i).getTag();
+        }
+        return tags;
     }
 }

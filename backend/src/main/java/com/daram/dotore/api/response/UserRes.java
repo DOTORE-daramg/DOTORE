@@ -8,7 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("UserResponse")
-public class UserRes extends BaseRes{
+public class UserRes extends BaseRes {
+
     private String address;
     private String nickname;
     private String description;
