@@ -24,17 +24,18 @@ public class Secondary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int second_id;
 
+    @Column(name = "token_id")
     @NotNull
-    BigInteger token_id;
+    BigInteger tokenId;
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String original;
 
     @Builder
-    public Secondary(int second_id, BigInteger token_id, String original) {
+    public Secondary(int second_id, BigInteger tokenId, String original) {
         this.second_id = second_id;
-        this.token_id = token_id;
+        this.tokenId = tokenId;
         this.original = original;
     }
 }

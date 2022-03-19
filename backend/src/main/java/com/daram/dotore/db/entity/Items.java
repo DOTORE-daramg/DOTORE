@@ -20,7 +20,7 @@ public class Items {
 
     @Id
     @Column(name = "token_id", nullable = false, unique = true)
-    BigInteger token_id;
+    BigInteger tokenId;
 
     @NotNull
     String item_hash;
@@ -36,9 +36,11 @@ public class Items {
     LocalDateTime created_at;
 
     @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String author_address;
 
     @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String owner_address;
 
     @NotNull
@@ -48,10 +50,10 @@ public class Items {
     Boolean is_first;
 
     @Builder
-    public Items(BigInteger token_id, String item_hash, String item_title,
+    public Items(BigInteger tokenId, String item_hash, String item_title,
         String item_description, LocalDateTime created_at, String author_address,
         String owner_address, boolean on_sale_yn, boolean is_first) {
-        this.token_id = token_id;
+        this.tokenId = tokenId;
         this.item_hash = item_hash;
         this.item_title = item_title;
         this.item_description = item_description;
@@ -60,5 +62,10 @@ public class Items {
         this.owner_address = owner_address;
         this.on_sale_yn = on_sale_yn;
         this.is_first = is_first;
+    }
+
+    public Items setOwner(String owner_address){
+        this.owner_address=owner_address;
+        return this;
     }
 }

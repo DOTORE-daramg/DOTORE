@@ -16,26 +16,26 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "taglist")
-public class Taglist {
+@Table(name = "download")
+public class Download {
 
     @Id
-    @Column(name = "tag_id", nullable = false, unique = true)
+    @Column(name = "download_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int tagId;
+    int downloadId;
 
-    @Column(name = "token_id")
     @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
+    String address;
+
+    @NotNull
+    @Column(name = "token_id")
     BigInteger tokenId;
 
-    @NotNull
-    @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,20}")
-    String tag;
-
     @Builder
-    public Taglist(int tagId, BigInteger tokenId, String tag) {
-        this.tagId = tagId;
+    public Download(int downloadId, String address, BigInteger tokenId) {
+        this.downloadId = downloadId;
+        this.address = address;
         this.tokenId = tokenId;
-        this.tag = tag;
     }
 }
