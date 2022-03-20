@@ -6,6 +6,10 @@ const Container = styled.div<{ width: string }>`
   width: ${(props) => (props.width ? props.width : "7rem")};
   justify-content: flex-start;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+    width: ${(props) => (props.width ? props.width : "9rem")};
+  }
 `;
 
 const NoneCheckbox = styled.input`
@@ -21,6 +25,10 @@ const StyledCheckbox = styled.label`
   height: 15px;
   border: 1px solid black;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    width: 12px;
+    height: 12px;
+  }
 `;
 interface CheckboxProps {
   label: string;
