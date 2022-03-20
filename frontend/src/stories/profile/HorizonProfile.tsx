@@ -27,7 +27,7 @@ export const HorizonProfile = ({
   levelSize,
   NicknameSize,
 }: HorizonProfileProps) => {
-  return (
+  return ( 
     <ProfileContainer>
       <ProfileImg size={imgSize} profileImgUrl={profileImgUrl} />
       <ProfileLevel
