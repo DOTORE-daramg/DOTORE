@@ -1,8 +1,11 @@
 package com.daram.dotore.api.controller;
 
+import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.UserRes;
 import com.daram.dotore.api.service.UserService;
+import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -11,11 +14,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @Api(value = "마이페이지 API")
@@ -41,5 +40,21 @@ public class MypageController {
                 return ResponseEntity.status(404).body(UserRes.of("존재하지 않는 address",null));
         }
         return ResponseEntity.status(200).body(UserRes.of("Success", user));
+    }
+
+    @PatchMapping("/nickname")
+    @ApiOperation(value = "마이페이지", notes = "마이페이지에서 닉네임 수정")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+            @ApiResponse(code = 404, message = "존재하지 않는 닉네임", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> updateNickname(@RequestBody NicknameUpdateReq nicknameUpdateReq) {
+        Users user = userService.getUserByAddress(nicknameUpdateReq.getOwner_address());
+
+        if(user==null){
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 nickname"));
+        }
+        userService.updateNickname(nicknameUpdateReq);
+        return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 }
