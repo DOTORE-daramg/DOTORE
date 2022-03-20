@@ -10,7 +10,7 @@ export default {
   },
 } as ComponentMeta<typeof ArtistNav>;
 
-const Template: ComponentStory<typeof ArtistNav> = (args) => <ArtistNav {...args} />;
+const Template: ComponentStory<typeof ArtistNav> = (args) => <ArtistNav />;
 
 export const Selected = Template.bind({});
 Selected.args = {
