@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { HorizonProfile, HorizonProfileProps } from '../profile/HorizonProfile';
+import { HorizonProfile } from '../profile/HorizonProfile';
 import { Image } from '../detail/Image';
 
 type CommentType = 'MainQuestion' | 'Question' | 'Answer';
@@ -18,8 +18,8 @@ const CommentContainer = styled.div<{ commentType: CommentType }>`
     props.commentType === 'MainQuestion' ? 
     '0' :
     props.commentType === 'Question' ? 
-    '0 0 0 15%' :
-    '0 15% 0 0'};
+    '0 15% 0 0' :
+    '0 0 0 15%'};
 
   border-radius: 10px;
   padding: 2.5rem 5rem;
@@ -44,16 +44,20 @@ const Content = styled.article`
   white-space: pre-line;
 `;
 
-const StyledFooter = styled.footer`
-  font-size: 13px;
+const CreatedAt = styled.div`
+  font-size: 0.8rem;
   color: #666666;
 `; 
 
-export interface FeedbackArticleProps extends HorizonProfileProps {
-  content: string,
-  createdAt: string,
-  commentType: CommentType,
-  imageUrl?: string,
+export interface FeedbackArticleProps {
+  profileImgUrl: string;
+  profileNickname: string;
+  profileLevel: string;
+  content: string;
+  createdAt: string;
+  commentType: CommentType;
+  imageUrl?: string;
+  imgSize?: string;
 }
 
 export const FeedbackComment = ({
@@ -63,7 +67,7 @@ export const FeedbackComment = ({
   content,
   createdAt,
   imageUrl,
-  commentType
+  commentType,
 }:FeedbackArticleProps) => {
   const vw = visualViewport.width;
   const mode = vw <= 500 ? 'feedbackM' : 'feedback';
@@ -93,7 +97,7 @@ export const FeedbackComment = ({
 
       <Content>{content}</Content>
 
-      <StyledFooter>{createdAt}</StyledFooter>
+      <CreatedAt>{createdAt}</CreatedAt>
     </CommentContainer>
   );
 };
