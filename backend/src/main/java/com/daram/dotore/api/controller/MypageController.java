@@ -46,7 +46,7 @@ public class MypageController {
     @ApiOperation(value = "마이페이지", notes = "마이페이지에서 닉네임 수정")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
-            @ApiResponse(code = 404, message = "존재하지 않는 닉네임", response = BaseRes.class),
+            @ApiResponse(code = 404, message = "존재하지 않는 address", response = BaseRes.class),
     })
     public ResponseEntity<BaseRes> updateNickname(@RequestBody NicknameUpdateReq nicknameUpdateReq) {
         Users user = userService.getUserByAddress(nicknameUpdateReq.getOwner_address());
