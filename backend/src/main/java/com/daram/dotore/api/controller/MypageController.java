@@ -52,7 +52,7 @@ public class MypageController {
         Users user = userService.getUserByAddress(nicknameUpdateReq.getOwner_address());
 
         if(user==null){
-            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 nickname"));
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 address"));
         }
         userService.updateNickname(nicknameUpdateReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
