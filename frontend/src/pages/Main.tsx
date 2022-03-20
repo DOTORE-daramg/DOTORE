@@ -2,13 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import banner1 from "../assets/banner1.png";
-import Profile from "../stories/Profile";
+import Profile from "../stories/profile/Profile";
 import { SubTitle } from "../stories/SubTitle";
 import { ThumbnailGrid } from "../stories/thumbnail/ThumbnailGrid";
 import { Title } from "../stories/Title";
 
 const Container = styled.div`
-  height: 210vh;
+  height: 100%;
 `;
 
 const Banner = styled.img`

@@ -22,6 +22,9 @@ const GridItem = styled.div`
   position: relative;
   overflow: hidden;
   border-radius: 8px;
+  :hover {
+    box-shadow : 0px 0px 8px 4px rgb(190, 190, 190);
+  }
   ::after {
     content: "";
     display: block;

@@ -16,7 +16,7 @@ import { ComponentStory, ComponentMeta } from "@storybook/react";
 
 
 export default {
-    title: 'Main/Profile',
+    title: 'Artist/Profile',
     component: Profile,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {

@@ -8,7 +8,7 @@ const StyledProfileImg = styled.img<{ size: string }>`
     height: ${props => props.size};
 `;
 
-interface ProfileImgProps {
+export interface ProfileImgProps {
     size: string;
     profileImgUrl: string;
 }

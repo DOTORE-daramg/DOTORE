@@ -19,6 +19,7 @@ IconInputBox.args = {
   placeholder: '영감받은 원작 작품을 검색해주세요.',
   icon: faMagnifyingGlass,
   width: '19rem',
+  onChange: (e) => {console.log(e.target.value)}
 };
 
 export const PlainInputBox = Template.bind({});
@@ -26,4 +27,5 @@ export const PlainInputBox = Template.bind({});
 PlainInputBox.args = {
   placeholder: '작품 제목',
   width: '19rem',
+  onChange: (e) => {console.log(e.target.value)}
 };

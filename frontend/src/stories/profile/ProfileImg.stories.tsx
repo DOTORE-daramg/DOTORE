@@ -4,7 +4,7 @@ import { ComponentStory, ComponentMeta } from '@storybook/react';
 import { ProfileImg } from './ProfileImg';
 
 export default {
-    title: 'Example/ProfileImg',
+    title: 'Artist/ProfileImg',
     component: ProfileImg,
     // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
     argTypes: {
