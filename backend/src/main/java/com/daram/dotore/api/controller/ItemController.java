@@ -52,7 +52,7 @@ public class ItemController {
     public ResponseEntity<BaseRes> login(@RequestBody ItemReq itemReq) {
 
         try {
-            Items item = itemService.saveNewItem(itemReq);
+            itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,15 +120,18 @@ public class ItemController {
     @ApiOperation(value = "좋아요 선택", notes = "좋아요 버튼을 누르면 DB에 넣고 좋아요 수 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
-        @ApiResponse(code = 409, message = "Fail", response = ItemButtonRes.class),
+        @ApiResponse(code = 409, message = "이미 좋아요를 눌렀습니다!", response = ItemButtonRes.class),
     })
     public ResponseEntity<ItemButtonRes> like(@RequestBody ItemButtonReq itemButtonReq) {
 
         Likes like = itemService.getLike(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
-        if (like == null) {
-            return ResponseEntity.status(409).body(ItemButtonRes.of("Fail"));
-        }
         int count = itemService.countLike(itemButtonReq.getTokenId());
+        if (like == null) {
+            itemService.saveNewLike(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+            count = itemService.countLike(itemButtonReq.getTokenId());
+        } else {
+            return ResponseEntity.status(409).body(ItemButtonRes.of("이미 좋아요를 눌렀습니다!", count));
+        }
         return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
     }
 }

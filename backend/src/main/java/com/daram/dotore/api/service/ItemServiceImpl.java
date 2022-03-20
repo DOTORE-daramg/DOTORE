@@ -86,6 +86,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public Likes saveNewLike(String address, BigInteger tokenId) {
+        Likes like = likeRepository.save(Likes.builder()
+            .address(address)
+            .tokenId(tokenId)
+            .build());
+        return like;
+    }
+
+    @Override
     public Likes getLike(String address, BigInteger tokenId) {
         Optional<Likes> opt = likeRepository.findByAddressAndTokenId(address, tokenId);
         if (opt.isPresent()) {
@@ -93,6 +102,11 @@ public class ItemServiceImpl implements ItemService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Download saveNewDownload(String address, BigInteger tokenId) {
+        return null;
     }
 
     @Override

@@ -16,7 +16,11 @@ public interface ItemService {
 
     Items updateOwner(ItemUpdateReq itemReq);
 
+    Likes saveNewLike(String address, BigInteger tokenId);
+
     Likes getLike(String address, BigInteger tokenId);
+
+    Download saveNewDownload(String address, BigInteger tokenId);
 
     Download getDownload(String address, BigInteger tokenId);
 
