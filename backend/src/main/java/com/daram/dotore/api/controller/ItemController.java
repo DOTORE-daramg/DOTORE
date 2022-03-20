@@ -1,13 +1,16 @@
 package com.daram.dotore.api.controller;
 
+import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
+import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Items;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -102,14 +105,30 @@ public class ItemController {
             Items item = itemService.getItemByTokenId(tokenId);
             List<Items> list;
             if (item.getIs_first()) {    // 1차
-                list=itemService.getSecond(tokenId);
+                list = itemService.getSecond(tokenId);
             } else {  // 2차
-                list=itemService.getFirst(tokenId);
+                list = itemService.getFirst(tokenId);
             }
-            return ResponseEntity.status(200).body(ItemRelationRes.of("Success",list));
+            return ResponseEntity.status(200).body(ItemRelationRes.of("Success", list));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(404).body(ItemRelationRes.of("존재하지 않는 token_id"));
         }
+    }
+
+    @PostMapping("/like")
+    @ApiOperation(value = "좋아요 선택", notes = "좋아요 버튼을 누르면 DB에 넣고 좋아요 수 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+        @ApiResponse(code = 409, message = "Fail", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<ItemButtonRes> like(@RequestBody ItemButtonReq itemButtonReq) {
+
+        Likes like = itemService.getLike(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+        if (like == null) {
+            return ResponseEntity.status(409).body(ItemButtonRes.of("Fail"));
+        }
+        int count = itemService.countLike(itemButtonReq.getTokenId());
+        return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
     }
 }

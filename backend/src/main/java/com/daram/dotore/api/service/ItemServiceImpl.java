@@ -2,7 +2,9 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Secondary;
 import com.daram.dotore.db.entity.Taglist;
 import com.daram.dotore.db.repository.DownloadRepository;
@@ -30,10 +32,10 @@ public class ItemServiceImpl implements ItemService {
     SecondaryRepository secondaryRepository;
 
     @Autowired
-    DownloadRepository downloadRepository;
+    LikeRepository likeRepository;
 
     @Autowired
-    LikeRepository likeRepository;
+    DownloadRepository downloadRepository;
 
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
@@ -84,14 +86,34 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public int countDownload(BigInteger tokenId) {
-        return downloadRepository.countByTokenId(tokenId);
+    public Likes getLike(String address, BigInteger tokenId) {
+        Optional<Likes> opt = likeRepository.findByAddressAndTokenId(address, tokenId);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Download getDownload(String address, BigInteger tokenId) {
+        Optional<Download> opt = downloadRepository.findByAddressAndTokenId(address, tokenId);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            return null;
+        }
     }
 
     @Override
     public int countLike(BigInteger tokenId) {
 
         return likeRepository.countByTokenId(tokenId);
+    }
+
+    @Override
+    public int countDownload(BigInteger tokenId) {
+        return downloadRepository.countByTokenId(tokenId);
     }
 
     @Override

@@ -11,15 +11,15 @@ import lombok.Setter;
 @ApiModel("ItemRequest")
 public class ItemReq {
 
-    BigInteger tokenId;
-    String item_hash;
-    String item_title;
-    String item_description;
-    LocalDateTime created_at;
-    String author_address;
-    String owner_address;
-    Boolean is_first;
-    String format;
-    String[] tags;
-    BigInteger[] original;
+    private BigInteger tokenId;
+    private String item_hash;
+    private String item_title;
+    private String item_description;
+    private LocalDateTime created_at;
+    private String author_address;
+    private String owner_address;
+    private Boolean is_first;
+    private String format;
+    private String[] tags;
+    private BigInteger[] original;
 }
