@@ -93,7 +93,7 @@ public class ItemController {
     }
 
     @GetMapping("/relation/{tokenId}")
-    @ApiOperation(value = "연관 작품 조회", notes = "해당 작품의 영감을 준 or 영감을 받은 작품들 반환")
+    @ApiOperation(value = "연관된 작품 조회", notes = "해당 작품의 영감을 준 or 영감을 받은 작품들 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
     })

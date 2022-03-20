@@ -105,12 +105,12 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<Items> getSecond(BigInteger original) {    // 해당 1차와 연관된 2차 창작물 조회
+    public List<Items> getSecond(BigInteger original) { // 해당 1차에서 파생된 2차 창작물들 조회
         return itemRepository.getSecond(original);
     }
 
     @Override
-    public List<Items> getFirst(BigInteger original) {
+    public List<Items> getFirst(BigInteger original) {  // 해당 2차의 원작인 1차 창작물들 조회
         return itemRepository.getFirst(original);
     }
 }

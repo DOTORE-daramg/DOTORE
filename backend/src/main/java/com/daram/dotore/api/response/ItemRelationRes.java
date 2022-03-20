@@ -24,7 +24,6 @@ public class ItemRelationRes extends BaseRes{
     public static ItemRelationRes of(String result, List<Items> list){
         ItemRelationRes res = new ItemRelationRes();
         res.setResult(result);
-        res.setData(new ArrayList<>());
         for (int i=0; i<list.size(); i++){
             res.getData().add(new ItemRelationVO(list.get(i).getTokenId(),list.get(i).getItem_hash()));
         }
