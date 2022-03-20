@@ -18,9 +18,8 @@ public class ItemReq {
     LocalDateTime created_at;
     String author_address;
     String owner_address;
-    Boolean on_sale_yn;
     Boolean is_first;
     String format;
     String[] tags;
-    String[] original;
+    BigInteger[] original;
 }

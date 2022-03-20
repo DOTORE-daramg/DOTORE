@@ -57,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
                 .build());
         }
 
-        for (String ori : itemReq.getOriginal()) {
+        for (BigInteger ori : itemReq.getOriginal()) {
             secondaryRepository.save(Secondary.builder()
                 .tokenId(itemReq.getTokenId())
                 .original(ori)
@@ -102,5 +102,15 @@ public class ItemServiceImpl implements ItemService {
             tags[i] = list.get(i).getTag();
         }
         return tags;
+    }
+
+    @Override
+    public List<Items> getSecond(BigInteger original) {    // 해당 1차와 연관된 2차 창작물 조회
+        return itemRepository.getSecond(original);
+    }
+
+    @Override
+    public List<Items> getFirst(BigInteger original) {
+        return itemRepository.getFirst(original);
     }
 }

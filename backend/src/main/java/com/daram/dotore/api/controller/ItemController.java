@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.math.BigInteger;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -94,17 +95,20 @@ public class ItemController {
     @GetMapping("/relation/{tokenId}")
     @ApiOperation(value = "연관 작품 조회", notes = "해당 작품의 영감을 준 or 영감을 받은 작품들 반환")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Success", response = ItemDetailRes.class),
+        @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
     })
     public ResponseEntity<ItemRelationRes> getRelation(@PathVariable BigInteger tokenId) {
         try {
             Items item = itemService.getItemByTokenId(tokenId);
+            List<Items> list;
             if (item.getIs_first()) {    // 1차
-
-            } else if (!item.getIs_first()) {  // 2차
+                list=itemService.getSecond(tokenId);
+            } else {  // 2차
+                list=itemService.getFirst(tokenId);
             }
-            return ResponseEntity.status(200).body(ItemRelationRes.of("Success"));
+            return ResponseEntity.status(200).body(ItemRelationRes.of("Success",list));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(404).body(ItemRelationRes.of("존재하지 않는 token_id"));
         }
     }
