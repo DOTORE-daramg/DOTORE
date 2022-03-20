@@ -17,7 +17,5 @@ public interface ItemService {
 
     int countLike(BigInteger tokenId);
 
-    String getFormat(BigInteger tokenId);
-
     String[] getTags(BigInteger tokenId);
 }

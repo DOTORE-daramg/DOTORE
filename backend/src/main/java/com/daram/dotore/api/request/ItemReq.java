@@ -20,6 +20,7 @@ public class ItemReq {
     String owner_address;
     Boolean on_sale_yn;
     Boolean is_first;
+    String format;
     String[] tags;
     String[] original;
 }

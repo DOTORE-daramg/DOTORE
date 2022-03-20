@@ -29,11 +29,10 @@ public class Secondary {
     BigInteger tokenId;
 
     @NotNull
-    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
-    String original;
+    BigInteger original;
 
     @Builder
-    public Secondary(int second_id, BigInteger tokenId, String original) {
+    public Secondary(int second_id, BigInteger tokenId, BigInteger original) {
         this.second_id = second_id;
         this.tokenId = tokenId;
         this.original = original;

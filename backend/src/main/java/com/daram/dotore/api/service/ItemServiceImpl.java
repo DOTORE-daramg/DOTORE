@@ -6,7 +6,6 @@ import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Secondary;
 import com.daram.dotore.db.entity.Taglist;
 import com.daram.dotore.db.repository.DownloadRepository;
-import com.daram.dotore.db.repository.FormatRepository;
 import com.daram.dotore.db.repository.ItemRepository;
 import com.daram.dotore.db.repository.LikeRepository;
 import com.daram.dotore.db.repository.SecondaryRepository;
@@ -36,9 +35,6 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     LikeRepository likeRepository;
 
-    @Autowired
-    FormatRepository formatRepository;
-
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
@@ -51,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
             .owner_address(itemReq.getOwner_address())
             .on_sale_yn(false)
             .is_first(itemReq.getIs_first())
+            .format(itemReq.getFormat())
             .build());
 
         for (String tag : itemReq.getTags()) {
@@ -93,20 +90,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public int countLike(BigInteger tokenId) {
+
         return likeRepository.countByTokenId(tokenId);
     }
 
     @Override
-    public String getFormat(BigInteger tokenId) {
-        return formatRepository.findById(tokenId).get().getFormat();
-    }
-
-    @Override
     public String[] getTags(BigInteger tokenId) {
-        List<Taglist> list=tagRepository.findByTokenId(tokenId);
-        String[] tags=new String[list.size()];
-        for (int i=0; i<list.size();i++){
-            tags[i]=list.get(i).getTag();
+        List<Taglist> list = tagRepository.findByTokenId(tokenId);
+        String[] tags = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            tags[i] = list.get(i).getTag();
         }
         return tags;
     }

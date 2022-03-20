@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ItemResponse")
+@ApiModel("ItemDetailResponse")
 public class ItemDetailRes extends BaseRes {
 
     private BigInteger tokenId;
@@ -37,7 +37,7 @@ public class ItemDetailRes extends BaseRes {
         return res;
     }
 
-    public static ItemDetailRes of(String result, Items item, Users user, int download, int like, String format, String[] tags) {
+    public static ItemDetailRes of(String result, Items item, Users user, int download, int like, String[] tags) {
         ItemDetailRes res = new ItemDetailRes();
         res.setResult(result);
         if(item != null){
@@ -49,6 +49,7 @@ public class ItemDetailRes extends BaseRes {
             res.setAuthor_address(item.getAuthor_address());
             res.setOwner_address(item.getOwner_address());
             res.setOn_sale_yn(item.getOn_sale_yn());
+            res.setFormat(item.getFormat());
         }
         if (user != null) {
             res.setNickname(user.getNickname());
@@ -57,7 +58,6 @@ public class ItemDetailRes extends BaseRes {
         }
         res.setDownload(download);
         res.setLike(like);
-        res.setFormat(format);
         res.setTags(tags);
         return res;
     }
