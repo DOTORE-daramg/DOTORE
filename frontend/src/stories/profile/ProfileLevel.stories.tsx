@@ -20,4 +20,6 @@ const Template: ComponentStory<typeof ProfileLevel> = (args) => (
 
 export const Primary = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {};
+Primary.args = {
+  profileLevel: 'Lv 1. 응애 도토리'
+};

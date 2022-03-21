@@ -7,7 +7,8 @@ import Main from "./pages/Main";
 import ChildMinting from "./pages/minting/ChildMinting";
 import ParentMinting from "./pages/minting/ParentMinting";
 import Artist from "./pages/artist/Artist";
-import NFTList from "./pages/artist/NFTList";
+import OwnedNFTList from "./pages/artist/OwnedNFTList";
+import AuthoredNFTList from "./pages/artist/AuthoredNFTList";
 import { Header } from "./stories/nav/Header";
 import TxHistory from "./pages/artist/TxHistory";
 import Download from "./pages/artist/Download";
@@ -124,7 +125,8 @@ const AppRouter = () => {
           <Route path="detail/:tokenId" element={<Detail />} />
 
           <Route path="artist/:userAddress" element={<Artist />}>
-            <Route path="nft" element={<NFTList />} />
+            <Route path="ownednft" element={<OwnedNFTList />} />
+            <Route path="authorednft" element={<AuthoredNFTList />} />
             <Route path="feedback" element={<FeedbackList />} />
             <Route path="history" element={<TxHistory />} />
             <Route path="download" element={<Download />} />

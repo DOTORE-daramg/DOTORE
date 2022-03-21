@@ -49,10 +49,14 @@ public class Items {
     @NotNull
     Boolean is_first;
 
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,10}")
+    String format;
+
     @Builder
     public Items(BigInteger tokenId, String item_hash, String item_title,
         String item_description, LocalDateTime created_at, String author_address,
-        String owner_address, boolean on_sale_yn, boolean is_first) {
+        String owner_address, boolean on_sale_yn, boolean is_first, String format) {
         this.tokenId = tokenId;
         this.item_hash = item_hash;
         this.item_title = item_title;
@@ -62,6 +66,7 @@ public class Items {
         this.owner_address = owner_address;
         this.on_sale_yn = on_sale_yn;
         this.is_first = is_first;
+        this.format=format;
     }
 
     public Items setOwner(String owner_address){
