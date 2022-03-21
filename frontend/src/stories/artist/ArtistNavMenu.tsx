@@ -8,19 +8,24 @@ const MenuItem = styled.div<{ isSelected: boolean }>`
   font-weight: ${props => props.isSelected ? '800' : '500'};
   background-color: ${props => props.isSelected ? '#ffffff' : 'rgba(0, 0, 0, 0)'};
   font-style: Medium;
-  font-size: 18px;
+  font-size: 1.2rem;
   line-height: 22px;
   text-align: center;
   align-items: center;
   justify-content: center;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  /* padding: 0 2rem; */
   cursor: pointer;
-  /* width: 134px; */
-  height: 50px;
-  left: 349px;
-  top: 396px;
+  width: 8rem;
+  height: 100%;
   border-radius: 10px 10px 0px 0px;
+  @media screen and (max-width: 768px) {
+    width: 6rem;
+    font-size: 1rem;
+  }
+  @media screen and (max-width: 500px) {
+    width: 4rem;
+    font-size: 0.8rem;
+  }
 `;
 
 type ArtistNavMenuId = 'ownednft' | 'authorednft' | 'feedback' | 'history' | 'download' | 'like';

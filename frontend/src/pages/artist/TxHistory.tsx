@@ -41,16 +41,13 @@ const transactionHistoryList: ITransactionHistory[] = [
 
 
 const Container = styled.div`
-  width: 64rem;
+  width: 100%;
   display: flex;
   margin: auto;
   padding: 5rem 0;
   justify-content: center;
-  @media screen and (max-width: 1200px) {
-    width: 40rem;
-  }
-  @media screen and (max-width: 500px) {
-    width: 35rem;
+  @media screen and (max-width: 768px) {
+    padding: 3rem 0;
   }
 `;
 
