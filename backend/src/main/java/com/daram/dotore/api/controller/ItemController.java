@@ -9,6 +9,7 @@ import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
+import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
@@ -118,7 +119,7 @@ public class ItemController {
     }
 
     @PostMapping("/like")
-    @ApiOperation(value = "좋아요 선택", notes = "좋아요 버튼을 누르면 DB에 넣고 좋아요 수 반환")
+    @ApiOperation(value = "좋아요 선택", notes = "좋아요 버튼을 누르면 DB에 넣고 좋아요 개수 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
         @ApiResponse(code = 409, message = "이미 좋아요를 눌렀습니다!", response = ItemButtonRes.class),
@@ -137,7 +138,7 @@ public class ItemController {
     }
 
     @DeleteMapping("/dislike")
-    @ApiOperation(value = "좋아요 취소", notes = "좋아요를 취소하면 DB에서 제거하고 좋아요 수 반환")
+    @ApiOperation(value = "좋아요 취소", notes = "좋아요를 취소하면 DB에서 제거하고 좋아요 개수 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
         @ApiResponse(code = 409, message = "좋아요를 누른 적이 없습니다!", response = ItemButtonRes.class),
@@ -151,6 +152,25 @@ public class ItemController {
         } else {
             itemService.deleteLike(like, itemButtonReq.getAddress(), itemButtonReq.getTokenId());
             count = itemService.countLike(itemButtonReq.getTokenId());
+        }
+        return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
+    }
+
+    @PostMapping("/download")
+    @ApiOperation(value = "다운로드", notes = "다운로드를 누르면 다운로드 횟수 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+        @ApiResponse(code = 409, message = "이미 다운로드한 적이 있습니다.", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<ItemButtonRes> download(@RequestBody ItemButtonReq itemButtonReq) {
+
+        Download download=itemService.getDownload(itemButtonReq.getAddress(),itemButtonReq.getTokenId());
+        int count = itemService.countDownload(itemButtonReq.getTokenId());
+        if (download == null) {
+            itemService.saveNewDownload(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+            count = itemService.countDownload(itemButtonReq.getTokenId());
+        } else {
+            return ResponseEntity.status(409).body(ItemButtonRes.of("이미 다운로드한 적이 있습니다.", count));
         }
         return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
     }

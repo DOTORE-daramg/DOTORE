@@ -111,7 +111,11 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Download saveNewDownload(String address, BigInteger tokenId) {
-        return null;
+        Download download = downloadRepository.save(Download.builder()
+            .address(address)
+            .tokenId(tokenId)
+            .build());
+        return download;
     }
 
     @Override
@@ -126,7 +130,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public int countLike(BigInteger tokenId) {
-
         return likeRepository.countByTokenId(tokenId);
     }
 
