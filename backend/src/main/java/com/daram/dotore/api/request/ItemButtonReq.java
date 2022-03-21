@@ -7,8 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ItemUpdateRequest")
-public class ItemUpdateReq {
+@ApiModel("ItemButtonRequest")
+public class ItemButtonReq {
+
+    private String address;
     private BigInteger tokenId;
-    private String owner_address;
 }
