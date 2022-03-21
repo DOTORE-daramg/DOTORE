@@ -48,4 +48,9 @@ public class Users {
         this.nickname=nickname;
         return this;
     }
+
+    public Users setDescription(String description){
+        this.description=description;
+        return this;
+    }
 }

@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.db.entity.Items;
@@ -43,6 +44,12 @@ public class UserServiceImpl implements UserService {
     public Users updateNickname(NicknameUpdateReq nicknameUpdateReq) {
         Users user = getUserByAddress(nicknameUpdateReq.getOwner_address());
         return userRepository.save(user.setNickname(nicknameUpdateReq.getNickname()));
+    }
+
+    @Override
+    public Users updateDesc(DescUpdateReq descUpdateReq) {
+        Users user = getUserByAddress(descUpdateReq.getOwner_address());
+        return userRepository.save(user.setDescription(descUpdateReq.getDescription()));
     }
 
 }
