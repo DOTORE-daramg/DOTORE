@@ -1,13 +1,17 @@
 package com.daram.dotore.api.controller;
 
+import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
+import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
+import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +54,7 @@ public class ItemController {
     public ResponseEntity<BaseRes> login(@RequestBody ItemReq itemReq) {
 
         try {
-            Items item = itemService.saveNewItem(itemReq);
+            itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,14 +107,71 @@ public class ItemController {
             Items item = itemService.getItemByTokenId(tokenId);
             List<Items> list;
             if (item.getIs_first()) {    // 1차
-                list=itemService.getSecond(tokenId);
+                list = itemService.getSecond(tokenId);
             } else {  // 2차
-                list=itemService.getFirst(tokenId);
+                list = itemService.getFirst(tokenId);
             }
-            return ResponseEntity.status(200).body(ItemRelationRes.of("Success",list));
+            return ResponseEntity.status(200).body(ItemRelationRes.of("Success", list));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(404).body(ItemRelationRes.of("존재하지 않는 token_id"));
         }
+    }
+
+    @PostMapping("/like")
+    @ApiOperation(value = "좋아요 선택", notes = "좋아요 버튼을 누르면 DB에 넣고 좋아요 개수 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+        @ApiResponse(code = 409, message = "이미 좋아요를 눌렀습니다!", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<ItemButtonRes> like(@RequestBody ItemButtonReq itemButtonReq) {
+
+        Likes like = itemService.getLike(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+        int count = itemService.countLike(itemButtonReq.getTokenId());
+        if (like == null) {
+            itemService.saveNewLike(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+            count = itemService.countLike(itemButtonReq.getTokenId());
+        } else {
+            return ResponseEntity.status(409).body(ItemButtonRes.of("이미 좋아요를 눌렀습니다!", count));
+        }
+        return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
+    }
+
+    @DeleteMapping("/dislike")
+    @ApiOperation(value = "좋아요 취소", notes = "좋아요를 취소하면 DB에서 제거하고 좋아요 개수 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+        @ApiResponse(code = 409, message = "좋아요를 누른 적이 없습니다!", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<ItemButtonRes> dislike(@RequestBody ItemButtonReq itemButtonReq) {
+
+        Likes like = itemService.getLike(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+        int count = itemService.countLike(itemButtonReq.getTokenId());
+        if (like == null) {
+            return ResponseEntity.status(409).body(ItemButtonRes.of("좋아요를 누른 적이 없습니다!", count));
+        } else {
+            itemService.deleteLike(like, itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+            count = itemService.countLike(itemButtonReq.getTokenId());
+        }
+        return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
+    }
+
+    @PostMapping("/download")
+    @ApiOperation(value = "다운로드", notes = "다운로드를 누르면 다운로드 횟수 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+        @ApiResponse(code = 409, message = "이미 다운로드한 적이 있습니다.", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<ItemButtonRes> download(@RequestBody ItemButtonReq itemButtonReq) {
+
+        Download download=itemService.getDownload(itemButtonReq.getAddress(),itemButtonReq.getTokenId());
+        int count = itemService.countDownload(itemButtonReq.getTokenId());
+        if (download == null) {
+            itemService.saveNewDownload(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
+            count = itemService.countDownload(itemButtonReq.getTokenId());
+        } else {
+            return ResponseEntity.status(409).body(ItemButtonRes.of("이미 다운로드한 적이 있습니다.", count));
+        }
+        return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
     }
 }

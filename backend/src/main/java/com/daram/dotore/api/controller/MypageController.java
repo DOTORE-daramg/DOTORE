@@ -7,7 +7,6 @@ import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.*;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
