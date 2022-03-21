@@ -2,6 +2,8 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.response.ItemDetailRes;
+import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Likes;
@@ -37,4 +39,6 @@ public interface ItemService {
     List<Items> getFirst(BigInteger original);
 
     List<Items> getItemList(String address);
+
+    ItemsRes getAll();
 }
