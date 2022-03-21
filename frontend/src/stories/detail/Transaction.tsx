@@ -45,7 +45,7 @@ const Transaction = ({
 }: TransactionProps) => {
   return (
     <Container>
-      <Title color="#6667ab" title="NFT 정보" />
+      <Title color="#6667ab" title="최근 거래 내역" />
       <InnerContainer>
         {transacrions.map((transaction) => (
           <TransactionItem
