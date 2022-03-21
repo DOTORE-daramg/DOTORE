@@ -1,17 +1,19 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import Info from "./Info";
+import Transaction from "./Transaction";
 
 export default {
-  title: "Detail/Info",
-  component: Info,
+  title: "Detail/Transaction",
+  component: Transaction,
   argTypes: {
     backgroundColor: { control: "color" },
   },
-} as ComponentMeta<typeof Info>;
+} as ComponentMeta<typeof Transaction>;
 
-const Template: ComponentStory<typeof Info> = (args) => <Info {...args} />;
+const Template: ComponentStory<typeof Transaction> = (args) => (
+  <Transaction {...args} />
+);
 
 export const Primary = Template.bind({});
 Primary.args = {};
