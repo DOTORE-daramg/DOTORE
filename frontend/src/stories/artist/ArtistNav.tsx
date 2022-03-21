@@ -6,7 +6,7 @@ import { ArtistNavMenu } from "./ArtistNavMenu";
 
 const Nav = styled.div`
   width: 100vw;
-  height: 50px;
+  height: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -15,6 +15,7 @@ const Nav = styled.div`
   @media screen and (max-width: 500px) {
     /* padding: 2vh; */
     justify-content: center;
+    height: 2.6rem;
   }
 `;
 

@@ -28,6 +28,9 @@ const Container = styled.div`
   @media screen and (max-width: 768px) {
     width: 32rem;
   }
+  @media screen and (max-width: 500px) {
+    width: 24rem;
+  }
 `;
 
 const TableHeader = styled.div`
