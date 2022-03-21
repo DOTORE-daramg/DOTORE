@@ -11,19 +11,28 @@ import { Title } from "../stories/Title";
 
 const Container = styled.div`
   width: 100%;
-  padding: 100px 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 60px 0;
   @media screen and (max-width: 768px) {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 60px 20px;
+  }
+`;
+
+const TitleContainer = styled.div`
+  padding: 0 0 60px 30%;
+  @media screen and (max-width: 768px) {
+    padding: 0 0 60px 0;
   }
 `;
 
 const MainContainer = styled.div`
   width: 100%;
-  padding-top: 60px;
   display: flex;
   justify-content: center;
   @media screen and (max-width: 768px) {
@@ -41,7 +50,7 @@ const DescContainer = styled.div`
   justify-content: space-between;
   @media screen and (max-width: 768px) {
     justify-content: center;
-    width: 90%;
+    width: 80%;
     padding: 0;
     padding-top: 20px;
   }
@@ -74,7 +83,9 @@ const AmountContainer = styled.div`
 const Detail = () => {
   return (
     <Container>
-      <Title label="2차 NFT" size="2rem" />
+      <TitleContainer>
+        <Title label="2차 NFT" size="2rem" />
+      </TitleContainer>
       <MainContainer>
         <Image
           name="메타콩즈1"
