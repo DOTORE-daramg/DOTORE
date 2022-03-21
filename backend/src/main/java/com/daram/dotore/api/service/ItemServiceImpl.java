@@ -95,6 +95,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public void deleteLike(Likes like, String address, BigInteger tokenId) {
+        likeRepository.delete(like);
+    }
+
+    @Override
     public Likes getLike(String address, BigInteger tokenId) {
         Optional<Likes> opt = likeRepository.findByAddressAndTokenId(address, tokenId);
         if (opt.isPresent()) {

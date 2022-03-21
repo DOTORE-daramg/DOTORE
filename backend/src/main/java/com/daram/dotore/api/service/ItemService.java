@@ -18,6 +18,8 @@ public interface ItemService {
 
     Likes saveNewLike(String address, BigInteger tokenId);
 
+    void deleteLike(Likes like, String address, BigInteger tokenId);
+
     Likes getLike(String address, BigInteger tokenId);
 
     Download saveNewDownload(String address, BigInteger tokenId);

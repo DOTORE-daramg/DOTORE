@@ -1,11 +1,9 @@
 package com.daram.dotore.api.controller;
 
-import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.UserRes;
 import com.daram.dotore.api.service.UserService;
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
