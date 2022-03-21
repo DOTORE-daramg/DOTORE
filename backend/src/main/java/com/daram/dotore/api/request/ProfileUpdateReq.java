@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @ApiModel("ProfileUpdateRequest")
 public class ProfileUpdateReq {
-    String owner_address;
+    String address;
     String profile_img_url;
 }

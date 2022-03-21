@@ -83,6 +83,7 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.save(item.setOwner(itemReq.getOwner_address()));
     }
 
+
     @Override
     public int countDownload(BigInteger tokenId) {
         return downloadRepository.countByTokenId(tokenId);
@@ -112,5 +113,10 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public List<Items> getFirst(BigInteger original) {  // 해당 2차의 원작인 1차 창작물들 조회
         return itemRepository.getFirst(original);
+    }
+
+    @Override
+    public List<Items> getItemList(String address) {
+        return itemRepository.getItemList(address);
     }
 }

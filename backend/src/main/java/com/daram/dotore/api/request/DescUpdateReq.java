@@ -8,6 +8,6 @@ import lombok.Setter;
 @Setter
 @ApiModel("DescUpdateRequest")
 public class DescUpdateReq {
-    String owner_address;
+    String address;
     String description;
 }

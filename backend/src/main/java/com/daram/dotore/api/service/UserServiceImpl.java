@@ -43,19 +43,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Users updateNickname(NicknameUpdateReq nicknameUpdateReq) {
-        Users user = getUserByAddress(nicknameUpdateReq.getOwner_address());
+        Users user = getUserByAddress(nicknameUpdateReq.getAddress());
         return userRepository.save(user.setNickname(nicknameUpdateReq.getNickname()));
     }
 
     @Override
     public Users updateDesc(DescUpdateReq descUpdateReq) {
-        Users user = getUserByAddress(descUpdateReq.getOwner_address());
+        Users user = getUserByAddress(descUpdateReq.getAddress());
         return userRepository.save(user.setDescription(descUpdateReq.getDescription()));
     }
 
     @Override
     public Users updateProfile(ProfileUpdateReq profileUpdateReq) {
-        Users user = getUserByAddress(profileUpdateReq.getOwner_address());
+        Users user = getUserByAddress(profileUpdateReq.getAddress());
         return userRepository.save(user.setProfile_img_url(profileUpdateReq.getProfile_img_url()));
     }
 

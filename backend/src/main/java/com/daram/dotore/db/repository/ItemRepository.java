@@ -21,4 +21,9 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
         + "FROM Items i JOIN Secondary s ON i.token_id=s.original "
         + "WHERE s.token_id = :tokenId", nativeQuery = true)
     List<Items> getFirst(@Param("tokenId") BigInteger tokenId);
+
+    @Query(value = "SELECT author_name, item_description, item_hash, item_title, owner_address, token_id, created_at "
+            + "FROM Items "
+            + "WHERE owner_address = :address", nativeQuery = true)
+    List<Items> getItemList(@Param("address") String address);
 }
