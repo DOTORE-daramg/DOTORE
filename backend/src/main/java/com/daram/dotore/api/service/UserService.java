@@ -1,6 +1,8 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
+import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.db.entity.Users;
 
 public interface UserService {
@@ -10,4 +12,8 @@ public interface UserService {
     Users saveNewUser(String address);
 
     Users updateNickname(NicknameUpdateReq nicknameUpdateReq);
+
+    Users updateDesc(DescUpdateReq descUpdateReq);
+
+    Users updateProfile(ProfileUpdateReq profileUpdateReq);
 }
