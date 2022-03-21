@@ -25,7 +25,7 @@ const dummy = {
 			answerno : 1,
 			writer : '이성재',
 			description : '답변 받았습니다. 질문 받아보세요.',
-			img_url : '',
+			img_url : 'https://external-preview.redd.it/GHnsoZTj3vG2zaz0ARuX_OpeEAlJp40TCsDd4edm46U.jpg?auto=webp&s=475ac56e5f93cea40b6275f8a175a2f0e2f4c19e',
 			created_at : '2022-03-15',
 		}
 	]
@@ -42,7 +42,7 @@ const Container = styled.div`
     width: 40rem;
   }
   @media screen and (max-width: 500px) {
-    width: 35rem;
+    width: 23rem;
   }
 `;
 

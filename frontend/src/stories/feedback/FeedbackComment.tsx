@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useMediaQuery } from "react-responsive"
 import { HorizonProfile } from '../profile/HorizonProfile';
 import { Image } from '../detail/Image';
 
@@ -68,9 +69,13 @@ export const FeedbackComment = ({
   createdAt,
   imageUrl,
   commentType,
-}:FeedbackArticleProps) => {
-  const vw = visualViewport.width;
-  const mode = vw <= 500 ? 'feedbackM' : 'feedback';
+}: FeedbackArticleProps) => {
+  const isPc = useMediaQuery({ minWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 500 });
+  const viewMode = isPc ? 'feedback'
+    : isTablet ? 'feedback'
+    : 'feedbackM'
+  
   return (
     <CommentContainer commentType={commentType}>
       <StyledHeader>
@@ -90,7 +95,7 @@ export const FeedbackComment = ({
           <Image
             imageUrl={imageUrl} 
             name={`${profileNickname}의 첨부 이미지`} 
-            mode={mode}
+            mode={viewMode}
           ></Image> 
         </ImageContainer>
         : null}
