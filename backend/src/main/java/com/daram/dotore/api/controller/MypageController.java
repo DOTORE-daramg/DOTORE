@@ -3,6 +3,7 @@ package com.daram.dotore.api.controller;
 import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
+import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.UserRes;
 import com.daram.dotore.api.service.UserService;
@@ -72,6 +73,22 @@ public class MypageController {
             return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 desc"));
         }
         userService.updateDesc(descUpdateReq);
+        return ResponseEntity.status(200).body(BaseRes.of("Success"));
+    }
+
+    @PatchMapping("/img")
+    @ApiOperation(value = "프로필 이미지 변경", notes = "마이페이지에서 프로필 이미지 변경")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+            @ApiResponse(code = 404, message = "존재하지 않는 프로필 이미지 주소", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> updateProfile(@RequestBody ProfileUpdateReq profileUpdateReq) {
+        Users user = userService.getUserByAddress(profileUpdateReq.getOwner_address());
+
+        if(user==null){
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 프로필 이미지"));
+        }
+        userService.updateProfile(profileUpdateReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 }

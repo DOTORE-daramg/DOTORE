@@ -53,4 +53,9 @@ public class Users {
         this.description=description;
         return this;
     }
+
+    public Users setProfile_img_url(String profile_img_url){
+        this.profile_img_url=profile_img_url;
+        return this;
+    }
 }
