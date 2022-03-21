@@ -115,4 +115,8 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.getFirst(original);
     }
 
+    @Override
+    public List<Items> getItemList(String address) {
+        return itemRepository.getItemList(address);
+    }
 }

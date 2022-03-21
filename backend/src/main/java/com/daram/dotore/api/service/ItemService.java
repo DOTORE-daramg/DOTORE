@@ -23,4 +23,6 @@ public interface ItemService {
     List<Items> getSecond(BigInteger original);
 
     List<Items> getFirst(BigInteger original);
+
+    List<Items> getItemList(String address);
 }
