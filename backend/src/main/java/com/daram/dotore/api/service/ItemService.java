@@ -4,6 +4,7 @@ import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.db.entity.Items;
 import java.math.BigInteger;
+import java.util.List;
 
 public interface ItemService {
 
@@ -17,7 +18,11 @@ public interface ItemService {
 
     int countLike(BigInteger tokenId);
 
-    String getFormat(BigInteger tokenId);
-
     String[] getTags(BigInteger tokenId);
+
+    List<Items> getSecond(BigInteger original);
+
+    List<Items> getFirst(BigInteger original);
+
+    List<Items> getItemList(String address);
 }

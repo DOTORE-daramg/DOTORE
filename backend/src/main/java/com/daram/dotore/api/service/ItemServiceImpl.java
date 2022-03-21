@@ -6,7 +6,6 @@ import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Secondary;
 import com.daram.dotore.db.entity.Taglist;
 import com.daram.dotore.db.repository.DownloadRepository;
-import com.daram.dotore.db.repository.FormatRepository;
 import com.daram.dotore.db.repository.ItemRepository;
 import com.daram.dotore.db.repository.LikeRepository;
 import com.daram.dotore.db.repository.SecondaryRepository;
@@ -36,9 +35,6 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     LikeRepository likeRepository;
 
-    @Autowired
-    FormatRepository formatRepository;
-
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
@@ -51,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
             .owner_address(itemReq.getOwner_address())
             .on_sale_yn(false)
             .is_first(itemReq.getIs_first())
+            .format(itemReq.getFormat())
             .build());
 
         for (String tag : itemReq.getTags()) {
@@ -60,7 +57,7 @@ public class ItemServiceImpl implements ItemService {
                 .build());
         }
 
-        for (String ori : itemReq.getOriginal()) {
+        for (BigInteger ori : itemReq.getOriginal()) {
             secondaryRepository.save(Secondary.builder()
                 .tokenId(itemReq.getTokenId())
                 .original(ori)
@@ -86,6 +83,7 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.save(item.setOwner(itemReq.getOwner_address()));
     }
 
+
     @Override
     public int countDownload(BigInteger tokenId) {
         return downloadRepository.countByTokenId(tokenId);
@@ -93,21 +91,32 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public int countLike(BigInteger tokenId) {
+
         return likeRepository.countByTokenId(tokenId);
     }
 
     @Override
-    public String getFormat(BigInteger tokenId) {
-        return formatRepository.findById(tokenId).get().getFormat();
+    public String[] getTags(BigInteger tokenId) {
+        List<Taglist> list = tagRepository.findByTokenId(tokenId);
+        String[] tags = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            tags[i] = list.get(i).getTag();
+        }
+        return tags;
     }
 
     @Override
-    public String[] getTags(BigInteger tokenId) {
-        List<Taglist> list=tagRepository.findByTokenId(tokenId);
-        String[] tags=new String[list.size()];
-        for (int i=0; i<list.size();i++){
-            tags[i]=list.get(i).getTag();
-        }
-        return tags;
+    public List<Items> getSecond(BigInteger original) { // 해당 1차에서 파생된 2차 창작물들 조회
+        return itemRepository.getSecond(original);
+    }
+
+    @Override
+    public List<Items> getFirst(BigInteger original) {  // 해당 2차의 원작인 1차 창작물들 조회
+        return itemRepository.getFirst(original);
+    }
+
+    @Override
+    public List<Items> getItemList(String address) {
+        return itemRepository.getItemList(address);
     }
 }

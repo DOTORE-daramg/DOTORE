@@ -44,4 +44,18 @@ public class Users {
         this.profile_img_url = profile_img_url;
     }
 
+    public Users setNickname(String nickname){
+        this.nickname=nickname;
+        return this;
+    }
+
+    public Users setDescription(String description){
+        this.description=description;
+        return this;
+    }
+
+    public Users setProfile_img_url(String profile_img_url){
+        this.profile_img_url=profile_img_url;
+        return this;
+    }
 }
