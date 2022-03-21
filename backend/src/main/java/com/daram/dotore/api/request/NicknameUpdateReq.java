@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("nicknameUpdateRequest")
+@ApiModel("NicknameUpdateRequest")
 public class NicknameUpdateReq {
     String address;
     String nickname;
