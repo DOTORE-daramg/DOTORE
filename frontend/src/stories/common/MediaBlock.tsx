@@ -1,5 +1,6 @@
 import React from 'react';
 import { ContentBlock, ContentState } from 'draft-js';
+import styled from 'styled-components';
 
 // draft 커스텀 블록 컴포넌트
 interface BlockComponentProps {
@@ -7,11 +8,18 @@ interface BlockComponentProps {
   block: ContentBlock;
 }
 
+const StyledImage = styled.img`
+  max-width: 22rem;
+  @media screen and (max-width: 500px) {
+    max-width: 18rem;
+  }
+`;
+
 // 커스텀 이미지 블록
-export const Image = (props: BlockComponentProps) => {
+const Image = (props: BlockComponentProps) => {
   const { block, contentState } = props;
   const { src } = contentState.getEntity(block.getEntityAt(0)).getData();
-  return <img src={src} alt={src} role="presentation" />;
+  return <StyledImage src={src} alt={src} role="presentation" />;
 };
 
 // 커스텀 미디어 블록
