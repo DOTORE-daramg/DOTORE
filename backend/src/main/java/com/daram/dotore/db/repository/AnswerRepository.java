@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface AnswerRepository extends JpaRepository<Answer, Integer> {
-    Boolean findByArticleNo(int articleNo);
+    //Boolean findByArticleNo(int articleNo);
 
     @Query(value = "SELECT COUNT(*) "
             + "FROM answer "
-            + "WHERE articleno = :articleno", nativeQuery = true)
-    List<Integer> getBooleanCountList(@Param("articleno") String address);
+            + "WHERE articleno = :articleNo", nativeQuery = true)
+    Integer getCount(@Param("articleNo") int articleNo);
 }

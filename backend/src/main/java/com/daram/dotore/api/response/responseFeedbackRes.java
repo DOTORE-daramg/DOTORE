@@ -24,7 +24,7 @@ public class responseFeedbackRes extends BaseRes {
         return res;
     }
 
-    public static responseFeedbackRes of(String result, List<Feedback> list,List<Items> list2) {
+    public static responseFeedbackRes of(String result, List<Feedback> list,List<Items> list2,List<Boolean> booleanList) {
         responseFeedbackRes res = new responseFeedbackRes();
         res.setResult(result);
         for (int i = 0; i < list.size(); i++) {
@@ -34,7 +34,7 @@ public class responseFeedbackRes extends BaseRes {
                     list2.get(i).getItem_title(),
                     list.get(i).getAddress(),
                     list.get(i).getDescription(),
-                    list.get(i).get(),
+                    booleanList.get(i),
                     list.get(i).getCreated_at()
                 ));
         }

@@ -2,6 +2,7 @@ package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.*;
 import com.daram.dotore.api.response.*;
+import com.daram.dotore.api.service.FeedbackService;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Feedback;
@@ -33,6 +34,9 @@ public class MypageController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    FeedbackService feedbackService;
 
     @GetMapping("/{address}")
     @ApiOperation(value = "마이페이지", notes = "마이페이지에서 회원 정보 가져오기")
@@ -140,11 +144,21 @@ public class MypageController {
     public ResponseEntity<responseFeedbackRes> responseFeedbackList(@RequestBody String address) {
         try {
             //address가 작성한 로우의 articleno목록 받아오기
-            List<Feedback> list = userService.getResponseFeedbackList(address);
+            List<Feedback> list = feedbackService.getResponseFeedbackList(address);
             List<Items> list2 = itemService.getItemList(address);
             //answer테이블에 articleno가 있는 로우가 있는지 판별해서 넘겨주기(있으면 T,없으면 F)
-            //boolean YN = userService.get
-            return ResponseEntity.status(200).body(responseFeedbackRes.of("Success", list,list2));
+            //boolean YN = userService.get 카운트 조회해서 0이면 F 1이상이면 T
+            List<Boolean> booleanList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                int articleNo = list.get(i).getArticleno();
+                int temp = feedbackService.getCount(articleNo);
+                if(temp == 0){//articleno가 0이면 해당 글에 대한 답변이 없는 상황
+                    booleanList.add(Boolean.FALSE);
+                }else{//articleno가 0이 아니라면 해당 글에 대한 답변이 하나라도 있는 상황
+                    booleanList.add(Boolean.TRUE);
+                }
+            }
+            return ResponseEntity.status(200).body(responseFeedbackRes.of("Success", list,list2,booleanList));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(404).body(responseFeedbackRes.of("존재하지 않는 token_id"));
