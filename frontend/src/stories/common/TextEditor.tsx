@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import { Editor, EditorState, RichUtils, DraftEditorCommand, AtomicBlockUtils, SelectionState } from "draft-js";
+import { Editor, EditorState, RichUtils, DraftEditorCommand, AtomicBlockUtils, SelectionState, convertToRaw } from "draft-js";
 import { mediaBlockRenderer } from './MediaBlock';
 import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
@@ -106,10 +106,14 @@ export const TextEditor = () => {
     if (!files) {
       return 'not-handled';
     }
-    const file = files[0];  // 파일 하나만.
+    const file = files[0];  // 파일 하나씩만.
     if (file.type !== 'image/png' &&
       file.type !== 'image/jpeg' &&
       file.type !== 'image/gif') {
+      return 'not-handled';
+    }
+    if (file.size >= 5 * 1048576) {  // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
+      console.log('사진 크기 5MB 이상임!');
       return 'not-handled';
     }
     console.log(file)
@@ -131,10 +135,14 @@ export const TextEditor = () => {
     if (!files) {
       return 'not-handled';
     }
-    const file = files[0];  // 파일 하나만.
+    const file = files[0];  // 파일 하나씩만.
     if (file.type !== 'image/png' &&
       file.type !== 'image/jpeg' &&
       file.type !== 'image/gif') {
+      return 'not-handled';
+    }
+    if (file.size >= 5 * 1048576) {  // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
+      console.log('사진 크기 5MB 이상임!');
       return 'not-handled';
     }
     console.log(file)
@@ -177,7 +185,10 @@ export const TextEditor = () => {
         <Button
           label='작성하기'
           backgroundColor="#6667AB"
-          onClick={() => {}}
+          onClick={() => {
+            console.log(editorState.getCurrentContent().getPlainText('\u000A'))
+            console.log(convertToRaw(editorState.getCurrentContent()))
+          }}
         ></Button>
       </TextEditorFooter>
     </Container>
