@@ -2,11 +2,14 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.response.ItemDetailRes;
+import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Secondary;
 import com.daram.dotore.db.entity.Taglist;
+import com.daram.dotore.db.entity.Users;
 import com.daram.dotore.db.repository.DownloadRepository;
 import com.daram.dotore.db.repository.ItemRepository;
 import com.daram.dotore.db.repository.LikeRepository;
@@ -14,6 +17,7 @@ import com.daram.dotore.db.repository.SecondaryRepository;
 import com.daram.dotore.db.repository.TagRepository;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +40,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     DownloadRepository downloadRepository;
+
+    @Autowired
+    UserService userService;
 
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
@@ -149,23 +156,46 @@ public class ItemServiceImpl implements ItemService {
         return tags;
     }
 
+    // 해당 1차에서 파생된 2차 창작물들 조회
     @Override
-    public List<Items> getSecond(BigInteger original) { // 해당 1차에서 파생된 2차 창작물들 조회
+    public List<Items> getSecond(BigInteger original) {
+
         return itemRepository.getSecond(original);
     }
 
+    // 해당 2차의 원작인 1차 창작물들 조회
     @Override
-    public List<Items> getFirst(BigInteger original) {  // 해당 2차의 원작인 1차 창작물들 조회
+    public List<Items> getFirst(BigInteger original) {
+
         return itemRepository.getFirst(original);
     }
 
     @Override
     public List<Items> getItemList(String address) {
+
         return itemRepository.getItemList(address);
     }
 
     @Override
+<<<<<<< HEAD
     public List<Items> getAuthorItemList(String address) {
         return itemRepository.getAuthorItemList(address);
+=======
+    public ItemsRes getAll() {
+        List<ItemDetailRes> list=new ArrayList<>();
+        List<Items> items=itemRepository.findAll();
+        Users user;
+        int download=0;
+        int like=0;
+        String[] tags=new String[items.size()];
+        for(Items item: items){
+            user=userService.getUserByAddress(item.getOwner_address());
+            download=downloadRepository.countByTokenId(item.getTokenId());
+            like=likeRepository.countByTokenId(item.getTokenId());
+            tags=getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
+        }
+        return ItemsRes.of("Success",list);
+>>>>>>> 3e58c7df4254f190f32005663f9559ef04b75d46
     }
 }

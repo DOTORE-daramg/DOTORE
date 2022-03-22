@@ -8,7 +8,7 @@ const Container = styled.div<{ isSelected: boolean }>`
   width: fit-content;
   font-weight: ${(props) => (props.isSelected ? "600" : "400")};
   @media screen and (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 1.5rem;
   }
 `;
 

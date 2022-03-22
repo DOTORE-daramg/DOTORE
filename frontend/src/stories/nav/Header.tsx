@@ -84,7 +84,7 @@ export const Header = ({
       </Hamburger>
       <LogoWrapper>
         <Logo color="#6667ab" size="2rem" />
-        <Title>DOTORI</Title>
+        <Title>DOTORE</Title>
       </LogoWrapper>
       <RightWrapper>
         <MenuWrapper>

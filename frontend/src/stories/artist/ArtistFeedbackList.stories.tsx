@@ -1,6 +1,20 @@
-import React from "react";
-import styled from 'styled-components';
-import { ArtistFeedbackList, IFeedback } from "../../stories/artist/ArtistFeedbackList";
+import React from 'react';
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+
+import { ArtistFeedbackList, IFeedback } from './ArtistFeedbackList';
+
+// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+export default {
+  title: 'Artist/ArtistFeedbackList',
+  component: ArtistFeedbackList,
+  // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
+  argTypes: {
+    backgroundColor: { control: 'color' },
+  },
+} as ComponentMeta<typeof ArtistFeedbackList>;
+
+// More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
+const Template: ComponentStory<typeof ArtistFeedbackList> = (args) => <ArtistFeedbackList {...args} />;
 
 const feedbackList: IFeedback[] = [
   { 
@@ -41,24 +55,9 @@ const feedbackList: IFeedback[] = [
   },
 ]
 
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  padding: 5rem 0;
-  justify-content: center;
-  @media screen and (max-width: 768px) {
-    padding: 2rem 0;
-  }
-`;
 
-const FeedbackList = () => {
-  return (
-    <Container>
-      <ArtistFeedbackList
-        feedbackList={feedbackList}
-      ></ArtistFeedbackList>
-    </Container>
-  );
+export const Primary = Template.bind({});
+// More on args: https://storybook.js.org/docs/react/writing-stories/args
+Primary.args = {
+  feedbackList: feedbackList,
 };
-
-export default FeedbackList;

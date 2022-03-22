@@ -7,6 +7,7 @@ import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemRelationRes;
+import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Download;
@@ -173,5 +174,15 @@ public class ItemController {
             return ResponseEntity.status(409).body(ItemButtonRes.of("이미 다운로드한 적이 있습니다.", count));
         }
         return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
+    })
+    public ResponseEntity<ItemsRes> getAllItems() {
+        ItemsRes itemsRes=itemService.getAll();
+        return ResponseEntity.status(200).body(itemsRes);
     }
 }

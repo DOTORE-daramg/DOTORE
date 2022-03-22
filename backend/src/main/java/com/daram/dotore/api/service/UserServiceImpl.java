@@ -1,10 +1,8 @@
 package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.DescUpdateReq;
-import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.request.ProfileUpdateReq;
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Users;
 import com.daram.dotore.db.repository.UserRepository;
 import java.util.Optional;
