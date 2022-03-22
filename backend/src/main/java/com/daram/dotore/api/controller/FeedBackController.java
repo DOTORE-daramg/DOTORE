@@ -1,18 +1,12 @@
 package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.response.FeedbackListRes;
-import com.daram.dotore.api.response.ItemDetailRes;
-import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.api.service.FeedbackService;
-import com.daram.dotore.db.entity.Feedback;
-import com.daram.dotore.db.entity.Items;
-import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.math.BigInteger;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -25,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "피드백 API")
 @RestController
 @RequestMapping("/api/feedbacks")
-public class FeedController {
+public class FeedBackController {
 
     @Autowired
     FeedbackService feedbackService;
