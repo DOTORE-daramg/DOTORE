@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackVO;
 import com.daram.dotore.db.entity.Feedback;
@@ -9,6 +10,7 @@ import com.daram.dotore.db.repository.AnswerRepository;
 import com.daram.dotore.db.repository.FeedbackRepository;
 import com.daram.dotore.db.repository.UserRepository;
 import java.math.BigInteger;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -66,5 +68,17 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public List<Feedback> getRespondentList(String address) {
         return feedbackRepository.getRespondentList(address);
+    }
+
+    @Override
+    public Feedback saveNewFeedback(FeedbackReq feedbackReq) {
+        return feedbackRepository.save(Feedback.builder()
+            .tokenId(feedbackReq.getTokenId())
+            .address(feedbackReq.getQuestioner())
+            .respondent(feedbackReq.getRespondent())
+            .description(feedbackReq.getDescription())
+            .created_at(LocalDateTime.now())
+            .imgUrl(feedbackReq.getImg_url())
+            .build());
     }
 }

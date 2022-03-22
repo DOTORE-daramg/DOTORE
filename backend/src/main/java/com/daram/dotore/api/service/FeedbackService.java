@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.db.entity.Feedback;
 import java.math.BigInteger;
@@ -18,4 +19,6 @@ public interface FeedbackService {
     FeedbackListRes getFeedbacks(BigInteger tokenId);
 
     List<Feedback> getRespondentList(String address);
+
+    Feedback saveNewFeedback(FeedbackReq feedbackReq) throws Exception;
 }
