@@ -40,7 +40,7 @@ public class ItemListRes extends BaseRes {
                         list.get(i).getItem_description(),
                         list.get(i).getCreated_at(),
                         list.get(i).getOwner_address(),
-                        list.get(i).getIs_first()
+                        list.get(i).getIsFirst()
                 ));
         }
         return res;

@@ -210,7 +210,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemsRes getFirst() {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items = itemRepository.findByIsFirst(true);
-        if (items == null) {
+        if (items.isEmpty()) {
             return null;
         }
         Users user;
@@ -231,7 +231,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemsRes getSecond() {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items = itemRepository.findByIsFirst(false);
-        if (items == null) {
+        if (items.isEmpty()) {
             return null;
         }
         Users user;
@@ -252,7 +252,8 @@ public class ItemServiceImpl implements ItemService {
     public ItemsRes getSale() {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items = itemRepository.findByOnSaleYn(true);
-        if (items == null) {
+
+        if (items.isEmpty()) {
             return null;
         }
         Users user;
@@ -260,8 +261,8 @@ public class ItemServiceImpl implements ItemService {
         int like;
         String[] tags;
         String price;
-
         for (Items item : items) {
+
             user = userService.getUserByAddress(item.getOwner_address());
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());
