@@ -1,13 +1,13 @@
 package com.daram.dotore.api.controller;
 
-import com.daram.dotore.api.request.DescUpdateReq;
-import com.daram.dotore.api.request.ItemUpdateReq;
-import com.daram.dotore.api.request.NicknameUpdateReq;
-import com.daram.dotore.api.request.ProfileUpdateReq;
+import com.daram.dotore.api.request.*;
 import com.daram.dotore.api.response.*;
+import com.daram.dotore.api.service.FeedbackService;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
+import com.daram.dotore.db.entity.Feedback;
 import com.daram.dotore.db.entity.Items;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -33,6 +34,9 @@ public class MypageController {
 
     @Autowired
     ItemService itemService;
+
+    @Autowired
+    FeedbackService feedbackService;
 
     @GetMapping("/{address}")
     @ApiOperation(value = "마이페이지", notes = "마이페이지에서 회원 정보 가져오기")
@@ -132,4 +136,69 @@ public class MypageController {
         }
     }
 
+    @PostMapping("/response/{address}")
+    @ApiOperation(value = "받은 피드백 목록 조회", notes = "받은 피드백 목록 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<responseFeedbackRes> responseFeedbackList(@PathVariable String address) {
+        try {
+            //address가 요청 받은 피드백 목록 받아오기
+            List<Feedback> list = feedbackService.getRespondentList(address);
+            List<Items> list2 = itemService.getItemList(address);
+            //answer테이블에 articleno가 있는 로우가 있는지 판별해서 넘겨주기(있으면 T,없으면 F)
+            //boolean YN = userService.get 카운트 조회해서 0이면 F 1이상이면 T
+            
+            //address랑 respondent비교해서 출력
+            
+            List<Boolean> booleanList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                int articleNo = list.get(i).getArticleno();
+                int temp = feedbackService.getCount(articleNo);
+                if(temp == 0){//articleno가 0이면 해당 글에 대한 답변이 없는 상황
+                    booleanList.add(Boolean.FALSE);
+                }else{//articleno가 0이 아니라면 해당 글에 대한 답변이 하나라도 있는 상황
+                    booleanList.add(Boolean.TRUE);
+                }
+            }
+            return ResponseEntity.status(200).body(responseFeedbackRes.of("Success", list,list2,booleanList));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(responseFeedbackRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @PostMapping("/request/{address}")
+    @ApiOperation(value = "요청한 피드백 목록 조회", notes = "요청한 피드백 목록 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = requestFeedbackRes.class),
+    })
+    public ResponseEntity<requestFeedbackRes> requestFeedbackList(@PathVariable String address) {
+        try {
+            //address를 통해서 feedback테이블의 로우 받아오기
+            List<Feedback> list = feedbackService.getResponseFeedbackList(address);
+            //list의 tokenId를 바탕으로 item_title구하기 > list2에 저장
+            List<Items> list2 = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                BigInteger tokenId = list.get(i).getTokenId();
+                Items item = itemService.getItemByTokenId(tokenId);
+                list2.add(item);
+            }
+
+            List<Boolean> booleanList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                int articleNo = list.get(i).getArticleno();
+                int temp = feedbackService.getCount(articleNo);
+                if(temp == 0){//articleno가 0이면 해당 글에 대한 답변이 없는 상황
+                    booleanList.add(Boolean.FALSE);
+                }else{//articleno가 0이 아니라면 해당 글에 대한 답변이 하나라도 있는 상황
+                    booleanList.add(Boolean.TRUE);
+                }
+            }
+            return ResponseEntity.status(200).body(requestFeedbackRes.of("Success", list,list2,booleanList));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(requestFeedbackRes.of("존재하지 않는 token_id"));
+        }
+    }
 }
