@@ -2,8 +2,8 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackVO;
-import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
+import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Users;
 import com.daram.dotore.db.repository.AnswerRepository;
 import com.daram.dotore.db.repository.FeedbackRepository;
@@ -45,6 +45,26 @@ public class FeedbackServiceImpl implements FeedbackService {
             list.add(new FeedbackVO(feedback.getArticleno(), feedback.getAddress(),
                 feedback.getDescription(), yn, nickname));
         }
-        return FeedbackListRes.of("Success",list);
+        return FeedbackListRes.of("Success", list);
+    }
+
+    @Override
+    public List<Feedback> getResponseFeedbackList(String address) {
+        return feedbackRepository.findByAddress(address);
+    }
+
+    @Override
+    public Integer getCount(int articleNo) {
+        return answerRepository.getCount(articleNo);
+    }
+
+    @Override
+    public Integer getRequestCount(String address) {
+        return answerRepository.getRequestCount(address);
+    }
+
+    @Override
+    public List<Feedback> getRespondentList(String address) {
+        return feedbackRepository.getRespondentList(address);
     }
 }

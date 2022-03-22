@@ -4,6 +4,7 @@ import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.db.entity.Users;
+import com.daram.dotore.db.repository.FeedbackRepository;
 import com.daram.dotore.db.repository.UserRepository;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    FeedbackRepository feedRepository;
 
     @Override
     public Users getUserByAddress(String address) {
@@ -57,7 +61,6 @@ public class UserServiceImpl implements UserService {
         Users user = getUserByAddress(profileUpdateReq.getAddress());
         return userRepository.save(user.setProfile_img_url(profileUpdateReq.getProfile_img_url()));
     }
-
     @Override
     public List<Users> getUsers() {
 

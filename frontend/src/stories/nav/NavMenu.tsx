@@ -64,7 +64,9 @@ export const NavMenu = ({ label, dropdown, ...props }: ButtonProps) => {
           {label}
           <DropDownContent>
             {dropdown &&
-              dropdown.map((menu) => <DropDownItem>{menu}</DropDownItem>)}
+              dropdown.map((menu, index) => (
+                <DropDownItem key={index}>{menu}</DropDownItem>
+              ))}
             {/* <DropDownItem>hi</DropDownItem> */}
           </DropDownContent>
         </Item>

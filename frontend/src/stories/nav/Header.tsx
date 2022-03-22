@@ -14,7 +14,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   color: #6667ab;
   background-color: rgba(102, 103, 171, 0.06);
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     padding: 2vh;
     justify-content: center;
   }
@@ -22,7 +22,7 @@ const Wrapper = styled.div`
 
 const Hamburger = styled.div`
   display: none;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
     left: 1rem;
@@ -41,14 +41,14 @@ const Title = styled.h1`
   margin: 6px 0 6px 10px;
   display: inline-block;
   vertical-align: top;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
 const RightWrapper = styled.div`
   display: flex;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -101,11 +101,21 @@ export const Header = ({
         </MenuWrapper>
         {isLoggedIn ? (
           <>
-            <Button width="6rem" onClick={onLogout} label="로그아웃" backgroundColor="#6667ab" />
+            <Button
+              width="6rem"
+              onClick={onLogout}
+              label="로그아웃"
+              backgroundColor="#6667ab"
+            />
           </>
         ) : (
           <>
-            <Button width="6rem" onClick={onLogin} label="로그인" backgroundColor="#6667ab" />
+            <Button
+              width="6rem"
+              onClick={onLogin}
+              label="로그인"
+              backgroundColor="#6667ab"
+            />
           </>
         )}
       </RightWrapper>

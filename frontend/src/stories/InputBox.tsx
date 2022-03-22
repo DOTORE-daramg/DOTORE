@@ -49,6 +49,7 @@ interface InputProps {
   icon?: IconDefinition,
   width: string,
   rows?: number,
+  maxLength?: number,
   onChange?: (event:any) => void,
 }
 
@@ -56,6 +57,7 @@ export const InputBox = ({
   placeholder,
   icon,
   width,
+  maxLength=100,
   onChange,
 }: InputProps) => {
   return (
@@ -65,6 +67,7 @@ export const InputBox = ({
         placeholder={placeholder}
         isPaddingStart={!!icon}
         onChange={onChange}
+        maxLength={maxLength}
       ></StyledInput>
     </InputDiv>
   );
@@ -74,6 +77,7 @@ export const TextAreaBox = ({
   placeholder,
   width,
   rows,
+  maxLength=100,
   onChange,
 }: InputProps) => {
   return (
@@ -82,6 +86,7 @@ export const TextAreaBox = ({
         placeholder={placeholder}
         rows={rows}
         onChange={onChange}
+        maxLength={maxLength}
       ></StyledTextArea>
     </InputDiv>
   );
