@@ -1,6 +1,6 @@
 import React from "react";
 import styled from 'styled-components';
-import { Editor, EditorState, RichUtils, DraftEditorCommand, AtomicBlockUtils, convertToRaw } from "draft-js";
+import { Editor, EditorState, RichUtils, DraftEditorCommand, AtomicBlockUtils, SelectionState } from "draft-js";
 import { mediaBlockRenderer } from './MediaBlock';
 import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
@@ -126,6 +126,31 @@ export const TextEditor = () => {
 
     return 'handled';
   }
+  // 이미지 드롭 다운
+  const handleDroppedFile = (selection: SelectionState, files: Array<Blob>) => {
+    if (!files) {
+      return 'not-handled';
+    }
+    const file = files[0];  // 파일 하나만.
+    if (file.type !== 'image/png' &&
+      file.type !== 'image/jpeg' &&
+      file.type !== 'image/gif') {
+      return 'not-handled';
+    }
+    console.log(file)
+    const reader = new FileReader();
+    reader.addEventListener('load', () => {
+      // Content state에 파일의 data를 담은 이미지 엔티티 생성.
+      const contentState = editorState.getCurrentContent();
+      const contentStateWithEntity = contentState.createEntity("image", "IMMUTABLE", { src: reader.result });
+      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+      setEditorState(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
+    }, false)
+    // 파일의 data를 읽어냄.
+    reader.readAsDataURL(file);
+
+    return 'handled';
+  }
 
   return (
     <Container>
@@ -145,6 +170,7 @@ export const TextEditor = () => {
           blockRendererFn={mediaBlockRenderer}
           placeholder="Write something!"
           handlePastedFiles={handlePastedFile}
+          handleDroppedFiles={handleDroppedFile}
         />
       </EditorContainer>
       <TextEditorFooter>
