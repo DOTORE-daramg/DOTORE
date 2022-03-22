@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ItemRelationVO {
 
-    BigInteger tokenId;
-    String item_hash;
+    private BigInteger tokenId;
+    private String item_hash;
 }

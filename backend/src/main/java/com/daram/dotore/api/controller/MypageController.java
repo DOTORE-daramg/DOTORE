@@ -1,7 +1,6 @@
 package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.DescUpdateReq;
-import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.*;
@@ -13,17 +12,14 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigInteger;
 import java.util.List;
 
 @CrossOrigin("*")
 @Api(value = "마이페이지 API")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/mypage")
 public class MypageController {
@@ -38,7 +34,7 @@ public class MypageController {
     @ApiOperation(value = "마이페이지", notes = "마이페이지에서 회원 정보 가져오기")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = UserRes.class),
-        @ApiResponse(code = 404, message = "존재하지 않는 address", response = BaseRes.class),
+        @ApiResponse(code = 404, message = "존재하지 않는 address", response = UserRes.class),
     })
     public ResponseEntity<UserRes> getUser(@PathVariable String address) {
         Users user = userService.getUserByAddress(address);
