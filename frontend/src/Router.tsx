@@ -21,7 +21,12 @@ import { useWeb3React } from "@web3-react/core";
 import { injected } from "./lib/connectors";
 import { getUserInfo, login } from "./api/user";
 import { useRecoilState } from "recoil";
-import { isLoggedInState, isLoggedInTypes, userInfoState, userInfoTypes } from '.';
+import {
+  isLoggedInState,
+  isLoggedInTypes,
+  userInfoState,
+  userInfoTypes,
+} from ".";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -35,8 +40,6 @@ const Container = styled.div`
   }
 `;
 
-
-
 const AppRouter = () => {
   const {
     connector,
@@ -48,7 +51,8 @@ const AppRouter = () => {
     activate,
     deactivate,
   } = useWeb3React();
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState<isLoggedInTypes>(isLoggedInState);
+  const [isLoggedIn, setIsLoggedIn] =
+    useRecoilState<isLoggedInTypes>(isLoggedInState);
   const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
 
   // 로그인 시나리오
@@ -100,7 +104,7 @@ const AppRouter = () => {
   const onLogout = () => {
     deactivate();
     setIsLoggedIn({
-      isLoggedIn: false
+      isLoggedIn: false,
     });
   };
 
