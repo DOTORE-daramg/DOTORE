@@ -21,9 +21,9 @@ const Info = ({ address, tokenId, standard }: InfoProps) => {
     <Container>
       <Title color="#6667ab" title="NFT 정보" />
       <InnerContainer>
-        <InfoItem title="거래 주소" content="0x48366...037453" />
-        <InfoItem title="토큰 ID" content="2" />
-        <InfoItem title="표준 토큰" content="ERC-721" />
+        <InfoItem title="거래 주소" content={address} />
+        <InfoItem title="토큰 ID" content={tokenId} />
+        <InfoItem title="표준 토큰" content={standard} />
       </InnerContainer>
     </Container>
   );

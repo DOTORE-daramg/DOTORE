@@ -9,8 +9,11 @@ import com.daram.dotore.db.entity.Users;
 import com.daram.dotore.db.repository.AnswerRepository;
 import com.daram.dotore.db.repository.FeedbackRepository;
 import com.daram.dotore.db.repository.UserRepository;
+<<<<<<< HEAD
 
 import java.math.BigInteger;
+=======
+>>>>>>> 4779687d5f7d72514d6f65d18aa236bc0802c0b8
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,4 +74,10 @@ public class UserServiceImpl implements UserService {
     public List<Feedback> getResponseFeedbackList(String address) {
         return feedRepository.findByAddress(address);
     }
+    @Override
+    public List<Users> getUsers() {
+
+        return userRepository.findAll();
+    }
+
 }
