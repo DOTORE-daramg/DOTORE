@@ -40,6 +40,8 @@ public interface ItemService {
 
     List<Items> getItemList(String address);
 
+    List<Items> getAuthorItemList(String address);
+
     ItemsRes getAll();
 
     ItemsRes getFirst();

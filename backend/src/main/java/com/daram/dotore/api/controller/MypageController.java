@@ -115,4 +115,21 @@ public class MypageController {
         }
     }
 
+    @GetMapping("/author/{address}")
+    @ApiOperation(value = "특정 주소가 창작한 작품 목록 조회", notes = "특정 주소가 창작한 작품 목록 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = ItemAuthorListRes.class),
+    })
+    public ResponseEntity<ItemAuthorListRes> getAuthorItemList(@PathVariable String address) {
+        try {
+            List<Items> list = itemService.getAuthorItemList(address);
+            Users user = userService.getUserByAddress(address);
+            //String nickname = user.getNickname();
+            return ResponseEntity.status(200).body(ItemAuthorListRes.of("Success", list));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(ItemAuthorListRes.of("존재하지 않는 token_id"));
+        }
+    }
+
 }

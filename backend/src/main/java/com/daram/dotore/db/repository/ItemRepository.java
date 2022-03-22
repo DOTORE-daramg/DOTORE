@@ -28,4 +28,9 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
             + "FROM Items "
             + "WHERE owner_address = :address", nativeQuery = true)
     List<Items> getItemList(@Param("address") String address);
+
+    @Query(value = "SELECT * "
+            + "FROM Items "
+            + "WHERE author_address = :address", nativeQuery = true)
+    List<Items> getAuthorItemList(@Param("address") String address);
 }

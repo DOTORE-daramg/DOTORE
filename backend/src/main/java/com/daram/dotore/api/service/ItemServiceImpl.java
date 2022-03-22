@@ -177,6 +177,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public List<Items> getAuthorItemList(String address) {
+        return itemRepository.getAuthorItemList(address);
+    }
+
+    @Override
     public ItemsRes getAll() {
         List<ItemDetailRes> list=new ArrayList<>();
         List<Items> items=itemRepository.findAll();
