@@ -123,7 +123,7 @@ public class MypageController {
     public ResponseEntity<ItemAuthorListRes> getAuthorItemList(@PathVariable String address) {
         try {
             List<Items> list = itemService.getAuthorItemList(address);
-            //Users user = userService.getUserByAddress(address);
+            Users user = userService.getUserByAddress(address);
             //String nickname = user.getNickname();
             return ResponseEntity.status(200).body(ItemAuthorListRes.of("Success", list));
         } catch (Exception e) {
