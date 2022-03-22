@@ -177,10 +177,11 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-<<<<<<< HEAD
     public List<Items> getAuthorItemList(String address) {
         return itemRepository.getAuthorItemList(address);
-=======
+    }
+
+    @Override
     public ItemsRes getAll() {
         List<ItemDetailRes> list=new ArrayList<>();
         List<Items> items=itemRepository.findAll();
@@ -196,6 +197,5 @@ public class ItemServiceImpl implements ItemService {
             list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
         }
         return ItemsRes.of("Success",list);
->>>>>>> 3e58c7df4254f190f32005663f9559ef04b75d46
     }
 }
