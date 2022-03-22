@@ -19,7 +19,6 @@ const Artist = () => {
         profileAddress={userInfo.address}
         profileDescription={userInfo.description}
         profileDotoriAmount={`${userInfo.acorn}`}
-        size='10rem'
       ></ProfileBanner>
       <ArtistNav></ArtistNav>
       <Outlet />

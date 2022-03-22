@@ -4,17 +4,12 @@ import { ProfileImg } from '../profile/ProfileImg';
 import dicon from '../assets/mypage/default-dotori-icon.png';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { useMediaQuery } from 'react-responsive';
 
 // Banner Container ============================================
 const BannerContainer = styled.div`
-  /* width: 1440px; */
-  /* height: 100%; */
-  /* position: absolute; */
   width: 100%;
-  /* height: 353px; 353-59 = 294 */
-  height: 294px;
-  /* left: 0px;
-  top: 92px; */
+  height: 18rem;
   background: rgba(102, 103, 171, 0.1);
   display: flex;
   justify-content: center;
@@ -22,16 +17,30 @@ const BannerContainer = styled.div`
 
 // Profile Container ============================================
 const ProfileContainer = styled.div`
+  width: 45rem;
   display: flex;
   height: 100%;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 35rem;
+  }
+  @media screen and (max-width: 500px) {
+    width: 24rem;
+    flex-direction: column;
+    gap: 1rem;
+  }
 `;
 
 // Profile Container - ImgContainer =================
 const ProfileImgContainer = styled.div`
   display: flex;
   /* margin: 16px; */
-  margin-right: 62px;
+  margin-right: 4rem;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+    margin-right: 0;
+    justify-content: center;
+  }
 `;
 
 // Profile Container - DescriptionContainer =========
@@ -45,17 +54,20 @@ const ProfileDescriptionContainerTop = styled.div`
   cursor: pointer;
   svg {
       color: #959595;
-      margin-left: 12px;
+      margin-left: 1rem;
   }
 `;
 const ProfileNickname = styled.span`
-  font-size: 20px;
+  font-size: 1.4rem;
   color: #000000;
   font-weight: 700;
-  margin-right: 22px;
+  margin-right: 1.5rem;
+  @media screen and (max-width: 500px) {
+    font-size: 1.2rem;
+  }
 `;
 const ProfileLevel = styled.span`
-  font-size: 14px;
+  font-size: 0.8rem;
   color: #4B4B4B;
   font-weight: 400;
 `;
@@ -64,28 +76,39 @@ const ProfileDescriptionContainerBottom = styled.div`
   flex-direction: column;
 `;
 const ProfileAddress = styled.span`
-  font-size: 14px;
+  font-size: 0.8rem;
   color: #959595;
   font-weight: 500;
-  margin-top: 16px;
+  margin-top: 1rem;
 `;
 const ProfileDescription = styled.span`
-  font-size: 16px;
+  font-size: 1rem;
   color: #4B4B4B;
   font-weight: 500;
-  margin-top: 16px;
+  margin-top: 1rem;
+  @media screen and (max-width: 500px) {
+    font-size: 0.9rem;
+  }
 `;
 const ProfileDotoriAmount = styled.div`
-  font-size: 16px;
+  font-size: 1rem;
   color: #515151;
   font-weight: 600;
-  margin-top: 16px;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   img {
-    width: 22px;
-    height: 26px;
+    width: 1.4rem;
+    height: 1.6rem;
     margin-right: 3px;
+  }
+  @media screen and (max-width: 500px) {
+    font-size: 0.9rem;
+    img {
+      width: 1.2rem;
+      height: 1.4rem;
+      margin-right: 3px;
+    }
   }
 `;
 
@@ -96,7 +119,6 @@ export interface ProfileBannerProps {
   profileAddress: string;
   profileDescription: string;
   profileDotoriAmount: string;
-  size: string;
   onClick?: () => void;
 }
 
@@ -107,14 +129,18 @@ export const ProfileBanner = ({
   profileAddress,
   profileDescription,
   profileDotoriAmount,
-  size,
   ...props
 }: ProfileBannerProps) => {
+  const isMobile = useMediaQuery({ maxWidth: 500 });
+  console.log(isMobile)
   return (
     <BannerContainer>
       <ProfileContainer>
         <ProfileImgContainer>
-          <ProfileImg size={size} profileImgUrl={profileImgUrl} />
+          <ProfileImg
+            size={isMobile ? "8rem" : "10rem"}
+            profileImgUrl={profileImgUrl}
+          />
         </ProfileImgContainer>
         <ProfileDescriptionContainer>
           <ProfileDescriptionContainerTop>
