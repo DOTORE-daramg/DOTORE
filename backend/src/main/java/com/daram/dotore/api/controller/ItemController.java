@@ -180,9 +180,13 @@ public class ItemController {
     @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
     @ApiResponses({
         @ApiResponse(code = 200, message = "작품 전체 조회 성공", response = ItemsRes.class),
+        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
     })
     public ResponseEntity<ItemsRes> getAllItems() {
         ItemsRes itemsRes=itemService.getAll();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
         return ResponseEntity.status(200).body(itemsRes);
     }
 
@@ -193,6 +197,9 @@ public class ItemController {
     })
     public ResponseEntity<ItemsRes> getFirstItems() {
         ItemsRes itemsRes=itemService.getFirst();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
         return ResponseEntity.status(200).body(itemsRes);
     }
 
@@ -203,6 +210,9 @@ public class ItemController {
     })
     public ResponseEntity<ItemsRes> getSecondItems() {
         ItemsRes itemsRes=itemService.getSecond();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
         return ResponseEntity.status(200).body(itemsRes);
     }
 
@@ -213,6 +223,9 @@ public class ItemController {
     })
     public ResponseEntity<ItemsRes> getSaleItems() {
         ItemsRes itemsRes=itemService.getSale();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
         return ResponseEntity.status(200).body(itemsRes);
     }
 }
