@@ -37,4 +37,6 @@ public interface ItemService {
     List<Items> getFirst(BigInteger original);
 
     List<Items> getItemList(String address);
+
+    List<Items> getAuthorItemList(String address);
 }
