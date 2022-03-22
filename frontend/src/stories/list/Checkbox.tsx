@@ -3,12 +3,11 @@ import styled from "styled-components";
 
 const Container = styled.div<{ width: string }>`
   display: flex;
-  width: ${(props) => (props.width ? props.width : "7rem")};
+  /* width: ${(props) => (props.width ? props.width : "7rem")}; */
   justify-content: flex-start;
   align-items: center;
   @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
-    width: ${(props) => (props.width ? props.width : "9rem")};
+    font-size: 1rem;
   }
 `;
 
@@ -38,7 +37,7 @@ interface CheckboxProps {
 const Name = styled.div`
   margin-left: 5px;
 `;
-const Checkbox = ({ label, width = "10rem" }: CheckboxProps) => {
+const Checkbox = ({ label, width = "9rem" }: CheckboxProps) => {
   return (
     <Container width={width}>
       <NoneCheckbox id={label} type="checkbox" />

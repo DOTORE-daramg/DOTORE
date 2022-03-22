@@ -6,7 +6,7 @@ const Container = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 30px;
   }
   ul {
     list-style: none;
