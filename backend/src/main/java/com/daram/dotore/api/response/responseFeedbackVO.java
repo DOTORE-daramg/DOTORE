@@ -17,4 +17,5 @@ public class responseFeedbackVO {
     String description;
     boolean YN;
     LocalDateTime created_at;
+    BigInteger tokenId;
 }

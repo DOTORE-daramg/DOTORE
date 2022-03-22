@@ -35,7 +35,8 @@ public class responseFeedbackRes extends BaseRes {
                     list.get(i).getAddress(),
                     list.get(i).getDescription(),
                     booleanList.get(i),
-                    list.get(i).getCreated_at()
+                    list.get(i).getCreated_at(),
+                    list.get(i).getTokenId()
                 ));
         }
         return res;
