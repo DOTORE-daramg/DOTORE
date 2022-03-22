@@ -12,15 +12,12 @@ import lombok.Setter;
 @ApiModel("UserListResponse")
 public class UserListRes extends BaseRes {
 
-    List<UserListVo> data=new ArrayList<>();
+    List<Users> data=new ArrayList<>();
 
     public static UserListRes of(String result, List<Users> list) {
         UserListRes res = new UserListRes();
         res.setResult(result);
-        for (int i = 0; i < list.size(); i++) {
-            res.getData().add(new UserListVo(list.get(i).getAddress(), list.get(i).getNickname(),
-                list.get(i).getAcorn(), list.get(i).getProfile_img_url()));
-        }
+        res.setData(list);
         return res;
     }
 }
