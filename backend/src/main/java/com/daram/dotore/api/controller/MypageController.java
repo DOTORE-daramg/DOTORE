@@ -164,4 +164,38 @@ public class MypageController {
             return ResponseEntity.status(404).body(responseFeedbackRes.of("존재하지 않는 token_id"));
         }
     }
+
+    @PostMapping("/request")
+    @ApiOperation(value = "요청한 피드백 목록 조회", notes = "요청한 피드백 목록 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = requestFeedbackRes.class),
+    })
+    public ResponseEntity<requestFeedbackRes> requestFeedbackList(@RequestBody String address) {
+        try {
+            //address를 통해서 feedback테이블의 로우 받아오기
+            List<Feedback> list = feedbackService.getResponseFeedbackList(address);
+            //list의 tokenId를 바탕으로 item_title구하기 > list2에 저장
+            List<Items> list2 = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                BigInteger tokenId = list.get(i).getTokenId();
+                Items item = itemService.getItemByTokenId(tokenId);
+                list2.add(item);
+            }
+
+            List<Boolean> booleanList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                int articleNo = list.get(i).getArticleno();
+                int temp = feedbackService.getCount(articleNo);
+                if(temp == 0){//articleno가 0이면 해당 글에 대한 답변이 없는 상황
+                    booleanList.add(Boolean.FALSE);
+                }else{//articleno가 0이 아니라면 해당 글에 대한 답변이 하나라도 있는 상황
+                    booleanList.add(Boolean.TRUE);
+                }
+            }
+            return ResponseEntity.status(200).body(requestFeedbackRes.of("Success", list,list2,booleanList));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(requestFeedbackRes.of("존재하지 않는 token_id"));
+        }
+    }
 }

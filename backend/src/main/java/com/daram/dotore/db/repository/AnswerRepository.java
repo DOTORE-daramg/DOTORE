@@ -16,4 +16,9 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
             + "FROM answer "
             + "WHERE articleno = :articleNo", nativeQuery = true)
     Integer getCount(@Param("articleNo") int articleNo);
+
+    @Query(value = "SELECT COUNT(*) "
+            + "FROM feedback "
+            + "WHERE address = :address", nativeQuery = true)
+    Integer getRequestCount(@Param("address") String address);
 }

@@ -8,4 +8,6 @@ public interface FeedbackService {
     List<Feedback> getResponseFeedbackList(String address);
 
     Integer getCount(int articleNo);
+
+    Integer getRequestCount(String address);
 }

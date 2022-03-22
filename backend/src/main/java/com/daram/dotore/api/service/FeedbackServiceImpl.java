@@ -28,4 +28,9 @@ public class FeedbackServiceImpl implements FeedbackService{
         return answerRepository.getCount(articleNo);
     }
 
+    @Override
+    public Integer getRequestCount(String address) {
+        return answerRepository.getRequestCount(address);
+    }
+
 }
