@@ -45,4 +45,6 @@ public interface ItemService {
     ItemsRes getFirst();
 
     ItemsRes getSecond();
+
+    ItemsRes getSale();
 }

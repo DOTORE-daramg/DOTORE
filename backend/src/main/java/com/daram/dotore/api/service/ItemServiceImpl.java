@@ -13,6 +13,7 @@ import com.daram.dotore.db.entity.Users;
 import com.daram.dotore.db.repository.DownloadRepository;
 import com.daram.dotore.db.repository.ItemRepository;
 import com.daram.dotore.db.repository.LikeRepository;
+import com.daram.dotore.db.repository.SaleRepository;
 import com.daram.dotore.db.repository.SecondaryRepository;
 import com.daram.dotore.db.repository.TagRepository;
 import java.math.BigInteger;
@@ -40,6 +41,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     DownloadRepository downloadRepository;
+
+    @Autowired
+    SaleRepository saleRepository;
 
     @Autowired
     UserService userService;
@@ -178,58 +182,88 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public ItemsRes getAll() {
-        List<ItemDetailRes> list=new ArrayList<>();
-        List<Items> items=itemRepository.findAll();
-        if(items==null) return null;
-        Users user;
-        int download=0;
-        int like=0;
-        String[] tags=new String[items.size()];
-        for(Items item: items){
-            user=userService.getUserByAddress(item.getOwner_address());
-            download=downloadRepository.countByTokenId(item.getTokenId());
-            like=likeRepository.countByTokenId(item.getTokenId());
-            tags=getTags(item.getTokenId());
-            list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
+        List<ItemDetailRes> list = new ArrayList<>();
+        List<Items> items = itemRepository.findAll();
+        if (items == null) {
+            return null;
         }
-        return ItemsRes.of("작품 전체 조회 성공",list);
+        Users user;
+        int download = 0;
+        int like = 0;
+        String[] tags = new String[items.size()];
+        for (Items item : items) {
+            user = userService.getUserByAddress(item.getOwner_address());
+            download = downloadRepository.countByTokenId(item.getTokenId());
+            like = likeRepository.countByTokenId(item.getTokenId());
+            tags = getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
+        }
+        return ItemsRes.of("작품 전체 조회 성공", list);
     }
 
     @Override
     public ItemsRes getFirst() {
-        List<ItemDetailRes> list=new ArrayList<>();
-        List<Items> items=itemRepository.findByIsFirst(true);
-        if(items==null) return null;
+        List<ItemDetailRes> list = new ArrayList<>();
+        List<Items> items = itemRepository.findByIsFirst(true);
+        if (items == null) {
+            return null;
+        }
         Users user;
         int download;
         int like;
         String[] tags;
-        for(Items item: items){
-            user=userService.getUserByAddress(item.getOwner_address());
-            download=downloadRepository.countByTokenId(item.getTokenId());
-            like=likeRepository.countByTokenId(item.getTokenId());
-            tags=getTags(item.getTokenId());
-            list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
+        for (Items item : items) {
+            user = userService.getUserByAddress(item.getOwner_address());
+            download = downloadRepository.countByTokenId(item.getTokenId());
+            like = likeRepository.countByTokenId(item.getTokenId());
+            tags = getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
         }
-        return ItemsRes.of("1차 창작물 조회 성공",list);
+        return ItemsRes.of("1차 창작물 조회 성공", list);
     }
 
     @Override
     public ItemsRes getSecond() {
-        List<ItemDetailRes> list=new ArrayList<>();
-        List<Items> items=itemRepository.findByIsFirst(false);
-        if(items==null) return null;
+        List<ItemDetailRes> list = new ArrayList<>();
+        List<Items> items = itemRepository.findByIsFirst(false);
+        if (items == null) {
+            return null;
+        }
         Users user;
         int download;
         int like;
         String[] tags;
-        for(Items item: items){
-            user=userService.getUserByAddress(item.getOwner_address());
-            download=downloadRepository.countByTokenId(item.getTokenId());
-            like=likeRepository.countByTokenId(item.getTokenId());
-            tags=getTags(item.getTokenId());
-            list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
+        for (Items item : items) {
+            user = userService.getUserByAddress(item.getOwner_address());
+            download = downloadRepository.countByTokenId(item.getTokenId());
+            like = likeRepository.countByTokenId(item.getTokenId());
+            tags = getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
         }
-        return ItemsRes.of("2차 창작물 조회 성공",list);
+        return ItemsRes.of("2차 창작물 조회 성공", list);
+    }
+
+    @Override
+    public ItemsRes getSale() {
+        List<ItemDetailRes> list = new ArrayList<>();
+        List<Items> items = itemRepository.findByOnSaleYn(true);
+        if (items == null) {
+            return null;
+        }
+        Users user;
+        int download;
+        int like;
+        String[] tags;
+        String price;
+
+        for (Items item : items) {
+            user = userService.getUserByAddress(item.getOwner_address());
+            download = downloadRepository.countByTokenId(item.getTokenId());
+            like = likeRepository.countByTokenId(item.getTokenId());
+            tags = getTags(item.getTokenId());
+            price=saleRepository.findByTokenIdAndSaleYn(item.getTokenId(),false).get().getPrice();
+            list.add(ItemDetailRes.of("Item", item, user, download, like, tags, price));
+        }
+        return ItemsRes.of("판매중인 작품 조회 성공", list);
     }
 }

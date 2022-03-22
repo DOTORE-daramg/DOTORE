@@ -44,7 +44,7 @@ public class Items {
     String owner_address;
 
     @NotNull
-    Boolean on_sale_yn;
+    Boolean onSaleYn;
 
     @NotNull
     @Column(name = "is_first")
@@ -65,7 +65,7 @@ public class Items {
         this.created_at = created_at;
         this.author_address = author_address;
         this.owner_address = owner_address;
-        this.on_sale_yn = on_sale_yn;
+        this.onSaleYn = on_sale_yn;
         this.isFirst = is_first;
         this.format=format;
     }
