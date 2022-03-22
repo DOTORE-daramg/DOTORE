@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.math.BigInteger;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @Api(value = "NFT 작품 관련 API")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {

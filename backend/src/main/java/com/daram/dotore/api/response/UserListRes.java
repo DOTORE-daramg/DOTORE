@@ -12,7 +12,7 @@ import lombok.Setter;
 @ApiModel("UserListResponse")
 public class UserListRes extends BaseRes {
 
-    List<Users> data=new ArrayList<>();
+    private List<Users> data=new ArrayList<>();
 
     public static UserListRes of(String result, List<Users> list) {
         UserListRes res = new UserListRes();

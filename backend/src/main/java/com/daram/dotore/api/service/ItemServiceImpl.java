@@ -262,7 +262,6 @@ public class ItemServiceImpl implements ItemService {
         String[] tags;
         String price;
         for (Items item : items) {
-
             user = userService.getUserByAddress(item.getOwner_address());
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());

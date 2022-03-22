@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @Api(value = "유저 로그인 API")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
