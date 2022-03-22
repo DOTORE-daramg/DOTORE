@@ -1,13 +1,12 @@
 package com.daram.dotore.api.controller;
 
-import com.daram.dotore.api.request.DescUpdateReq;
-import com.daram.dotore.api.request.ItemUpdateReq;
-import com.daram.dotore.api.request.NicknameUpdateReq;
-import com.daram.dotore.api.request.ProfileUpdateReq;
+import com.daram.dotore.api.request.*;
 import com.daram.dotore.api.response.*;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
+import com.daram.dotore.db.entity.Feedback;
 import com.daram.dotore.db.entity.Items;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -132,4 +132,22 @@ public class MypageController {
         }
     }
 
+    @PostMapping("/response")
+    @ApiOperation(value = "받은 피드백 목록 조회", notes = "받은 피드백 목록 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
+    })
+    public ResponseEntity<responseFeedbackRes> responseFeedbackList(@RequestBody String address) {
+        try {
+            //address가 작성한 로우의 articleno목록 받아오기
+            List<Feedback> list = userService.getResponseFeedbackList(address);
+            List<Items> list2 = itemService.getItemList(address);
+            //answer테이블에 articleno가 있는 로우가 있는지 판별해서 넘겨주기(있으면 T,없으면 F)
+            //boolean YN = userService.get
+            return ResponseEntity.status(200).body(responseFeedbackRes.of("Success", list,list2));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(responseFeedbackRes.of("존재하지 않는 token_id"));
+        }
+    }
 }
