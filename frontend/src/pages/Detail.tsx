@@ -29,6 +29,7 @@ const TitleContainer = styled.div`
   justify-content: flex-start;
   padding-bottom: 30px;
   @media screen and (max-width: 768px) {
+    width: 300px;
     padding: 0 0 60px 0;
     justify-content: center;
   }
