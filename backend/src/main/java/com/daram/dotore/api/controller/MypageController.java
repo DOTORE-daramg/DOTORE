@@ -7,6 +7,7 @@ import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.*;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
+import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -95,6 +96,23 @@ public class MypageController {
         }
         userService.updateProfile(profileUpdateReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
+    }
+
+    @GetMapping("/owner/{address}")
+    @ApiOperation(value = "특정 주소가 보유한 작품 목록 조회", notes = "특정 주소가 보유한 작품 목록 조회")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = ItemListRes.class),
+    })
+    public ResponseEntity<ItemListRes> getItemList(@PathVariable String address) {
+        try {
+            List<Items> list = itemService.getItemList(address);
+            //Users user = userService.getUserByAddress(address);
+            //String nickname = user.getNickname();
+            return ResponseEntity.status(200).body(ItemListRes.of("Success", list));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(ItemListRes.of("존재하지 않는 token_id"));
+        }
     }
 
 }

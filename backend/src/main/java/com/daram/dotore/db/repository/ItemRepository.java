@@ -22,7 +22,7 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
         + "WHERE s.token_id = :tokenId", nativeQuery = true)
     List<Items> getFirst(@Param("tokenId") BigInteger tokenId);
 
-    @Query(value = "SELECT author_name, item_description, item_hash, item_title, owner_address, token_id, created_at "
+    @Query(value = "SELECT * "
             + "FROM Items "
             + "WHERE owner_address = :address", nativeQuery = true)
     List<Items> getItemList(@Param("address") String address);
