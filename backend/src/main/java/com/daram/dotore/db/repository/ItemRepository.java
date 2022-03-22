@@ -14,6 +14,8 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
 
     List<Items> findByIsFirst(boolean isFirst);
 
+    List<Items> findByOnSaleYn(boolean onSaleYn);
+
     @Query(value = "SELECT i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format "
         + "FROM Items i JOIN Secondary s ON i.token_id=s.token_id "
         + "WHERE s.original = :ori", nativeQuery = true)
