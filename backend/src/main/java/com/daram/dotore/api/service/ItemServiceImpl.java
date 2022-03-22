@@ -180,6 +180,7 @@ public class ItemServiceImpl implements ItemService {
     public ItemsRes getAll() {
         List<ItemDetailRes> list=new ArrayList<>();
         List<Items> items=itemRepository.findAll();
+        if(items==null) return null;
         Users user;
         int download=0;
         int like=0;
@@ -191,6 +192,44 @@ public class ItemServiceImpl implements ItemService {
             tags=getTags(item.getTokenId());
             list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
         }
-        return ItemsRes.of("Success",list);
+        return ItemsRes.of("작품 전체 조회 성공",list);
+    }
+
+    @Override
+    public ItemsRes getFirst() {
+        List<ItemDetailRes> list=new ArrayList<>();
+        List<Items> items=itemRepository.findByIsFirst(true);
+        if(items==null) return null;
+        Users user;
+        int download;
+        int like;
+        String[] tags;
+        for(Items item: items){
+            user=userService.getUserByAddress(item.getOwner_address());
+            download=downloadRepository.countByTokenId(item.getTokenId());
+            like=likeRepository.countByTokenId(item.getTokenId());
+            tags=getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
+        }
+        return ItemsRes.of("1차 창작물 조회 성공",list);
+    }
+
+    @Override
+    public ItemsRes getSecond() {
+        List<ItemDetailRes> list=new ArrayList<>();
+        List<Items> items=itemRepository.findByIsFirst(false);
+        if(items==null) return null;
+        Users user;
+        int download;
+        int like;
+        String[] tags;
+        for(Items item: items){
+            user=userService.getUserByAddress(item.getOwner_address());
+            download=downloadRepository.countByTokenId(item.getTokenId());
+            like=likeRepository.countByTokenId(item.getTokenId());
+            tags=getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item",item,user,download,like,tags));
+        }
+        return ItemsRes.of("2차 창작물 조회 성공",list);
     }
 }

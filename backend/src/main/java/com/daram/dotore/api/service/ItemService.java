@@ -41,4 +41,8 @@ public interface ItemService {
     List<Items> getItemList(String address);
 
     ItemsRes getAll();
+
+    ItemsRes getFirst();
+
+    ItemsRes getSecond();
 }

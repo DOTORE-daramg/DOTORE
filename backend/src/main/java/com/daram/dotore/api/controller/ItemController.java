@@ -107,7 +107,7 @@ public class ItemController {
         try {
             Items item = itemService.getItemByTokenId(tokenId);
             List<Items> list;
-            if (item.getIs_first()) {    // 1차
+            if (item.getIsFirst()) {    // 1차
                 list = itemService.getSecond(tokenId);
             } else {  // 2차
                 list = itemService.getFirst(tokenId);
@@ -179,10 +179,30 @@ public class ItemController {
     @GetMapping("/all")
     @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
+        @ApiResponse(code = 200, message = "작품 전체 조회 성공", response = ItemRelationRes.class),
     })
     public ResponseEntity<ItemsRes> getAllItems() {
         ItemsRes itemsRes=itemService.getAll();
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/first")
+    @ApiOperation(value = "1차 창작물 조회", notes = "모든 1차 창작물 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
+    })
+    public ResponseEntity<ItemsRes> getFirstItems() {
+        ItemsRes itemsRes=itemService.getFirst();
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/second")
+    @ApiOperation(value = "2차 창작물 조회", notes = "모든 2차 창작물 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
+    })
+    public ResponseEntity<ItemsRes> getSecondItems() {
+        ItemsRes itemsRes=itemService.getSecond();
         return ResponseEntity.status(200).body(itemsRes);
     }
 }
