@@ -40,9 +40,7 @@ public interface ItemService {
 
     List<Items> getItemList(String address);
 
-<<<<<<< HEAD
     List<Items> getAuthorItemList(String address);
-=======
+
     ItemsRes getAll();
->>>>>>> 3e58c7df4254f190f32005663f9559ef04b75d46
 }
