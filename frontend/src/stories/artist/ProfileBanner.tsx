@@ -1,9 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
+import { Icon } from '../common/Icon';
 import { ProfileImg } from '../profile/ProfileImg';
 import dicon from '../assets/mypage/default-dotori-icon.png';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { useMediaQuery } from 'react-responsive';
 
 // Banner Container ============================================
@@ -36,12 +35,15 @@ const ProfileImgContainer = styled.div`
   display: flex;
   /* margin: 16px; */
   margin-right: 4rem;
+  border-radius: 400px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
   @media screen and (max-width: 500px) {
-    width: 100%;
-    margin-right: 0;
+    /* width: 100%; */
+    margin: 1rem 0;
     justify-content: center;
   }
 `;
+
 
 // Profile Container - DescriptionContainer =========
 const ProfileDescriptionContainer = styled.div`
@@ -53,8 +55,7 @@ const ProfileDescriptionContainerTop = styled.div`
   align-items: center;
   cursor: pointer;
   svg {
-      color: #959595;
-      margin-left: 1rem;
+    margin-left: 1rem;
   }
 `;
 const ProfileNickname = styled.span`
@@ -119,7 +120,7 @@ export interface ProfileBannerProps {
   profileAddress: string;
   profileDescription: string;
   profileDotoriAmount: string;
-  onClick?: () => void;
+  onClickToggleModal?: () => void;
 }
 
 export const ProfileBanner = ({
@@ -129,10 +130,11 @@ export const ProfileBanner = ({
   profileAddress,
   profileDescription,
   profileDotoriAmount,
+  onClickToggleModal,
   ...props
 }: ProfileBannerProps) => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
-  console.log(isMobile)
+  
   return (
     <BannerContainer>
       <ProfileContainer>
@@ -146,7 +148,9 @@ export const ProfileBanner = ({
           <ProfileDescriptionContainerTop>
             <ProfileNickname>{profileNickname}</ProfileNickname>
             <ProfileLevel>{profileLevel}</ProfileLevel>
-            <FontAwesomeIcon icon={faPencil} />
+            <div onClick={onClickToggleModal}>
+              <Icon style='fas' icon='pencil' color='#959595'></Icon>
+            </div>
           </ProfileDescriptionContainerTop>
           <ProfileDescriptionContainerBottom>
             <ProfileAddress>{profileAddress}</ProfileAddress>

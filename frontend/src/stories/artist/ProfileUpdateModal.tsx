@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
+import { userInfoTypes } from '../..';
 import { useMediaQuery } from "react-responsive";
 import { ProfileImg } from '../profile/ProfileImg';
 import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
 
-const Section = styled.div``;
+const Section = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+`;
 const ModalContainer = styled.div`
   /* display: grid; */
   /* width: 100%; */
@@ -15,12 +22,14 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow: hidden;
 
-  position: relative;
+  position: fixed;
   width: 32rem;
   background: #ffffff;
   box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1), 0px 20px 50px rgba(32, 37, 38, 0.1);
   border-radius: 6px;
+  z-index: 10000;
   @media screen and (max-width: 768px){
     width: 28rem;
   }
@@ -56,6 +65,11 @@ const ModalHeader = styled.div`
     font-size: 1.5rem;
   }
 `;
+
+const IconContainer = styled.div`
+  cursor: pointer;
+`;
+
 const ModalBorder = styled.div`
   /* border */
   height: 2px;
@@ -77,8 +91,6 @@ const ModalBody = styled.div`
   align-items: center;
   width: 100%;
   padding: 2rem 1rem;
-  left: 30px;
-  top: 81px;
   /* Inside auto layout */
   flex: none;
   order: 2;
@@ -104,6 +116,11 @@ const ModalBody = styled.div`
   @media screen and (max-width: 768px){
     padding: 1rem;
   }
+`;
+
+const ProfileImgContainer = styled.div`
+  border-radius: 400px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
 `;
 
 const ModalInputBoxContainer = styled.div`
@@ -141,25 +158,33 @@ const ModalFooter = styled.div`
   }
 `;
 
+const Backdrop = styled.div`
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.2);
+`;
+
 export interface ProfileUpdateModalProps {
-  icon?: string;
-  title?: string;
-  userInfo: IUserInfo;
+  userInfo: userInfoTypes;
   onClose?: () => void;
   onValidate?: () => void;
+  onClickToggleModal: () => void;
 }
 
-interface IUserInfo {
-  nickname: string,
-  profileImgUrl: string,
-  description: string,
-}
+// interface IUserInfo {
+//   nickname: string,
+//   profileImgUrl: string,
+//   description: string,
+// }
 
 export const ProfileUpdateModal = ({
-  title,
   userInfo,
   onClose,
   onValidate,
+  onClickToggleModal,
   ...props
 }: ProfileUpdateModalProps) => {
   const isMoblie = useMediaQuery({ maxWidth: 500 });
@@ -167,21 +192,27 @@ export const ProfileUpdateModal = ({
   const imageSize = isMoblie ? "6rem"
     : isPc ? "10rem"
       : "7rem";
+  const onClickSaveButton = () => {
+    console.log('save!');
+    onClickToggleModal()
+  }
   return (
     <Section>
       <ModalContainer>
         <ModalHeader>
-          <h3>{title}</h3>
-          <Icon style="fas" icon="xmark" color="#9FABAE" />
+          <h3>내 정보 수정</h3>
+          <IconContainer onClick={onClickToggleModal}>
+            <Icon style="fas" icon="xmark" color="#9FABAE"/>
+          </IconContainer>
         </ModalHeader>
         <ModalBorder></ModalBorder>
         <ModalBody>
-          <div>
+          <ProfileImgContainer>
             <ProfileImg
-              profileImgUrl={userInfo.profileImgUrl}
+              profileImgUrl={userInfo.profile_img_url}
               size={imageSize}
             ></ProfileImg>
-          </div>
+          </ProfileImgContainer>
           <ModalInputBoxContainer>
             <InputBox placeholder="닉네임" width="100%" maxLength={10}></InputBox>
             <TextAreaBox placeholder="한 줄 소개" width="100%" rows={ 5 }></TextAreaBox>
@@ -193,15 +224,18 @@ export const ProfileUpdateModal = ({
               width={ isMoblie ? "4rem" : "6rem" }
               label="취소"
               backgroundColor="#a09fae"
+              onClick={onClickToggleModal}
             />
             <Button
               width={ isMoblie ? "4rem" : "6rem" }
               label="저장"
               backgroundColor="#6667AB"
+              onClick={onClickSaveButton}
             />
           </div>
         </ModalFooter>
       </ModalContainer>
+      <Backdrop onClick={onClickToggleModal}/>
     </Section>
   );
 };

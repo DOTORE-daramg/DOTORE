@@ -5,10 +5,6 @@ import { Icon } from "../common/Icon";
 
 const Section = styled.div``;
 const ModalContainer = styled.div`
-  /* display: grid; */
-  /* width: 100%; */
-  /* modal container */
-  /* Auto layout */
   display: flex;
   flex-direction: column;
   align-items: center;
