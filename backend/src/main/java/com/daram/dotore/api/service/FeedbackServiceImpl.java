@@ -33,4 +33,9 @@ public class FeedbackServiceImpl implements FeedbackService{
         return answerRepository.getRequestCount(address);
     }
 
+    @Override
+    public List<Feedback> getRespondentList(String address) {
+        return feedbackRepository.getRespondentList(address);
+    }
+
 }

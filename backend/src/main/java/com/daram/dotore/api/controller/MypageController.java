@@ -136,18 +136,21 @@ public class MypageController {
         }
     }
 
-    @PostMapping("/response")
+    @PostMapping("/response/{address}")
     @ApiOperation(value = "받은 피드백 목록 조회", notes = "받은 피드백 목록 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
     })
-    public ResponseEntity<responseFeedbackRes> responseFeedbackList(@RequestBody String address) {
+    public ResponseEntity<responseFeedbackRes> responseFeedbackList(@PathVariable String address) {
         try {
-            //address가 작성한 로우의 articleno목록 받아오기
-            List<Feedback> list = feedbackService.getResponseFeedbackList(address);
+            //address가 요청 받은 피드백 목록 받아오기
+            List<Feedback> list = feedbackService.getRespondentList(address);
             List<Items> list2 = itemService.getItemList(address);
             //answer테이블에 articleno가 있는 로우가 있는지 판별해서 넘겨주기(있으면 T,없으면 F)
             //boolean YN = userService.get 카운트 조회해서 0이면 F 1이상이면 T
+            
+            //address랑 respondent비교해서 출력
+            
             List<Boolean> booleanList = new ArrayList<>();
             for (int i = 0; i < list.size(); i++) {
                 int articleNo = list.get(i).getArticleno();
@@ -165,12 +168,12 @@ public class MypageController {
         }
     }
 
-    @PostMapping("/request")
+    @PostMapping("/request/{address}")
     @ApiOperation(value = "요청한 피드백 목록 조회", notes = "요청한 피드백 목록 조회")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = requestFeedbackRes.class),
     })
-    public ResponseEntity<requestFeedbackRes> requestFeedbackList(@RequestBody String address) {
+    public ResponseEntity<requestFeedbackRes> requestFeedbackList(@PathVariable String address) {
         try {
             //address를 통해서 feedback테이블의 로우 받아오기
             List<Feedback> list = feedbackService.getResponseFeedbackList(address);

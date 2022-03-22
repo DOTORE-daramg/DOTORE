@@ -12,4 +12,9 @@ import java.util.Optional;
 
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
     List<Feedback> findByAddress(String address);
+
+    @Query(value = "SELECT * "
+            + "FROM feedback "
+            + "WHERE respondent = :address", nativeQuery = true)
+    List<Feedback> getRespondentList(@Param("address") String address);
 }

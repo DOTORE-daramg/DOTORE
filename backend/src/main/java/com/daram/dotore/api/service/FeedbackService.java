@@ -10,4 +10,6 @@ public interface FeedbackService {
     Integer getCount(int articleNo);
 
     Integer getRequestCount(String address);
+
+    List<Feedback> getRespondentList(String address);
 }
