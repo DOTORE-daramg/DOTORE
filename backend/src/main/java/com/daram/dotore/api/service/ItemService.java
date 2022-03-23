@@ -2,7 +2,6 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
-import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
@@ -40,5 +39,13 @@ public interface ItemService {
 
     List<Items> getItemList(String address);
 
+    List<Items> getAuthorItemList(String address);
+
     ItemsRes getAll();
+
+    ItemsRes getFirst();
+
+    ItemsRes getSecond();
+
+    ItemsRes getSale();
 }

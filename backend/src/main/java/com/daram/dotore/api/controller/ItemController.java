@@ -20,7 +20,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.math.BigInteger;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,7 +34,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin("*")
 @Api(value = "NFT 작품 관련 API")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
@@ -46,7 +44,7 @@ public class ItemController {
     @Autowired
     UserService userService;
 
-    @PostMapping()
+    @PostMapping
     @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
@@ -58,12 +56,11 @@ public class ItemController {
             itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
 
-    @PatchMapping()
+    @PatchMapping
     @ApiOperation(value = "작품 소유주 변경", notes = "DB에 해당 NFT 작품의 소유주를 변경")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
@@ -107,7 +104,7 @@ public class ItemController {
         try {
             Items item = itemService.getItemByTokenId(tokenId);
             List<Items> list;
-            if (item.getIs_first()) {    // 1차
+            if (item.getIsFirst()) {    // 1차
                 list = itemService.getSecond(tokenId);
             } else {  // 2차
                 list = itemService.getFirst(tokenId);
@@ -179,10 +176,53 @@ public class ItemController {
     @GetMapping("/all")
     @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Success", response = ItemRelationRes.class),
+        @ApiResponse(code = 200, message = "작품 전체 조회 성공", response = ItemsRes.class),
+        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
     })
     public ResponseEntity<ItemsRes> getAllItems() {
         ItemsRes itemsRes=itemService.getAll();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/first")
+    @ApiOperation(value = "1차 창작물 조회", notes = "모든 1차 창작물 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getFirstItems() {
+        ItemsRes itemsRes=itemService.getFirst();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/second")
+    @ApiOperation(value = "2차 창작물 조회", notes = "모든 2차 창작물 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getSecondItems() {
+        ItemsRes itemsRes=itemService.getSecond();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/sale")
+    @ApiOperation(value = "판매중인 작품 조회", notes = "판매중인 모든 작품들 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getSaleItems() {
+        ItemsRes itemsRes=itemService.getSale();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
         return ResponseEntity.status(200).body(itemsRes);
     }
 }

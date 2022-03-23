@@ -44,10 +44,11 @@ public class Items {
     String owner_address;
 
     @NotNull
-    Boolean on_sale_yn;
+    Boolean onSaleYn;
 
     @NotNull
-    Boolean is_first;
+    @Column(name = "is_first")
+    Boolean isFirst;
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9]{1,10}")
@@ -64,8 +65,8 @@ public class Items {
         this.created_at = created_at;
         this.author_address = author_address;
         this.owner_address = owner_address;
-        this.on_sale_yn = on_sale_yn;
-        this.is_first = is_first;
+        this.onSaleYn = on_sale_yn;
+        this.isFirst = is_first;
         this.format=format;
     }
 

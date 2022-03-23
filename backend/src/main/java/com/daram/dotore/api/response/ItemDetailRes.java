@@ -21,6 +21,7 @@ public class ItemDetailRes extends BaseRes {
     private String author_address;
     private String owner_address;
     private Boolean on_sale_yn;
+    private Boolean is_first;
 
     private String nickname;
     private int acorn;
@@ -30,6 +31,8 @@ public class ItemDetailRes extends BaseRes {
     int like;
     String format;
     String[] tags;
+
+    String price;
 
     public static ItemDetailRes of(String result){
         ItemDetailRes res = new ItemDetailRes();
@@ -48,7 +51,8 @@ public class ItemDetailRes extends BaseRes {
             res.setCreated_at(item.getCreated_at());
             res.setAuthor_address(item.getAuthor_address());
             res.setOwner_address(item.getOwner_address());
-            res.setOn_sale_yn(item.getOn_sale_yn());
+            res.setOn_sale_yn(item.getOnSaleYn());
+            res.setIs_first(item.getIsFirst());
             res.setFormat(item.getFormat());
         }
         if (user != null) {
@@ -59,6 +63,32 @@ public class ItemDetailRes extends BaseRes {
         res.setDownload(download);
         res.setLike(like);
         res.setTags(tags);
+        return res;
+    }
+
+    public static ItemDetailRes of(String result, Items item, Users user, int download, int like, String[] tags, String price) {
+        ItemDetailRes res = new ItemDetailRes();
+        res.setResult(result);
+        if(item != null){
+            res.setTokenId(item.getTokenId());
+            res.setItem_hash(item.getItem_hash());
+            res.setItem_title(item.getItem_title());
+            res.setItem_description(item.getItem_description());
+            res.setCreated_at(item.getCreated_at());
+            res.setAuthor_address(item.getAuthor_address());
+            res.setOwner_address(item.getOwner_address());
+            res.setOn_sale_yn(item.getOnSaleYn());
+            res.setFormat(item.getFormat());
+        }
+        if (user != null) {
+            res.setNickname(user.getNickname());
+            res.setAcorn(user.getAcorn());
+            res.setProfile_img_url(user.getProfile_img_url());
+        }
+        res.setDownload(download);
+        res.setLike(like);
+        res.setTags(tags);
+        res.setPrice(price);
         return res;
     }
 }
