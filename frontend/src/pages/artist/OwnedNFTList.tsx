@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
+import { useMediaQuery } from "react-responsive";
 
 const dummyItemList = [
   {
@@ -66,26 +67,23 @@ const dummyItemList = [
 ]
 
 const Container = styled.div`
-  width: 64rem;
   display: flex;
   margin: auto;
-  padding: 5rem 0;
+  padding: 5rem 2rem;
   justify-content: center;
-  @media screen and (max-width: 1200px) {
-    width: 40rem;
-  }
-  @media screen and (max-width: 500px) {
-    width: 35rem;
-  }
 `;
 
 const OwnedNFTList = () => {
+  const isPc = useMediaQuery({ minWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 500 });
+  const columnCount = isPc ? 4 : isTablet ? 3 : 3;
+  const gridSize = isPc ? '52rem' : isTablet ? '40rem' : '20rem';
   return (
     <Container>
       <ThumbnailGrid
         itemList={dummyItemList}
-        size='52rem'
-        columnCount={4}
+        size={gridSize}
+        columnCount={columnCount}
       ></ThumbnailGrid>
     </Container>
   );
