@@ -48,4 +48,6 @@ public interface ItemService {
     ItemsRes getSecond();
 
     ItemsRes getSale();
+
+    Items updateOnSaleYn(BigInteger tokenId);
 }

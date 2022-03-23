@@ -271,4 +271,14 @@ public class ItemServiceImpl implements ItemService {
         }
         return ItemsRes.of("판매중인 작품 조회 성공", list);
     }
+
+    @Override
+    public Items updateOnSaleYn(BigInteger tokenId) {
+        Optional<Items> item = itemRepository.findByTokenId(tokenId);
+        if(item.isPresent()){
+            return null;
+        }
+        item.get().setOnSaleYn(true);
+        return itemRepository.save(item.get());
+    }
 }
