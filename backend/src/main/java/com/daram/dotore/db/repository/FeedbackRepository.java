@@ -13,6 +13,8 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
 
     List<Feedback> findByAddress(String address);
 
+    List<Feedback> findByTokenIdAndAddress(BigInteger tokenId, String address);
+
     @Query(value = "SELECT * "
         + "FROM feedback "
         + "WHERE respondent = :address", nativeQuery = true)
