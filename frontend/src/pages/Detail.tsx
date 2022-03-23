@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { Button } from "../stories/Button";
@@ -164,10 +164,16 @@ const Detail = () => {
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
 
+  const [isFirst, setIsFirst] = useState(true);
+
   return (
     <Container>
       <TitleContainer>
-        <Title label="2차 NFT" size="2rem" />
+        {isFirst ? (
+          <Title label="1차 NFT" size="2rem" />
+        ) : (
+          <Title label="2차 NFT" size="2rem" />
+        )}
       </TitleContainer>
       {/* 상단 정보 Container */}
       <MainContainer>
@@ -202,14 +208,37 @@ const Detail = () => {
                 iconColor="#6667ab"
               />
               {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
-              <Amount
-                style="fab"
-                icon="ethereum"
-                count={0.03}
-                iconColor="#6667ab"
-              />
+              {isFirst ? (
+                <Amount
+                  style="fas"
+                  icon="download"
+                  count={0.03}
+                  iconColor="#6667ab"
+                />
+              ) : (
+                <Amount
+                  style="fab"
+                  icon="ethereum"
+                  count={0.03}
+                  iconColor="#6667ab"
+                />
+              )}
             </AmountContainer>
-            <Button width="7rem" label="구매 가능" backgroundColor="#6667ab" />
+            {isFirst ? (
+              <>
+                <Button
+                  width="7rem"
+                  label="다운로드"
+                  backgroundColor="#6667ab"
+                />
+              </>
+            ) : (
+              <Button
+                width="7rem"
+                label="구매 가능"
+                backgroundColor="#6667ab"
+              />
+            )}
           </BuyContainer>
         </DescContainer>
       </MainContainer>
