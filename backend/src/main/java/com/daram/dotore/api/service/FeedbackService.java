@@ -3,6 +3,7 @@ package com.daram.dotore.api.service;
 import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.request.FeedbackUpdateReq;
+import com.daram.dotore.api.response.FeedbackDetailRes;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
@@ -15,9 +16,11 @@ public interface FeedbackService {
 
     List<Feedback> getResponseFeedbackList(String address);
 
-    Integer getCount(int articleNo);
+    Integer getCount(int articleno);
 
     Integer getRequestCount(String address);
+
+    FeedbackDetailRes getFeedbackDetail(int articleno);
 
     FeedbackListRes getFeedbacks(BigInteger tokenId);
 
