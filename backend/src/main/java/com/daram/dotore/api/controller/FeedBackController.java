@@ -7,6 +7,7 @@ import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackRes;
 import com.daram.dotore.api.service.FeedbackService;
+import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -80,15 +81,31 @@ public class FeedBackController {
         }
     }
 
-    @PatchMapping("/modify/{articleno}")
+    @PatchMapping("/modify/feedback")
     @ApiOperation(value = "피드백 질문 수정", notes = "피드백 상세페이지에서 피드백(가장 위에 있는 첫 질문) 내용 수정")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> writeAnswer(@PathVariable int articleno, @RequestBody FeedbackUpdateReq feedbackUpdateReq){
-        Feedback feedback=feedbackService.updateFeedback(articleno,feedbackUpdateReq);
+    public ResponseEntity<BaseRes> modifyFeedback(@RequestBody FeedbackUpdateReq feedbackUpdateReq){
+        Feedback feedback=feedbackService.updateFeedback(feedbackUpdateReq);
         if(feedback==null){
+            return ResponseEntity.status(400)
+                .body(BaseRes.of("Fail"));
+        }
+        return ResponseEntity.status(200)
+            .body(BaseRes.of("Success"));
+    }
+
+    @PatchMapping("/modify/answer")
+    @ApiOperation(value = "피드백 답변 수정", notes = "피드백 상세페이지에서 답변 내용 수정")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> modifyAnswer(@RequestBody FeedbackUpdateReq feedbackUpdateReq){
+        Answer answer=feedbackService.updateAnswer(feedbackUpdateReq);
+        if(answer==null){
             return ResponseEntity.status(400)
                 .body(BaseRes.of("Fail"));
         }

@@ -8,6 +8,7 @@ import lombok.Setter;
 @Setter
 @ApiModel("FeedbackUpdateRequest")
 public class FeedbackUpdateReq {
+    private int no;
     private String description;
     private String img_url;
 }

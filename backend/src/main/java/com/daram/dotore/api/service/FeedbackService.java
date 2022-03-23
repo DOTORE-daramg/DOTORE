@@ -25,9 +25,9 @@ public interface FeedbackService {
 
     Feedback saveNewFeedback(FeedbackReq feedbackReq) throws Exception;
 
-    Feedback updateFeedback(int articleno, FeedbackUpdateReq feedbackUpdateReq);
+    Feedback updateFeedback(FeedbackUpdateReq feedbackUpdateReq);
 
     Answer saveNewAnswer(AnswerReq answerReq) throws Exception;
 
-    Answer updateAnswer(int answerno, FeedbackUpdateReq feedbackUpdateReq);
+    Answer updateAnswer(FeedbackUpdateReq feedbackUpdateReq);
 }

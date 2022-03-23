@@ -85,8 +85,8 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Feedback updateFeedback(int articleno, FeedbackUpdateReq feedbackUpdateReq) {
-        Feedback feedback=feedbackRepository.findByArticleno(articleno);
+    public Feedback updateFeedback(FeedbackUpdateReq feedbackUpdateReq) {
+        Feedback feedback=feedbackRepository.findByArticleno(feedbackUpdateReq.getNo());
         if(feedback==null) return null;
         return feedbackRepository.save(feedback.updateFeedback(feedbackUpdateReq.getDescription(),feedbackUpdateReq.getImg_url()));
     }
@@ -103,7 +103,9 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Answer updateAnswer(int answerno, FeedbackUpdateReq feedbackUpdateReq) {
-        return null;
+    public Answer updateAnswer(FeedbackUpdateReq feedbackUpdateReq) {
+        Answer answer=answerRepository.findByAnswerno(feedbackUpdateReq.getNo());
+        if(answer==null) return null;
+        return answerRepository.save(answer.updateAnswer(feedbackUpdateReq.getDescription(),feedbackUpdateReq.getImg_url()));
     }
 }
