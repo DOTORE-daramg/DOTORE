@@ -1,10 +1,10 @@
 import React from "react";
-import styled from 'styled-components';
-import { Title } from '../../stories/Title';
+import styled from "styled-components";
+import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
+import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
-import { faHashtag } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -46,20 +46,20 @@ const InputTextContainer = styled.div`
 `;
 
 const ParentMinting = () => {
-  const handleChangeTitleInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeDescInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeTagInput = (e:any) => {
-    console.log(e.target.value)
-  }
+  const handleChangeTitleInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeDescInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeTagInput = (e: any) => {
+    console.log(e.target.value);
+  };
   return (
     <Container>
       <MintingContainer>
         <TitleContainer>
-          <Title label={'1차 NFT 등록'} size={'1.5rem'}></Title>
+          <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
 
         <InputContainer>
@@ -76,13 +76,19 @@ const ParentMinting = () => {
               rows={6}
               onChange={handleChangeDescInput}
             ></TextAreaBox>
-            <InputBox
+            <TagInputBox></TagInputBox>
+            {/* <InputBox
               placeholder="태그"
               width="23rem"
-              icon={faHashtag}
+              icon="hashtag"
               onChange={handleChangeTagInput}
-            ></InputBox>
-            <Button label={'작품 등록'} width="7rem" onClick={() => console.log('작품 등록')}></Button>
+            ></InputBox> */}
+            <Button
+              label={"작품 등록"}
+              width="7rem"
+              backgroundColor="#6667ab"
+              onClick={() => console.log("작품 등록")}
+            ></Button>
           </InputTextContainer>
         </InputContainer>
       </MintingContainer>
