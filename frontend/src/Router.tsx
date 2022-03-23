@@ -15,6 +15,7 @@ import Download from "./pages/artist/Download";
 import Like from "./pages/artist/Like";
 import Detail from "./pages/Detail";
 import FeedbackList from "./pages/artist/FeedbackList";
+import FeedbackCreate from './pages/FeedbackCreate';
 import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
@@ -127,6 +128,8 @@ const AppRouter = () => {
           <Route path="cdlist" element={<ChildList />} />
 
           <Route path="detail/:tokenId" element={<Detail />} />
+
+          <Route path="feedbackcreate/:tokenId" element={<FeedbackCreate />} />
 
           <Route path="artist/:userAddress" element={<Artist />}>
             <Route path="ownednft" element={<OwnedNFTList />} />

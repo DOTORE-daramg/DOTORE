@@ -116,7 +116,7 @@ export const FeedbackComment = ({
   return (
     <CommentContainer commentType={commentType}>
       <StyledHeader>
-        {commentType !== 'MainQuestion' && !isEditorShow ? 
+        {!isEditorShow ?
           <PencilIconContainer onClick={handleToggleEditor}>
             <Icon style='fas' icon='pencil' color='#959595'></Icon>
           </PencilIconContainer>
@@ -132,7 +132,7 @@ export const FeedbackComment = ({
           NicknameSize='1rem'
         ></HorizonProfile>
       </StyledHeader>
-      {commentType !== 'MainQuestion' && isEditorShow ?
+      {isEditorShow ?
         <FeedbackUpdateContainer>
           <CloseIconContainer onClick={handleToggleEditor}>
             <Icon style='fas' icon='xmark' color='#959595'></Icon>
@@ -140,7 +140,7 @@ export const FeedbackComment = ({
           <TextEditor></TextEditor>
         </FeedbackUpdateContainer>
         : null}
-      {commentType === 'MainQuestion' || !isEditorShow ? 
+      {!isEditorShow ? 
         <div>
           {imageUrl ?
             <ImageContainer>
