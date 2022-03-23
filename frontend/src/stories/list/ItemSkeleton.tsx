@@ -36,7 +36,7 @@ interface ItemSkeletonProps {
 const ItemSkeleton = ({ width }: ItemSkeletonProps) => {
   return (
     <Container>
-      <Skeleton width={width} height="12rem" />
+      <Skeleton width={width} height="12.5rem" />
       <TextContainer>
         <Skeleton width={width} height="2rem" />
         <Skeleton width="7rem" height="1.5rem" />

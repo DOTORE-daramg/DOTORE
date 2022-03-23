@@ -5,6 +5,7 @@ import StyledPagination from "../../stories/common/StyledPagination";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
 import Checkbox from "../../stories/list/Checkbox";
+import Item from "../../stories/list/Item";
 import ItemSkeleton from "../../stories/list/ItemSkeleton";
 import { Title } from "../../stories/Title";
 
@@ -98,6 +99,13 @@ const ItemContainer = styled.div`
   }
 `;
 const ParentList = () => {
+  const item = {
+    title: "야, 너도 도토리 할 수 있어!",
+    imgUrl: "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
+    nickname: "이호진",
+    download: 20,
+    like: 150,
+  };
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
@@ -122,7 +130,7 @@ const ParentList = () => {
         </SideContainer>
         <MainContainer>
           <ItemContainer>
-            <ItemSkeleton width={viewMode} />
+            <Item {...item} />
             <ItemSkeleton width={viewMode} />
             <ItemSkeleton width={viewMode} />
             <ItemSkeleton width={viewMode} />
