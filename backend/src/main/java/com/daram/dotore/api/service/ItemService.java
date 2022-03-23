@@ -6,6 +6,8 @@ import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.db.entity.Download;
 import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Likes;
+import com.daram.dotore.db.entity.Sales;
+
 import java.math.BigInteger;
 import java.util.List;
 
