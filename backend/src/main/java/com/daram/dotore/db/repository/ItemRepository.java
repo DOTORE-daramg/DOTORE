@@ -4,6 +4,8 @@ import com.daram.dotore.db.entity.Items;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.Optional;
+
+import com.daram.dotore.db.entity.Sales;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -35,5 +37,4 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
             + "FROM Items "
             + "WHERE author_address = :address", nativeQuery = true)
     List<Items> getAuthorItemList(@Param("address") String address);
-
 }

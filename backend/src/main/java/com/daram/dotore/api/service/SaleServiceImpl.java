@@ -9,6 +9,7 @@ import com.daram.dotore.db.repository.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Service
@@ -28,5 +29,10 @@ public class SaleServiceImpl implements SaleService{
                 .created_at(LocalDateTime.now())
                 .saleYn(false)
                 .build());
+    }
+
+    @Override
+    public Sales getEmptyCompletedAtItem(BigInteger token_id) {
+        return saleRepository.getEmptyCompletedAtItem(token_id);
     }
 }
