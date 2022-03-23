@@ -5,14 +5,13 @@ import com.daram.dotore.api.response.*;
 import com.daram.dotore.api.service.FeedbackService;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
-import com.daram.dotore.db.entity.Feedback;
-import com.daram.dotore.db.entity.Items;
-import com.daram.dotore.db.entity.Users;
+import com.daram.dotore.db.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.Like;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin("*")
 @Api(value = "마이페이지 API")
@@ -197,6 +197,48 @@ public class MypageController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(404).body(requestFeedbackRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @GetMapping("/download/{address}")
+    @ApiOperation(value = "내가 다운로드한 작품 목록", notes = "내가 다운로드한 작품 목록")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = MyDownloadListRes.class),
+    })
+    public ResponseEntity<MyDownloadListRes> myDownloadList(@PathVariable String address) {
+        try {
+            List<Download> downloadList = userService.getDownloadList(address);
+            List<Items> list = new ArrayList<>();
+            for (int i = 0; i < downloadList.size(); i++) {
+                BigInteger tokenId = downloadList.get(i).getTokenId();
+                Items item = itemService.getItemByTokenId(tokenId);
+                list.add(item);
+            }
+            return ResponseEntity.status(200).body(MyDownloadListRes.of("Success",list));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(MyDownloadListRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @GetMapping("/like/{address}")
+    @ApiOperation(value = "내가 좋아요한 작품 목록", notes = "내가 좋아요한 작품 목록")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = MyLikeListRes.class),
+    })
+    public ResponseEntity<MyLikeListRes> myLikeList(@PathVariable String address) {
+        try {
+            List<Likes> likeList = userService.getLikeList(address);
+            List<Items> list = new ArrayList<>();
+            for (int i = 0; i < likeList.size(); i++) {
+                BigInteger tokenId = likeList.get(i).getTokenId();
+                Items item = itemService.getItemByTokenId(tokenId);
+                list.add(item);
+            }
+            return ResponseEntity.status(200).body(MyLikeListRes.of("Success",list));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(MyLikeListRes.of("존재하지 않는 token_id"));
         }
     }
 }
