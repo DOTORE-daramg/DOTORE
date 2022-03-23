@@ -1,5 +1,6 @@
 package com.daram.dotore.api.controller;
 
+import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.FeedbackListRes;
@@ -67,8 +68,13 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> writeAnswer(@RequestBody FeedbackReq feedbackReq) {
-        return ResponseEntity.status(200)
-            .body(BaseRes.of("Success"));
+    public ResponseEntity<BaseRes> writeAnswer(@RequestBody AnswerReq answerReq) throws Exception{
+        try {
+            feedbackService.saveNewAnswer(answerReq);
+            return ResponseEntity.status(200)
+                .body(BaseRes.of("Success"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(BaseRes.of("Fail"));
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackVO;
@@ -79,6 +80,17 @@ public class FeedbackServiceImpl implements FeedbackService {
             .description(feedbackReq.getDescription())
             .created_at(LocalDateTime.now())
             .imgUrl(feedbackReq.getImg_url())
+            .build());
+    }
+
+    @Override
+    public Answer saveNewAnswer(AnswerReq answerReq) throws Exception {
+        return answerRepository.save(Answer.builder()
+            .articleno(answerReq.getArticleno())
+            .writer(answerReq.getWriter())
+            .description(answerReq.getDescription())
+            .created_at(LocalDateTime.now())
+            .imgUrl(answerReq.getImg_url())
             .build());
     }
 }
