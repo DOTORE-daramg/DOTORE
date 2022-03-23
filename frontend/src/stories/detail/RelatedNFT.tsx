@@ -7,6 +7,10 @@ import { Title } from "./Title";
 const Container = styled.div`
   width: 350px;
   height: 400px;
+  @media screen and (max-width: 768px) {
+    height: fit-content;
+    margin-bottom: 60px;
+  }
 `;
 
 const Info = styled.div`
@@ -24,13 +28,15 @@ const Info = styled.div`
 `;
 
 const IconContainer = styled.div`
+  display: flex;
+  align-items: center;
   &:hover ${Info} {
     display: block;
   }
 `;
 const TitleContainer = styled.div`
   display: flex;
-  width: 100%;
+  width: 65%;
   justify-content: space-between;
 `;
 const ContentContainer = styled.div`

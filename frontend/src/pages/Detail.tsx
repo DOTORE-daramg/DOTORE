@@ -8,6 +8,7 @@ import { Icon } from "../stories/common/Icon";
 import { Description } from "../stories/detail/Description";
 import { Image } from "../stories/detail/Image";
 import Info from "../stories/detail/Info";
+import Questions from "../stories/detail/Questions";
 import RelatedNFT from "../stories/detail/RelatedNFT";
 import Transaction from "../stories/detail/Transaction";
 import Skeleton from "../stories/list/Skeleton";
@@ -79,9 +80,18 @@ const BuyContainer = styled.div`
 `;
 
 const AmountContainer = styled.div`
-  width: 40%;
+  width: 35%;
   display: flex;
   justify-content: space-between;
+`;
+
+const ButtonContainer = styled.div`
+  width: 55%;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 768px) {
+    width: 50%;
+  }
 `;
 
 const DetailContainer = styled.div`
@@ -95,6 +105,16 @@ const DetailContainer = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
+  }
+`;
+
+const QuestionContainer = styled.div`
+  width: 350px;
+  height: 400px;
+  margin-left: 5rem;
+  @media screen and (max-width: 768px) {
+    /* justify-content: space-around; */
+    margin-left: 0;
   }
 `;
 
@@ -160,10 +180,25 @@ const Detail = () => {
     },
   ];
 
+  const questions = [
+    {
+      articleno: 1,
+      answerYN: false,
+      nickname: "다람쥐_02",
+      desc: "도토리 색 조합에 대해 질문...",
+    },
+    {
+      articleno: 2,
+      answerYN: true,
+      nickname: "다람쥐_01",
+      desc: "질문 있습니다!",
+    },
+  ];
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
 
+  // 처음 렌더링 할 때 isFirst값 가져와서 저장해 줘야 함
   const [isFirst, setIsFirst] = useState(true);
 
   return (
@@ -212,7 +247,7 @@ const Detail = () => {
                 <Amount
                   style="fas"
                   icon="download"
-                  count={0.03}
+                  count={1500}
                   iconColor="#6667ab"
                 />
               ) : (
@@ -225,13 +260,18 @@ const Detail = () => {
               )}
             </AmountContainer>
             {isFirst ? (
-              <>
+              <ButtonContainer>
                 <Button
-                  width="7rem"
+                  width="6.3rem"
+                  label="질문 등록"
+                  backgroundColor="#6667ab"
+                />
+                <Button
+                  width="6rem"
                   label="다운로드"
                   backgroundColor="#6667ab"
                 />
-              </>
+              </ButtonContainer>
             ) : (
               <Button
                 width="7rem"
@@ -246,10 +286,16 @@ const Detail = () => {
       {/* 하단 정보 컨테이너 시작 */}
       <DetailContainer>
         <RelatedNFT relatedNFTs={relatedNFTs} />
-        <InfoContainer>
-          <Transaction transacrions={transacrions} />
-          <Info address="0x48366...037453" tokenId="2" standard="ERC-721" />
-        </InfoContainer>
+        {isFirst ? (
+          <QuestionContainer>
+            <Questions questions={questions} />
+          </QuestionContainer>
+        ) : (
+          <InfoContainer>
+            <Transaction transacrions={transacrions} />
+            <Info address="0x48366...037453" tokenId="2" standard="ERC-721" />
+          </InfoContainer>
+        )}
       </DetailContainer>
     </Container>
   );
