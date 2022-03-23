@@ -51,4 +51,10 @@ public class Feedback {
         this.address = address;
         this.tokenId = tokenId;
     }
+
+    public Feedback updateFeedback(String description, String img_url){
+        this.description=description;
+        this.imgUrl=img_url;
+        return this;
+    }
 }

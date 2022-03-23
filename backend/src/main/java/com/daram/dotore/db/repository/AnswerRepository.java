@@ -19,4 +19,6 @@ public interface AnswerRepository extends JpaRepository<Answer, Integer> {
         + "FROM feedback "
         + "WHERE address = :address", nativeQuery = true)
     Integer getRequestCount(@Param("address") String address);
+
+    Answer findByAnswerno(int answerno);
 }

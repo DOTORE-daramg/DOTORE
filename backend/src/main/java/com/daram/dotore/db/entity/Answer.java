@@ -46,4 +46,10 @@ public class Answer {
         this.imgUrl = imgUrl;
         this.articleno = articleno;
     }
+
+    public Answer updateAnswer(String description, String img_url){
+        this.description=description;
+        this.imgUrl=img_url;
+        return this;
+    }
 }
