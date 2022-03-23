@@ -1,6 +1,5 @@
 package com.daram.dotore.api.response;
 
-import com.daram.dotore.db.entity.Feedback;
 import io.swagger.annotations.ApiModel;
 import java.util.List;
 import lombok.Getter;
