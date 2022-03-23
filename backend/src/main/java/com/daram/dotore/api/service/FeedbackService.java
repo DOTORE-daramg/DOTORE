@@ -2,6 +2,7 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
+import com.daram.dotore.api.request.FeedbackUpdateReq;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
@@ -24,5 +25,9 @@ public interface FeedbackService {
 
     Feedback saveNewFeedback(FeedbackReq feedbackReq) throws Exception;
 
+    Feedback updateFeedback(int articleno, FeedbackUpdateReq feedbackUpdateReq);
+
     Answer saveNewAnswer(AnswerReq answerReq) throws Exception;
+
+    Answer updateAnswer(int answerno, FeedbackUpdateReq feedbackUpdateReq);
 }

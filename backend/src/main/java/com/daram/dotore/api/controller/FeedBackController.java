@@ -2,6 +2,7 @@ package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
+import com.daram.dotore.api.request.FeedbackUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackRes;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,5 +78,21 @@ public class FeedBackController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
+    }
+
+    @PatchMapping("/modify/{articleno}")
+    @ApiOperation(value = "피드백 질문 수정", notes = "피드백 상세페이지에서 피드백(가장 위에 있는 첫 질문) 내용 수정")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> writeAnswer(@PathVariable int articleno, @RequestBody FeedbackUpdateReq feedbackUpdateReq){
+        Feedback feedback=feedbackService.updateFeedback(articleno,feedbackUpdateReq);
+        if(feedback==null){
+            return ResponseEntity.status(400)
+                .body(BaseRes.of("Fail"));
+        }
+        return ResponseEntity.status(200)
+            .body(BaseRes.of("Success"));
     }
 }
