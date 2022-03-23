@@ -44,7 +44,7 @@ public class ItemController {
     @Autowired
     UserService userService;
 
-    @PostMapping()
+    @PostMapping
     @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
@@ -56,12 +56,11 @@ public class ItemController {
             itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
 
-    @PatchMapping()
+    @PatchMapping
     @ApiOperation(value = "작품 소유주 변경", notes = "DB에 해당 NFT 작품의 소유주를 변경")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
