@@ -12,7 +12,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ApiModel("RequestFeedbackRes")
+@ApiModel("RequestFeedbackResponse")
 public class requestFeedbackRes extends BaseRes {
 
     private List<requestFeedbackVO> data = new ArrayList<>();

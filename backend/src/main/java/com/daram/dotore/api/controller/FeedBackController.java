@@ -4,6 +4,7 @@ import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.request.FeedbackUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
+import com.daram.dotore.api.response.FeedbackDetailRes;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackRes;
 import com.daram.dotore.api.service.FeedbackService;
@@ -40,10 +41,25 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = FeedbackListRes.class),
         @ApiResponse(code = 404, message = "아무 피드백도 존재하지 않음", response = FeedbackListRes.class),
     })
-    public ResponseEntity<FeedbackListRes> getDetail(@PathVariable BigInteger tokenId) {
+    public ResponseEntity<FeedbackListRes> getFeedbackList(@PathVariable BigInteger tokenId) {
         FeedbackListRes res = feedbackService.getFeedbacks(tokenId);
         if (res == null) {
             return ResponseEntity.status(404).body(FeedbackListRes.of("아무 피드백도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(res);
+    }
+
+    @GetMapping("/detail/{articleno}")
+    @ApiOperation(value = "피드백 상세페이지 조회", notes = "해당 피드백의 질문 답변을 모두 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = FeedbackDetailRes.class),
+        @ApiResponse(code = 404, message = "해당 피드백이 존재하지 않음", response = FeedbackDetailRes.class),
+    })
+    public ResponseEntity<FeedbackDetailRes> getDetail(@PathVariable int articleno) {
+
+        FeedbackDetailRes res = feedbackService.getFeedbackDetail(articleno);
+        if (res == null) {
+            return ResponseEntity.status(404).body(FeedbackDetailRes.of("해당 피드백이 존재하지 않음"));
         }
         return ResponseEntity.status(200).body(res);
     }

@@ -3,7 +3,10 @@ package com.daram.dotore.api.service;
 import com.daram.dotore.api.request.AnswerReq;
 import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.request.FeedbackUpdateReq;
+import com.daram.dotore.api.response.FeedbackAnswerVO;
+import com.daram.dotore.api.response.FeedbackDetailRes;
 import com.daram.dotore.api.response.FeedbackListRes;
+import com.daram.dotore.api.response.FeedbackQuestionVO;
 import com.daram.dotore.api.response.FeedbackVO;
 import com.daram.dotore.db.entity.Feedback;
 import com.daram.dotore.db.entity.Answer;
@@ -58,13 +61,33 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Integer getCount(int articleNo) {
-        return answerRepository.getCount(articleNo);
+    public Integer getCount(int articleno) {
+
+        return answerRepository.getCount(articleno);
     }
 
     @Override
     public Integer getRequestCount(String address) {
         return answerRepository.getRequestCount(address);
+    }
+
+    @Override
+    public FeedbackDetailRes getFeedbackDetail(int articleno) {
+        Feedback feedback = feedbackRepository.findByArticleno(articleno);
+        if (feedback == null) {
+            return null;
+        }
+        Users user = userRepository.findByAddress(feedback.getAddress()).get();
+        List<Answer> list = answerRepository.findByArticleno(articleno);
+        List<FeedbackAnswerVO> answers = new ArrayList<>();
+        for (Answer answer : list) {
+            String profile_img_url = userRepository.findByAddress(answer.getWriter()).get()
+                .getProfile_img_url();
+            answers.add(new FeedbackAnswerVO(answer.getAnswerno(), answer.getWriter(),
+                answer.getDescription(), answer.getCreated_at(), answer.getImgUrl(),
+                profile_img_url));
+        }
+        return FeedbackDetailRes.of("Success", feedback, user.getProfile_img_url(), answers);
     }
 
     @Override
@@ -86,9 +109,12 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public Feedback updateFeedback(FeedbackUpdateReq feedbackUpdateReq) {
-        Feedback feedback=feedbackRepository.findByArticleno(feedbackUpdateReq.getNo());
-        if(feedback==null) return null;
-        return feedbackRepository.save(feedback.updateFeedback(feedbackUpdateReq.getDescription(),feedbackUpdateReq.getImg_url()));
+        Feedback feedback = feedbackRepository.findByArticleno(feedbackUpdateReq.getNo());
+        if (feedback == null) {
+            return null;
+        }
+        return feedbackRepository.save(feedback.updateFeedback(feedbackUpdateReq.getDescription(),
+            feedbackUpdateReq.getImg_url()));
     }
 
     @Override
@@ -104,8 +130,11 @@ public class FeedbackServiceImpl implements FeedbackService {
 
     @Override
     public Answer updateAnswer(FeedbackUpdateReq feedbackUpdateReq) {
-        Answer answer=answerRepository.findByAnswerno(feedbackUpdateReq.getNo());
-        if(answer==null) return null;
-        return answerRepository.save(answer.updateAnswer(feedbackUpdateReq.getDescription(),feedbackUpdateReq.getImg_url()));
+        Answer answer = answerRepository.findByAnswerno(feedbackUpdateReq.getNo());
+        if (answer == null) {
+            return null;
+        }
+        return answerRepository.save(answer.updateAnswer(feedbackUpdateReq.getDescription(),
+            feedbackUpdateReq.getImg_url()));
     }
 }
