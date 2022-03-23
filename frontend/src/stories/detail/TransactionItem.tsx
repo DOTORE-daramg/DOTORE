@@ -6,18 +6,10 @@ const Container = styled.div`
   display: flex;
   justify-content: flex-start;
 `;
-
-const Date = styled.div`
-  width: 8rem;
+const Category = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
 `;
 
-const Person = styled.div`
-  width: 5rem;
-`;
-
-const Price = styled.div`
-  width: 10rem;
-`;
 interface DetailProps {
   date: string;
   seller: string;
@@ -27,10 +19,10 @@ interface DetailProps {
 const TransactionItem = ({ date, seller, buyer, price }: DetailProps) => {
   return (
     <Container>
-      <Date>{date}</Date>
-      <Person>{seller}</Person>
-      <Person>{buyer}</Person>
-      <Price>{price}</Price>
+      <Category width="8rem">{date}</Category>
+      <Category width="5rem">{seller}</Category>
+      <Category width="5rem">{buyer}</Category>
+      <Category width="10rem">{price}</Category>
     </Container>
   );
 };

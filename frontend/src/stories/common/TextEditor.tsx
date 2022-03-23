@@ -1,14 +1,22 @@
 import React from "react";
-import styled from 'styled-components';
-import { Editor, EditorState, RichUtils, DraftEditorCommand, AtomicBlockUtils, SelectionState, convertToRaw } from "draft-js";
-import { mediaBlockRenderer } from './MediaBlock';
+import styled from "styled-components";
+import {
+  Editor,
+  EditorState,
+  RichUtils,
+  DraftEditorCommand,
+  AtomicBlockUtils,
+  SelectionState,
+  convertToRaw,
+} from "draft-js";
+import { mediaBlockRenderer } from "./MediaBlock";
 import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
 
 const Container = styled.div`
   width: 100%;
   padding: 1rem 0;
-  border: solid 1px #D9D9D9;
+  border: solid 1px #d9d9d9;
   border-radius: 8px;
   background-color: #ffffff;
 `;
@@ -38,7 +46,7 @@ const ButtonListContainer = styled.div`
     &.italic {
       font-style: italic;
     }
-    &.strikethrough{
+    &.strikethrough {
       text-decoration: line-through;
     }
   }
@@ -56,8 +64,8 @@ const EditorContainer = styled.div`
   width: 100%;
   padding: 1rem;
   overflow: hidden scroll;
-  border-top: solid 1px #D9D9D9;
-  border-bottom: solid 1px #D9D9D9;
+  border-top: solid 1px #d9d9d9;
+  border-bottom: solid 1px #d9d9d9;
   font-size: 1.1rem;
   line-height: 1.2rem;
   height: 16rem;
@@ -86,7 +94,6 @@ const TextEditorFooter = styled.div`
   display: flex;
   padding: 1rem 1rem 0 0;
   justify-content: end;
-
 `;
 
 // 텍스트 에디터
@@ -118,71 +125,118 @@ export const TextEditor = () => {
   // 이미지 붙여넣기
   const handlePastedFile = (files: Array<Blob>) => {
     if (!files) {
-      return 'not-handled';
+      return "not-handled";
     }
-    const file = files[0];  // 파일 하나씩만.
-    if (file.type !== 'image/png' &&
-      file.type !== 'image/jpeg' &&
-      file.type !== 'image/gif') {
-      return 'not-handled';
+    const file = files[0]; // 파일 하나씩만.
+    if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/gif"
+    ) {
+      return "not-handled";
     }
-    if (file.size >= 5 * 1048576) {  // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
-      console.log('사진 크기 5MB 이상임!');
-      return 'not-handled';
+    if (file.size >= 5 * 1048576) {
+      // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
+      console.log("사진 크기 5MB 이상임!");
+      return "not-handled";
     }
-    console.log(file)
+    console.log(file);
     const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      // Content state에 파일의 data를 담은 이미지 엔티티 생성.
-      const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity("image", "IMMUTABLE", { src: reader.result });
-      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-      setEditorState(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
-    }, false)
+    reader.addEventListener(
+      "load",
+      () => {
+        // Content state에 파일의 data를 담은 이미지 엔티티 생성.
+        const contentState = editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity(
+          "image",
+          "IMMUTABLE",
+          { src: reader.result }
+        );
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        setEditorState(
+          AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ")
+        );
+      },
+      false
+    );
     // 파일의 data를 읽어냄.
     reader.readAsDataURL(file);
 
-    return 'handled';
-  }
+    return "handled";
+  };
   // 이미지 드롭 다운
   const handleDroppedFile = (selection: SelectionState, files: Array<Blob>) => {
     if (!files) {
-      return 'not-handled';
+      return "not-handled";
     }
-    const file = files[0];  // 파일 하나씩만.
-    if (file.type !== 'image/png' &&
-      file.type !== 'image/jpeg' &&
-      file.type !== 'image/gif') {
-      return 'not-handled';
+    const file = files[0]; // 파일 하나씩만.
+    if (
+      file.type !== "image/png" &&
+      file.type !== "image/jpeg" &&
+      file.type !== "image/gif"
+    ) {
+      return "not-handled";
     }
-    if (file.size >= 5 * 1048576) {  // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
-      console.log('사진 크기 5MB 이상임!');
-      return 'not-handled';
+    if (file.size >= 5 * 1048576) {
+      // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
+      console.log("사진 크기 5MB 이상임!");
+      return "not-handled";
     }
-    console.log(file)
+    console.log(file);
     const reader = new FileReader();
-    reader.addEventListener('load', () => {
-      // Content state에 파일의 data를 담은 이미지 엔티티 생성.
-      const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity("image", "IMMUTABLE", { src: reader.result });
-      const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
-      setEditorState(AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, ' '));
-    }, false)
+    reader.addEventListener(
+      "load",
+      () => {
+        // Content state에 파일의 data를 담은 이미지 엔티티 생성.
+        const contentState = editorState.getCurrentContent();
+        const contentStateWithEntity = contentState.createEntity(
+          "image",
+          "IMMUTABLE",
+          { src: reader.result }
+        );
+        const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
+        setEditorState(
+          AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ")
+        );
+      },
+      false
+    );
     // 파일의 data를 읽어냄.
     reader.readAsDataURL(file);
 
-    return 'handled';
-  }
+    return "handled";
+  };
 
   return (
     <Container>
       <ButtonListContainer>
-        <button onMouseDown={(e) => handleBlockClick(e, "header-one")}>H1</button>
-        <button onMouseDown={(e) => handleBlockClick(e, "header-two")}>H2</button>
-        <button onMouseDown={(e) => handleBlockClick(e, "header-three")}>H3</button>
-        <button onMouseDown={(e) => handleTogggleClick(e, "BOLD")} className="bold">B</button>
-        <button onMouseDown={(e) => handleTogggleClick(e, "ITALIC")} className="italic">I</button>
-        <button onMouseDown={(e) => handleTogggleClick(e, "STRIKETHROUGH")} className="strikethrough">S</button>
+        <button onMouseDown={(e) => handleBlockClick(e, "header-one")}>
+          H1
+        </button>
+        <button onMouseDown={(e) => handleBlockClick(e, "header-two")}>
+          H2
+        </button>
+        <button onMouseDown={(e) => handleBlockClick(e, "header-three")}>
+          H3
+        </button>
+        <button
+          onMouseDown={(e) => handleTogggleClick(e, "BOLD")}
+          className="bold"
+        >
+          B
+        </button>
+        <button
+          onMouseDown={(e) => handleTogggleClick(e, "ITALIC")}
+          className="italic"
+        >
+          I
+        </button>
+        <button
+          onMouseDown={(e) => handleTogggleClick(e, "STRIKETHROUGH")}
+          className="strikethrough"
+        >
+          S
+        </button>
       </ButtonListContainer>
       <EditorContainer>
         <Editor
@@ -197,14 +251,14 @@ export const TextEditor = () => {
       </EditorContainer>
       <TextEditorFooter>
         <Button
-          label='작성하기'
+          label="작성하기"
           backgroundColor="#6667AB"
           onClick={() => {
-            console.log(editorState.getCurrentContent().getPlainText('\u000A'))
-            console.log(convertToRaw(editorState.getCurrentContent()))
+            console.log(editorState.getCurrentContent().getPlainText("\u000A"));
+            console.log(convertToRaw(editorState.getCurrentContent()));
           }}
         ></Button>
       </TextEditorFooter>
     </Container>
   );
-}
+};

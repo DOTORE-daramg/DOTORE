@@ -1,5 +1,7 @@
 import React from "react";
+import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
+import StyledPagination from "../../stories/common/StyledPagination";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
 import Checkbox from "../../stories/list/Checkbox";
@@ -19,18 +21,20 @@ const Container = styled.div`
   }
 `;
 const SideContainer = styled.div`
-  width: 20rem;
+  width: 15rem;
+  margin-right: 10rem;
   height: 100%;
   margin-top: 30px;
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 768px) {
-    width: 100%;
+    width: 80%;
     align-items: center;
+    margin-right: 0;
   }
 `;
 const FilterContainer = styled.div`
-  width: 80%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 768px) {
@@ -59,6 +63,7 @@ const CheckboxContainer = styled.div`
     width: 50%;
     flex-direction: row;
     align-items: center;
+    justify-content: space-around;
   }
 `;
 const InnerContainer = styled.div`
@@ -71,22 +76,37 @@ const InnerContainer = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: calc(100vw-rem);
+  width: calc(100vw - 20rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 768px) {
+    width: 90%;
+  }
+`;
+const ItemContainer = styled.div`
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-gap: 20px;
+  place-items: center;
   @media screen and (max-width: 768px) {
+    width: 90%;
     grid-template-columns: repeat(2, 1fr);
+    grid-gap: 15px;
   }
 `;
-
 const ParentList = () => {
+  const isPc = useMediaQuery({ minWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 500 });
+  const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
   return (
     <Container>
       <Title label="1차 NFT 보기" size="2rem"></Title>
       <InnerContainer>
         <SideContainer>
-          <InputBox width="80%" placeholder="작품명 / 작가명 검색" />
+          <InputBox width="100%" placeholder="작품명 / 작가명 검색" />
           <FilterContainer>
             <CategoryContainer>
               <Category label="최신순" isSelected={true} />
@@ -101,15 +121,18 @@ const ParentList = () => {
           </FilterContainer>
         </SideContainer>
         <MainContainer>
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
-          <ItemSkeleton />
+          <ItemContainer>
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+            <ItemSkeleton width={viewMode} />
+          </ItemContainer>
+          <StyledPagination />
         </MainContainer>
       </InnerContainer>
     </Container>

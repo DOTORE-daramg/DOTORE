@@ -33,12 +33,12 @@ const AmountContainer = styled.div`
 interface ItemSkeletonProps {
   width?: string;
 }
-const ItemSkeleton = ({}: ItemSkeletonProps) => {
+const ItemSkeleton = ({ width }: ItemSkeletonProps) => {
   return (
     <Container>
-      <Skeleton width="15rem" height="12rem" />
+      <Skeleton width={width} height="12rem" />
       <TextContainer>
-        <Skeleton width="15rem" height="2rem" />
+        <Skeleton width={width} height="2rem" />
         <Skeleton width="7rem" height="1.5rem" />
       </TextContainer>
       <AmountContainer>
