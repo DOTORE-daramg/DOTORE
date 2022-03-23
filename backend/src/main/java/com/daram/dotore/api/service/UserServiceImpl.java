@@ -3,12 +3,18 @@ package com.daram.dotore.api.service;
 import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.request.ProfileUpdateReq;
+import com.daram.dotore.db.entity.Download;
+import com.daram.dotore.db.entity.Items;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
-import com.daram.dotore.db.repository.FeedbackRepository;
-import com.daram.dotore.db.repository.UserRepository;
+import com.daram.dotore.db.repository.*;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.relational.core.sql.Like;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +25,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     FeedbackRepository feedRepository;
+
+    @Autowired
+    DownloadRepository downloadRepository;
+
+    @Autowired
+    LikeRepository likeRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
 
     @Override
     public Users getUserByAddress(String address) {
@@ -65,6 +80,16 @@ public class UserServiceImpl implements UserService {
     public List<Users> getUsers() {
 
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<Download> getDownloadList(String address) {
+        return downloadRepository.findDownloadByAddress(address);
+    }
+
+    @Override
+    public List<Likes> getLikeList(String address) {
+        return likeRepository.findLikeByAddress(address);
     }
 
 }
