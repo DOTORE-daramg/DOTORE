@@ -2,6 +2,7 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.request.SaleCompleteReq;
 import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.db.entity.*;
@@ -270,10 +271,32 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items updateOnSaleYn(BigInteger tokenId) {
         Optional<Items> item = itemRepository.findByTokenId(tokenId);
-        if(item.isPresent()){
+        if(!item.isPresent()){
             return null;
         }
         item.get().setOnSaleYn(true);
+        return itemRepository.save(item.get());
+    }
+
+    @Override
+    public Items updateOnSaleYnAndOwnerAddress(SaleCompleteReq saleCompleteReq) {
+        BigInteger tokenId = saleCompleteReq.getTokenId();
+        Optional<Items> item = itemRepository.findByTokenId(tokenId);
+        if(!item.isPresent()){
+            return null;
+        }
+        item.get().setOnSaleYn(false);
+        item.get().setOwner(saleCompleteReq.getBuyerAddress());
+        return itemRepository.save(item.get());
+    }
+
+    @Override
+    public Items updateCancelOnSaleYn(BigInteger tokenId) {
+        Optional<Items> item = itemRepository.findByTokenId(tokenId);
+        if(!item.isPresent()){
+            return null;
+        }
+        item.get().setOnSaleYn(false);
         return itemRepository.save(item.get());
     }
 }

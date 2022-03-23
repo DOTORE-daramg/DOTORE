@@ -1,5 +1,8 @@
 package com.daram.dotore.api.controller;
 
+import com.daram.dotore.api.request.DescUpdateReq;
+import com.daram.dotore.api.request.SaleCompleteReq;
+import com.daram.dotore.api.request.SalesCancelReq;
 import com.daram.dotore.api.request.SalesReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.FeedbackRes;
@@ -9,6 +12,7 @@ import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.SaleService;
 import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Sales;
+import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -65,6 +69,51 @@ public class SalesController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(404).body(SalesInfoRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @PatchMapping("/complete")
+    @ApiOperation(value = "판매 완료", notes = "판매 완료")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> saleComplete(@RequestBody SaleCompleteReq saleCompleteReq) {
+        try{
+            //작품 테이블에서 해당 token_id 로우를 업데이트한다
+            //on_sale_yn > false, owner_address > 구매자 address
+            itemService.updateOnSaleYnAndOwnerAddress(saleCompleteReq);
+
+            //판매 테이블에서 다음 항목 업데이트
+            //sale_yn=true
+            //buyer_address
+            //completed_at
+            saleService.updateSaleYnAndBuyerAddressAndCompletedAt(saleCompleteReq);
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(BaseRes.of("판매 실패"));
+        }
+    }
+
+    @DeleteMapping("/cancel")
+    @ApiOperation(value = "판매 취소", notes = "판매 취소")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> saleCancel(@RequestBody SalesCancelReq salesCancelReq) {
+        try{
+            //판매 테이블에서 token_id로 completed_at이 비어있는 row 삭제
+            //전달받은 address와 seller_address가 같으면서
+            String address = salesCancelReq.getAddress();
+            BigInteger tokenId = salesCancelReq.getTokenId();
+            saleService.deleteCompletedAt(tokenId,address);
+            
+            //작품 테이블에서 해당 token_id로 on_sale_yn > false 업데이트
+            itemService.updateCancelOnSaleYn(salesCancelReq.getTokenId());
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(BaseRes.of("판매 실패"));
         }
     }
 }

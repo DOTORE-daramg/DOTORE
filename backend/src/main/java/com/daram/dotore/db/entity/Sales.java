@@ -13,6 +13,7 @@ import javax.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.apache.tomcat.jni.Local;
 
 @Entity
 @Getter
@@ -65,5 +66,20 @@ public class Sales {
         this.price = price;
         this.created_at = created_at;
         this.completed_at = completed_at;
+    }
+
+    public Sales setOnSaleYn(boolean onSaleYn){
+        this.saleYn=onSaleYn;
+        return this;
+    }
+
+    public Sales setBuyerAddress(String buyerAddress){
+        this.buyerAddress=buyerAddress;
+        return this;
+    }
+
+    public Sales setCompletedAt(LocalDateTime time){
+        this.completed_at=time;
+        return this;
     }
 }

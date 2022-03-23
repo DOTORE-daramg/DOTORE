@@ -1,8 +1,11 @@
 package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.FeedbackReq;
+import com.daram.dotore.api.request.SaleCompleteReq;
+import com.daram.dotore.api.request.SalesCancelReq;
 import com.daram.dotore.api.request.SalesReq;
 import com.daram.dotore.db.entity.Feedback;
+import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Sales;
 import com.daram.dotore.db.repository.FeedbackRepository;
 import com.daram.dotore.db.repository.SaleRepository;
@@ -11,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 public class SaleServiceImpl implements SaleService{
@@ -34,5 +38,23 @@ public class SaleServiceImpl implements SaleService{
     @Override
     public Sales getEmptyCompletedAtItem(BigInteger token_id) {
         return saleRepository.getEmptyCompletedAtItem(token_id);
+    }
+
+    @Override
+    public Sales updateSaleYnAndBuyerAddressAndCompletedAt(SaleCompleteReq saleCompleteReq) {
+        BigInteger tokenId = saleCompleteReq.getTokenId();
+        Optional<Sales> item = saleRepository.findByTokenId(tokenId);
+        if(!item.isPresent()){
+            return null;
+        }
+        item.get().setOnSaleYn(false);
+        item.get().setBuyerAddress(saleCompleteReq.getBuyerAddress());
+        item.get().setCompletedAt(LocalDateTime.now());
+        return saleRepository.save(item.get());
+    }
+
+    @Override
+    public void deleteCompletedAt(BigInteger tokenId,String address) {
+        saleRepository.findDelete(tokenId,address);
     }
 }
