@@ -1,6 +1,7 @@
 package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.FeedbackReq;
+import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackRes;
 import com.daram.dotore.api.service.FeedbackService;
@@ -58,5 +59,16 @@ public class FeedBackController {
         } catch (Exception e) {
             return ResponseEntity.status(400).body(FeedbackRes.of("Fail"));
         }
+    }
+
+    @PostMapping("/answer")
+    @ApiOperation(value = "피드백 내용 작성(답변)", notes = "피드백 상세페이지에서 글을 작성")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> writeAnswer(@RequestBody FeedbackReq feedbackReq) {
+        return ResponseEntity.status(200)
+            .body(BaseRes.of("Success"));
     }
 }
