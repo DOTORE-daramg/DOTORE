@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
-import { FeedbackToggleButton } from './FeedbackToggleButton';
+import { FeedbackToggleButtons } from './FeedbackToggleButtons';
 
 
 export interface IFeedback {
@@ -62,14 +62,20 @@ const TableCell = styled.span`
   }
 `;
 
-export const ArtistFeedbackList = ({ feedbackList }:ArtistFeedbackListProps) => {
+export const ArtistFeedbackList = ({ feedbackList }: ArtistFeedbackListProps) => {
+  const [selectedIndex, setSelectedIndex] = useState<0 | 1>(0);  // 0: 받은 질문, 1: 보낸 질문
+  const handleToggleSelectedIndex = () => {
+    setSelectedIndex(prev => prev === 1 ? 0 : 1);
+  }
+
   return (
     <Container>
-      <FeedbackToggleButton
+      <FeedbackToggleButtons
         leftLabel='받은 질문'
         rightLabel='보낸 질문'
-        selected={0}
-      ></FeedbackToggleButton>
+        selected={selectedIndex}
+        handleToggleSelectedIndex={handleToggleSelectedIndex}
+      ></FeedbackToggleButtons>
       <TableContainer>
         <TableHeader>
           <TableBlock width='15%'>
@@ -79,7 +85,7 @@ export const ArtistFeedbackList = ({ feedbackList }:ArtistFeedbackListProps) => 
             <TableCell>작품명</TableCell>
           </TableBlock>
           <TableBlock width='33%'>
-            <TableCell>질문명</TableCell>
+            <TableCell>질문 내용</TableCell>
           </TableBlock>
           <TableBlock width='19%'>
             <TableCell>최근 활동일</TableCell>

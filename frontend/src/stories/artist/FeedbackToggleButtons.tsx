@@ -1,10 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-interface FeedbackToggleButtonProps {
+interface FeedbackToggleButtonsProps {
   leftLabel: string;
   rightLabel: string;
   selected: 0 | 1;
+  handleToggleSelectedIndex: () => void;
 }
 
 const ToggleButtonSpanContainer = styled.div`
@@ -21,22 +22,29 @@ const ToggleButtonSpan = styled.span<{ isSelected: boolean }>`
   font-size: 1.5rem;
   font-weight: ${props => props.isSelected ? '800' : '500'};
   color: ${props => props.isSelected ? '#6667AB' : '#626262'};
+  cursor: pointer;
+  user-select: none;
   @media screen and (max-width: 768px) {
     font-size: 1.2rem;
   }
 `;
 
-export const FeedbackToggleButton = ({
+export const FeedbackToggleButtons = ({
   leftLabel,
   rightLabel,
-  selected
-}: FeedbackToggleButtonProps) => {
+  selected,
+  handleToggleSelectedIndex,
+}: FeedbackToggleButtonsProps) => {
   return (
     <ToggleButtonSpanContainer>
-      <ToggleButtonSpan isSelected={selected === 0}>
+      <ToggleButtonSpan
+        onClick={selected === 0 ? undefined : handleToggleSelectedIndex}
+        isSelected={selected === 0}>
         {leftLabel}
       </ToggleButtonSpan>
-      <ToggleButtonSpan isSelected={selected === 1}>
+      <ToggleButtonSpan
+        onClick={selected === 1 ? undefined : handleToggleSelectedIndex}
+        isSelected={selected === 1}>
         {rightLabel}
       </ToggleButtonSpan>
     </ToggleButtonSpanContainer>
