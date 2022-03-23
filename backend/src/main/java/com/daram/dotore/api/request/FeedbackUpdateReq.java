@@ -6,11 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("AnswerRequest")
-public class AnswerReq {
-
-    private int articleno;
-    private String writer;
+@ApiModel("FeedbackUpdateRequest")
+public class FeedbackUpdateReq {
+    private int no;
     private String description;
     private String img_url;
 }

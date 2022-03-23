@@ -17,4 +17,6 @@ public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
         + "FROM feedback "
         + "WHERE respondent = :address", nativeQuery = true)
     List<Feedback> getRespondentList(@Param("address") String address);
+
+    Feedback findByArticleno(int articleno);
 }

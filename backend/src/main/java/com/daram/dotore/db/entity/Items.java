@@ -74,4 +74,9 @@ public class Items {
         this.owner_address=owner_address;
         return this;
     }
+
+    public Items setOnSaleYn(boolean onSaleYn){
+        this.onSaleYn=onSaleYn;
+        return this;
+    }
 }

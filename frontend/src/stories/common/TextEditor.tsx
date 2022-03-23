@@ -16,19 +16,22 @@ import "draft-js/dist/Draft.css";
 const Container = styled.div`
   width: 100%;
   padding: 1rem 0;
-  border: solid 1px black;
+  border: solid 1px #d9d9d9;
   border-radius: 8px;
+  background-color: #ffffff;
 `;
 
 const ButtonListContainer = styled.div`
   width: 16rem;
   display: flex;
+  flex-wrap: wrap;
   padding-left: 1rem;
   padding-bottom: 1rem;
   gap: 0.3rem;
   button {
     font-size: 1.2rem;
-    width: 2.4rem;
+    width: 2.2rem;
+    padding: 0;
     border: 1px solid #d0d0d0;
     border-radius: 0;
     background-color: #fff;
@@ -47,16 +50,28 @@ const ButtonListContainer = styled.div`
       text-decoration: line-through;
     }
   }
+  @media screen and (max-width: 500px) {
+    width: 8rem;
+    button {
+      font-size: 0.8rem;
+      width: 1.6rem;
+      padding: 0;
+    }
+  }
 `;
 
 const EditorContainer = styled.div`
   width: 100%;
   padding: 1rem;
   overflow: hidden scroll;
-  border: solid 1px black;
+  border-top: solid 1px #d9d9d9;
+  border-bottom: solid 1px #d9d9d9;
   font-size: 1.1rem;
   line-height: 1.2rem;
   height: 16rem;
+  > div {
+    height: 14rem;
+  }
   h1 {
     font-size: 2rem;
     font-weight: 700;
