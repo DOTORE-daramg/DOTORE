@@ -2,6 +2,7 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.FeedbackReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
+import com.daram.dotore.api.request.SalesCancelReq;
 import com.daram.dotore.api.request.SalesReq;
 import com.daram.dotore.db.entity.Feedback;
 import com.daram.dotore.db.entity.Items;
@@ -50,5 +51,10 @@ public class SaleServiceImpl implements SaleService{
         item.get().setBuyerAddress(saleCompleteReq.getBuyerAddress());
         item.get().setCompletedAt(LocalDateTime.now());
         return saleRepository.save(item.get());
+    }
+
+    @Override
+    public void deleteCompletedAt(BigInteger tokenId,String address) {
+        saleRepository.findDelete(tokenId,address);
     }
 }

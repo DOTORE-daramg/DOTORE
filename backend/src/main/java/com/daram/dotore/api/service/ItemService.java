@@ -55,4 +55,6 @@ public interface ItemService {
     Items updateOnSaleYn(BigInteger tokenId);
 
     Items updateOnSaleYnAndOwnerAddress(SaleCompleteReq saleCompleteReq);
+
+    Items updateCancelOnSaleYn(BigInteger tokenId);
 }

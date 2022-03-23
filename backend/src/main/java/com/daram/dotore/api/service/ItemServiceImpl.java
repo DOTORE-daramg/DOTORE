@@ -289,4 +289,14 @@ public class ItemServiceImpl implements ItemService {
         item.get().setOwner(saleCompleteReq.getBuyerAddress());
         return itemRepository.save(item.get());
     }
+
+    @Override
+    public Items updateCancelOnSaleYn(BigInteger tokenId) {
+        Optional<Items> item = itemRepository.findByTokenId(tokenId);
+        if(!item.isPresent()){
+            return null;
+        }
+        item.get().setOnSaleYn(false);
+        return itemRepository.save(item.get());
+    }
 }
