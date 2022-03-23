@@ -1,28 +1,21 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { FeedbackToggleButtons } from './FeedbackToggleButtons';
-
+import React, { useState } from "react";
+import styled from "styled-components";
+import { FeedbackToggleButtons } from "./FeedbackToggleButtons";
 
 export interface IFeedback {
-  isAnswered: boolean,
-  itemTitle: string,
-  questionTitle: string,
-  recentDate: string,
+  isAnswered: boolean;
+  itemTitle: string;
+  questionTitle: string;
+  recentDate: string;
 }
 
 interface ArtistFeedbackListProps {
   feedbackList: IFeedback[];
+  width: string;
 }
 
-const Container = styled.div`
-  width: 54rem;
-
-  @media screen and (max-width: 768px) {
-    width: 32rem;
-  }
-  @media screen and (max-width: 500px) {
-    width: 24rem;
-  }
+const Container = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
 `;
 
 const TableContainer = styled.div`
@@ -49,7 +42,7 @@ const TableRow = styled.div`
 
 const TableBlock = styled.div<{ width: string }>`
   display: flex;
-  width: ${props => props.width};
+  width: ${(props) => props.width};
 `;
 
 const TableCell = styled.span`
@@ -62,48 +55,51 @@ const TableCell = styled.span`
   }
 `;
 
-export const ArtistFeedbackList = ({ feedbackList }: ArtistFeedbackListProps) => {
-  const [selectedIndex, setSelectedIndex] = useState<0 | 1>(0);  // 0: 받은 질문, 1: 보낸 질문
+export const ArtistFeedbackList = ({
+  feedbackList,
+  width,
+}: ArtistFeedbackListProps) => {
+  const [selectedIndex, setSelectedIndex] = useState<0 | 1>(0); // 0: 받은 질문, 1: 보낸 질문
   const handleToggleSelectedIndex = () => {
-    setSelectedIndex(prev => prev === 1 ? 0 : 1);
-  }
+    setSelectedIndex((prev) => (prev === 1 ? 0 : 1));
+  };
 
   return (
-    <Container>
+    <Container width={width}>
       <FeedbackToggleButtons
-        leftLabel='받은 질문'
-        rightLabel='보낸 질문'
+        leftLabel="받은 질문"
+        rightLabel="보낸 질문"
         selected={selectedIndex}
         handleToggleSelectedIndex={handleToggleSelectedIndex}
       ></FeedbackToggleButtons>
       <TableContainer>
         <TableHeader>
-          <TableBlock width='15%'>
+          <TableBlock width="15%">
             <TableCell>답변 여부</TableCell>
           </TableBlock>
-          <TableBlock width='33%'>
+          <TableBlock width="33%">
             <TableCell>작품명</TableCell>
           </TableBlock>
-          <TableBlock width='33%'>
+          <TableBlock width="33%">
             <TableCell>질문 내용</TableCell>
           </TableBlock>
-          <TableBlock width='19%'>
+          <TableBlock width="19%">
             <TableCell>최근 활동일</TableCell>
           </TableBlock>
         </TableHeader>
         {feedbackList.map((feedback) => (
           <TableRow>
-            <TableBlock width='15%'>
-              <TableCell>{ feedback.isAnswered ? '해결' : '미해결' }</TableCell>
+            <TableBlock width="15%">
+              <TableCell>{feedback.isAnswered ? "해결" : "미해결"}</TableCell>
             </TableBlock>
-            <TableBlock width='33%'>
-              <TableCell>{ feedback.itemTitle }</TableCell>
+            <TableBlock width="33%">
+              <TableCell>{feedback.itemTitle}</TableCell>
             </TableBlock>
-            <TableBlock width='33%'>
-              <TableCell>{ feedback.questionTitle }</TableCell>
+            <TableBlock width="33%">
+              <TableCell>{feedback.questionTitle}</TableCell>
             </TableBlock>
-            <TableBlock width='19%'>
-              <TableCell>{ feedback.recentDate }</TableCell>
+            <TableBlock width="19%">
+              <TableCell>{feedback.recentDate}</TableCell>
             </TableBlock>
           </TableRow>
         ))}
