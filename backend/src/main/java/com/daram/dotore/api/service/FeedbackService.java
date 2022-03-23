@@ -24,6 +24,8 @@ public interface FeedbackService {
 
     FeedbackListRes getFeedbacks(BigInteger tokenId);
 
+    FeedbackListRes getMyFeedbacks(BigInteger tokenId, String address);
+
     List<Feedback> getRespondentList(String address);
 
     Feedback saveNewFeedback(FeedbackReq feedbackReq) throws Exception;
