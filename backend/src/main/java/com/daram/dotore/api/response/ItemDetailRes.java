@@ -21,6 +21,7 @@ public class ItemDetailRes extends BaseRes {
     private String author_address;
     private String owner_address;
     private Boolean on_sale_yn;
+    private Boolean is_first;
 
     private String nickname;
     private int acorn;
@@ -51,6 +52,7 @@ public class ItemDetailRes extends BaseRes {
             res.setAuthor_address(item.getAuthor_address());
             res.setOwner_address(item.getOwner_address());
             res.setOn_sale_yn(item.getOnSaleYn());
+            res.setIs_first(item.getIsFirst());
             res.setFormat(item.getFormat());
         }
         if (user != null) {
