@@ -1,32 +1,32 @@
 import React from "react";
 import styled from "styled-components";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { IconName } from "@fortawesome/free-solid-svg-icons";
+import { Icon } from "./common/Icon";
 
 const InputDiv = styled.div<{ width: string }>`
-  width: ${props => props.width};
-  border-bottom: solid #D9D9D9 1px;
+  width: ${(props) => props.width};
+  border-bottom: solid #d9d9d9 1px;
   position: relative;
   svg {
-    position :absolute;
+    position: absolute;
     top: calc(50% - 0.5rem);
     left: 0.5rem;
-    color: #7B7B7B;
+    color: #7b7b7b;
     font-size: 1rem;
   }
 `;
 
-const StyledInput = styled.input<{ isPaddingStart :boolean }>`
+const StyledInput = styled.input<{ isPaddingStart: boolean }>`
   padding: 0.7rem;
-  margin-left: ${props => props.isPaddingStart ? '1.3rem' : '0'};
+  margin-left: ${(props) => (props.isPaddingStart ? "1.3rem" : "0")};
   border: none;
-  width: ${props => props.isPaddingStart ? 'calc(100% - 1.3rem)' : '100%'};
-  font-family: 'SUIT', sans-serif;
+  width: ${(props) => (props.isPaddingStart ? "calc(100% - 1.3rem)" : "100%")};
+  font-family: "SUIT", sans-serif;
   :focus {
     outline: none;
   }
   ::placeholder {
-    color: #7B7B7B;
+    color: #7b7b7b;
   }
 `;
 
@@ -35,35 +35,42 @@ const StyledTextArea = styled.textarea`
   border: none;
   width: 100%;
   resize: none;
-  font-family: 'SUIT', sans-serif;
+  font-family: "SUIT", sans-serif;
   :focus {
     outline: none;
   }
   ::placeholder {
-    color: #7B7B7B;
+    color: #7b7b7b;
   }
 `;
 
 interface InputProps {
-  placeholder?: string,
-  icon?: IconDefinition,
-  width: string,
-  rows?: number,
-  maxLength?: number,
-  onChange?: (event:any) => void,
+  placeholder?: string;
+  icon?: IconName;
+  width: string;
+  rows?: number;
+  maxLength?: number;
+  onChange?: (event: any) => void;
+  name?: string;
+  value?: string;
 }
 
 export const InputBox = ({
   placeholder,
   icon,
   width,
-  maxLength=100,
+  maxLength = 100,
   onChange,
+  name,
+  value,
+  ...props
 }: InputProps) => {
   return (
     <InputDiv width={width}>
-      {icon ? <FontAwesomeIcon icon={icon}></FontAwesomeIcon> : null}
+      {icon ? <Icon style="fas" icon={icon}></Icon> : null}
       <StyledInput
+        name={name}
+        value={value}
         placeholder={placeholder}
         isPaddingStart={!!icon}
         onChange={onChange}
@@ -77,7 +84,7 @@ export const TextAreaBox = ({
   placeholder,
   width,
   rows,
-  maxLength=100,
+  maxLength = 100,
   onChange,
 }: InputProps) => {
   return (
@@ -91,4 +98,3 @@ export const TextAreaBox = ({
     </InputDiv>
   );
 };
-
