@@ -3,3 +3,7 @@ import { api } from "./api";
 export const viewAll = async () => {
   return await api.get(`/api/items/all`);
 };
+
+export const getItem = async (tokenId?: string) => {
+  return await api.get(`/api/items/${tokenId}`);
+};

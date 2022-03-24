@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { viewAll } from "../../api/list";
+import { viewAll } from "../../api/item";
 import StyledPagination from "../../stories/common/StyledPagination";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
@@ -100,13 +100,6 @@ const ItemContainer = styled.div`
   }
 `;
 const List = () => {
-  const item = {
-    title: "야, 너도 도토리 할 수 있어!",
-    imgUrl: "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
-    nickname: "이호진",
-    download: 20,
-    like: 150,
-  };
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";

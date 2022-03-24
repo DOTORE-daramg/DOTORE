@@ -105,6 +105,7 @@ const ParentList = () => {
     nickname: "이호진",
     download: 20,
     like: 150,
+    tokenId: "23",
   };
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });

@@ -1,5 +1,6 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Icon } from "../common/Icon";
 import { Image } from "../detail/Image";
@@ -48,20 +49,24 @@ interface ItemProps {
   nickname: string;
   download: number;
   like: number;
+  tokenId: string;
 }
+
 const Item = ({
   item_hash,
   item_title,
   nickname,
   download,
   like,
+  tokenId,
 }: ItemProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "list" : isTablet ? "list" : "listM";
+  const navigate = useNavigate();
 
   return (
-    <Container>
+    <Container onClick={() => navigate(`/detail/${tokenId}`)}>
       <Image
         mode={viewMode}
         imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
