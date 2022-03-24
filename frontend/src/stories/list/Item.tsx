@@ -18,6 +18,7 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  margin-top: 10px;
 `;
 
 const AmountContainer = styled.div`
@@ -25,6 +26,7 @@ const AmountContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 5px;
   @media screen and (max-width: 768px) {
     width: 50%;
   }
@@ -41,22 +43,33 @@ const Amount = styled.div`
 `;
 
 interface ItemProps {
-  imgUrl: string;
-  title: string;
+  item_hash: string;
+  item_title: string;
   nickname: string;
   download: number;
   like: number;
 }
-const Item = ({ imgUrl, title, nickname, download, like }: ItemProps) => {
+const Item = ({
+  item_hash,
+  item_title,
+  nickname,
+  download,
+  like,
+}: ItemProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "list" : isTablet ? "list" : "listM";
 
   return (
     <Container>
-      <Image mode={viewMode} imageUrl={imgUrl} name={title} />
+      <Image
+        mode={viewMode}
+        imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+        // imageUrl={item_hash}
+        name={item_title}
+      />
       <TextContainer>
-        <Title>{title}</Title>
+        <Title>{item_title}</Title>
         <Amount>{nickname}</Amount>
       </TextContainer>
       <AmountContainer>
