@@ -7,3 +7,7 @@ export const viewAll = async () => {
 export const getItem = async (tokenId?: string) => {
   return await api.get(`/api/items/${tokenId}`);
 };
+
+export const getRelatedItem = async (tokenId?: string) => {
+  return await api.get(`/api/items/relation/${tokenId}`);
+};

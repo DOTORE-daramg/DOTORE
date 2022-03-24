@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getItem } from "../api/item";
+import { getItem, getRelatedItem } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
 import { Badge } from "../stories/common/Badge";
@@ -11,6 +11,7 @@ import { Description } from "../stories/detail/Description";
 import { Image } from "../stories/detail/Image";
 import Info from "../stories/detail/Info";
 import Questions from "../stories/detail/Questions";
+import { RealtedNFTItemProps } from "../stories/detail/RealtedNFTItem";
 import RelatedNFT from "../stories/detail/RelatedNFT";
 import { SaleModal } from "../stories/detail/SaleModal";
 import Transaction from "../stories/detail/Transaction";
@@ -153,7 +154,7 @@ const SaleContainer = styled.div`
     color: rgba(102, 103, 171, 1);
   }
 `;
-type Iitem = {
+type item = {
   item_title: string;
   item_hash: string;
   nickname: string;
@@ -163,33 +164,34 @@ type Iitem = {
   is_first: boolean;
   tags: string[];
 };
+
 const Detail = () => {
-  const relatedNFTs = [
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐",
-      itemAddress: "1",
-    },
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐2",
-      itemAddress: "2",
-    },
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐",
-      itemAddress: "3",
-    },
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐",
-      itemAddress: "4",
-    },
-  ];
+  // const relatedNFTs = [
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐",
+  //     itemAddress: "1",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐2",
+  //     itemAddress: "2",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐",
+  //     itemAddress: "3",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐",
+  //     itemAddress: "4",
+  //   },
+  // ];
 
   const transacrions = [
     {
@@ -236,7 +238,7 @@ const Detail = () => {
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(true);
-  const [item, setItem] = useState<Iitem>({
+  const [item, setItem] = useState<item>({
     item_title: "",
     item_hash: "",
     nickname: "",
@@ -255,6 +257,8 @@ const Detail = () => {
     item_description,
     tags,
   } = item;
+
+  const [relatedNFTs, setRelatedNFTs] = useState<RealtedNFTItemProps[]>();
   const [isModalShow, setIsModalShow] = useState(false);
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
@@ -265,12 +269,15 @@ const Detail = () => {
   useEffect(() => {
     if (isLoading) {
       getItem(tokenId).then((res) => {
-        console.log(res.data);
         setItem(res.data);
         setIsFirst(res.data.is_first);
+        setIsSale(res.data.on_sale_yn);
+      });
+      getRelatedItem(tokenId).then((res) => {
+        setRelatedNFTs(res.data.data);
       });
     }
-  }, []);
+  }, [tokenId]);
 
   return (
     <Container>
@@ -359,7 +366,7 @@ const Detail = () => {
         </DescContainer>
       </MainContainer>
 
-      {isOwner && !isSale && (
+      {isOwner && !isFirst && !isSale && (
         <>
           <SaleContainer>
             <Icon style="fas" icon="circle-exclamation" />
@@ -371,7 +378,7 @@ const Detail = () => {
         </>
       )}
 
-      {isOwner && isSale && (
+      {isOwner && !isFirst && isSale && (
         <>
           <SaleContainer>
             <Icon style="fas" icon="circle-exclamation" />
@@ -395,7 +402,7 @@ const Detail = () => {
 
       {/* 하단 정보 컨테이너 시작 */}
       <DetailContainer>
-        <RelatedNFT relatedNFTs={relatedNFTs} />
+        {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
         {isFirst ? (
           <QuestionContainer>
             <Questions questions={questions} />
