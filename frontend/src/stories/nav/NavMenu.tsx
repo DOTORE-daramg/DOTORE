@@ -1,16 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
-const Wrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
 const DropDownContent = styled.div`
   display: none;
   position: absolute;
-  top: 55px;
+  top: 50px;
   background-color: white;
   min-width: 8rem;
   height: fit-content;
@@ -18,6 +13,16 @@ const DropDownContent = styled.div`
   border-radius: 10px;
   color: black;
   z-index: 1;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &:hover ${DropDownContent} {
+    display: block;
+  }
 `;
 
 const Item = styled.div`
@@ -28,9 +33,6 @@ const Item = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  &:hover ${DropDownContent} {
-    display: block;
-  }
 `;
 
 const DropDownItem = styled.div`
@@ -46,6 +48,7 @@ interface ButtonProps {
   /**
    * 드롭다운에 들어갈 세부 메뉴들
    */
+  link?: Array<string>;
   dropdown?: Array<string>;
   /**
    * Optional click handler
@@ -56,16 +59,26 @@ interface ButtonProps {
 /**
  * Primary UI component for user interaction
  */
-export const NavMenu = ({ label, dropdown, ...props }: ButtonProps) => {
+export const NavMenu = ({
+  label,
+  dropdown,
+  link,
+  onClick,
+  ...props
+}: ButtonProps) => {
+  const navigate = useNavigate();
   return (
     <>
-      <Wrapper>
+      <Wrapper onClick={onClick}>
         <Item {...props}>
           {label}
           <DropDownContent>
             {dropdown &&
+              link &&
               dropdown.map((menu, index) => (
-                <DropDownItem key={index}>{menu}</DropDownItem>
+                <DropDownItem onClick={() => navigate(link[index])} key={index}>
+                  {menu}
+                </DropDownItem>
               ))}
             {/* <DropDownItem>hi</DropDownItem> */}
           </DropDownContent>
