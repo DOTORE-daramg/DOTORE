@@ -5,6 +5,9 @@ import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
+import { useRecoilValue } from "recoil";
+import { isLoggedInState, userInfoState } from "../..";
+import { mintTokenContract } from "../../contracts";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -46,6 +49,9 @@ const InputTextContainer = styled.div`
 `;
 
 const ParentMinting = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const userInfo = useRecoilValue(userInfoState);
+
   const handleChangeTitleInput = (e: any) => {
     console.log(e.target.value);
   };
@@ -55,12 +61,45 @@ const ParentMinting = () => {
   const handleChangeTagInput = (e: any) => {
     console.log(e.target.value);
   };
+
+  const onClickMint = async () => {
+    console.log("Click Mint!!");
+    try {
+      if (!isLoggedIn) {
+        return;
+      }
+      const response = await mintTokenContract.methods
+        .mintToken("www.ssafy.com")
+        .send({ from: userInfo.address, gas: 3000000 });
+
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickBalanceOf = async () => {
+    try {
+      const balance = await mintTokenContract.methods
+        .balanceOf(userInfo.address)
+        .call();
+      const fileUrlRes = await mintTokenContract.methods.fileUrls(1).call();
+
+      console.log("balance: ", balance);
+      console.log("fileUrlRes: ", fileUrlRes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Container>
       <MintingContainer>
         <TitleContainer>
           <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
+
+        <button onClick={onClickBalanceOf}>balance</button>
 
         <InputContainer>
           <FileDropBox></FileDropBox>
@@ -87,7 +126,7 @@ const ParentMinting = () => {
               label={"작품 등록"}
               width="7rem"
               backgroundColor="#6667ab"
-              onClick={() => console.log("작품 등록")}
+              onClick={onClickMint}
             ></Button>
           </InputTextContainer>
         </InputContainer>
