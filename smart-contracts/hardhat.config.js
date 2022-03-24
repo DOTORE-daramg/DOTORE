@@ -33,6 +33,11 @@ module.exports = {
       accounts:
         process.env.PRIVATE_KEY !== undefined ? [process.env.PRIVATE_KEY] : [],
     },
+    localnw: { // 네트워크 이름 development -> localnw (local network)
+      url: "http://127.0.0.1:7545",     // Localhost (default: none)
+      // port: 7545,            // Standard Ethereum port (default: none)
+      network_id: "1337",       // Any network (default: none)
+    },
   },
   // gasReporter: {
   //   enabled: process.env.REPORT_GAS !== undefined,
