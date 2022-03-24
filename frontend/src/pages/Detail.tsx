@@ -10,6 +10,7 @@ import { Image } from "../stories/detail/Image";
 import Info from "../stories/detail/Info";
 import Questions from "../stories/detail/Questions";
 import RelatedNFT from "../stories/detail/RelatedNFT";
+import { SaleModal } from "../stories/detail/SaleModal";
 import Transaction from "../stories/detail/Transaction";
 import Skeleton from "../stories/list/Skeleton";
 import { Title } from "../stories/Title";
@@ -131,6 +132,26 @@ const InfoContainer = styled.div`
   }
 `;
 
+const SaleContainer = styled.div`
+  width: calc(28rem + 350px);
+  background-color: rgba(102, 103, 171, 0.3);
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-top: 20px;
+  div {
+    margin-left: 10px;
+  }
+  #link {
+    margin-left: 5px;
+    cursor: pointer;
+  }
+  #link :hover {
+    color: rgba(102, 103, 171, 1);
+  }
+`;
+
 const Detail = () => {
   const relatedNFTs = [
     {
@@ -199,7 +220,17 @@ const Detail = () => {
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
 
   // 처음 렌더링 할 때 isFirst값 가져와서 저장해 줘야 함
-  const [isFirst, setIsFirst] = useState(true);
+  const [isFirst, setIsFirst] = useState(false);
+  // 2차 NFT의 경우 구매 가능, 불가능으로 나뉜다
+  const [isSale, setIsSale] = useState(true);
+  // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
+  const [isOwner, setIsOwner] = useState(true);
+
+  const [isModalShow, setIsModalShow] = useState(false);
+  const onClickToggleModal = () => {
+    setIsModalShow((prev) => !prev);
+    console.log("toggle!");
+  };
 
   return (
     <Container>
@@ -259,7 +290,7 @@ const Detail = () => {
                 />
               )}
             </AmountContainer>
-            {isFirst ? (
+            {isFirst && (
               <ButtonContainer>
                 <Button
                   width="6.3rem"
@@ -272,16 +303,58 @@ const Detail = () => {
                   backgroundColor="#6667ab"
                 />
               </ButtonContainer>
-            ) : (
+            )}
+            {!isFirst && isSale && (
               <Button
                 width="7rem"
                 label="구매 가능"
                 backgroundColor="#6667ab"
               />
             )}
+            {!isFirst && !isSale && (
+              <Button
+                width="8rem"
+                label="구매 불가능"
+                backgroundColor="#a09fae"
+              />
+            )}
           </BuyContainer>
         </DescContainer>
       </MainContainer>
+
+      {isOwner && !isSale && (
+        <>
+          <SaleContainer>
+            <Icon style="fas" icon="circle-exclamation" />
+            <div>아직 작품의 판매가 시작되지 않았어요. 판매 등록을 할까요?</div>
+            <div id="link" onClick={onClickToggleModal}>
+              <Icon style="fas" icon="right-long" />
+            </div>
+          </SaleContainer>
+        </>
+      )}
+
+      {isOwner && isSale && (
+        <>
+          <SaleContainer>
+            <Icon style="fas" icon="circle-exclamation" />
+            <div>
+              작품이 0.03eth에 판매 등록되어 있습니다. 거래를 취소하거나 가격을
+              바꿀까요?
+            </div>
+            <div id="link" onClick={onClickToggleModal}>
+              <Icon style="fas" icon="right-long" />
+            </div>
+          </SaleContainer>
+        </>
+      )}
+
+      {isModalShow && (
+        <SaleModal
+          imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
+          onClose={onClickToggleModal}
+        />
+      )}
 
       {/* 하단 정보 컨테이너 시작 */}
       <DetailContainer>
