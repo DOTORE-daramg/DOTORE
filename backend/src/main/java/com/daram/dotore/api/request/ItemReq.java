@@ -12,13 +12,13 @@ import lombok.Setter;
 public class ItemReq {
 
     private BigInteger tokenId;
-    private String item_hash;
-    private String item_title;
-    private String item_description;
-    private LocalDateTime created_at;
-    private String author_address;
-    private String owner_address;
-    private Boolean is_first;
+    private String itemHash;
+    private String itemTitle;
+    private String itemDescription;
+    private LocalDateTime createdAt;
+    private String authorAddress;
+    private String ownerAddress;
+    private Boolean isFirst;
     private String format;
     private String[] tags;
     private BigInteger[] original;

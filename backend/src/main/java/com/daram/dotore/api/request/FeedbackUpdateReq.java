@@ -10,5 +10,5 @@ import lombok.Setter;
 public class FeedbackUpdateReq {
     private int no;
     private String description;
-    private String img_url;
+    private String imgUrl;
 }

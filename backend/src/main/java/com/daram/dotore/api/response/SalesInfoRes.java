@@ -1,14 +1,10 @@
 package com.daram.dotore.api.response;
 
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Sales;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
@@ -18,7 +14,7 @@ import java.time.LocalDateTime;
 public class SalesInfoRes extends BaseRes{
 
     private String cashContractAddress;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     private String saleContractAddress;
     private int saleId;
     private Boolean saleYn;
@@ -38,7 +34,7 @@ public class SalesInfoRes extends BaseRes{
         SalesInfoRes res = new SalesInfoRes();
         res.setResult(result);
         res.setCashContractAddress(item.getCashContractAddress());
-        res.setCreated_at(item.getCreated_at());
+        res.setCreatedAt(item.getCreated_at());
         res.setSaleContractAddress(item.getSaleContractAddress());
         res.setSaleId(item.getSaleId());
         res.setSaleYn(item.getSaleYn());

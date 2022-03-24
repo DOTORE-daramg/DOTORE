@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class responseFeedbackVO {
-    int articleno;
-    String item_title;
+    int articleNo;
+    String itemTitle;
     String questioner;
     String description;
     boolean YN;
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
     BigInteger tokenId;
 }

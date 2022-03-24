@@ -4,17 +4,13 @@ import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.db.entity.Download;
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
 import com.daram.dotore.db.repository.*;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.Like;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -74,7 +70,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users updateProfile(ProfileUpdateReq profileUpdateReq) {
         Users user = getUserByAddress(profileUpdateReq.getAddress());
-        return userRepository.save(user.setProfile_img_url(profileUpdateReq.getProfile_img_url()));
+        return userRepository.save(user.setProfile_img_url(profileUpdateReq.getProfileImgUrl()));
     }
     @Override
     public List<Users> getUsers() {

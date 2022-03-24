@@ -1,15 +1,10 @@
 package com.daram.dotore.api.response;
 
-import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Items;
-import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigInteger;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
