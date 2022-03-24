@@ -11,11 +11,11 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class requestFeedbackVO {
-    int articleno; //feed
+    int articleNo; //feed
     BigInteger tokenId; //feed
-    String item_title; //items
+    String itemTitle; //items
     String questioner; //본인의 주소 feed
     String description; //feed
     boolean YN;
-    LocalDateTime created_at; //feed
+    LocalDateTime createdAt; //feed
 }

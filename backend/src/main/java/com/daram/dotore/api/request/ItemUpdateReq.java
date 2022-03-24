@@ -10,5 +10,5 @@ import lombok.Setter;
 @ApiModel("ItemUpdateRequest")
 public class ItemUpdateReq {
     private BigInteger tokenId;
-    private String owner_address;
+    private String ownerAddress;
 }

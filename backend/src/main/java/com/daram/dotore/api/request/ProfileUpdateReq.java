@@ -9,5 +9,5 @@ import lombok.Setter;
 @ApiModel("ProfileUpdateRequest")
 public class ProfileUpdateReq {
     String address;
-    String profile_img_url;
+    String profileImgUrl;
 }

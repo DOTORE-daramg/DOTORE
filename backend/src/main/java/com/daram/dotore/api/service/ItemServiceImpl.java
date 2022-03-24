@@ -48,14 +48,14 @@ public class ItemServiceImpl implements ItemService {
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
             .tokenId(itemReq.getTokenId())
-            .item_hash(itemReq.getItem_hash())
-            .item_title(itemReq.getItem_title())
-            .item_description(itemReq.getItem_description())
+            .item_hash(itemReq.getItemHash())
+            .item_title(itemReq.getItemTitle())
+            .item_description(itemReq.getItemDescription())
             .created_at(LocalDateTime.now())
-            .author_address(itemReq.getAuthor_address())
-            .owner_address(itemReq.getOwner_address())
+            .author_address(itemReq.getAuthorAddress())
+            .owner_address(itemReq.getOwnerAddress())
             .on_sale_yn(false)
-            .is_first(itemReq.getIs_first())
+            .is_first(itemReq.getIsFirst())
             .format(itemReq.getFormat())
             .build());
 
@@ -89,7 +89,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items updateOwner(ItemUpdateReq itemReq) {
         Items item = getItemByTokenId(itemReq.getTokenId());
-        return itemRepository.save(item.setOwner(itemReq.getOwner_address()));
+        return itemRepository.save(item.setOwner(itemReq.getOwnerAddress()));
     }
 
 

@@ -6,7 +6,6 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 

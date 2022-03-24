@@ -11,5 +11,5 @@ import lombok.Setter;
 public class ItemRelationVO {
 
     private BigInteger tokenId;
-    private String item_hash;
+    private String itemHash;
 }

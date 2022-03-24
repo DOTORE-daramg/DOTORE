@@ -10,10 +10,10 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FeedbackAnswerVO {
 
-    private int answerno;
+    private int answerNo;
     private String writer;
     private String description;
-    private LocalDateTime created_at;
-    private String img_url;
-    private String profile_img_url;
+    private LocalDateTime createdAt;
+    private String imgUrl;
+    private String profileImgUrl;
 }

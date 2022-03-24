@@ -11,7 +11,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.Like;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin("*")
 @Api(value = "마이페이지 API")
@@ -108,6 +106,9 @@ public class MypageController {
     public ResponseEntity<ItemListRes> getItemList(@PathVariable String address) {
         try {
             List<Items> list = itemService.getItemList(address);
+            if(list.size()==0){
+                return ResponseEntity.status(201).body(ItemListRes.of("작품 목록이 없습니다.", list));
+            }
             //Users user = userService.getUserByAddress(address);
             //String nickname = user.getNickname();
             return ResponseEntity.status(200).body(ItemListRes.of("Success", list));

@@ -1,8 +1,6 @@
 package com.daram.dotore.api.response;
 
-import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
-import com.daram.dotore.db.entity.Items;
 import io.swagger.annotations.ApiModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +12,7 @@ import lombok.Setter;
 @ApiModel("FeedbackDetailResponse")
 public class FeedbackDetailRes extends BaseRes {
 
-    private int articleno;
+    private int articleNo;
     private FeedbackQuestionVO question;
     private List<FeedbackAnswerVO> answers = new ArrayList<>();
 

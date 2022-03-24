@@ -1,13 +1,7 @@
 package com.daram.dotore.db.repository;
 
-import com.daram.dotore.api.request.SalesCancelReq;
-import com.daram.dotore.db.entity.Feedback;
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Sales;
 import java.math.BigInteger;
-import java.text.Bidi;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -15,9 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 public interface SaleRepository extends JpaRepository<Sales, Integer> {
     Optional<Sales> findByTokenIdAndSaleYn(BigInteger tokenId, boolean saleYn);

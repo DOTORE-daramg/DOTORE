@@ -1,18 +1,13 @@
 package com.daram.dotore.api.controller;
 
-import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
 import com.daram.dotore.api.request.SalesCancelReq;
 import com.daram.dotore.api.request.SalesReq;
 import com.daram.dotore.api.response.BaseRes;
-import com.daram.dotore.api.response.FeedbackRes;
-import com.daram.dotore.api.response.ItemAuthorListRes;
 import com.daram.dotore.api.response.SalesInfoRes;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.SaleService;
-import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Sales;
-import com.daram.dotore.db.entity.Users;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -22,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
-import java.util.List;
 
 @CrossOrigin("*")
 @Api(value = "작품 판매 API")
