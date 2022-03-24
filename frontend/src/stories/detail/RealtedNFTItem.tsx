@@ -7,15 +7,15 @@ import { Image } from "./Image";
 const Container = styled.div``;
 
 export interface RealtedNFTItemProps {
-  imageUrl: string;
+  item_hash: string;
   itemTitle?: string;
-  itemAddress: string;
+  tokenId: string;
 }
 
 const RealtedNFTItem = ({
-  imageUrl,
+  item_hash,
   itemTitle = "NFT",
-  itemAddress,
+  tokenId,
 }: RealtedNFTItemProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -27,8 +27,13 @@ const RealtedNFTItem = ({
   const navigate = useNavigate();
 
   return (
-    <Container onClick={() => navigate(`/detail/${itemAddress}`)}>
-      <Image imageUrl={imageUrl} name={itemTitle} mode={viewMode} />
+    <Container onClick={() => navigate(`/detail/${tokenId}`)}>
+      <Image
+        // imageUrl={item_hash}
+        imageUrl="https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2"
+        name={itemTitle}
+        mode={viewMode}
+      />
     </Container>
   );
 };

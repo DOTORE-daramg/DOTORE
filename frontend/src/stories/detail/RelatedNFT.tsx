@@ -7,6 +7,7 @@ import { Title } from "./Title";
 const Container = styled.div`
   width: 350px;
   height: 400px;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
     height: fit-content;
     margin-bottom: 60px;
@@ -74,10 +75,9 @@ const RelatedNFT = ({ relatedNFTs }: RelatedNFTProps) => {
       <ContentContainer>
         {relatedNFTs.map((nft) => (
           <RealtedNFTItem
-            key={nft.itemAddress}
-            imageUrl={nft.imageUrl}
-            itemTitle={nft.itemTitle}
-            itemAddress={nft.itemAddress}
+            key={nft.tokenId}
+            item_hash={nft.item_hash}
+            tokenId={nft.tokenId}
           />
         ))}
       </ContentContainer>

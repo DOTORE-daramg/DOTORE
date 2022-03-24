@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getItem, getRelatedItem } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
 import { Badge } from "../stories/common/Badge";
@@ -9,6 +11,7 @@ import { Description } from "../stories/detail/Description";
 import { Image } from "../stories/detail/Image";
 import Info from "../stories/detail/Info";
 import Questions from "../stories/detail/Questions";
+import { RealtedNFTItemProps } from "../stories/detail/RealtedNFTItem";
 import RelatedNFT from "../stories/detail/RelatedNFT";
 import { SaleModal } from "../stories/detail/SaleModal";
 import Transaction from "../stories/detail/Transaction";
@@ -151,34 +154,44 @@ const SaleContainer = styled.div`
     color: rgba(102, 103, 171, 1);
   }
 `;
+type item = {
+  item_title: string;
+  item_hash: string;
+  nickname: string;
+  like: number;
+  download: number;
+  item_description: string;
+  is_first: boolean;
+  tags: string[];
+};
 
 const Detail = () => {
-  const relatedNFTs = [
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐",
-      itemAddress: "1",
-    },
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐2",
-      itemAddress: "2",
-    },
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐",
-      itemAddress: "3",
-    },
-    {
-      imageUrl:
-        "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-      itemTitle: "다람쥐",
-      itemAddress: "4",
-    },
-  ];
+  // const relatedNFTs = [
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐",
+  //     itemAddress: "1",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐2",
+  //     itemAddress: "2",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐",
+  //     itemAddress: "3",
+  //   },
+  //   {
+  //     imageUrl:
+  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
+  //     itemTitle: "다람쥐",
+  //     itemAddress: "4",
+  //   },
+  // ];
 
   const transacrions = [
     {
@@ -218,19 +231,53 @@ const Detail = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
-
+  const [isLoading, setIsLoading] = useState(true);
   // 처음 렌더링 할 때 isFirst값 가져와서 저장해 줘야 함
   const [isFirst, setIsFirst] = useState(false);
   // 2차 NFT의 경우 구매 가능, 불가능으로 나뉜다
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(true);
+  const [item, setItem] = useState<item>({
+    item_title: "",
+    item_hash: "",
+    nickname: "",
+    like: 0,
+    download: 0,
+    item_description: "",
+    is_first: true,
+    tags: [],
+  });
+  const {
+    item_title,
+    item_hash,
+    nickname,
+    like,
+    download,
+    item_description,
+    tags,
+  } = item;
 
+  const [relatedNFTs, setRelatedNFTs] = useState<RealtedNFTItemProps[]>();
   const [isModalShow, setIsModalShow] = useState(false);
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
   };
+
+  const { tokenId } = useParams();
+  useEffect(() => {
+    if (isLoading) {
+      getItem(tokenId).then((res) => {
+        setItem(res.data);
+        setIsFirst(res.data.is_first);
+        setIsSale(res.data.on_sale_yn);
+      });
+      getRelatedItem(tokenId).then((res) => {
+        setRelatedNFTs(res.data.data);
+      });
+    }
+  }, [tokenId]);
 
   return (
     <Container>
@@ -245,32 +292,29 @@ const Detail = () => {
       <MainContainer>
         <Image
           name="메타콩즈1"
+          // imageUrl={item_hash}
           imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
           mode={viewMode}
         />
         <DescContainer>
           <Description
-            title="안경 쓴 늑대가 담배 피우고 있는 작품 이름"
-            descrition="의사 가운을 입고 있는 건가 봐요<br>
-          폭죽이랑 활을 들고 있네요..<br>
-          정말 알 수 없는 작품입니다<br>
-          늑대인지 개인지 소닉인지.."
+            title={item_title}
+            descrition={item_description}
             profileImgUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-            profileNickname="주비스"
+            profileNickname={nickname}
             profileLevel="Lv.2 꼬맹이도토리"
             size="fit-content"
           />
           <BadgeContainer>
-            <Badge label="도토리" />
-            <Badge label="해시태그어쩌구" />
-            <Badge label="메타버스" />
+            {tags &&
+              tags.map((tag, index) => <Badge label={tag} key={index} />)}
           </BadgeContainer>
           <BuyContainer>
             <AmountContainer>
               <Amount
                 style="fas"
                 icon="heart"
-                count={150}
+                count={like}
                 iconColor="#6667ab"
               />
               {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
@@ -278,7 +322,7 @@ const Detail = () => {
                 <Amount
                   style="fas"
                   icon="download"
-                  count={1500}
+                  count={download}
                   iconColor="#6667ab"
                 />
               ) : (
@@ -322,7 +366,7 @@ const Detail = () => {
         </DescContainer>
       </MainContainer>
 
-      {isOwner && !isSale && (
+      {isOwner && !isFirst && !isSale && (
         <>
           <SaleContainer>
             <Icon style="fas" icon="circle-exclamation" />
@@ -334,7 +378,7 @@ const Detail = () => {
         </>
       )}
 
-      {isOwner && isSale && (
+      {isOwner && !isFirst && isSale && (
         <>
           <SaleContainer>
             <Icon style="fas" icon="circle-exclamation" />
@@ -358,7 +402,7 @@ const Detail = () => {
 
       {/* 하단 정보 컨테이너 시작 */}
       <DetailContainer>
-        <RelatedNFT relatedNFTs={relatedNFTs} />
+        {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
         {isFirst ? (
           <QuestionContainer>
             <Questions questions={questions} />

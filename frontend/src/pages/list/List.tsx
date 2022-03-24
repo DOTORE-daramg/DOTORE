@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
+import { viewAll } from "../../api/item";
 import StyledPagination from "../../stories/common/StyledPagination";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
@@ -98,21 +99,24 @@ const ItemContainer = styled.div`
     grid-gap: 15px;
   }
 `;
-const ParentList = () => {
-  const item = {
-    item_title: "야, 너도 도토리 할 수 있어!",
-    item_hash: "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
-    nickname: "이호진",
-    download: 20,
-    like: 150,
-    tokenId: "23",
-  };
+const List = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
+
+  const [items, setItems] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    viewAll().then((res) => {
+      console.log(res.data.data);
+      setItems(res.data.data);
+      setIsLoading(false);
+    });
+  }, []);
   return (
     <Container>
-      <Title label="1차 NFT 보기" size="2rem"></Title>
+      <Title label="NFT 보기" size="2rem"></Title>
       <InnerContainer>
         <SideContainer>
           <InputBox width="100%" placeholder="작품명 / 작가명 검색" />
@@ -131,7 +135,10 @@ const ParentList = () => {
         </SideContainer>
         <MainContainer>
           <ItemContainer>
-            <Item {...item} />
+            {!isLoading &&
+              items &&
+              items.map((item) => <Item key={item.tokenId} {...item} />)}
+            {/* <Item {...item} /> */}
             <ItemSkeleton width={viewMode} />
             <ItemSkeleton width={viewMode} />
             <ItemSkeleton width={viewMode} />
@@ -148,4 +155,4 @@ const ParentList = () => {
   );
 };
 
-export default ParentList;
+export default List;

@@ -19,28 +19,28 @@ export const Primary = Template.bind({});
 Primary.args = {
   relatedNFTs: [
     {
-      imageUrl:
+      item_hash:
         "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
       itemTitle: "다람쥐",
-      itemAddress: "1",
+      tokenId: "1",
     },
     {
-      imageUrl:
+      item_hash:
         "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
       itemTitle: "다람쥐2",
-      itemAddress: "2",
+      tokenId: "2",
     },
     {
-      imageUrl:
+      item_hash:
         "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
       itemTitle: "다람쥐",
-      itemAddress: "3",
+      tokenId: "3",
     },
     {
-      imageUrl:
+      item_hash:
         "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
       itemTitle: "다람쥐",
-      itemAddress: "4",
+      tokenId: "4",
     },
   ],
 };

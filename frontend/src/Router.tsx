@@ -15,7 +15,7 @@ import Download from "./pages/artist/Download";
 import Like from "./pages/artist/Like";
 import Detail from "./pages/Detail";
 import FeedbackList from "./pages/artist/FeedbackList";
-import FeedbackCreate from './pages/FeedbackCreate';
+import FeedbackCreate from "./pages/FeedbackCreate";
 import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
@@ -28,6 +28,7 @@ import {
   userInfoState,
   userInfoTypes,
 } from ".";
+import List from "./pages/list/List";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -124,6 +125,7 @@ const AppRouter = () => {
           <Route path="prminting" element={<ParentMinting />} />
           <Route path="cdminting" element={<ChildMinting />} />
 
+          <Route path="list" element={<List />} />
           <Route path="prlist" element={<ParentList />} />
           <Route path="cdlist" element={<ChildList />} />
 
