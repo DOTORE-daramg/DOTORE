@@ -100,8 +100,8 @@ const ItemContainer = styled.div`
 `;
 const ParentList = () => {
   const item = {
-    item_title: "야, 너도 도토리 할 수 있어!",
-    item_hash: "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
+    itemTitle: "야, 너도 도토리 할 수 있어!",
+    itemHash: "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
     nickname: "이호진",
     download: 20,
     like: 150,

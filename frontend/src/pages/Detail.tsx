@@ -7,6 +7,7 @@ import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
 import { Badge } from "../stories/common/Badge";
 import { Icon } from "../stories/common/Icon";
+import LoadingSpinner from "../stories/common/LoadingSpinner";
 import { Description } from "../stories/detail/Description";
 import { Image } from "../stories/detail/Image";
 import Info from "../stories/detail/Info";
@@ -18,6 +19,13 @@ import Transaction from "../stories/detail/Transaction";
 import Skeleton from "../stories/list/Skeleton";
 import { Title } from "../stories/Title";
 
+const LoadContainer = styled.div`
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 const Container = styled.div`
   width: 100%;
   height: fit-content;
@@ -155,44 +163,17 @@ const SaleContainer = styled.div`
   }
 `;
 type item = {
-  item_title: string;
-  item_hash: string;
+  itemTitle: string;
+  itemHash: string;
   nickname: string;
   like: number;
   download: number;
-  item_description: string;
-  is_first: boolean;
+  itemDescription: string;
+  isFirst: boolean;
   tags: string[];
 };
 
 const Detail = () => {
-  // const relatedNFTs = [
-  //   {
-  //     imageUrl:
-  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-  //     itemTitle: "다람쥐",
-  //     itemAddress: "1",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-  //     itemTitle: "다람쥐2",
-  //     itemAddress: "2",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-  //     itemTitle: "다람쥐",
-  //     itemAddress: "3",
-  //   },
-  //   {
-  //     imageUrl:
-  //       "https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2",
-  //     itemTitle: "다람쥐",
-  //     itemAddress: "4",
-  //   },
-  // ];
-
   const transacrions = [
     {
       date: "거래 일시",
@@ -239,22 +220,22 @@ const Detail = () => {
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(true);
   const [item, setItem] = useState<item>({
-    item_title: "",
-    item_hash: "",
+    itemTitle: "",
+    itemHash: "",
     nickname: "",
     like: 0,
     download: 0,
-    item_description: "",
-    is_first: true,
+    itemDescription: "",
+    isFirst: true,
     tags: [],
   });
   const {
-    item_title,
-    item_hash,
+    itemTitle,
+    itemHash,
     nickname,
     like,
     download,
-    item_description,
+    itemDescription,
     tags,
   } = item;
 
@@ -270,8 +251,11 @@ const Detail = () => {
     if (isLoading) {
       getItem(tokenId).then((res) => {
         setItem(res.data);
-        setIsFirst(res.data.is_first);
-        setIsSale(res.data.on_sale_yn);
+        setIsFirst(res.data.isFirst);
+        setIsSale(res.data.onSaleYn);
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
       });
       getRelatedItem(tokenId).then((res) => {
         setRelatedNFTs(res.data.data);
@@ -280,141 +264,156 @@ const Detail = () => {
   }, [tokenId]);
 
   return (
-    <Container>
-      <TitleContainer>
-        {isFirst ? (
-          <Title label="1차 NFT" size="2rem" />
-        ) : (
-          <Title label="2차 NFT" size="2rem" />
-        )}
-      </TitleContainer>
-      {/* 상단 정보 Container */}
-      <MainContainer>
-        <Image
-          name="메타콩즈1"
-          // imageUrl={item_hash}
-          imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
-          mode={viewMode}
-        />
-        <DescContainer>
-          <Description
-            title={item_title}
-            descrition={item_description}
-            profileImgUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-            profileNickname={nickname}
-            profileLevel="Lv.2 꼬맹이도토리"
-            size="fit-content"
-          />
-          <BadgeContainer>
-            {tags &&
-              tags.map((tag, index) => <Badge label={tag} key={index} />)}
-          </BadgeContainer>
-          <BuyContainer>
-            <AmountContainer>
-              <Amount
-                style="fas"
-                icon="heart"
-                count={like}
-                iconColor="#6667ab"
-              />
-              {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
-              {isFirst ? (
-                <Amount
-                  style="fas"
-                  icon="download"
-                  count={download}
-                  iconColor="#6667ab"
-                />
-              ) : (
-                <Amount
-                  style="fab"
-                  icon="ethereum"
-                  count={0.03}
-                  iconColor="#6667ab"
-                />
-              )}
-            </AmountContainer>
-            {isFirst && (
-              <ButtonContainer>
-                <Button
-                  width="6.3rem"
-                  label="질문 등록"
-                  backgroundColor="#6667ab"
-                />
-                <Button
-                  width="6rem"
-                  label="다운로드"
-                  backgroundColor="#6667ab"
-                />
-              </ButtonContainer>
-            )}
-            {!isFirst && isSale && (
-              <Button
-                width="7rem"
-                label="구매 가능"
-                backgroundColor="#6667ab"
-              />
-            )}
-            {!isFirst && !isSale && (
-              <Button
-                width="8rem"
-                label="구매 불가능"
-                backgroundColor="#a09fae"
-              />
-            )}
-          </BuyContainer>
-        </DescContainer>
-      </MainContainer>
-
-      {isOwner && !isFirst && !isSale && (
-        <>
-          <SaleContainer>
-            <Icon style="fas" icon="circle-exclamation" />
-            <div>아직 작품의 판매가 시작되지 않았어요. 판매 등록을 할까요?</div>
-            <div id="link" onClick={onClickToggleModal}>
-              <Icon style="fas" icon="right-long" />
-            </div>
-          </SaleContainer>
-        </>
+    <>
+      {isLoading && (
+        <LoadContainer>
+          <LoadingSpinner />
+        </LoadContainer>
       )}
+      {!isLoading && (
+        <Container>
+          <TitleContainer>
+            {isFirst ? (
+              <Title label="1차 NFT" size="2rem" />
+            ) : (
+              <Title label="2차 NFT" size="2rem" />
+            )}
+          </TitleContainer>
+          {/* 상단 정보 Container */}
+          <MainContainer>
+            <Image
+              name="메타콩즈1"
+              // imageUrl={itemHash}
+              imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
+              mode={viewMode}
+            />
+            <DescContainer>
+              <Description
+                title={itemTitle}
+                descrition={itemDescription}
+                profileImgUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+                profileNickname={nickname}
+                profileLevel="Lv.2 꼬맹이도토리"
+                size="fit-content"
+              />
+              <BadgeContainer>
+                {tags &&
+                  tags.map((tag, index) => <Badge label={tag} key={index} />)}
+              </BadgeContainer>
+              <BuyContainer>
+                <AmountContainer>
+                  <Amount
+                    style="fas"
+                    icon="heart"
+                    count={like}
+                    iconColor="#6667ab"
+                  />
+                  {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
+                  {isFirst ? (
+                    <Amount
+                      style="fas"
+                      icon="download"
+                      count={download}
+                      iconColor="#6667ab"
+                    />
+                  ) : (
+                    <Amount
+                      style="fab"
+                      icon="ethereum"
+                      count={0.03}
+                      iconColor="#6667ab"
+                    />
+                  )}
+                </AmountContainer>
+                {isFirst && (
+                  <ButtonContainer>
+                    <Button
+                      width="6.3rem"
+                      label="질문 등록"
+                      backgroundColor="#6667ab"
+                    />
+                    <Button
+                      width="6rem"
+                      label="다운로드"
+                      backgroundColor="#6667ab"
+                    />
+                  </ButtonContainer>
+                )}
+                {!isFirst && isSale && (
+                  <Button
+                    width="7rem"
+                    label="구매 가능"
+                    backgroundColor="#6667ab"
+                  />
+                )}
+                {!isFirst && !isSale && (
+                  <Button
+                    width="8rem"
+                    label="구매 불가능"
+                    backgroundColor="#a09fae"
+                  />
+                )}
+              </BuyContainer>
+            </DescContainer>
+          </MainContainer>
 
-      {isOwner && !isFirst && isSale && (
-        <>
-          <SaleContainer>
-            <Icon style="fas" icon="circle-exclamation" />
-            <div>
-              작품이 0.03eth에 판매 등록되어 있습니다. 거래를 취소하거나 가격을
-              바꿀까요?
-            </div>
-            <div id="link" onClick={onClickToggleModal}>
-              <Icon style="fas" icon="right-long" />
-            </div>
-          </SaleContainer>
-        </>
+          {isOwner && !isFirst && !isSale && (
+            <>
+              <SaleContainer>
+                <Icon style="fas" icon="circle-exclamation" />
+                <div>
+                  아직 작품의 판매가 시작되지 않았어요. 판매 등록을 할까요?
+                </div>
+                <div id="link" onClick={onClickToggleModal}>
+                  <Icon style="fas" icon="right-long" />
+                </div>
+              </SaleContainer>
+            </>
+          )}
+
+          {isOwner && !isFirst && isSale && (
+            <>
+              <SaleContainer>
+                <Icon style="fas" icon="circle-exclamation" />
+                <div>
+                  작품이 0.03eth에 판매 등록되어 있습니다. 거래를 취소하거나
+                  가격을 바꿀까요?
+                </div>
+                <div id="link" onClick={onClickToggleModal}>
+                  <Icon style="fas" icon="right-long" />
+                </div>
+              </SaleContainer>
+            </>
+          )}
+
+          {isModalShow && (
+            <SaleModal
+              imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
+              onClose={onClickToggleModal}
+            />
+          )}
+
+          {/* 하단 정보 컨테이너 시작 */}
+          <DetailContainer>
+            {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
+            {isFirst ? (
+              <QuestionContainer>
+                <Questions questions={questions} />
+              </QuestionContainer>
+            ) : (
+              <InfoContainer>
+                <Transaction transacrions={transacrions} />
+                <Info
+                  address="0x48366...037453"
+                  tokenId="2"
+                  standard="ERC-721"
+                />
+              </InfoContainer>
+            )}
+          </DetailContainer>
+        </Container>
       )}
-
-      {isModalShow && (
-        <SaleModal
-          imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
-          onClose={onClickToggleModal}
-        />
-      )}
-
-      {/* 하단 정보 컨테이너 시작 */}
-      <DetailContainer>
-        {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
-        {isFirst ? (
-          <QuestionContainer>
-            <Questions questions={questions} />
-          </QuestionContainer>
-        ) : (
-          <InfoContainer>
-            <Transaction transacrions={transacrions} />
-            <Info address="0x48366...037453" tokenId="2" standard="ERC-721" />
-          </InfoContainer>
-        )}
-      </DetailContainer>
-    </Container>
+    </>
   );
 };
 

@@ -7,13 +7,13 @@ import { Image } from "./Image";
 const Container = styled.div``;
 
 export interface RealtedNFTItemProps {
-  item_hash: string;
+  itemHash: string;
   itemTitle?: string;
   tokenId: string;
 }
 
 const RealtedNFTItem = ({
-  item_hash,
+  itemHash,
   itemTitle = "NFT",
   tokenId,
 }: RealtedNFTItemProps) => {
@@ -29,7 +29,7 @@ const RealtedNFTItem = ({
   return (
     <Container onClick={() => navigate(`/detail/${tokenId}`)}>
       <Image
-        // imageUrl={item_hash}
+        // imageUrl={itemHash}
         imageUrl="https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2"
         name={itemTitle}
         mode={viewMode}

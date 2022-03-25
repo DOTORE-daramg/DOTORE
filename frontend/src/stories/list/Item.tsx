@@ -44,8 +44,8 @@ const Amount = styled.div`
 `;
 
 interface ItemProps {
-  item_hash: string;
-  item_title: string;
+  itemHash: string;
+  itemTitle: string;
   nickname: string;
   download: number;
   like: number;
@@ -53,8 +53,8 @@ interface ItemProps {
 }
 
 const Item = ({
-  item_hash,
-  item_title,
+  itemHash,
+  itemTitle,
   nickname,
   download,
   like,
@@ -70,11 +70,11 @@ const Item = ({
       <Image
         mode={viewMode}
         imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-        // imageUrl={item_hash}
-        name={item_title}
+        // imageUrl={itemHash}
+        name={itemTitle}
       />
       <TextContainer>
-        <Title>{item_title}</Title>
+        <Title>{itemTitle}</Title>
         <Amount>{nickname}</Amount>
       </TextContainer>
       <AmountContainer>
