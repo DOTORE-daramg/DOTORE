@@ -14,5 +14,5 @@ public class FeedbackReq {
     private String questioner;
     private String respondent;
     private String description;
-    private String img_url;
+    private String imgUrl;
 }

@@ -9,8 +9,8 @@ import lombok.Setter;
 @ApiModel("AnswerRequest")
 public class AnswerReq {
 
-    private int articleno;
+    private int articleNo;
     private String writer;
     private String description;
-    private String img_url;
+    private String imgUrl;
 }

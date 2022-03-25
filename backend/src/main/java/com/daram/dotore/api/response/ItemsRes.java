@@ -1,7 +1,6 @@
 package com.daram.dotore.api.response;
 
 import io.swagger.annotations.ApiModel;
-import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;

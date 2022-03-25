@@ -12,8 +12,8 @@ import java.math.BigInteger;
 public class SalesReq {
 
     private BigInteger tokenId;
-    private String seller_address;
-    private String sales_contract_address;
-    private String cash_contract_address;
+    private String sellerAddress;
+    private String salesContractAddress;
+    private String cashContractAddress;
     private String price;
 }

@@ -18,8 +18,6 @@ public interface FeedbackService {
 
     Integer getCount(int articleno);
 
-    Integer getRequestCount(String address);
-
     FeedbackDetailRes getFeedbackDetail(int articleno);
 
     FeedbackListRes getFeedbacks(BigInteger tokenId);

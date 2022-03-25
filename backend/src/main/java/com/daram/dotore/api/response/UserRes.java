@@ -14,7 +14,7 @@ public class UserRes extends BaseRes {
     private String nickname;
     private String description;
     private int acorn;
-    private String profile_img_url;
+    private String profileImgUrl;
 
     public static UserRes of(String result, Users user) {
         UserRes res = new UserRes();
@@ -24,7 +24,7 @@ public class UserRes extends BaseRes {
             res.setNickname(user.getNickname());
             res.setDescription(user.getDescription());
             res.setAcorn(user.getAcorn());
-            res.setProfile_img_url(user.getProfile_img_url());
+            res.setProfileImgUrl(user.getProfile_img_url());
         }
         return res;
     }

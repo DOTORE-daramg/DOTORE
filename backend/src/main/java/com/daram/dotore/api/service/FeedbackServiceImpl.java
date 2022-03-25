@@ -87,11 +87,6 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     @Override
-    public Integer getRequestCount(String address) {
-        return answerRepository.getRequestCount(address);
-    }
-
-    @Override
     public FeedbackDetailRes getFeedbackDetail(int articleno) {
         Feedback feedback = feedbackRepository.findByArticleno(articleno);
         if (feedback == null) {
@@ -123,7 +118,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             .respondent(feedbackReq.getRespondent())
             .description(feedbackReq.getDescription())
             .created_at(LocalDateTime.now())
-            .imgUrl(feedbackReq.getImg_url())
+            .imgUrl(feedbackReq.getImgUrl())
             .build());
     }
 
@@ -134,17 +129,17 @@ public class FeedbackServiceImpl implements FeedbackService {
             return null;
         }
         return feedbackRepository.save(feedback.updateFeedback(feedbackUpdateReq.getDescription(),
-            feedbackUpdateReq.getImg_url()));
+            feedbackUpdateReq.getImgUrl()));
     }
 
     @Override
     public Answer saveNewAnswer(AnswerReq answerReq) throws Exception {
         return answerRepository.save(Answer.builder()
-            .articleno(answerReq.getArticleno())
+            .articleno(answerReq.getArticleNo())
             .writer(answerReq.getWriter())
             .description(answerReq.getDescription())
             .created_at(LocalDateTime.now())
-            .imgUrl(answerReq.getImg_url())
+            .imgUrl(answerReq.getImgUrl())
             .build());
     }
 
@@ -155,6 +150,6 @@ public class FeedbackServiceImpl implements FeedbackService {
             return null;
         }
         return answerRepository.save(answer.updateAnswer(feedbackUpdateReq.getDescription(),
-            feedbackUpdateReq.getImg_url()));
+            feedbackUpdateReq.getImgUrl()));
     }
 }
