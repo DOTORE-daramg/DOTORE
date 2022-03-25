@@ -155,13 +155,13 @@ const SaleContainer = styled.div`
   }
 `;
 type item = {
-  item_title: string;
-  item_hash: string;
+  itemTitle: string;
+  itemHash: string;
   nickname: string;
   like: number;
   download: number;
-  item_description: string;
-  is_first: boolean;
+  itemDescription: string;
+  isFirst: boolean;
   tags: string[];
 };
 
@@ -239,22 +239,22 @@ const Detail = () => {
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(true);
   const [item, setItem] = useState<item>({
-    item_title: "",
-    item_hash: "",
+    itemTitle: "",
+    itemHash: "",
     nickname: "",
     like: 0,
     download: 0,
-    item_description: "",
-    is_first: true,
+    itemDescription: "",
+    isFirst: true,
     tags: [],
   });
   const {
-    item_title,
-    item_hash,
+    itemTitle,
+    itemHash,
     nickname,
     like,
     download,
-    item_description,
+    itemDescription,
     tags,
   } = item;
 
@@ -270,8 +270,8 @@ const Detail = () => {
     if (isLoading) {
       getItem(tokenId).then((res) => {
         setItem(res.data);
-        setIsFirst(res.data.is_first);
-        setIsSale(res.data.on_sale_yn);
+        setIsFirst(res.data.isFirst);
+        setIsSale(res.data.onSaleYn);
       });
       getRelatedItem(tokenId).then((res) => {
         setRelatedNFTs(res.data.data);
@@ -292,14 +292,14 @@ const Detail = () => {
       <MainContainer>
         <Image
           name="메타콩즈1"
-          // imageUrl={item_hash}
+          // imageUrl={itemHash}
           imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
           mode={viewMode}
         />
         <DescContainer>
           <Description
-            title={item_title}
-            descrition={item_description}
+            title={itemTitle}
+            descrition={itemDescription}
             profileImgUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
             profileNickname={nickname}
             profileLevel="Lv.2 꼬맹이도토리"

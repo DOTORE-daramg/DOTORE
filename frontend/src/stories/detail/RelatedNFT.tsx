@@ -76,7 +76,7 @@ const RelatedNFT = ({ relatedNFTs }: RelatedNFTProps) => {
         {relatedNFTs.map((nft) => (
           <RealtedNFTItem
             key={nft.tokenId}
-            item_hash={nft.item_hash}
+            itemHash={nft.itemHash}
             tokenId={nft.tokenId}
           />
         ))}
