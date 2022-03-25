@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getFeedbacks } from "../api/item";
 import { getItem, getRelatedItem } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
@@ -11,6 +12,7 @@ import LoadingSpinner from "../stories/common/LoadingSpinner";
 import { Description } from "../stories/detail/Description";
 import { Image } from "../stories/detail/Image";
 import Info from "../stories/detail/Info";
+import { QuestionProps } from "../stories/detail/QuestionItem";
 import Questions from "../stories/detail/Questions";
 import { RealtedNFTItemProps } from "../stories/detail/RealtedNFTItem";
 import RelatedNFT from "../stories/detail/RelatedNFT";
@@ -194,21 +196,6 @@ const Detail = () => {
       price: "1,500,000 KRW",
     },
   ];
-
-  const questions = [
-    {
-      articleno: 1,
-      answerYN: false,
-      nickname: "다람쥐_02",
-      desc: "도토리 색 조합에 대해 질문...",
-    },
-    {
-      articleno: 2,
-      answerYN: true,
-      nickname: "다람쥐_01",
-      desc: "질문 있습니다!",
-    },
-  ];
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
@@ -238,8 +225,9 @@ const Detail = () => {
     itemDescription,
     tags,
   } = item;
-
   const [relatedNFTs, setRelatedNFTs] = useState<RealtedNFTItemProps[]>();
+  const [questions, setQuestions] = useState<QuestionProps[]>();
+
   const [isModalShow, setIsModalShow] = useState(false);
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
@@ -247,6 +235,7 @@ const Detail = () => {
   };
 
   const { tokenId } = useParams();
+
   useEffect(() => {
     if (isLoading) {
       getItem(tokenId).then((res) => {
@@ -263,6 +252,20 @@ const Detail = () => {
     }
   }, [tokenId]);
 
+  useEffect(() => {
+    if (isFirst) {
+      getFeedbacks(tokenId)
+        .then((res) => {
+          console.log(res);
+          setQuestions(res.data.data);
+        })
+        .catch(() => {
+          // setQuestions([
+          //   { articleno: -1, yn: false, nickname: "", description: "" },
+          // ]);
+        });
+    }
+  }, [isFirst]);
   return (
     <>
       {isLoading && (
@@ -398,7 +401,11 @@ const Detail = () => {
             {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
             {isFirst ? (
               <QuestionContainer>
-                <Questions questions={questions} />
+                {questions ? (
+                  <Questions questions={questions} />
+                ) : (
+                  <div>아직 등록된 질문이 없습니다!</div>
+                )}
               </QuestionContainer>
             ) : (
               <InfoContainer>
