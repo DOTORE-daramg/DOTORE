@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import banner1 from "../assets/banner1.png";
+import Banner from "../stories/main/Banner";
 import Profile from "../stories/profile/Profile";
 import { SubTitle } from "../stories/SubTitle";
 import { ThumbnailGrid } from "../stories/thumbnail/ThumbnailGrid";
@@ -11,11 +12,11 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const Banner = styled.img`
-  /* width: 100%; */
-  height: 30vh;
-  margin-top: 100px;
-`;
+// const Banner = styled.img`
+//   /* width: 100%; */
+//   height: 30vh;
+//   margin-top: 100px;
+// `;
 
 const NFTContainer = styled.div`
   width: 100%;
@@ -145,8 +146,8 @@ const Main = () => {
   ];
   return (
     <Container>
-      <Banner src={banner1} />
-
+      {/* <Banner src={banner1} /> */}
+      <Banner />
       <NFTContainer>
         <Title label="Popular NFTs" size="4rem" />
         <SubTitle label="지금 이 시각 가장 활발한 창작물" />
