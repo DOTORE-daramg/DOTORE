@@ -12,22 +12,22 @@ const Category = styled.div``;
 
 export interface QuestionProps {
   articleno: number;
-  answerYN: boolean;
+  yn: boolean;
   nickname: string;
-  desc: string;
+  description: string;
 }
 
 const QuestionItem = ({
   articleno,
-  answerYN,
+  yn,
   nickname,
-  desc,
+  description,
 }: QuestionProps) => {
   return (
     <Container>
-      <Category>{answerYN ? "해결" : "미해결"}</Category>
+      <Category>{yn ? "해결" : "미해결"}</Category>
       <Category>{nickname}</Category>
-      <Category>{desc}</Category>
+      <Category>{description}</Category>
     </Container>
   );
 };
