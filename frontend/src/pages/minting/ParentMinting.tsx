@@ -77,8 +77,7 @@ const ParentMinting = () => {
         )
         .send({
           from: userInfo.address,
-          gas: 300000,
-          gasPrice: "20000000000",
+          gas: 3000000,
         });
 
       console.log(response);
@@ -92,12 +91,9 @@ const ParentMinting = () => {
       const balance = await mintTokenContract.methods
         .balanceOf(userInfo.address)
         .call();
-      const fileUrlRes = await mintTokenContract.methods.fileUrls(1).call();
-
       console.log("balance: ", balance);
-      console.log("fileUrlRes: ", fileUrlRes);
 
-      const pritems = await mintTokenContract.methods.getPrItems();
+      const pritems = await mintTokenContract.methods.getPrItems().call();
       console.log(pritems);
     } catch (err) {
       console.error(err);
