@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Container = styled.div`
   width: 100vw;
-  height: 50vh;
+  height: 500px;
   background-color: rgba(102, 103, 171, 0.3);
   margin-top: 60px;
   display: flex;

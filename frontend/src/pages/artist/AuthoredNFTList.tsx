@@ -5,66 +5,76 @@ import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 
 const dummyItemList = [
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
   {
-    authorName: '',
-    itemTitle: '',
-    owner_address: '',
-    itemImageUrl: ''
+    nickname: "",
+    itemTitle: "",
+    owner_address: "",
+    like: 0,
+    itemHash: "",
   },
-]
+];
 
 const Container = styled.div`
   display: flex;
@@ -77,7 +87,7 @@ const AuthoredNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const columnCount = isPc ? 4 : isTablet ? 3 : 3;
-  const gridSize = isPc ? '52rem' : isTablet ? '40rem' : '20rem';
+  const gridSize = isPc ? "52rem" : isTablet ? "40rem" : "20rem";
 
   return (
     <Container>
