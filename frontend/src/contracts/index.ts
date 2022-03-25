@@ -1,7 +1,7 @@
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 
-const mintTokenAbi: AbiItem[] = [
+const dTTMintTokenABI: AbiItem[] = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -127,15 +127,108 @@ const mintTokenAbi: AbiItem[] = [
         type: "uint256",
       },
     ],
-    name: "fileUrls",
+    name: "cdItemMap",
     outputs: [
       {
         internalType: "string",
-        name: "",
+        name: "title",
         type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "imgUrl",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isSale",
+        type: "bool",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string[]",
+        name: "tags",
+        type: "string[]",
+      },
+      {
+        internalType: "string",
+        name: "tokenURI",
+        type: "string",
+      },
+      {
+        internalType: "uint256[]",
+        name: "prItems",
+        type: "uint256[]",
+      },
+    ],
+    name: "createCdMint",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string[]",
+        name: "tags",
+        type: "string[]",
+      },
+      {
+        internalType: "string",
+        name: "tokenURI",
+        type: "string",
+      },
+    ],
+    name: "createPrMint",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -152,6 +245,91 @@ const mintTokenAbi: AbiItem[] = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCdItems",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string[]",
+            name: "tags",
+            type: "string[]",
+          },
+          {
+            internalType: "string",
+            name: "imgUrl",
+            type: "string",
+          },
+          {
+            internalType: "bool",
+            name: "isSale",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "uint256[]",
+            name: "prItems",
+            type: "uint256[]",
+          },
+        ],
+        internalType: "struct DTTContract.CdItem[]",
+        name: "",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getPrItems",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "string",
+            name: "title",
+            type: "string",
+          },
+          {
+            internalType: "string",
+            name: "description",
+            type: "string",
+          },
+          {
+            internalType: "string[]",
+            name: "tags",
+            type: "string[]",
+          },
+          {
+            internalType: "string",
+            name: "imgUrl",
+            type: "string",
+          },
+        ],
+        internalType: "struct DTTContract.PrItem[]",
+        name: "",
+        type: "tuple[]",
       },
     ],
     stateMutability: "view",
@@ -182,19 +360,6 @@ const mintTokenAbi: AbiItem[] = [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_fileUrl",
-        type: "string",
-      },
-    ],
-    name: "mintToken",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "name",
     outputs: [
@@ -221,6 +386,35 @@ const mintTokenAbi: AbiItem[] = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "prItemMap",
+    outputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "imgUrl",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -427,11 +621,11 @@ const mintTokenAbi: AbiItem[] = [
   },
 ];
 
-const mintTokenAddress = "0xa049feb84e5d81fd0162d8e4da0fef83eC255572";
+const dTTMintTokenAddress = "0xE8BD1E6Ea12b7cDC95ACB5aAd8A9D4FC37EeC2eA";
 
 export const web3 = new Web3(window.ethereum);
 
 export const mintTokenContract = new web3.eth.Contract(
-  mintTokenAbi,
-  mintTokenAddress
+  dTTMintTokenABI,
+  dTTMintTokenAddress
 );
