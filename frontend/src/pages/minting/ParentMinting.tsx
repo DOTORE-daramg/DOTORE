@@ -7,7 +7,7 @@ import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
-import { mintTokenContract } from "../../contracts";
+import { web3, mintTokenContract } from "../../contracts";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -69,8 +69,16 @@ const ParentMinting = () => {
         return;
       }
       const response = await mintTokenContract.methods
-        .mintToken("www.ssafy.com")
-        .send({ from: userInfo.address, gas: 3000000 });
+        .createPrMint(
+          "행복회로",
+          "돌아간다 어디서 타는 냄새",
+          ["행복", "회로", "집단지성", "구경", "이해"],
+          "https://w.namu.la/s/b46567c75bd8a9359a0ca3a8cb1b340f11b6b285e622cf9135faf12e3dbf98ba748c2697ba48f1419429982a2bf578efccb7787e2ac4faad1044b4d5363aeb2ea32d6f54c2baa4344bfd4cb3478521783b9670a1900658e94c096a33a31aa7d3"
+        )
+        .send({
+          from: userInfo.address,
+          gas: 3000000,
+        });
 
       console.log(response);
     } catch (err) {
@@ -83,10 +91,10 @@ const ParentMinting = () => {
       const balance = await mintTokenContract.methods
         .balanceOf(userInfo.address)
         .call();
-      const fileUrlRes = await mintTokenContract.methods.fileUrls(1).call();
-
       console.log("balance: ", balance);
-      console.log("fileUrlRes: ", fileUrlRes);
+
+      const pritems = await mintTokenContract.methods.getPrItems().call();
+      console.log(pritems);
     } catch (err) {
       console.error(err);
     }
