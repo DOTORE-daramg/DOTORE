@@ -75,21 +75,22 @@ public class ItemController {
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
-    @GetMapping("/{tokenId}")
+    @GetMapping("/{token_id}/{address}")
     @ApiOperation(value = "작품 상세페이지", notes = "작품을 눌러서 나오는 상세페이지에 필요한 정보 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemDetailRes.class),
         @ApiResponse(code = 404, message = "존재하지 않는 token_id", response = ItemDetailRes.class),
     })
-    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger tokenId) {
+    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id, @PathVariable String address) {
         try {
-            Items item = itemService.getItemByTokenId(tokenId);
+            Items item = itemService.getItemByTokenId(token_id);
             Users user = userService.getUserByAddress(item.getOwner_address());
-            int download = itemService.countDownload(tokenId);
-            int like = itemService.countLike(tokenId);
-            String[] tags = itemService.getTags(tokenId);
+            int download = itemService.countDownload(token_id);
+            int like = itemService.countLike(token_id);
+            boolean isLike=itemService.checkLike(address, token_id);
+            String[] tags = itemService.getTags(token_id);
             return ResponseEntity.status(200)
-                .body(ItemDetailRes.of("Success", item, user, download, like, tags));
+                .body(ItemDetailRes.of("Success", item, user, download, like, isLike, tags));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(ItemDetailRes.of("존재하지 않는 token_id"));
         }

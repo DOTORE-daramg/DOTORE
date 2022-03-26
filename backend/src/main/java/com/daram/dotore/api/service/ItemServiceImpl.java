@@ -142,6 +142,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public boolean checkLike(String address, BigInteger tokenId) {
+        Optional<Likes> opt=likeRepository.findByAddressAndTokenId(address, tokenId);
+        if (opt.isPresent()) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public int countDownload(BigInteger tokenId) {
         return downloadRepository.countByTokenId(tokenId);
     }
@@ -262,7 +271,8 @@ public class ItemServiceImpl implements ItemService {
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());
             tags = getTags(item.getTokenId());
-            price=saleRepository.findByTokenIdAndSaleYn(item.getTokenId(),false).get().getPrice();
+            price = saleRepository.findByTokenIdAndSaleYn(item.getTokenId(), false).get()
+                .getPrice();
             list.add(ItemDetailRes.of("Item", item, user, download, like, tags, price));
         }
         return ItemsRes.of("판매중인 작품 조회 성공", list);
@@ -271,7 +281,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items updateOnSaleYn(BigInteger tokenId) {
         Optional<Items> item = itemRepository.findByTokenId(tokenId);
-        if(!item.isPresent()){
+        if (!item.isPresent()) {
             return null;
         }
         item.get().setOnSaleYn(true);
@@ -282,7 +292,7 @@ public class ItemServiceImpl implements ItemService {
     public Items updateOnSaleYnAndOwnerAddress(SaleCompleteReq saleCompleteReq) {
         BigInteger tokenId = saleCompleteReq.getTokenId();
         Optional<Items> item = itemRepository.findByTokenId(tokenId);
-        if(!item.isPresent()){
+        if (!item.isPresent()) {
             return null;
         }
         item.get().setOnSaleYn(false);
@@ -293,7 +303,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items updateCancelOnSaleYn(BigInteger tokenId) {
         Optional<Items> item = itemRepository.findByTokenId(tokenId);
-        if(!item.isPresent()){
+        if (!item.isPresent()) {
             return null;
         }
         item.get().setOnSaleYn(false);
