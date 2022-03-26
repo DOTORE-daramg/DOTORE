@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { viewAll } from "../api/item";
+import { getUsers } from "../api/user";
 import banner1 from "../assets/banner1.png";
 import Banner from "../stories/main/Banner";
 import Profile from "../stories/profile/Profile";
@@ -38,9 +40,12 @@ const GridContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
+  @media screen and (max-width: 768px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
 `;
 
-interface itemProps {
+interface Iitem {
   acorn: number;
   authorAddress: string;
   createdAt: string;
@@ -59,6 +64,15 @@ interface itemProps {
   result: string;
   tags: number[];
   tokenId: number;
+}
+
+interface Iuser {
+  acorn: number;
+  address: string;
+  nickname: string;
+  profile_img_url: string;
+  profileLevel: string;
+  onClick: () => void;
 }
 const Main = () => {
   // const itemList = [
@@ -123,53 +137,55 @@ const Main = () => {
   //     },
   //   },
   // ];
-  const profileList = [
-    {
-      profileImgUrl:
-        "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
-      profileNickname: "주비스",
-      profileLevel: "Lv.2 꼬맹이도토리",
-      size: "72px",
-    },
-    {
-      profileImgUrl:
-        "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
-      profileNickname: "주비스",
-      profileLevel: "Lv.2 꼬맹이도토리",
-      size: "72px",
-    },
-    {
-      profileImgUrl:
-        "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
-      profileNickname: "주비스",
-      profileLevel: "Lv.2 꼬맹이도토리",
-      size: "72px",
-    },
-    {
-      profileImgUrl:
-        "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
-      profileNickname: "주비스",
-      profileLevel: "Lv.2 꼬맹이도토리",
-      size: "72px",
-    },
-    {
-      profileImgUrl:
-        "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
-      profileNickname: "주비스",
-      profileLevel: "Lv.2 꼬맹이도토리",
-      size: "72px",
-    },
-    {
-      profileImgUrl:
-        "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
-      profileNickname: "주비스",
-      profileLevel: "Lv.2 꼬맹이도토리",
-      size: "72px",
-    },
-  ];
+  // const profileList = [
+  //   {
+  //     profileImgUrl:
+  //       "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+  //     profileNickname: "주비스",
+  //     profileLevel: "Lv.2 꼬맹이도토리",
+  //     size: "72px",
+  //   },
+  //   {
+  //     profileImgUrl:
+  //       "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+  //     profileNickname: "주비스",
+  //     profileLevel: "Lv.2 꼬맹이도토리",
+  //     size: "72px",
+  //   },
+  //   {
+  //     profileImgUrl:
+  //       "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+  //     profileNickname: "주비스",
+  //     profileLevel: "Lv.2 꼬맹이도토리",
+  //     size: "72px",
+  //   },
+  //   {
+  //     profileImgUrl:
+  //       "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+  //     profileNickname: "주비스",
+  //     profileLevel: "Lv.2 꼬맹이도토리",
+  //     size: "72px",
+  //   },
+  //   {
+  //     profileImgUrl:
+  //       "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+  //     profileNickname: "주비스",
+  //     profileLevel: "Lv.2 꼬맹이도토리",
+  //     size: "72px",
+  //   },
+  //   {
+  //     profileImgUrl:
+  //       "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+  //     profileNickname: "주비스",
+  //     profileLevel: "Lv.2 꼬맹이도토리",
+  //     size: "72px",
+  //   },
+  // ];
 
   const [isLoading, setIsLoading] = useState(true);
   const [itemList, setItemList] = useState<ThumbnailProps[]>([]);
+  const [profileList, setProfileList] = useState<Iuser[]>([]);
+
   const navigete = useNavigate();
   useEffect(() => {
     if (isLoading) {
@@ -177,14 +193,14 @@ const Main = () => {
         const {
           data: { data: data },
         } = res;
-        data.map((res: itemProps) => {
+        data.map((res: Iitem) => {
           const { itemHash, nickname, itemTitle, tokenId, like } = res;
-          console.log(tokenId);
           const onClick = () => {
             navigete(`/detail/${tokenId}`);
           };
+
           itemList.push({
-            // itemHash
+            // itemHash,
             itemHash:
               "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
             itemTitle,
@@ -198,9 +214,38 @@ const Main = () => {
         });
         setIsLoading(false);
       });
+      getUsers().then((res) => {
+        const {
+          data: { data: data },
+        } = res;
+
+        data.map((res: Iuser) => {
+          const { acorn, address, nickname, profile_img_url } = res;
+          const onClick = () => {
+            navigete(`/artist/${address}`);
+          };
+          const profileLevel =
+            acorn > 10 ? "Lv2. 꼬맹이 도토리" : "Lv1. 새싹 도토리";
+          profileList.push({
+            acorn,
+            address,
+            nickname,
+            // profile_img_url
+            profile_img_url:
+              "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+            profileLevel,
+            onClick,
+          });
+        });
+        profileList.sort((a, b) => {
+          return b.acorn - a.acorn;
+        });
+      });
     }
-    // console.log(data);
   }, []);
+  const isPc = useMediaQuery({ minWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 500 });
+
   return (
     <Container>
       {/* <Banner src={banner1} /> */}
@@ -208,7 +253,12 @@ const Main = () => {
       <NFTContainer>
         <Title label="Popular NFTs" size="4rem" />
         <SubTitle label="지금 이 시각 가장 활발한 창작물" />
-        <ThumbnailGrid itemList={itemList} size="48rem" columnCount={3} />
+        {isPc && (
+          <ThumbnailGrid itemList={itemList} size="48rem" columnCount={3} />
+        )}
+        {!isPc && (
+          <ThumbnailGrid itemList={itemList} size="20rem" columnCount={2} />
+        )}
         <Link to="/list">
           <SubTitle label="&gt; 더 많은 작품 보러 가기"></SubTitle>
         </Link>
@@ -220,10 +270,11 @@ const Main = () => {
         <GridContainer>
           {profileList.map((profile) => (
             <Profile
-              profileImgUrl={profile.profileImgUrl}
-              profileNickname={profile.profileNickname}
+              profileImgUrl={profile.profile_img_url}
+              profileNickname={profile.nickname}
               profileLevel={profile.profileLevel}
-              size={profile.size}
+              size="72px"
+              onClick={profile.onClick}
             />
           ))}
         </GridContainer>

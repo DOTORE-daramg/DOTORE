@@ -8,6 +8,9 @@ const Container = styled.div`
   margin-top: 60px;
   display: flex;
   align-items: center;
+  @media screen and (max-width: 768px) {
+    height: 300px;
+  }
 `;
 
 const Content = styled.div`
@@ -30,6 +33,9 @@ const Content = styled.div`
   }
   #last {
     margin-top: 20px;
+  }
+  @media screen and (max-width: 768px) {
+    padding: 20px;
   }
 `;
 // interface BannerProps {

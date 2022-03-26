@@ -20,7 +20,8 @@ const ProfileContainer = styled.div`
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
   @media screen and (max-width: 768px) {
     justify-content: left;
-    padding-left: 8vw;
+    padding-left: 3vw;
+    font-size: 0.8rem;
   }
 `;
 
@@ -69,10 +70,11 @@ function Profile({
   profileNickname,
   profileLevel,
   size,
+  onClick,
   ...props
 }: ProfileProps) {
   return (
-    <ProfileContainer>
+    <ProfileContainer onClick={onClick}>
       {/* <StyledProfileImg size={size} src={profileImgUrl} /> */}
       {/* {children} */}
       {/* <StyledProfileImg src={profileImgUrl} alt="profile" /> */}
