@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 /**
  * 상태 변수나 함수의 시그니처, 이벤트는 구현에 따라 변경할 수 있습니다.
  */
-contract SaleFactory is Ownable {
+contract DTTSaleFactory is Ownable {
     address public admin;
     address[] public sales;
 
@@ -23,19 +23,31 @@ contract SaleFactory is Ownable {
     }
 
     /**
-     * @dev 반드시 구현해야하는 함수입니다. 
+     * @dev 반드시 구현해야하는 함수입니다.
      */
     function createSale(
-        uint256 itemId,
+        uint256 tokenId,
         uint256 purchasePrice,
         address currencyAddress,
         address nftAddress
     ) public returns (address) {
         // TODO
-        address newAddress = address(new Sale(admin, msg.sender, itemId, purchasePrice, currencyAddress, nftAddress));
-        sales.push(newAddress);
+        address saleAddress = address(
+            new Sale(
+                admin,
+                payable(msg.sender),
+                tokenId,
+                purchasePrice,
+                currencyAddress, // 이더리움인지~ 비트코인인지~~~
+                nftAddress
+            )
+        );
 
-        return newAddress;
+        sales.push(saleAddress);
+
+        emit NewSale(saleAddress, msg.sender, tokenId);
+
+        return saleAddress;
     }
 
     function allSales() public view returns (address[] memory) {
@@ -43,35 +55,29 @@ contract SaleFactory is Ownable {
     }
 }
 
+// ------------------------------------------------------------------------------------------------
+
 /**
  */
 contract Sale {
     // 생성자에 의해 정해지는 값
-    address public seller;
-    address public buyer;
+    address payable public seller;
+    address payable public buyer;
     address admin;
-    uint256 public saleStartTime;
-    uint256 public saleEndTime;
-    uint256 public minPrice;
     uint256 public purchasePrice;
     uint256 public tokenId;
     address public currencyAddress;
     address public nftAddress;
     bool public ended;
 
-    // 현재 최고 입찰 상태
-    address public highestBidder;
-    uint256 public highestBid;
-
     IERC20 public erc20Contract;
-    IERC721 public erc721Constract;
+    IERC721 public erc721Contract;
 
-    event HighestBidIncereased(address bidder, uint256 amount);
-    event SaleEnded(address winner, uint256 amount);
+    event SaleEnded(address buyer, uint256 purchasePrice);
 
     constructor(
         address _admin,
-        address _seller,
+        address payable _seller,
         uint256 _tokenId,
         uint256 _purchasePrice,
         address _currencyAddress,
@@ -86,27 +92,41 @@ contract Sale {
         nftAddress = _nftAddress;
         ended = false;
         erc20Contract = IERC20(_currencyAddress);
-        erc721Constract = IERC721(_nftAddress);
+        erc721Contract = IERC721(_nftAddress);
     }
 
-    function bid(uint256 bid_amount) public {
+    function purchase() public payable notEnded {
         // TODO
+        buyer = payable(msg.sender);
+        require(buyer != seller, "You can't buy your item");
+        // ended = false 판매중인지 확인
+
+        // buyer가 purchasePrice+gas보다 돈 많이 갖고 있는지
+        require(
+            erc20Contract.balanceOf(buyer) >= purchasePrice,
+            "You need more money"
+        );
+
+        require(
+            erc721Contract.getApproved(tokenId) == admin,
+            "Market is not approved"
+        );
+
+        // 구매 희망자가 sale 컨트랙트에게 구매 희망자의 erc-20 토큰을 송금할 수 있는 권한을 허용한 경우 (ERC-20 approve)
+        erc20Contract.approve(address(this), purchasePrice);
+
+        // 토큰 넘겨주기
+        erc20Contract.transferFrom(buyer, seller, purchasePrice);
+
+        // admin이 NFT 넘겨주기
+
+        erc721Contract.transferFrom(seller, buyer, tokenId);
+        _end();
+        emit SaleEnded(buyer, purchasePrice);
     }
 
-    function purchase() public {
-        // TODO 
-    }
-
-    function confirmItem() public {
-        // TODO 
-    }
-    
     function cancelSales() public {
         // TODO
-    }
-
-    function getTimeLeft() public view returns (int256) {
-        return (int256)(saleEndTime - block.timestamp);
     }
 
     function getSaleInfo()
@@ -119,14 +139,9 @@ contract Sale {
             address
         )
     {
-        return (
-            purchasePrice,
-            tokenId,
-            currencyAddress,
-            nftAddress
-        );
+        return (purchasePrice, tokenId, currencyAddress, nftAddress);
     }
-    
+
     // internal 혹은 private 함수 선언시 아래와 같이 _로 시작하도록 네이밍합니다.
     function _end() internal {
         ended = true;
@@ -136,17 +151,13 @@ contract Sale {
         return erc20Contract.balanceOf(msg.sender);
     }
 
-    // modifier를 사용하여 함수 동작 조건을 재사용하는 것을 권장합니다. 
+    // modifier를 사용하여 함수 동작 조건을 재사용하는 것을 권장합니다.
     modifier onlySeller() {
         require(msg.sender == seller, "Sale: You are not seller.");
         _;
     }
-
-    modifier onlyAfterStart() {
-        require(
-            block.timestamp >= saleStartTime,
-            "Sale: This sale is not started."
-        );
+    modifier notEnded() {
+        require(ended == false, "Sale: Sale is ended.");
         _;
     }
 }

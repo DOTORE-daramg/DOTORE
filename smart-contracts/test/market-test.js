@@ -1,30 +1,29 @@
 /* test/sample-test.js */
-describe("NFTMarket", function() {
+const { expect } = require("chai");
+const { ethers } = require("hardhat");
+ 
+describe("DTTSaleFactory", function() {
   it("Should create and execute market sales", async function() {
     /* deploy the marketplace */
-    const Market = await ethers.getContractFactory("NFTMarket")
+    const Market = await ethers.getContractFactory("DTTSaleFactorySeperated")
     const market = await Market.deploy()
     await market.deployed()
     const marketAddress = market.address
 
     /* deploy the NFT contract */
-    const NFT = await ethers.getContractFactory("NFT")
-    const nft = await NFT.deploy(marketAddress)
-    await nft.deployed()
-    const nftContractAddress = nft.address
-
-    let listingPrice = await market.getListingPrice()
-    listingPrice = listingPrice.toString()
-
-    const auctionPrice = ethers.utils.parseUnits('1', 'ether')
+    const DTTContract = await ethers.getContractFactory("DTTContract")
+    const dTTContract = await DTTContract.deploy(marketAddress)
+    await dTTContract.deployed()
+    const dTTContractAddress = dTTContract.address
 
     /* create two tokens */
-    await nft.createToken("https://www.mytokenlocation.com")
-    await nft.createToken("https://www.mytokenlocation2.com")
-  
+    await dTTContract.createMint('testTitle', 'testDescription', 'www.naver.com')
+    await dTTContract.createMint('testTitle2', 'testDescription2', 'www.ssafy.com');
+
+    
     /* put both tokens for sale */
-    await market.createMarketItem(nftContractAddress, 1, auctionPrice, { value: listingPrice })
-    await market.createMarketItem(nftContractAddress, 2, auctionPrice, { value: listingPrice })
+    await market.createSale(1, 13700000000, '0x2170ed0880ac9a755fd29b2688956bd959f933f8', dTTContractAddress);
+    await market.createSale(2, 10000000000, marketAddress, marketAddress);
     
     const [_, buyerAddress] = await ethers.getSigners()
   

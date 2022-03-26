@@ -11,93 +11,51 @@ contract DTTContract is ERC721, ERC721Enumerable {
     using Counters for Counters.Counter;
     address contractAddress;
 
-    constructor() ERC721("Dotore NFT", "DTT") {}
-    // 1차 NFT
-    struct PrItem {
-        string title;
-        string description;
-        string[] tags;
-        string imgUrl;
+    constructor(address marketplaceAddress) ERC721("Dotore NFT", "DTT") {
+        // admin = msg.sender;
+        contractAddress = marketplaceAddress;
     }
 
-    // 2차 NFT
-    struct CdItem {
+    // NFT struct
+    struct Item {
         string title;
         string description;
-        string[] tags;
-        string imgUrl;
-        bool isSale;
-        uint256 price;
-        uint256[] prItems;
+        string fileUrl;
     }
 
-    function supportsInterface(
-        bytes4 interfaceId
-    ) public view override(ERC721, ERC721Enumerable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721, ERC721Enumerable)
+        returns (bool)
+    {
         return super.supportsInterface(interfaceId);
     }
 
     function _beforeTokenTransfer(
-        address from, address to, uint256 tokenId
+        address from,
+        address to,
+        uint256 tokenId
     ) internal override(ERC721, ERC721Enumerable) {
         super._beforeTokenTransfer(from, to, tokenId);
     }
 
-    mapping(uint256 => PrItem) public prItemMap;
-    mapping(uint256 => CdItem) public cdItemMap;
+    mapping(uint256 => Item) public itemMap;
 
-    PrItem[] prItemArray;
-    CdItem[] cdItemArray;
+    Counters.Counter private _tokenIds;
 
-    Counters.Counter private _prTokenIds;
-    Counters.Counter private _cdTokenIds;
-
-    function createPrMint(
+    function createMint(
         string memory title,
         string memory description,
-        string[] memory tags,
         string memory tokenURI
     ) public returns (uint256) {
-        _prTokenIds.increment();
-        uint256 newItemId = _prTokenIds.current();
+        _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
 
-        prItemMap[newItemId] = PrItem(title, description, tags, tokenURI);
-        prItemArray.push(PrItem(title, description, tags, tokenURI));
-        
-        _mint(msg.sender, newItemId);
-        setApprovalForAll(contractAddress, true);
-        return newItemId;
-    }
-
-    function createCdMint(
-        string memory title,
-        string memory description,
-        string[] memory tags,
-        string memory tokenURI,
-        uint256[] memory prItems
-    ) public returns (uint256) {
-        _prTokenIds.increment();
-        uint256 newItemId = _cdTokenIds.current();
-
-        cdItemMap[newItemId] = CdItem(title, description, tags, tokenURI, false, 0, prItems);
-        cdItemMap[newItemId] = CdItem(title, description, tags, tokenURI, false, 0, prItems);
+        itemMap[newItemId] = Item(title, description, tokenURI);
 
         _mint(msg.sender, newItemId);
-        setApprovalForAll(contractAddress, true);
+        setApprovalForAll(contractAddress, true); // NFT 전송 권한 준다.
         return newItemId;
-    }
-
-    // 1차 NFT 목록 조회
-    function getPrItems(
-    
-    ) public view returns (PrItem[] memory) {
-        return prItemArray;
-    }
-    
-    // 2차 NFT 목록 조회
-    function getCdItems(
-    
-    ) public view returns (CdItem[] memory) {
-        return cdItemArray;
     }
 }

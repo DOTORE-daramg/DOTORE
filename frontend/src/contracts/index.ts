@@ -1,9 +1,15 @@
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 
-const dTTMintTokenABI: AbiItem[] = [
+const dTTContractABI: AbiItem[] = [
   {
-    inputs: [],
+    inputs: [
+      {
+        internalType: "address",
+        name: "marketplaceAddress",
+        type: "address",
+      },
+    ],
     stateMutability: "nonpayable",
     type: "constructor",
   },
@@ -122,14 +128,6 @@ const dTTMintTokenABI: AbiItem[] = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "cdItemMap",
-    outputs: [
-      {
         internalType: "string",
         name: "title",
         type: "string",
@@ -138,81 +136,6 @@ const dTTMintTokenABI: AbiItem[] = [
         internalType: "string",
         name: "description",
         type: "string",
-      },
-      {
-        internalType: "string",
-        name: "imgUrl",
-        type: "string",
-      },
-      {
-        internalType: "bool",
-        name: "isSale",
-        type: "bool",
-      },
-      {
-        internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "title",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
-      {
-        internalType: "string[]",
-        name: "tags",
-        type: "string[]",
-      },
-      {
-        internalType: "string",
-        name: "tokenURI",
-        type: "string",
-      },
-      {
-        internalType: "uint256[]",
-        name: "prItems",
-        type: "uint256[]",
-      },
-    ],
-    name: "createCdMint",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "title",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
-      {
-        internalType: "string[]",
-        name: "tags",
-        type: "string[]",
       },
       {
         internalType: "string",
@@ -220,7 +143,7 @@ const dTTMintTokenABI: AbiItem[] = [
         type: "string",
       },
     ],
-    name: "createPrMint",
+    name: "createMint",
     outputs: [
       {
         internalType: "uint256",
@@ -251,91 +174,6 @@ const dTTMintTokenABI: AbiItem[] = [
     type: "function",
   },
   {
-    inputs: [],
-    name: "getCdItems",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "title",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "description",
-            type: "string",
-          },
-          {
-            internalType: "string[]",
-            name: "tags",
-            type: "string[]",
-          },
-          {
-            internalType: "string",
-            name: "imgUrl",
-            type: "string",
-          },
-          {
-            internalType: "bool",
-            name: "isSale",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "uint256[]",
-            name: "prItems",
-            type: "uint256[]",
-          },
-        ],
-        internalType: "struct DTTContract.CdItem[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getPrItems",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "string",
-            name: "title",
-            type: "string",
-          },
-          {
-            internalType: "string",
-            name: "description",
-            type: "string",
-          },
-          {
-            internalType: "string[]",
-            name: "tags",
-            type: "string[]",
-          },
-          {
-            internalType: "string",
-            name: "imgUrl",
-            type: "string",
-          },
-        ],
-        internalType: "struct DTTContract.PrItem[]",
-        name: "",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       {
         internalType: "address",
@@ -354,6 +192,35 @@ const dTTMintTokenABI: AbiItem[] = [
         internalType: "bool",
         name: "",
         type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "itemMap",
+    outputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "fileUrl",
+        type: "string",
       },
     ],
     stateMutability: "view",
@@ -386,35 +253,6 @@ const dTTMintTokenABI: AbiItem[] = [
         internalType: "address",
         name: "",
         type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    name: "prItemMap",
-    outputs: [
-      {
-        internalType: "string",
-        name: "title",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "description",
-        type: "string",
-      },
-      {
-        internalType: "string",
-        name: "imgUrl",
-        type: "string",
       },
     ],
     stateMutability: "view",
@@ -621,11 +459,405 @@ const dTTMintTokenABI: AbiItem[] = [
   },
 ];
 
-const dTTMintTokenAddress = "0xE8BD1E6Ea12b7cDC95ACB5aAd8A9D4FC37EeC2eA";
+const dTTSaleFactoryABI: AbiItem[] = [
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "_saleContract",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "_owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "_workId",
+        type: "uint256",
+      },
+    ],
+    name: "NewSale",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: true,
+        internalType: "address",
+        name: "previousOwner",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "OwnershipTransferred",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "admin",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "allSales",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "purchasePrice",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "currencyAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "nftAddress",
+        type: "address",
+      },
+    ],
+    name: "createSale",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "owner",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "renounceOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "sales",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "newOwner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+];
+
+const dTTSaleABI: AbiItem[] = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_admin",
+        type: "address",
+      },
+      {
+        internalType: "address payable",
+        name: "_seller",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "_tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "_purchasePrice",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "_currencyAddress",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "_nftAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "buyer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "purchasePrice",
+        type: "uint256",
+      },
+    ],
+    name: "SaleEnded",
+    type: "event",
+  },
+  {
+    inputs: [],
+    name: "buyer",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "cancelSales",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "currencyAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "ended",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "erc20Contract",
+    outputs: [
+      {
+        internalType: "contract IERC20",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "erc721Contract",
+    outputs: [
+      {
+        internalType: "contract IERC721",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getSaleInfo",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "nftAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "purchase",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "purchasePrice",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "seller",
+    outputs: [
+      {
+        internalType: "address payable",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "tokenId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
+
+export const dTTContractAddress = "0x6E3F233D6503cd1785CDaB359b4bEF8fE828e028";
+export const dTTSaleFactoryAddress =
+  "0x62884E8DD698460fA7082164d16915013E93a6f5";
+export const dTTSaleAddress = "0x62884E8DD698460fA7082164d16915013E93a6f5";
 
 export const web3 = new Web3(window.ethereum);
 
-export const mintTokenContract = new web3.eth.Contract(
-  dTTMintTokenABI,
-  dTTMintTokenAddress
+export const dTTContract = new web3.eth.Contract(
+  dTTContractABI,
+  dTTContractAddress
+);
+
+export const dTTSaleFactoryContract = new web3.eth.Contract(
+  dTTSaleFactoryABI,
+  dTTSaleFactoryAddress
+);
+
+export const dTTSaleContract = new web3.eth.Contract(
+  dTTSaleABI,
+  dTTSaleAddress
 );

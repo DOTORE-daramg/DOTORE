@@ -15,12 +15,27 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const DTTContract = await hre.ethers.getContractFactory("DTTContract");
-  const dTTContract = await DTTContract.deploy();
+  
+  const DTTSaleFactory = await hre.ethers.getContractFactory("DTTSaleFactory");
+  const dTTSaleFactory = await DTTSaleFactory.deploy();
+  
+  await dTTSaleFactory.deployed();
+  
+  console.log("DTTSaleFactory deployed to:", dTTSaleFactory.address);
 
-  await dTTContract.deployed();
+  const DTTContract = await hre.ethers.getContractFactory("DTTContract");
+  const dTTContract = await DTTContract.deploy(dTTSaleFactory.address);
+
+  await dTTContract.deployed(dTTSaleFactory.address);
 
   console.log("DTTContract deployed to:", dTTContract.address);
+
+  const DTTSaleContract = await hre.ethers.getContractFactory("Sale");
+  const dTTSaleContract = await DTTSaleContract.deploy(dTTSaleContract.address);
+
+  await dTTSaleContract.deployed(dTTSaleContract.address);
+
+  console.log("DTTSaleContract deployed to:", dTTSaleContract.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
