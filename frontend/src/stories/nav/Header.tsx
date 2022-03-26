@@ -6,6 +6,8 @@ import { NavMenu } from "./NavMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 const Wrapper = styled.div`
   padding: 15px 10vh;
@@ -79,6 +81,8 @@ export const Header = ({
   onLogout,
 }: HeaderProps) => {
   const navigate = useNavigate();
+  const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
+
   return (
     <header>
       <Wrapper>
@@ -102,7 +106,12 @@ export const Header = ({
               link={["/list", "/prlist", "/cdlist"]}
             />
             <NavMenu label="NFT 구매" onClick={() => navigate("/sell")} />
-            {isLoggedIn && <NavMenu label="마이페이지" />}
+            {isLoggedIn && (
+              <NavMenu
+                label="마이페이지"
+                onClick={() => navigate(`/artist/${userInfo.address}`)}
+              />
+            )}
           </MenuWrapper>
           {isLoggedIn ? (
             <>
