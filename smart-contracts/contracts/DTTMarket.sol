@@ -7,10 +7,10 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract DTTMarket is ReentrancyGuard {
     using Counters for Counters.Counter;
-    Counters.Counter private _itemIds;
-    Counters.Counter private _itemsSold;
+    Counters.Counter private _itemIds; // 생성된 total items 수
+    Counters.Counter private _itemsSold; // 팔린 items 수
 
-    address payable owner;
+    address payable owner; // 컨트랙트 주인
 
     constructor() {
         owner = payable(msg.sender);
@@ -20,12 +20,13 @@ contract DTTMarket is ReentrancyGuard {
         uint256 itemId;
         address dttContract;
         uint256 tokenId;
-        address payable seller;
-        address payable owner;
+        address payable seller; // nft 파는 사람
+        address payable owner; // nft 소유주
         uint256 price;
         bool sold;
     }
 
+    // integer값으로 접근
     mapping(uint256 => MarketItem) private idMarketItem;
 
     event MarketItemCreated(
@@ -38,6 +39,7 @@ contract DTTMarket is ReentrancyGuard {
         bool sold
     );
 
+    // createMarketItem
     function createMarketItem(
         address dttContract,
         uint256 tokenId,
@@ -52,14 +54,16 @@ contract DTTMarket is ReentrancyGuard {
             itemId,
             dttContract,
             tokenId,
-            payable(msg.sender), //address of the seller putting the nft up for sale
-            payable(address(0)), //no owner yet (set owner to empty address)
+            payable(msg.sender), //판매자의 주소
+            payable(address(0)), //아직 소유주 없으니까 0으로 둠
             price,
             false
         );
 
+        // 컨트랙트에 nft의 소유권 전송
         IERC721(dttContract).transferFrom(msg.sender, address(this), tokenId);
 
+        // log
         emit MarketItemCreated(
             itemId,
             dttContract,
@@ -71,6 +75,7 @@ contract DTTMarket is ReentrancyGuard {
         );
     }
 
+    // purchase
     function createMarketSale(address dttContract, uint256 itemId)
         public
         payable
@@ -84,12 +89,14 @@ contract DTTMarket is ReentrancyGuard {
             "Please submit the asking price in order to complete purchase"
         );
 
+        // 판매자에게 지불
         idMarketItem[itemId].seller.transfer(msg.value);
 
+        // 컨트랙트가 가지고 있던 소유권을 구매하려는 사람에게 넘김
         IERC721(dttContract).transferFrom(address(this), msg.sender, tokenId);
 
-        idMarketItem[itemId].owner = payable(msg.sender);
-        idMarketItem[itemId].sold = true;
-        _itemsSold.increment();
+        idMarketItem[itemId].owner = payable(msg.sender); // 구매자를 owner로
+        idMarketItem[itemId].sold = true; // 팔렸다고 표시
+        _itemsSold.increment(); // 팔린 물건 수 + 1
     }
 }
