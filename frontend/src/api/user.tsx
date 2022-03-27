@@ -7,4 +7,8 @@ export const login = async (address: string) => {
 
 export const getUserInfo = async (address: string) => {
   return await api.get(`/api/mypage/${address}`);
-}
+};
+
+export const getUsers = async () => {
+  return await api.get(`/api/user`);
+};
