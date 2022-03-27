@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getFeedbacks } from "../api/item";
 import { getItem, getRelatedItem } from "../api/item";
@@ -229,27 +229,28 @@ const Detail = () => {
   const [questions, setQuestions] = useState<QuestionProps[]>();
 
   const [isModalShow, setIsModalShow] = useState(false);
+
+  const { tokenId } = useParams();
+  const navigate = useNavigate();
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
   };
 
-  const { tokenId } = useParams();
-
   useEffect(() => {
-    if (isLoading) {
-      getItem(tokenId).then((res) => {
-        setItem(res.data);
-        setIsFirst(res.data.isFirst);
-        setIsSale(res.data.onSaleYn);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1500);
-      });
-      getRelatedItem(tokenId).then((res) => {
-        setRelatedNFTs(res.data.data);
-      });
-    }
+    setIsLoading(true);
+
+    getItem(tokenId).then((res) => {
+      setItem(res.data);
+      setIsFirst(res.data.isFirst);
+      setIsSale(res.data.onSaleYn);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    });
+    getRelatedItem(tokenId).then((res) => {
+      setRelatedNFTs(res.data.data);
+    });
   }, [tokenId]);
 
   useEffect(() => {
@@ -334,6 +335,7 @@ const Detail = () => {
                       width="6.3rem"
                       label="질문 등록"
                       backgroundColor="#6667ab"
+                      onClick={() => navigate(`/feedbackcreate/${tokenId}`)}
                     />
                     <Button
                       width="6rem"

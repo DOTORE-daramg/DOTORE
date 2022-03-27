@@ -1,10 +1,10 @@
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { Description } from "../stories/detail/Description";
-import { Image } from "../stories/detail/Image";
-import { Title } from "../stories/Title";
-import { TextEditor } from "../stories/common/TextEditor";
+import { Description } from "../../stories/detail/Description";
+import { Image } from "../../stories/detail/Image";
+import { Title } from "../../stories/Title";
+import { TextEditor } from "../../stories/common/TextEditor";
 
 const Container = styled.div`
   width: 100%;
@@ -64,7 +64,11 @@ const TextEditorContainer = styled.div`
 const Detail = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
-  const viewMode = isPc ? "feedbackCreate" : isTablet ? "feedbackCreate" : "feedbackCreateM";
+  const viewMode = isPc
+    ? "feedbackCreate"
+    : isTablet
+    ? "feedbackCreate"
+    : "feedbackCreateM";
 
   return (
     <Container>
@@ -89,7 +93,7 @@ const Detail = () => {
             profileNickname="주비스"
             profileLevel="Lv.2 꼬맹이도토리"
             size="fit-content"
-          />          
+          />
         </DescContainer>
       </MainContainer>
       <TextEditorContainer>
