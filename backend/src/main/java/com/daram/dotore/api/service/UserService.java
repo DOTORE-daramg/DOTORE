@@ -3,7 +3,11 @@ package com.daram.dotore.api.service;
 import com.daram.dotore.api.request.DescUpdateReq;
 import com.daram.dotore.api.request.NicknameUpdateReq;
 import com.daram.dotore.api.request.ProfileUpdateReq;
+import com.daram.dotore.db.entity.Download;
+import com.daram.dotore.db.entity.Likes;
 import com.daram.dotore.db.entity.Users;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -16,4 +20,10 @@ public interface UserService {
     Users updateDesc(DescUpdateReq descUpdateReq);
 
     Users updateProfile(ProfileUpdateReq profileUpdateReq);
+
+    List<Users> getUsers();
+
+    List<Download> getDownloadList(String address);
+
+    List<Likes> getLikeList(String address);
 }

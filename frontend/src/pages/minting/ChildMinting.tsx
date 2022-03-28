@@ -1,10 +1,9 @@
 import React from "react";
-import styled from 'styled-components';
-import { Title } from '../../stories/Title';
+import styled from "styled-components";
+import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { Button } from "../../stories/Button";
-import { faMagnifyingGlass, faHashtag } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -46,23 +45,23 @@ const InputTextContainer = styled.div`
 `;
 
 const ChildMinting = () => {
-  const handleChangeSearchInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeTitleInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeDescInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeTagInput = (e:any) => {
-    console.log(e.target.value)
-  }
+  const handleChangeSearchInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeTitleInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeDescInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeTagInput = (e: any) => {
+    console.log(e.target.value);
+  };
   return (
     <Container>
       <MintingContainer>
         <TitleContainer>
-          <Title label={'2차 NFT 등록'} size={'1.5rem'}></Title>
+          <Title label={"2차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
 
         <InputContainer>
@@ -71,7 +70,7 @@ const ChildMinting = () => {
             <InputBox
               placeholder="영감받은 원작 작품을 검색해 주세요."
               width="23rem"
-              icon={faMagnifyingGlass}
+              icon="magnifying-glass"
               onChange={handleChangeSearchInput}
             ></InputBox>
             <InputBox
@@ -88,10 +87,15 @@ const ChildMinting = () => {
             <InputBox
               placeholder="태그"
               width="23rem"
-              icon={faHashtag}
+              icon="hashtag"
               onChange={handleChangeTagInput}
             ></InputBox>
-            <Button label={'작품 등록'} width="7rem" onClick={() => console.log('작품 등록')}></Button>
+            <Button
+              label={"작품 등록"}
+              width="7rem"
+              backgroundColor="#6667ab"
+              onClick={() => console.log("작품 등록")}
+            ></Button>
           </InputTextContainer>
         </InputContainer>
       </MintingContainer>

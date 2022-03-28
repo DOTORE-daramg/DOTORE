@@ -3,10 +3,14 @@ package com.daram.dotore.api.controller;
 import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
+import com.daram.dotore.api.response.ItemLikeRes;
 import com.daram.dotore.api.response.ItemRelationRes;
+import com.daram.dotore.api.response.ItemsRes;
+import com.daram.dotore.api.service.AwsS3Service;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Download;
@@ -19,22 +23,13 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import java.math.BigInteger;
 import java.util.List;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin("*")
 @Api(value = "NFT 작품 관련 API")
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/items")
 public class ItemController {
@@ -45,24 +40,29 @@ public class ItemController {
     @Autowired
     UserService userService;
 
-    @PostMapping()
+    @Autowired
+    AwsS3Service awsS3Service;
+
+    @PostMapping
     @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> login(@RequestBody ItemReq itemReq) {
-
+    public ResponseEntity<BaseRes> login(@ModelAttribute ItemReq itemReq,@RequestPart("data") MultipartFile file) {
         try {
-            itemService.saveNewItem(itemReq);
+            //item_hash가 아무값이나 들어가 있는 상태로 db에 저장
+            Items item = itemService.saveNewItem(itemReq);
+            //프로필 이미지 업로드 및 주소 반환
+            String imageUrl = awsS3Service.uploadItem(file, "items",item.getTokenId(),item.getAuthor_address());
+            itemService.updateImageUrl(item.getTokenId(),imageUrl);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
 
-    @PatchMapping()
+    @PatchMapping
     @ApiOperation(value = "작품 소유주 변경", notes = "DB에 해당 NFT 작품의 소유주를 변경")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
@@ -77,23 +77,40 @@ public class ItemController {
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
-    @GetMapping("/{tokenId}")
+    @GetMapping("/{token_id}")
     @ApiOperation(value = "작품 상세페이지", notes = "작품을 눌러서 나오는 상세페이지에 필요한 정보 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemDetailRes.class),
         @ApiResponse(code = 404, message = "존재하지 않는 token_id", response = ItemDetailRes.class),
     })
-    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger tokenId) {
+    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id) {
         try {
-            Items item = itemService.getItemByTokenId(tokenId);
+            Items item = itemService.getItemByTokenId(token_id);
             Users user = userService.getUserByAddress(item.getOwner_address());
-            int download = itemService.countDownload(tokenId);
-            int like = itemService.countLike(tokenId);
-            String[] tags = itemService.getTags(tokenId);
+            int download = itemService.countDownload(token_id);
+            int like = itemService.countLike(token_id);
+            String[] tags = itemService.getTags(token_id);
             return ResponseEntity.status(200)
                 .body(ItemDetailRes.of("Success", item, user, download, like, tags));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(ItemDetailRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @GetMapping("/like/{token_id}/{address}")
+    @ApiOperation(value = "좋아요 여부 확인", notes = "해당 유저가 이 작품에 좋아요를 눌렀는지 확인")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemLikeRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = ItemLikeRes.class),
+    })
+    public ResponseEntity<ItemLikeRes> getDetail(@PathVariable BigInteger token_id,
+        @PathVariable String address) {
+        try {
+            boolean like = itemService.checkLike(address, token_id);
+            return ResponseEntity.status(200)
+                .body(ItemLikeRes.of("Success", like));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(ItemLikeRes.of("Fail"));
         }
     }
 
@@ -106,7 +123,7 @@ public class ItemController {
         try {
             Items item = itemService.getItemByTokenId(tokenId);
             List<Items> list;
-            if (item.getIs_first()) {    // 1차
+            if (item.getIsFirst()) {    // 1차
                 list = itemService.getSecond(tokenId);
             } else {  // 2차
                 list = itemService.getFirst(tokenId);
@@ -173,5 +190,58 @@ public class ItemController {
             return ResponseEntity.status(409).body(ItemButtonRes.of("이미 다운로드한 적이 있습니다.", count));
         }
         return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
+    }
+
+    @GetMapping("/all")
+    @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "작품 전체 조회 성공", response = ItemsRes.class),
+        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getAllItems() {
+        ItemsRes itemsRes=itemService.getAll();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/first")
+    @ApiOperation(value = "1차 창작물 조회", notes = "모든 1차 창작물 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getFirstItems() {
+        ItemsRes itemsRes=itemService.getFirst();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/second")
+    @ApiOperation(value = "2차 창작물 조회", notes = "모든 2차 창작물 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getSecondItems() {
+        ItemsRes itemsRes=itemService.getSecond();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    @GetMapping("/sale")
+    @ApiOperation(value = "판매중인 작품 조회", notes = "판매중인 모든 작품들 조회")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getSaleItems() {
+        ItemsRes itemsRes=itemService.getSale();
+        if(itemsRes==null){
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
     }
 }

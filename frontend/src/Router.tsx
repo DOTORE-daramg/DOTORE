@@ -15,13 +15,20 @@ import Download from "./pages/artist/Download";
 import Like from "./pages/artist/Like";
 import Detail from "./pages/Detail";
 import FeedbackList from "./pages/artist/FeedbackList";
+import FeedbackCreate from "./pages/FeedbackCreate";
 import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
 import { injected } from "./lib/connectors";
 import { getUserInfo, login } from "./api/user";
 import { useRecoilState } from "recoil";
-import { isLoggedInState, isLoggedInTypes, userInfoState, userInfoTypes } from '.';
+import {
+  isLoggedInState,
+  isLoggedInTypes,
+  userInfoState,
+  userInfoTypes,
+} from ".";
+import List from "./pages/list/List";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -35,8 +42,6 @@ const Container = styled.div`
   }
 `;
 
-
-
 const AppRouter = () => {
   const {
     connector,
@@ -48,7 +53,8 @@ const AppRouter = () => {
     activate,
     deactivate,
   } = useWeb3React();
-  const [isLoggedIn, setIsLoggedIn] = useRecoilState<isLoggedInTypes>(isLoggedInState);
+  const [isLoggedIn, setIsLoggedIn] =
+    useRecoilState<isLoggedInTypes>(isLoggedInState);
   const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
 
   // 로그인 시나리오
@@ -100,7 +106,7 @@ const AppRouter = () => {
   const onLogout = () => {
     deactivate();
     setIsLoggedIn({
-      isLoggedIn: false
+      isLoggedIn: false,
     });
   };
 
@@ -119,10 +125,13 @@ const AppRouter = () => {
           <Route path="prminting" element={<ParentMinting />} />
           <Route path="cdminting" element={<ChildMinting />} />
 
+          <Route path="list" element={<List />} />
           <Route path="prlist" element={<ParentList />} />
           <Route path="cdlist" element={<ChildList />} />
 
           <Route path="detail/:tokenId" element={<Detail />} />
+
+          <Route path="feedbackcreate/:tokenId" element={<FeedbackCreate />} />
 
           <Route path="artist/:userAddress" element={<Artist />}>
             <Route path="ownednft" element={<OwnedNFTList />} />

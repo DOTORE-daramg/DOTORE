@@ -1,10 +1,13 @@
 import React from "react";
-import styled from 'styled-components';
-import { Title } from '../../stories/Title';
+import styled from "styled-components";
+import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
+import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
-import { faHashtag } from "@fortawesome/free-solid-svg-icons";
+import { useRecoilValue } from "recoil";
+import { isLoggedInState, userInfoState } from "../..";
+import { mintTokenContract } from "../../contracts";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -46,21 +49,57 @@ const InputTextContainer = styled.div`
 `;
 
 const ParentMinting = () => {
-  const handleChangeTitleInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeDescInput = (e:any) => {
-    console.log(e.target.value)
-  } 
-  const handleChangeTagInput = (e:any) => {
-    console.log(e.target.value)
-  }
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const userInfo = useRecoilValue(userInfoState);
+
+  const handleChangeTitleInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeDescInput = (e: any) => {
+    console.log(e.target.value);
+  };
+  const handleChangeTagInput = (e: any) => {
+    console.log(e.target.value);
+  };
+
+  const onClickMint = async () => {
+    console.log("Click Mint!!");
+    try {
+      if (!isLoggedIn) {
+        return;
+      }
+      const response = await mintTokenContract.methods
+        .mintToken("www.ssafy.com")
+        .send({ from: userInfo.address, gas: 3000000 });
+
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickBalanceOf = async () => {
+    try {
+      const balance = await mintTokenContract.methods
+        .balanceOf(userInfo.address)
+        .call();
+      const fileUrlRes = await mintTokenContract.methods.fileUrls(1).call();
+
+      console.log("balance: ", balance);
+      console.log("fileUrlRes: ", fileUrlRes);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Container>
       <MintingContainer>
         <TitleContainer>
-          <Title label={'1차 NFT 등록'} size={'1.5rem'}></Title>
+          <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
+
+        <button onClick={onClickBalanceOf}>balance</button>
 
         <InputContainer>
           <FileDropBox></FileDropBox>
@@ -76,13 +115,19 @@ const ParentMinting = () => {
               rows={6}
               onChange={handleChangeDescInput}
             ></TextAreaBox>
-            <InputBox
+            <TagInputBox></TagInputBox>
+            {/* <InputBox
               placeholder="태그"
               width="23rem"
-              icon={faHashtag}
+              icon="hashtag"
               onChange={handleChangeTagInput}
-            ></InputBox>
-            <Button label={'작품 등록'} width="7rem" onClick={() => console.log('작품 등록')}></Button>
+            ></InputBox> */}
+            <Button
+              label={"작품 등록"}
+              width="7rem"
+              backgroundColor="#6667ab"
+              onClick={onClickMint}
+            ></Button>
           </InputTextContainer>
         </InputContainer>
       </MintingContainer>

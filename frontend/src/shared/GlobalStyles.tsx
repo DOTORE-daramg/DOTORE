@@ -5,7 +5,7 @@ const GlobalStyles = createGlobalStyle`
     ${reset};
     html {
         @media screen and (max-width: 768px) {
-            font-size: 10px;
+            font-size: 12px;
         }
     }
     li{

@@ -16,11 +16,11 @@ const DescriptionContainer = styled.div`
 `;
 
 const ProfileContainer = styled.div`
-  margin: 10px 0 20px 0;
+  margin: 20px 0 20px 0;
 `;
 
 const StyledDescription = styled.div`
-  line-height: 25px;
+  line-height: 30px;
 `;
 
 interface DescriptionProps {

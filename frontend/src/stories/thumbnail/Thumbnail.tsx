@@ -7,7 +7,7 @@ const Container = styled.div`
   position: absolute;
   box-sizing: border-box;
   border-radius: 8px;
-  border: solid 1px #D9D9D9;
+  border: solid 1px #d9d9d9;
   cursor: pointer;
   &:hover div {
     display: flex;
@@ -51,23 +51,25 @@ const StyledText = styled.p`
 `;
 
 export interface ThumbnailProps {
-  itemImageUrl: string;
+  itemHash: string;
   itemTitle: string;
-  authorName: string;
+  nickname: string;
+  tokenId?: number;
+  like: number;
   onClick?: () => void;
 }
 
 export const Thumbnail = ({
-  itemImageUrl,
+  itemHash,
   itemTitle,
-  authorName,
+  nickname,
   onClick,
 }: ThumbnailProps) => {
   return (
     <Container onClick={onClick}>
-      <StyledImageItem src={itemImageUrl} alt="thumbnail"></StyledImageItem>
+      <StyledImageItem src={itemHash} alt="thumbnail"></StyledImageItem>
       <StyledCoverItem>
-        <StyledText className="author-name">{authorName}</StyledText>
+        <StyledText className="author-name">{nickname}</StyledText>
         <StyledText className="item-title">{itemTitle}</StyledText>
       </StyledCoverItem>
     </Container>
