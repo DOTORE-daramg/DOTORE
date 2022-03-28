@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { Description } from "../../stories/detail/Description";
 import { Image } from "../../stories/detail/Image";
 import { Title } from "../../stories/Title";
 import { TextEditor } from "../../stories/common/TextEditor";
+import { useParams } from "react-router-dom";
+import { getItem } from "../../api/item";
+import { createParams } from "../../api/feedback";
 
 const Container = styled.div`
   width: 100%;
@@ -60,8 +63,16 @@ const TextEditorContainer = styled.div`
     width: 80%;
   }
 `;
+export type Iitem = {
+  authorAddress: string;
+  itemTitle: string;
+  itemHash: string;
+  nickname: string;
+  itemDescription: string;
+  tokenId: number | undefined;
+};
 
-const Detail = () => {
+const FeedbackCreate = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc
@@ -70,6 +81,23 @@ const Detail = () => {
     ? "feedbackCreate"
     : "feedbackCreateM";
 
+  const { tokenId } = useParams();
+  const [item, setItem] = useState<Iitem>({
+    authorAddress: "",
+    itemTitle: "",
+    itemHash: "",
+    nickname: "",
+    itemDescription: "",
+    tokenId: Number(tokenId),
+  });
+  const { authorAddress, itemTitle, itemHash, nickname, itemDescription } =
+    item;
+  const onClick = () => {};
+  useEffect(() => {
+    getItem(tokenId).then((res) => {
+      setItem(res.data);
+    });
+  }, []);
   return (
     <Container>
       <TitleContainer>
@@ -78,29 +106,27 @@ const Detail = () => {
       {/* 상단 정보 Container */}
       <MainContainer>
         <Image
-          name="메타콩즈1"
+          name={itemTitle}
+          //imageUrl={itemHash}
           imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
           mode={viewMode}
         />
         <DescContainer>
           <Description
-            title="안경 쓴 늑대가 담배 피우고 있는 작품 이름"
-            descrition="의사 가운을 입고 있는 건가 봐요<br>
-          폭죽이랑 활을 들고 있네요..<br>
-          정말 알 수 없는 작품입니다<br>
-          늑대인지 개인지 소닉인지.."
+            title={itemTitle}
+            descrition={itemDescription}
             profileImgUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-            profileNickname="주비스"
+            profileNickname={nickname}
             profileLevel="Lv.2 꼬맹이도토리"
             size="fit-content"
           />
         </DescContainer>
       </MainContainer>
       <TextEditorContainer>
-        <TextEditor></TextEditor>
+        <TextEditor item={item}></TextEditor>
       </TextEditorContainer>
     </Container>
   );
 };
 
-export default Detail;
+export default FeedbackCreate;

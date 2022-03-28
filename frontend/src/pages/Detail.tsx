@@ -164,7 +164,8 @@ const SaleContainer = styled.div`
     color: rgba(102, 103, 171, 1);
   }
 `;
-type item = {
+type Iitem = {
+  authorAddress: string;
   itemTitle: string;
   itemHash: string;
   nickname: string;
@@ -206,7 +207,8 @@ const Detail = () => {
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(true);
-  const [item, setItem] = useState<item>({
+  const [item, setItem] = useState<Iitem>({
+    authorAddress: "",
     itemTitle: "",
     itemHash: "",
     nickname: "",
@@ -217,6 +219,7 @@ const Detail = () => {
     tags: [],
   });
   const {
+    authorAddress,
     itemTitle,
     itemHash,
     nickname,

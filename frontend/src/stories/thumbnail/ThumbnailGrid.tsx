@@ -42,7 +42,7 @@ export const ThumbnailGrid = ({
 }: ThumbnailGridProps) => {
   return (
     <GridContainer size={size} columnCount={columnCount}>
-      {itemList.map((item) => (
+      {itemList.map((item, index) => (
         <GridItem key={item.tokenId}>
           <Thumbnail {...item}></Thumbnail>
         </GridItem>

@@ -142,7 +142,7 @@ const AppRouter = () => {
             <Route path="like" element={<Like />} />
           </Route>
 
-          <Route path="feedback/:articleNo" element={<Feedback />} />
+          <Route path="feedback/:tokenId/:articleNo" element={<Feedback />} />
         </Routes>
         <Footer />
       </Router>

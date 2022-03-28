@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FeedbackBanner } from "../../stories/feedback/FeedbackBanner";
 import { FeedbackTitle } from "../../stories/feedback/FeedbackTitle";
 import { FeedbackComment } from "../../stories/feedback/FeedbackComment";
 import { FeedbackInputBox } from "../../stories/feedback/FeedbackInputBox";
 import styled from "styled-components";
+import { getItem } from "../../api/item";
+import { Iitem } from "./FeedbackCreate";
+import { useParams } from "react-router-dom";
 
 const dummy = {
   articleno: 0,
@@ -48,6 +51,23 @@ const Container = styled.div`
 `;
 
 const Feedback = () => {
+  const { tokenId } = useParams();
+  const [item, setItem] = useState<Iitem>({
+    authorAddress: "",
+    itemTitle: "",
+    itemHash: "",
+    nickname: "",
+    itemDescription: "",
+    tokenId: Number(tokenId),
+  });
+  const { authorAddress, itemTitle, itemHash, nickname, itemDescription } =
+    item;
+
+  useEffect(() => {
+    getItem(tokenId).then((res) => {
+      setItem(res.data);
+    });
+  }, []);
   return (
     <>
       <FeedbackBanner></FeedbackBanner>
@@ -81,7 +101,7 @@ const Feedback = () => {
             }
           ></FeedbackComment>
         ))}
-        <FeedbackInputBox></FeedbackInputBox>
+        <FeedbackInputBox item={item}></FeedbackInputBox>
       </Container>
     </>
   );
