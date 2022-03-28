@@ -31,6 +31,8 @@ public interface ItemService {
 
     int countLike(BigInteger tokenId);
 
+    boolean checkLike(String address, BigInteger tokenId);
+
     int countDownload(BigInteger tokenId);
 
     String[] getTags(BigInteger tokenId);
