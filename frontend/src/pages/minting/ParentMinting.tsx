@@ -12,6 +12,10 @@ import {
   dTTSaleFactoryContract,
   dTTContract,
   dTTContractAddress,
+  dTT,
+  dTTAddress,
+  dTTMarketAddress,
+  dTTMarketContract
 } from "../../contracts";
 
 const Container = styled.div`
@@ -126,6 +130,47 @@ const ParentMinting = () => {
     }
   };
 
+  const onClickDTT = async () => {
+    console.log("Click Mint DTT!!");
+    try {
+      if (!isLoggedIn) {
+        return;
+      }
+      const response = await dTT.methods
+        .createToken(
+          "https://w.namu.la/s/b46567c75bd8a9359a0ca3a8cb1b340f11b6b285e622cf9135faf12e3dbf98ba748c2697ba48f1419429982a2bf578efccb7787e2ac4faad1044b4d5363aeb2ea32d6f54c2baa4344bfd4cb3478521783b9670a1900658e94c096a33a31aa7d3"
+        )
+        .send({
+          from: userInfo.address,
+          gas: 3000000,
+        });
+
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickCreate = async () => {
+    try {
+      const response = await dTTMarketContract.methods
+        .createMarketItem(
+          dTTMarketAddress,
+          1,
+          13700000000
+          // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+        )
+        .send({
+          from: userInfo.address,
+          gas: 3000000,
+        })
+        .then(console.log);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   return (
     <Container>
       <MintingContainer>
@@ -139,6 +184,18 @@ const ParentMinting = () => {
           width="7rem"
           backgroundColor="#6667ab"
           onClick={onClickRegisterSale}
+        ></Button>
+        <Button
+          label={"mint DTT"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickDTT}
+        ></Button>
+        <Button
+          label={"create"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickCreate}
         ></Button>
 
         <InputContainer>
