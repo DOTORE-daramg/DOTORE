@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { getItem } from "../../api/item";
 import { Iitem } from "./FeedbackCreate";
 import { useParams } from "react-router-dom";
+import { getFeedBack } from "../../api/feedback";
+import { getUserInfo } from "../../api/user";
 
 const dummy = {
   articleno: 0,
@@ -50,8 +52,31 @@ const Container = styled.div`
   }
 `;
 
+type questions = {
+  answers: Array<answer>;
+  question: question;
+};
+
+type question = {
+  createdAt: string;
+  description: string;
+  imgUrl?: string;
+  profileImgUrl?: string;
+  questioner: string;
+  nickname: string;
+};
+
+type answer = {
+  answerNo: number;
+  writer: string;
+  description: string;
+  createdAt: string;
+  imgUrl?: string;
+  profileImgUrl?: string;
+  nickname: string;
+};
 const Feedback = () => {
-  const { tokenId } = useParams();
+  const { tokenId, articleNo } = useParams();
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
     itemTitle: "",
@@ -60,49 +85,71 @@ const Feedback = () => {
     itemDescription: "",
     tokenId: Number(tokenId),
   });
-  const { authorAddress, itemTitle, itemHash, nickname, itemDescription } =
-    item;
+  const [questions, setQuestions] = useState<questions>();
+
+  const { itemTitle, itemHash } = item;
 
   useEffect(() => {
     getItem(tokenId).then((res) => {
       setItem(res.data);
     });
+    getFeedBack(articleNo).then((res) => {
+      console.log(res);
+      const answers = res.data.answers;
+      getUserInfo(res.data.question.questioner).then((nick) => {
+        const nickname = nick.data.nickname;
+
+        const question = {
+          ...res.data.question,
+          nickname,
+        };
+        console.log(answers);
+        const questions = {
+          question,
+          answers,
+        };
+        setQuestions(questions);
+      });
+    });
   }, []);
   return (
     <>
       <FeedbackBanner></FeedbackBanner>
-      <Container>
-        <FeedbackTitle
-          itemTitle="여기 보완 필요"
-          imageUrl={dummy.question.img_url}
-        ></FeedbackTitle>
-        <FeedbackComment
-          profileImgUrl=""
-          profileNickname={dummy.question.questioner}
-          profileLevel={dummy.question.questioner}
-          content={dummy.question.description}
-          createdAt={dummy.question.created_at}
-          imageUrl={dummy.question.img_url}
-          commentType="MainQuestion"
-        ></FeedbackComment>
-        {dummy.answers.map((answer) => (
+      {questions && (
+        <Container>
+          <FeedbackTitle
+            itemTitle={itemTitle}
+            // imageUrl={itemHash}
+            imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+          ></FeedbackTitle>
           <FeedbackComment
-            key={answer.answerno}
             profileImgUrl=""
-            profileNickname={answer.writer}
-            profileLevel={answer.writer}
-            content={answer.description}
-            createdAt={answer.created_at}
-            imageUrl={answer.img_url}
-            commentType={
-              answer.writer === dummy.question.questioner
-                ? "Question"
-                : "Answer"
-            }
+            profileNickname={questions.question.nickname}
+            profileLevel="Lv2. 청소년 도토리"
+            content={questions.question.description}
+            createdAt={questions.question.createdAt.slice(0, 10)}
+            imageUrl={questions.question.imgUrl}
+            commentType="MainQuestion"
           ></FeedbackComment>
-        ))}
-        <FeedbackInputBox item={item}></FeedbackInputBox>
-      </Container>
+          {questions.answers.map((answer) => (
+            <FeedbackComment
+              key={answer.answerNo}
+              profileImgUrl=""
+              profileNickname={answer.writer}
+              profileLevel="Lv2. 청소년 도토리"
+              content={answer.description}
+              createdAt={answer.createdAt.slice(0, 10)}
+              imageUrl={answer.imgUrl}
+              commentType={
+                answer.writer === questions.question.questioner
+                  ? "Question"
+                  : "Answer"
+              }
+            ></FeedbackComment>
+          ))}
+          <FeedbackInputBox item={item}></FeedbackInputBox>
+        </Container>
+      )}
     </>
   );
 };

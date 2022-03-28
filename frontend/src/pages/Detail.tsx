@@ -261,7 +261,7 @@ const Detail = () => {
       getFeedbacks(tokenId)
         .then((res) => {
           console.log(res);
-          setQuestions(res.data.data);
+          setQuestions(res.data.data.slice(0, 3));
         })
         .catch(() => {
           // setQuestions([
@@ -407,7 +407,7 @@ const Detail = () => {
             {isFirst ? (
               <QuestionContainer>
                 {questions ? (
-                  <Questions questions={questions} />
+                  <Questions tokenId={tokenId} questions={questions} />
                 ) : (
                   <div>아직 등록된 질문이 없습니다!</div>
                 )}

@@ -220,7 +220,7 @@ export const TextEditor = ({ item }: TEProps) => {
     if (item) {
       const params = {
         decription: editorState.getCurrentContent().getPlainText("\u000A"),
-        // imgUrl: null,
+        imgUrl: "https://s3.nft1.jpg",
         questioner: userInfo.address,
         // questioner: "11",
         respondent: item.authorAddress,
