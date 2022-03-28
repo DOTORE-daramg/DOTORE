@@ -7,6 +7,7 @@ import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
+import com.daram.dotore.api.response.ItemLikeRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.api.service.AwsS3Service;
@@ -76,24 +77,40 @@ public class ItemController {
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
-    @GetMapping("/{token_id}/{address}")
+    @GetMapping("/{token_id}")
     @ApiOperation(value = "작품 상세페이지", notes = "작품을 눌러서 나오는 상세페이지에 필요한 정보 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemDetailRes.class),
         @ApiResponse(code = 404, message = "존재하지 않는 token_id", response = ItemDetailRes.class),
     })
-    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id, @PathVariable String address) {
+    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id) {
         try {
             Items item = itemService.getItemByTokenId(token_id);
             Users user = userService.getUserByAddress(item.getOwner_address());
             int download = itemService.countDownload(token_id);
             int like = itemService.countLike(token_id);
-            boolean isLike=itemService.checkLike(address, token_id);
             String[] tags = itemService.getTags(token_id);
             return ResponseEntity.status(200)
-                .body(ItemDetailRes.of("Success", item, user, download, like, isLike, tags));
+                .body(ItemDetailRes.of("Success", item, user, download, like, tags));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(ItemDetailRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @GetMapping("/like/{token_id}/{address}")
+    @ApiOperation(value = "좋아요 여부 확인", notes = "해당 유저가 이 작품에 좋아요를 눌렀는지 확인")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemLikeRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = ItemLikeRes.class),
+    })
+    public ResponseEntity<ItemLikeRes> getDetail(@PathVariable BigInteger token_id,
+        @PathVariable String address) {
+        try {
+            boolean like = itemService.checkLike(address, token_id);
+            return ResponseEntity.status(200)
+                .body(ItemLikeRes.of("Success", like));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(ItemLikeRes.of("Fail"));
         }
     }
 

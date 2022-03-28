@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class ItemListVO {
-    //String nickname;
     private BigInteger tokenId;
     private  String itemHash;
     private String itemTitle;
