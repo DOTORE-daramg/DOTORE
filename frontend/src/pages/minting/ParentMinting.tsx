@@ -8,10 +8,6 @@ import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
 import {
-  web3,
-  dTTSaleFactoryContract,
-  dTTContract,
-  dTTContractAddress,
   dTT,
   dTTAddress,
   dTTMarketAddress,
@@ -71,58 +67,13 @@ const ParentMinting = () => {
     console.log(e.target.value);
   };
 
-  const onClickMint = async () => {
-    console.log("Click Mint!!");
-    try {
-      if (!isLoggedIn) {
-        return;
-      }
-      const response = await dTTContract.methods
-        .createMint(
-          "행복회로",
-          "돌아간다 어디서 타는 냄새",
-          "https://w.namu.la/s/b46567c75bd8a9359a0ca3a8cb1b340f11b6b285e622cf9135faf12e3dbf98ba748c2697ba48f1419429982a2bf578efccb7787e2ac4faad1044b4d5363aeb2ea32d6f54c2baa4344bfd4cb3478521783b9670a1900658e94c096a33a31aa7d3"
-        )
-        .send({
-          from: userInfo.address,
-          gas: 3000000,
-        });
-
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const onClickBalanceOf = async () => {
     try {
       const balance = await dTT.methods.balanceOf(userInfo.address).call();
       console.log("balance: ", balance);
-      // const sales = await dTTMarketContract.methods
-      //   .allSales()
-      //   .call()
-      //   .then(console.log);
-      // console.log(sales);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const onClickRegisterSale = async () => {
-    try {
-      const createSale = await dTTSaleFactoryContract.methods
-        .createSale(
-          1,
-          "328000000000000",
-          "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-          dTTContractAddress
-        )
-        .send({
-          from: userInfo.address,
-          gas: 3000000,
-        })
-        .then(console.log);
-      console.log(createSale);
+      console.log(await dTTMarketContract.methods.idMarketItem(0).call());
+      console.log(await dTTMarketContract.methods.idMarketItem(1).call());
+      console.log(await dTTMarketContract.methods.idMarketItem(2).call());
     } catch (err) {
       console.error(err);
     }
@@ -142,6 +93,7 @@ const ParentMinting = () => {
         .send({
           from: userInfo.address,
           gas: 3000000,
+          gasPrice: "10000000000",
         });
 
       console.log(response);
@@ -153,11 +105,7 @@ const ParentMinting = () => {
   const onClickCreate = async () => {
     try {
       const response = await dTTMarketContract.methods
-        .createMarketItem(
-          1,
-          328000000000000
-          // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-        )
+        .createMarketItem(1, "7888000000000000")
         .send({
           from: userInfo.address,
           gas: 3000000,
@@ -173,14 +121,15 @@ const ParentMinting = () => {
   const onClickPurchase = async () => {
     try {
       const response = await dTTMarketContract.methods
-        .createMarketSale(
+        .purchase(
           1
           // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
         )
         .send({
           from: userInfo.address,
           gas: 3000000,
-          value: 328000000000000,
+          value: "7888000000000000",
+          gasPrice: "10000000000",
         })
         .then(console.log);
       console.log(response);
@@ -196,27 +145,21 @@ const ParentMinting = () => {
           <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
 
-        <button onClick={onClickBalanceOf}>balance</button>
+        <button onClick={onClickBalanceOf}>토큰 개수</button>
         <Button
-          label={"registerSale"}
-          width="7rem"
-          backgroundColor="#6667ab"
-          onClick={onClickRegisterSale}
-        ></Button>
-        <Button
-          label={"mint DTT"}
+          label={"민팅"}
           width="7rem"
           backgroundColor="#6667ab"
           onClick={onClickDTT}
         ></Button>
         <Button
-          label={"create"}
+          label={"판매 등록"}
           width="7rem"
           backgroundColor="#6667ab"
           onClick={onClickCreate}
         ></Button>
         <Button
-          label={"purchase"}
+          label={"구매"}
           width="7rem"
           backgroundColor="#6667ab"
           onClick={onClickPurchase}
@@ -237,18 +180,6 @@ const ParentMinting = () => {
               onChange={handleChangeDescInput}
             ></TextAreaBox>
             <TagInputBox></TagInputBox>
-            {/* <InputBox
-              placeholder="태그"
-              width="23rem"
-              icon="hashtag"
-              onChange={handleChangeTagInput}
-            ></InputBox> */}
-            <Button
-              label={"작품 등록"}
-              width="7rem"
-              backgroundColor="#6667ab"
-              onClick={onClickMint}
-            ></Button>
           </InputTextContainer>
         </InputContainer>
       </MintingContainer>
