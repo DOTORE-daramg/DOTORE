@@ -8,6 +8,7 @@ import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.FeedbackDetailRes;
 import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackRes;
+import com.daram.dotore.api.service.AwsS3Service;
 import com.daram.dotore.api.service.FeedbackService;
 import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
@@ -18,14 +19,8 @@ import io.swagger.annotations.ApiResponses;
 import java.math.BigInteger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin("*")
 @Api(value = "피드백 API")
@@ -35,6 +30,9 @@ public class FeedBackController {
 
     @Autowired
     FeedbackService feedbackService;
+
+    @Autowired
+    AwsS3Service awsS3Service;
 
     @GetMapping("/{tokenId}")
     @ApiOperation(value = "피드백 목록 조회", notes = "해당 작품의 피드백 목록을 조회")
@@ -85,9 +83,11 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = FeedbackRes.class),
         @ApiResponse(code = 400, message = "Fail", response = FeedbackRes.class),
     })
-    public ResponseEntity<FeedbackRes> makeNewFeedback(@RequestBody FeedbackReq feedbackReq)
+    public ResponseEntity<FeedbackRes> makeNewFeedback(@ModelAttribute FeedbackReq feedbackReq,@RequestPart("data") MultipartFile file)
         throws Exception {
         try {
+            String imageUrl = awsS3Service.uploadFeedback(file, "feedback",feedbackReq.getTokenId(),feedbackReq.getQuestioner());
+            feedbackReq.setImgUrl(imageUrl);
             Feedback feedback = feedbackService.saveNewFeedback(feedbackReq);
             return ResponseEntity.status(200)
                 .body(FeedbackRes.of("Success", feedback.getArticleno()));
@@ -102,8 +102,10 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> writeAnswer(@RequestBody AnswerReq answerReq) throws Exception{
+    public ResponseEntity<BaseRes> writeAnswer(@ModelAttribute AnswerReq answerReq,@RequestPart("data") MultipartFile file) throws Exception{
         try {
+            String imageUrl = awsS3Service.uploadAnswer(file, "answer",answerReq.getArticleNo(),answerReq.getWriter());
+            answerReq.setImgUrl(imageUrl);
             feedbackService.saveNewAnswer(answerReq);
             return ResponseEntity.status(200)
                 .body(BaseRes.of("Success"));
