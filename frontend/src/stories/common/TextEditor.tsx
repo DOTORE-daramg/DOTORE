@@ -12,6 +12,11 @@ import {
 import { mediaBlockRenderer } from "./MediaBlock";
 import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
+import { Iitem } from "../../pages/feedback/FeedbackCreate";
+import { createFeedback } from "../../api/feedback";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -96,11 +101,16 @@ const TextEditorFooter = styled.div`
   justify-content: end;
 `;
 
+export interface TEProps {
+  item?: Iitem;
+}
 // 텍스트 에디터
-export const TextEditor = () => {
+export const TextEditor = ({ item }: TEProps) => {
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const navigate = useNavigate();
 
   // 단축키 조작
   const handleKeyCommand = (command: DraftEditorCommand) => {
@@ -207,6 +217,28 @@ export const TextEditor = () => {
     return "handled";
   };
 
+  const onClick = () => {
+    // console.log(editorState.getCurrentContent().get);
+    if (item) {
+      const params = {
+        description: editorState.getCurrentContent().getPlainText("\u000A"),
+        imgUrl: "https://s3.nft1.jpg",
+        questioner: userInfo.address,
+        // questioner: "11",
+        respondent: item.authorAddress,
+        tokenId: Number(item.tokenId),
+      };
+      createFeedback(params)
+        .then((res) => {
+          console.log("성공");
+          navigate(`/artist/${userInfo.address}/feedback`);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  };
+
   return (
     <Container>
       <ButtonListContainer>
@@ -253,10 +285,13 @@ export const TextEditor = () => {
         <Button
           label="작성하기"
           backgroundColor="#6667AB"
-          onClick={() => {
-            console.log(editorState.getCurrentContent().getPlainText("\u000A"));
-            console.log(convertToRaw(editorState.getCurrentContent()));
-          }}
+          onClick={
+            //   () => {
+            //   console.log(editorState.getCurrentContent().getPlainText("\u000A"));
+            //   console.log(convertToRaw(editorState.getCurrentContent()));
+            // }
+            onClick
+          }
         ></Button>
       </TextEditorFooter>
     </Container>

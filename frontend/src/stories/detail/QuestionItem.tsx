@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -8,25 +9,36 @@ const Container = styled.div`
   justify-content: flex-start;
   place-items: center;
 `;
-const Category = styled.div``;
+const Category = styled.div`
+  cursor: pointer;
+
+  &:hover {
+    transition: 0.3s;
+    font-size: 1.05rem;
+    color: #6667ab;
+  }
+`;
 
 export interface QuestionProps {
-  articleno: number;
+  tokenId?: string;
+  articleNo: number;
   yn: boolean;
   nickname: string;
   description: string;
 }
 
 const QuestionItem = ({
-  articleno,
+  tokenId,
+  articleNo,
   yn,
   nickname,
   description,
 }: QuestionProps) => {
+  const navigate = useNavigate();
   return (
-    <Container>
-      <Category>{yn ? "해결" : "미해결"}</Category>
-      <Category>{nickname}</Category>
+    <Container onClick={() => navigate(`/feedback/${tokenId}/${articleNo}`)}>
+      <div>{yn ? "해결" : "미해결"}</div>
+      <div>{nickname}</div>
       <Category>{description}</Category>
     </Container>
   );

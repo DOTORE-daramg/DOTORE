@@ -39,9 +39,10 @@ const Category = styled.div`
 `;
 
 interface QuestionsProps {
+  tokenId?: string;
   questions: Array<QuestionProps>;
 }
-const Questions = ({ questions }: QuestionsProps) => {
+const Questions = ({ tokenId, questions }: QuestionsProps) => {
   return (
     <Container>
       <TitleContainer>
@@ -56,7 +57,11 @@ const Questions = ({ questions }: QuestionsProps) => {
           <Category>질문 내용</Category>
         </CategoryContainer>
         {questions.map((question) => (
-          <QuestionItem key={question.articleno} {...question} />
+          <QuestionItem
+            key={question.articleNo}
+            tokenId={tokenId}
+            {...question}
+          />
         ))}
       </InnerContainer>
     </Container>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { getFeedbacks } from "../api/item";
 import { getItem, getRelatedItem } from "../api/item";
@@ -164,7 +164,8 @@ const SaleContainer = styled.div`
     color: rgba(102, 103, 171, 1);
   }
 `;
-type item = {
+type Iitem = {
+  authorAddress: string;
   itemTitle: string;
   itemHash: string;
   nickname: string;
@@ -206,7 +207,8 @@ const Detail = () => {
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(true);
-  const [item, setItem] = useState<item>({
+  const [item, setItem] = useState<Iitem>({
+    authorAddress: "",
     itemTitle: "",
     itemHash: "",
     nickname: "",
@@ -217,6 +219,7 @@ const Detail = () => {
     tags: [],
   });
   const {
+    authorAddress,
     itemTitle,
     itemHash,
     nickname,
@@ -229,27 +232,28 @@ const Detail = () => {
   const [questions, setQuestions] = useState<QuestionProps[]>();
 
   const [isModalShow, setIsModalShow] = useState(false);
+
+  const { tokenId } = useParams();
+  const navigate = useNavigate();
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
   };
 
-  const { tokenId } = useParams();
-
   useEffect(() => {
-    if (isLoading) {
-      getItem(tokenId).then((res) => {
-        setItem(res.data);
-        setIsFirst(res.data.isFirst);
-        setIsSale(res.data.onSaleYn);
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 1500);
-      });
-      getRelatedItem(tokenId).then((res) => {
-        setRelatedNFTs(res.data.data);
-      });
-    }
+    setIsLoading(true);
+
+    getItem(tokenId).then((res) => {
+      setItem(res.data);
+      setIsFirst(res.data.isFirst);
+      setIsSale(res.data.onSaleYn);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    });
+    getRelatedItem(tokenId).then((res) => {
+      setRelatedNFTs(res.data.data);
+    });
   }, [tokenId]);
 
   useEffect(() => {
@@ -257,7 +261,7 @@ const Detail = () => {
       getFeedbacks(tokenId)
         .then((res) => {
           console.log(res);
-          setQuestions(res.data.data);
+          setQuestions(res.data.data.slice(-3));
         })
         .catch(() => {
           // setQuestions([
@@ -334,6 +338,7 @@ const Detail = () => {
                       width="6.3rem"
                       label="질문 등록"
                       backgroundColor="#6667ab"
+                      onClick={() => navigate(`/feedbackcreate/${tokenId}`)}
                     />
                     <Button
                       width="6rem"
@@ -402,7 +407,7 @@ const Detail = () => {
             {isFirst ? (
               <QuestionContainer>
                 {questions ? (
-                  <Questions questions={questions} />
+                  <Questions tokenId={tokenId} questions={questions} />
                 ) : (
                   <div>아직 등록된 질문이 없습니다!</div>
                 )}

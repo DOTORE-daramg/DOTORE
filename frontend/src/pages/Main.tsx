@@ -206,6 +206,7 @@ const Main = () => {
             itemTitle,
             nickname,
             like,
+            tokenId,
             onClick,
           });
         });
@@ -275,6 +276,7 @@ const Main = () => {
               profileLevel={profile.profileLevel}
               size="72px"
               onClick={profile.onClick}
+              key={profile.address}
             />
           ))}
         </GridContainer>
