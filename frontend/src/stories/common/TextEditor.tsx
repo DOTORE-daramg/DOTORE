@@ -14,8 +14,9 @@ import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
 import { Iitem } from "../../pages/feedback/FeedbackCreate";
 import { createFeedback } from "../../api/feedback";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
@@ -109,6 +110,7 @@ export const TextEditor = ({ item }: TEProps) => {
     EditorState.createEmpty()
   );
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const navigate = useNavigate();
 
   // 단축키 조작
   const handleKeyCommand = (command: DraftEditorCommand) => {
@@ -219,7 +221,7 @@ export const TextEditor = ({ item }: TEProps) => {
     // console.log(editorState.getCurrentContent().get);
     if (item) {
       const params = {
-        decription: editorState.getCurrentContent().getPlainText("\u000A"),
+        description: editorState.getCurrentContent().getPlainText("\u000A"),
         imgUrl: "https://s3.nft1.jpg",
         questioner: userInfo.address,
         // questioner: "11",
@@ -228,7 +230,8 @@ export const TextEditor = ({ item }: TEProps) => {
       };
       createFeedback(params)
         .then((res) => {
-          console.log(res);
+          console.log("성공");
+          navigate(`/artist/${userInfo.address}/feedback`);
         })
         .catch((error) => {
           console.log(error);

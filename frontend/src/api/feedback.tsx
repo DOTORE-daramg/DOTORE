@@ -1,7 +1,7 @@
 import { api } from "./api";
 
 export type createParams = {
-  decription: string;
+  description: string;
   imgUrl?: string;
   questioner: string;
   respondent: string;

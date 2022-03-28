@@ -261,7 +261,7 @@ const Detail = () => {
       getFeedbacks(tokenId)
         .then((res) => {
           console.log(res);
-          setQuestions(res.data.data.slice(0, 3));
+          setQuestions(res.data.data.slice(-3));
         })
         .catch(() => {
           // setQuestions([

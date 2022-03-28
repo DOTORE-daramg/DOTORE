@@ -9,6 +9,8 @@ import { Iitem } from "./FeedbackCreate";
 import { useParams } from "react-router-dom";
 import { getFeedBack } from "../../api/feedback";
 import { getUserInfo } from "../../api/user";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 const dummy = {
   articleno: 0,
@@ -53,7 +55,7 @@ const Container = styled.div`
 `;
 
 type questions = {
-  answers: Array<answer>;
+  answers?: Array<answer>;
   question: question;
 };
 
@@ -75,6 +77,7 @@ type answer = {
   profileImgUrl?: string;
   nickname: string;
 };
+
 const Feedback = () => {
   const { tokenId, articleNo } = useParams();
   const [item, setItem] = useState<Iitem>({
@@ -86,31 +89,77 @@ const Feedback = () => {
     tokenId: Number(tokenId),
   });
   const [questions, setQuestions] = useState<questions>();
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
-  const { itemTitle, itemHash } = item;
+  // questioner도 아니고 author도 아니라면 textEditor 없애기
+  const [isMine, setIsMine] = useState<boolean>(true);
+  const { itemTitle, itemHash, authorAddress } = item;
 
   useEffect(() => {
     getItem(tokenId).then((res) => {
       setItem(res.data);
     });
-    getFeedBack(articleNo).then((res) => {
-      console.log(res);
-      const answers = res.data.answers;
-      getUserInfo(res.data.question.questioner).then((nick) => {
-        const nickname = nick.data.nickname;
 
-        const question = {
-          ...res.data.question,
-          nickname,
-        };
-        console.log(answers);
-        const questions = {
-          question,
-          answers,
-        };
-        setQuestions(questions);
+    getFeedBack(articleNo)
+      .then((res) => {
+        return res;
+      })
+      .then((res) => {
+        const answers = res.data.answers;
+        const newAnswers: answer[] = [];
+        const question = res.data.question;
+        console.log(res);
+        getUserInfo(question.questioner)
+          .then((nick) => {
+            const nickname = nick.data.nickname;
+            const question = {
+              ...res.data.question,
+              nickname,
+            };
+            return question;
+          })
+          .then((question) => {
+            // console.log(question.questioner, userInfo.address);
+            // questioner나 답변자가 아닌 경우
+            if (
+              answers.length !== 0 &&
+              question.questioner !== userInfo.address &&
+              answers[0].writer !== userInfo.address
+            ) {
+              console.log(
+                question.questioner,
+                answers[0].writer,
+                userInfo.address
+              );
+              setIsMine(false);
+            } else if (
+              answers.length == 0 &&
+              question.questioner !== userInfo.address &&
+              authorAddress != userInfo.address
+            ) {
+              setIsMine(false);
+            }
+
+            if (answers.length !== 0) {
+              console.log(answers);
+              answers.map((answer: answer) => {
+                getUserInfo(answer.writer).then((nick) => {
+                  const nickname = nick.data.nickname;
+                  newAnswers.push({ ...answer, nickname });
+                  const questions = {
+                    question,
+                    answers: newAnswers,
+                  };
+                  setQuestions(questions);
+                });
+              });
+            } else {
+              setQuestions({
+                question,
+              });
+            }
+          });
       });
-    });
   }, []);
   return (
     <>
@@ -131,23 +180,24 @@ const Feedback = () => {
             imageUrl={questions.question.imgUrl}
             commentType="MainQuestion"
           ></FeedbackComment>
-          {questions.answers.map((answer) => (
-            <FeedbackComment
-              key={answer.answerNo}
-              profileImgUrl=""
-              profileNickname={answer.writer}
-              profileLevel="Lv2. 청소년 도토리"
-              content={answer.description}
-              createdAt={answer.createdAt.slice(0, 10)}
-              imageUrl={answer.imgUrl}
-              commentType={
-                answer.writer === questions.question.questioner
-                  ? "Question"
-                  : "Answer"
-              }
-            ></FeedbackComment>
-          ))}
-          <FeedbackInputBox item={item}></FeedbackInputBox>
+          {questions.answers &&
+            questions.answers.map((answer) => (
+              <FeedbackComment
+                key={answer.answerNo}
+                profileImgUrl=""
+                profileNickname={answer.nickname}
+                profileLevel="Lv2. 청소년 도토리"
+                content={answer.description}
+                createdAt={answer.createdAt.slice(0, 10)}
+                imageUrl={answer.imgUrl}
+                commentType={
+                  answer.writer === questions.question.questioner
+                    ? "Question"
+                    : "Answer"
+                }
+              ></FeedbackComment>
+            ))}
+          {isMine && <FeedbackInputBox item={item}></FeedbackInputBox>}
         </Container>
       )}
     </>
