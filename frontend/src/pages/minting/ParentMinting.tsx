@@ -15,7 +15,7 @@ import {
   dTT,
   dTTAddress,
   dTTMarketAddress,
-  dTTMarketContract
+  dTTMarketContract,
 } from "../../contracts";
 
 const Container = styled.div`
@@ -96,15 +96,13 @@ const ParentMinting = () => {
 
   const onClickBalanceOf = async () => {
     try {
-      const balance = await dTTContract.methods
-        .balanceOf(userInfo.address)
-        .call();
+      const balance = await dTT.methods.balanceOf(userInfo.address).call();
       console.log("balance: ", balance);
-      const sales = await dTTSaleFactoryContract.methods
-        .allSales()
-        .call()
-        .then(console.log);
-      console.log(sales);
+      // const sales = await dTTMarketContract.methods
+      //   .allSales()
+      //   .call()
+      //   .then(console.log);
+      // console.log(sales);
     } catch (err) {
       console.error(err);
     }
@@ -115,7 +113,7 @@ const ParentMinting = () => {
       const createSale = await dTTSaleFactoryContract.methods
         .createSale(
           1,
-          13700000000,
+          "328000000000000",
           "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
           dTTContractAddress
         )
@@ -138,7 +136,8 @@ const ParentMinting = () => {
       }
       const response = await dTT.methods
         .createToken(
-          "https://w.namu.la/s/b46567c75bd8a9359a0ca3a8cb1b340f11b6b285e622cf9135faf12e3dbf98ba748c2697ba48f1419429982a2bf578efccb7787e2ac4faad1044b4d5363aeb2ea32d6f54c2baa4344bfd4cb3478521783b9670a1900658e94c096a33a31aa7d3"
+          "https://w.namu.la/s/b46567c75bd8a9359a0ca3a8cb1b340f11b6b285e622cf9135faf12e3dbf98ba748c2697ba48f1419429982a2bf578efccb7787e2ac4faad1044b4d5363aeb2ea32d6f54c2baa4344bfd4cb3478521783b9670a1900658e94c096a33a31aa7d3",
+          dTTMarketAddress
         )
         .send({
           from: userInfo.address,
@@ -155,21 +154,40 @@ const ParentMinting = () => {
     try {
       const response = await dTTMarketContract.methods
         .createMarketItem(
-          dTTMarketAddress,
           1,
-          13700000000
+          328000000000000
           // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
         )
         .send({
           from: userInfo.address,
           gas: 3000000,
+          gasPrice: "10000000000",
         })
         .then(console.log);
       console.log(response);
     } catch (err) {
       console.error(err);
     }
-  }
+  };
+
+  const onClickPurchase = async () => {
+    try {
+      const response = await dTTMarketContract.methods
+        .createMarketSale(
+          1
+          // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+        )
+        .send({
+          from: userInfo.address,
+          gas: 3000000,
+          value: 328000000000000,
+        })
+        .then(console.log);
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Container>
@@ -196,6 +214,12 @@ const ParentMinting = () => {
           width="7rem"
           backgroundColor="#6667ab"
           onClick={onClickCreate}
+        ></Button>
+        <Button
+          label={"purchase"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickPurchase}
         ></Button>
 
         <InputContainer>

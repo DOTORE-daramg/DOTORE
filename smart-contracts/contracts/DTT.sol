@@ -11,19 +11,17 @@ import "hardhat/console.sol";
 contract DTT is ERC721URIStorage {
     using Counters for Counters.Counter; // auto-increment
     Counters.Counter private _tokenIds;
-    address contractAddress; // DTTMarket 주소
 
-    constructor(address marketplaceAddress) ERC721("Dotore NFT", "DTT") {
-        contractAddress = marketplaceAddress;
+    constructor() ERC721("Dotore NFT", "DTT") {
     }
 
-    function createToken(string memory tokenURI) public returns (uint256) {
+    function createToken(string memory tokenURI, address marketplaceAddress) public returns (uint256) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 
         _mint(msg.sender, newItemId); // 민팅
         _setTokenURI(newItemId, tokenURI); // 가스비 줄이려고! baseURI랑 tokenURI 연결.
-        setApprovalForAll(contractAddress, true); // marketplace에 trx 권한을 준다.
+        setApprovalForAll(marketplaceAddress, true); // marketplace에 trx 권한을 준다.
 
         return newItemId;
     }
