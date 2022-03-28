@@ -79,4 +79,8 @@ public class Items {
         this.onSaleYn=onSaleYn;
         return this;
     }
+
+    public void setItem_hash(String item_hash) {
+        this.item_hash = item_hash;
+    }
 }

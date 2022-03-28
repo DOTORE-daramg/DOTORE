@@ -58,4 +58,6 @@ public interface ItemService {
     Items updateOnSaleYnAndOwnerAddress(SaleCompleteReq saleCompleteReq);
 
     Items updateCancelOnSaleYn(BigInteger tokenId);
+
+    Items updateImageUrl(BigInteger tokenId, String imageUrl);
 }

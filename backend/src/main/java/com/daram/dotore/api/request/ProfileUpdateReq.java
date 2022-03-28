@@ -10,4 +10,9 @@ import lombok.Setter;
 public class ProfileUpdateReq {
     String address;
     String profileImgUrl;
+
+    public ProfileUpdateReq(String address, String profileImgUrl) {
+        this.address = address;
+        this.profileImgUrl = profileImgUrl;
+    }
 }

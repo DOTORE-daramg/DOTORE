@@ -2,10 +2,12 @@ package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.*;
 import com.daram.dotore.api.response.*;
+import com.daram.dotore.api.service.AwsS3Service;
 import com.daram.dotore.api.service.FeedbackService;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,8 +15,10 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +37,9 @@ public class MypageController {
 
     @Autowired
     FeedbackService feedbackService;
+
+    @Autowired
+    AwsS3Service awsS3Service;
 
     @GetMapping("/{address}")
     @ApiOperation(value = "마이페이지", notes = "마이페이지에서 회원 정보 가져오기")
@@ -79,22 +86,6 @@ public class MypageController {
             return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 desc"));
         }
         userService.updateDesc(descUpdateReq);
-        return ResponseEntity.status(200).body(BaseRes.of("Success"));
-    }
-
-    @PatchMapping("/img")
-    @ApiOperation(value = "프로필 이미지 변경", notes = "마이페이지에서 프로필 이미지 변경")
-    @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
-            @ApiResponse(code = 404, message = "존재하지 않는 프로필 이미지 주소", response = BaseRes.class),
-    })
-    public ResponseEntity<BaseRes> updateProfile(@RequestBody ProfileUpdateReq profileUpdateReq) {
-        Users user = userService.getUserByAddress(profileUpdateReq.getAddress());
-
-        if(user==null){
-            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 프로필 이미지"));
-        }
-        userService.updateProfile(profileUpdateReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
@@ -241,5 +232,31 @@ public class MypageController {
             e.printStackTrace();
             return ResponseEntity.status(404).body(MyLikeListRes.of("존재하지 않는 token_id"));
         }
+    }
+
+    @PatchMapping("/img")
+    @ApiOperation(value = "프로필 이미지 변경", notes = "마이페이지에서 프로필 이미지 변경")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+            @ApiResponse(code = 404, message = "존재하지 않는 프로필 이미지 주소", response = BaseRes.class),
+    })
+    @JsonProperty("address")
+    public ResponseEntity<BaseRes> upload(@ModelAttribute ProfileUpdateReq profileUpdateReq,@RequestPart("data") MultipartFile file ) throws IOException {
+        //이미 사용자의 프로필 이미지가 등록이 되어있는지 확인
+        String oldImageUrl = userService.getUserByAddress(profileUpdateReq.getAddress()).getProfile_img_url();
+        //프로필 이미지 업로드 및 주소 반환
+        String imageUrl = awsS3Service.uploadFiles(file, "profile",profileUpdateReq);
+        //사용자 정보 불러오기
+        Users user = userService.getUserByAddress(profileUpdateReq.getAddress());
+        if(user==null){
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 사용자"));
+        }
+        //사용자 정보와 새로운 프로필 이미지 주소로 새로운 사용자 정보 생성
+        ProfileUpdateReq newProfile = new ProfileUpdateReq(profileUpdateReq.getAddress(),imageUrl);
+        //새로운 사용자로 프로필 업데이트
+        userService.updateProfile(newProfile);
+        //기존 프로필 이미지 삭제
+        awsS3Service.delete(oldImageUrl);
+        return ResponseEntity.status(200).body(BaseRes.of("프로필 이미지 업로드 및 수정 완료"));
     }
 }
