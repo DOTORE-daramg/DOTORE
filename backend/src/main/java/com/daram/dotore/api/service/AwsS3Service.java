@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -26,6 +27,7 @@ public class AwsS3Service {
     private String bucket;
 
     /**
+     * 프로필 이미지 업로드
      * S3버킷에 파일을 업로드하는 함수
      * 파일, 경로, request(사용자 주소, String)
      * 파일이 업로드된 경로(주소)를 반환
@@ -39,6 +41,25 @@ public class AwsS3Service {
     public String upload(File uploadFile, String filePath,String address) {
         //String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
         String fileName = filePath + "/" + address + "&" + uploadFile.getName();   // S3에 저장된 파일 이름
+        String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+        removeNewFile(uploadFile);
+        return uploadImageUrl;
+    }
+
+    /**
+     * 작품 업로드
+     * S3버킷에 파일을 업로드하는 함수
+     * 파일, 경로, request(사용자 주소, String)
+     * 파일이 업로드된 경로(주소)를 반환
+     */
+    public String uploadItem(MultipartFile multipartFile, String dirName, BigInteger tokenId,String address) throws IOException {
+        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
+                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+        return uploadMintedItem(uploadFile, dirName, tokenId, address);
+    }
+
+    public String uploadMintedItem(File uploadFile, String filePath, BigInteger tokenId,String address) {
+        String fileName = filePath + "/" + tokenId + "&" + address;   // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile);
         return uploadImageUrl;
