@@ -83,11 +83,9 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = FeedbackRes.class),
         @ApiResponse(code = 400, message = "Fail", response = FeedbackRes.class),
     })
-    public ResponseEntity<FeedbackRes> makeNewFeedback(@ModelAttribute FeedbackReq feedbackReq,@RequestPart("data") MultipartFile file)
+    public ResponseEntity<FeedbackRes> makeNewFeedback(@RequestBody FeedbackReq feedbackReq)
         throws Exception {
         try {
-            String imageUrl = awsS3Service.uploadFeedback(file, "feedback",feedbackReq.getTokenId(),feedbackReq.getQuestioner());
-            feedbackReq.setImgUrl(imageUrl);
             Feedback feedback = feedbackService.saveNewFeedback(feedbackReq);
             return ResponseEntity.status(200)
                 .body(FeedbackRes.of("Success", feedback.getArticleno()));
@@ -102,10 +100,8 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> writeAnswer(@ModelAttribute AnswerReq answerReq,@RequestPart("data") MultipartFile file) throws Exception{
+    public ResponseEntity<BaseRes> writeAnswer(@RequestBody AnswerReq answerReq) throws Exception{
         try {
-            String imageUrl = awsS3Service.uploadAnswer(file, "answer",answerReq.getArticleNo(),answerReq.getWriter());
-            answerReq.setImgUrl(imageUrl);
             feedbackService.saveNewAnswer(answerReq);
             return ResponseEntity.status(200)
                 .body(BaseRes.of("Success"));
