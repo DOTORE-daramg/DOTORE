@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import React from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
@@ -5,12 +6,13 @@ import styled from "styled-components";
 import { Icon } from "../common/Icon";
 import { Image } from "../detail/Image";
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   height: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
+  cursor: pointer;
 `;
 
 const TextContainer = styled.div`
@@ -66,7 +68,12 @@ const Item = ({
   const navigate = useNavigate();
 
   return (
-    <Container onClick={() => navigate(`/detail/${tokenId}`)}>
+    <Container
+      whileHover={{
+        scale: 1.03,
+      }}
+      onClick={() => navigate(`/detail/${tokenId}`)}
+    >
       <Image
         mode={viewMode}
         imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"

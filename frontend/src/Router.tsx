@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Feedback from "./pages/Feedback";
+import Feedback from "./pages/feedback/Feedback";
 import ChildList from "./pages/list/ChildList";
 import ParentList from "./pages/list/ParentList";
 import Main from "./pages/Main";
@@ -15,7 +15,7 @@ import Download from "./pages/artist/Download";
 import Like from "./pages/artist/Like";
 import Detail from "./pages/Detail";
 import FeedbackList from "./pages/artist/FeedbackList";
-import FeedbackCreate from "./pages/FeedbackCreate";
+import FeedbackCreate from "./pages/feedback/FeedbackCreate";
 import { Footer } from "./stories/footer/Footer";
 import styled from "styled-components";
 import { useWeb3React } from "@web3-react/core";
@@ -142,7 +142,7 @@ const AppRouter = () => {
             <Route path="like" element={<Like />} />
           </Route>
 
-          <Route path="feedback/:articleNo" element={<Feedback />} />
+          <Route path="feedback/:tokenId/:articleNo" element={<Feedback />} />
         </Routes>
         <Footer />
       </Router>

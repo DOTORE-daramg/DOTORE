@@ -1,28 +1,27 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { useMediaQuery } from "react-responsive"
-import { HorizonProfile } from '../profile/HorizonProfile';
-import { Image } from '../detail/Image';
-import { Icon } from '../common/Icon';
-import { TextEditor } from '../common/TextEditor';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useMediaQuery } from "react-responsive";
+import { HorizonProfile } from "../profile/HorizonProfile";
+import { Image } from "../detail/Image";
+import { Icon } from "../common/Icon";
+import { TextEditor } from "../common/TextEditor";
 
-type CommentType = 'MainQuestion' | 'Question' | 'Answer';
+type CommentType = "MainQuestion" | "Question" | "Answer";
 
 const CommentContainer = styled.div<{ commentType: CommentType }>`
-  width: ${props => 
-    props.commentType === 'MainQuestion' ? '100%' : '85%'};
+  width: ${(props) => (props.commentType === "MainQuestion" ? "100%" : "85%")};
 
-  background-color: ${props =>
-    props.commentType === 'Answer' ? 
-    'rgba(192, 192, 192, 0.1)' :
-    'rgba(102, 103, 171, 0.1)'};
+  background-color: ${(props) =>
+    props.commentType === "Answer"
+      ? "rgba(192, 192, 192, 0.1)"
+      : "rgba(102, 103, 171, 0.1)"};
 
-  margin: ${props =>
-    props.commentType === 'MainQuestion' ? 
-    '0' :
-    props.commentType === 'Question' ? 
-    '0 15% 0 0' :
-    '0 0 0 15%'};
+  margin: ${(props) =>
+    props.commentType === "MainQuestion"
+      ? "0"
+      : props.commentType === "Question"
+      ? "0 15% 0 0"
+      : "0 0 0 15%"};
 
   border-radius: 10px;
   padding: 2.5rem 5rem;
@@ -80,9 +79,11 @@ const Content = styled.article`
 const CreatedAt = styled.div`
   font-size: 0.8rem;
   color: #666666;
-`; 
+`;
 
 export interface FeedbackArticleProps {
+  answerNo?: number;
+  articleNo?: string;
   profileImgUrl: string;
   profileNickname: string;
   profileLevel: string;
@@ -94,6 +95,8 @@ export interface FeedbackArticleProps {
 }
 
 export const FeedbackComment = ({
+  answerNo,
+  articleNo,
   profileImgUrl,
   profileNickname,
   profileLevel,
@@ -104,57 +107,58 @@ export const FeedbackComment = ({
 }: FeedbackArticleProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
-  const viewMode = isPc ? 'feedback'
-    : isTablet ? 'feedback'
-    : 'feedbackM'
-  
+  const viewMode = isPc ? "feedback" : isTablet ? "feedback" : "feedbackM";
+
   const [isEditorShow, setIsEditorShow] = useState(false);
   const handleToggleEditor = () => {
-    setIsEditorShow(prev => !prev);
-    console.log(isEditorShow);
-  }
+    setIsEditorShow((prev) => !prev);
+    console.log(answerNo);
+  };
   return (
     <CommentContainer commentType={commentType}>
       <StyledHeader>
-        {!isEditorShow ?
+        {!isEditorShow && (
           <PencilIconContainer onClick={handleToggleEditor}>
-            <Icon style='fas' icon='pencil' color='#959595'></Icon>
+            <Icon style="fas" icon="pencil" color="#959595"></Icon>
           </PencilIconContainer>
-          : null
-        }
+        )}
         <span>작성자 </span>
-        <HorizonProfile 
+        <HorizonProfile
           profileImgUrl={profileImgUrl}
           profileNickname={profileNickname}
           profileLevel={profileLevel}
-          imgSize='32px'
-          levelSize='0.9rem'
-          NicknameSize='1rem'
+          imgSize="32px"
+          levelSize="0.9rem"
+          NicknameSize="1rem"
         ></HorizonProfile>
       </StyledHeader>
-      {isEditorShow ?
+      {isEditorShow ? (
         <FeedbackUpdateContainer>
           <CloseIconContainer onClick={handleToggleEditor}>
-            <Icon style='fas' icon='xmark' color='#959595'></Icon>
+            <Icon style="fas" icon="xmark" color="#959595"></Icon>
           </CloseIconContainer>
-          <TextEditor></TextEditor>
+          <TextEditor
+            isUpdate={true}
+            articleNo={articleNo}
+            answerNo={answerNo}
+            content={content}
+          ></TextEditor>
         </FeedbackUpdateContainer>
-        : null}
-      {!isEditorShow ? 
+      ) : (
         <div>
-          {imageUrl ?
+          {imageUrl && (
             <ImageContainer>
               <Image
-                imageUrl={imageUrl} 
-                name={`${profileNickname}의 첨부 이미지`} 
+                imageUrl={imageUrl}
+                name={`${profileNickname}의 첨부 이미지`}
                 mode={viewMode}
-              ></Image> 
+              ></Image>
             </ImageContainer>
-            : null}
+          )}
           <Content>{content}</Content>
           <CreatedAt>{createdAt}</CreatedAt>
         </div>
-       : null}
+      )}
     </CommentContainer>
   );
 };

@@ -39,16 +39,17 @@ const Category = styled.div`
 `;
 
 interface QuestionsProps {
+  tokenId?: string;
   questions: Array<QuestionProps>;
 }
-const Questions = ({ questions }: QuestionsProps) => {
+const Questions = ({ tokenId, questions }: QuestionsProps) => {
   return (
     <Container>
-      <TitleContainer>
+      {/* <TitleContainer>
         <Title title="등록된 질문들" />
         <Title title="|" color="#999999" />
         <Title title="내 질문" color="#999999" />
-      </TitleContainer>
+      </TitleContainer> */}
       <InnerContainer>
         <CategoryContainer>
           <Category>답변 여부</Category>
@@ -56,7 +57,11 @@ const Questions = ({ questions }: QuestionsProps) => {
           <Category>질문 내용</Category>
         </CategoryContainer>
         {questions.map((question) => (
-          <QuestionItem key={question.articleno} {...question} />
+          <QuestionItem
+            key={question.articleNo}
+            tokenId={tokenId}
+            {...question}
+          />
         ))}
       </InnerContainer>
     </Container>

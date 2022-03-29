@@ -1,24 +1,24 @@
-import React from 'react';
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import React from "react";
+import { ComponentStory, ComponentMeta } from "@storybook/react";
 
-import { FeedbackInputBox } from './FeedbackInputBox';
+import { FeedbackInputBox } from "./FeedbackInputBox";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
-  title: 'Feedback/FeedbackInputBox',
+  title: "Feedback/FeedbackInputBox",
   component: FeedbackInputBox,
   // More on argTypes: https://storybook.js.org/docs/react/api/argtypes
   argTypes: {
-    backgroundColor: { control: 'color' },
+    backgroundColor: { control: "color" },
   },
 } as ComponentMeta<typeof FeedbackInputBox>;
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template: ComponentStory<typeof FeedbackInputBox> = (args) => <FeedbackInputBox />;
+// const Template: ComponentStory<typeof FeedbackInputBox> = (args) => <FeedbackInputBox />;
 
-export const Primary = Template.bind({});
-// More on args: https://storybook.js.org/docs/react/writing-stories/args
-Primary.args = {
-  primary: true,
-  label: 'FeedbackInputBox',
-};
+// export const Primary = Template.bind({});
+// // More on args: https://storybook.js.org/docs/react/writing-stories/args
+// Primary.args = {
+//   primary: true,
+//   label: 'FeedbackInputBox',
+// };
