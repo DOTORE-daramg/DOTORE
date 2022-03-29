@@ -85,6 +85,35 @@ const dTTABI: AbiItem[] = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "Items",
+    outputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isFirst",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -123,8 +152,23 @@ const dTTABI: AbiItem[] = [
     inputs: [
       {
         internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
         name: "tokenURI",
         type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isFirst",
+        type: "bool",
       },
       {
         internalType: "address",
@@ -157,6 +201,25 @@ const dTTABI: AbiItem[] = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getIsFirst",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -273,6 +336,29 @@ const dTTABI: AbiItem[] = [
     inputs: [
       {
         internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
+      },
+    ],
+    name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "operator",
         type: "address",
       },
@@ -379,7 +465,7 @@ const dTTMarketABI: AbiItem[] = [
     anonymous: false,
     inputs: [
       {
-        indexed: true,
+        indexed: false,
         internalType: "uint256",
         name: "saleId",
         type: "uint256",
@@ -391,13 +477,13 @@ const dTTMarketABI: AbiItem[] = [
         type: "uint256",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "address",
         name: "seller",
         type: "address",
       },
       {
-        indexed: false,
+        indexed: true,
         internalType: "address",
         name: "owner",
         type: "address",
@@ -415,7 +501,7 @@ const dTTMarketABI: AbiItem[] = [
         type: "bool",
       },
     ],
-    name: "MarketItemCreated",
+    name: "MarketItemEvent",
     type: "event",
   },
   {
@@ -452,7 +538,7 @@ const dTTMarketABI: AbiItem[] = [
         type: "uint256",
       },
     ],
-    stateMutability: "payable",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -489,12 +575,12 @@ const dTTMarketABI: AbiItem[] = [
         type: "uint256",
       },
       {
-        internalType: "address payable",
+        internalType: "address",
         name: "seller",
         type: "address",
       },
       {
-        internalType: "address payable",
+        internalType: "address",
         name: "owner",
         type: "address",
       },
@@ -548,10 +634,10 @@ const dTTMarketABI: AbiItem[] = [
 
 export const web3 = new Web3(window.ethereum);
 
-export const dTTAddress = "0xF111561240465530c81C426e7a80E5E729472FdA";
+export const dTTAddress = "0xE4C0Dc5d15E82Ae75608B9A572Add9bD8De52006";
 export const dTT = new web3.eth.Contract(dTTABI, dTTAddress);
 
-export const dTTMarketAddress = "0xcb6081cBbf135221a0f0cA362f612Da6E5d377fE";
+export const dTTMarketAddress = "0xab2fa44327a1c6d2a07b4a51e9d8b063e45e0d84";
 export const dTTMarketContract = new web3.eth.Contract(
   dTTMarketABI,
   dTTMarketAddress
