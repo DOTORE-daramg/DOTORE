@@ -21,8 +21,14 @@ contract DTT is ERC721URIStorage {
 
         _mint(msg.sender, newItemId); // 민팅
         _setTokenURI(newItemId, tokenURI); // 가스비 줄이려고! baseURI랑 tokenURI 연결.
-        setApprovalForAll(marketplaceAddress, true); // marketplace에 trx 권한을 준다.
+        if(!isApprovedForAll(msg.sender, marketplaceAddress)){
+            setApprovalForAll(marketplaceAddress, true); // marketplace에 trx 권한을 준다.
+        }
 
         return newItemId;
     }
+
+    function setApprovalForAll(address sender, address operator, bool approved) public virtual {
+        _setApprovalForAll(sender, operator, approved);
+    }  
 }
