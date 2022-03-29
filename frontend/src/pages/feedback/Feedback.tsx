@@ -172,6 +172,7 @@ const Feedback = () => {
             imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
           ></FeedbackTitle>
           <FeedbackComment
+            articleNo={articleNo}
             profileImgUrl=""
             profileNickname={questions.question.nickname}
             profileLevel="Lv2. 청소년 도토리"
@@ -184,6 +185,7 @@ const Feedback = () => {
             questions.answers.map((answer) => (
               <FeedbackComment
                 key={answer.answerNo}
+                answerNo={answer.answerNo}
                 profileImgUrl=""
                 profileNickname={answer.nickname}
                 profileLevel="Lv2. 청소년 도토리"

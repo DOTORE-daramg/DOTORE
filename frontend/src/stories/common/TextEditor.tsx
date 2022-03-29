@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
   Editor,
@@ -8,12 +8,18 @@ import {
   AtomicBlockUtils,
   SelectionState,
   convertToRaw,
+  ContentState,
 } from "draft-js";
 import { mediaBlockRenderer } from "./MediaBlock";
 import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
 import { Iitem } from "../../pages/feedback/FeedbackCreate";
-import { createAnswer, createFeedback } from "../../api/feedback";
+import {
+  createAnswer,
+  createFeedback,
+  updateAnswer,
+  updateFeedback,
+} from "../../api/feedback";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { useNavigate } from "react-router-dom";
@@ -104,9 +110,18 @@ const TextEditorFooter = styled.div`
 export interface TEProps {
   item?: Iitem;
   articleNo?: string;
+  answerNo?: number;
+  isUpdate?: boolean;
+  content?: string;
 }
 // 텍스트 에디터
-export const TextEditor = ({ articleNo, item }: TEProps) => {
+export const TextEditor = ({
+  // isUpdate,
+  answerNo,
+  articleNo,
+  item,
+  content,
+}: TEProps) => {
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
@@ -249,8 +264,44 @@ export const TextEditor = ({ articleNo, item }: TEProps) => {
             console.log(error);
           });
       }
+    } else {
+      if (answerNo) {
+        const params = {
+          no: answerNo,
+          description: editorState.getCurrentContent().getPlainText("\u000A"),
+          // imgUrl
+        };
+        updateAnswer(params).then((res) => {
+          console.log("성공");
+          window.location.reload();
+        });
+      } else if (articleNo) {
+        const params = {
+          no: Number(articleNo),
+          description: editorState.getCurrentContent().getPlainText("\u000A"),
+          // imgUrl
+        };
+        updateFeedback(params).then((res) => {
+          console.log("성공");
+          window.location.reload();
+        });
+      }
     }
   };
+
+  // useEffect(() => {
+  //   // if (content) {
+  //   //   // setEditorState(EditorState.create(content));
+  //   // }
+  //   console.log(editorState);
+  // }, [editorState]);
+  useEffect(() => {
+    if (content) {
+      setEditorState(
+        EditorState.createWithContent(ContentState.createFromText(content))
+      );
+    }
+  }, []);
 
   return (
     <Container>

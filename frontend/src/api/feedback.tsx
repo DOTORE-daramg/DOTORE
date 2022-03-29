@@ -14,6 +14,12 @@ export type createAnswer = {
   imgUrl?: string;
   writer: string;
 };
+
+export type updateAnswer = {
+  description: string;
+  imgUrl?: string;
+  no: number;
+};
 export const createFeedback = async (params: createParams) => {
   return await api.post("/api/feedbacks", params);
 };
@@ -24,4 +30,12 @@ export const getFeedBack = async (articleNo?: string) => {
 
 export const createAnswer = async (params: createAnswer) => {
   return await api.post("/api/feedbacks/answer", params);
+};
+
+export const updateAnswer = async (params: updateAnswer) => {
+  return await api.patch(`/api/feedbacks/modify/answer`, params);
+};
+
+export const updateFeedback = async (params: updateAnswer) => {
+  return await api.patch(`/api/feedbacks/modify/feedback`, params);
 };
