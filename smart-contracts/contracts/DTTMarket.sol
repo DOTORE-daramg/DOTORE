@@ -108,15 +108,21 @@ contract DTTMarket is ReentrancyGuard {
 
         idMarketItem[_saleId].owner = payable(msg.sender); // 구매자를 owner로
         idMarketItem[_saleId].sold = true; // 팔렸다고 표시
-        _itemsSold.increment(); // 팔린 물건 수 + 1
+        _itemsSold.increment();  // 팔린 물건 수 + 1
 
         saleMap[tokenId] = 0;
+        if(!dTT.isApprovedForAll(msg.sender, address(this))){
+            dTT.setApprovalForAll(msg.sender, address(this), true);
+        }
     }
 
     // 판매 취소 함수
     function cancelSale(uint256 tokenId) public {
         uint256 _saleId = saleMap[tokenId];
-        require(msg.sender == idMarketItem[_saleId].seller, 'You are not the owner of the token');
+        // 존재하지 않는 토큰 require
+        
+        require(_saleId != 0, "Not for sale");
+        require(msg.sender == idMarketItem[_saleId].seller, "You are not the owner of the token");
 
         // NFT 돌려주기
         dTT.transferFrom(address(this), msg.sender, tokenId);
