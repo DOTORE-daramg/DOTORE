@@ -269,7 +269,7 @@ const Main = () => {
         <Title label="Top Artists" size="4rem" />
         <SubTitle label="지금 이 시각 가장 주목받는 작가" />
         <GridContainer>
-          {profileList.map((profile) => (
+          {profileList.slice(0, 6).map((profile) => (
             <Profile
               profileImgUrl={profile.profile_img_url}
               profileNickname={profile.nickname}

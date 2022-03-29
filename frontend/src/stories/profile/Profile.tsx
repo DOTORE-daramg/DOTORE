@@ -4,8 +4,9 @@ import styled from "styled-components";
 import { ProfileImg } from "./ProfileImg";
 import { ProfileLevel } from "./ProfileLevel";
 import { ProfileNickname } from "./ProfileNickname";
+import { motion } from "framer-motion";
 
-const ProfileContainer = styled.div`
+const ProfileContainer = styled(motion.div)`
   font-family: "SUIT", sans-serif;
   font-weight: 600;
   /* border: solid 2px; */
@@ -18,6 +19,7 @@ const ProfileContainer = styled.div`
   height: 104px;
   padding-left: 0px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+
   @media screen and (max-width: 768px) {
     justify-content: left;
     padding-left: 3vw;
@@ -74,7 +76,12 @@ function Profile({
   ...props
 }: ProfileProps) {
   return (
-    <ProfileContainer onClick={onClick}>
+    <ProfileContainer
+      whileHover={{
+        scale: 1.03,
+      }}
+      onClick={onClick}
+    >
       {/* <StyledProfileImg size={size} src={profileImgUrl} /> */}
       {/* {children} */}
       {/* <StyledProfileImg src={profileImgUrl} alt="profile" /> */}
