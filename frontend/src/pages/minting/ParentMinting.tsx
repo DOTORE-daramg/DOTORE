@@ -12,6 +12,7 @@ import {
   dTTAddress,
   dTTMarketAddress,
   dTTMarketContract,
+  web3,
 } from "../../contracts";
 
 const Container = styled.div`
@@ -71,9 +72,15 @@ const ParentMinting = () => {
     try {
       const balance = await dTT.methods.balanceOf(userInfo.address).call();
       console.log("balance: ", balance);
-      console.log(await dTTMarketContract.methods.idMarketItem(0).call());
-      console.log(await dTTMarketContract.methods.idMarketItem(1).call());
-      console.log(await dTTMarketContract.methods.idMarketItem(2).call());
+      console.log(
+        await dTTMarketContract.getPastEvents("allEvents", { fromBlock: 1 })
+      );
+      console.log(await dTT.getPastEvents("allEvents", { fromBlock: 1 }));
+      console.log(await dTTMarketContract.methods.dTT().call());
+
+      // console.log(await dTTMarketContract.methods.idMarketItem(0).call());
+      // console.log(await dTTMarketContract.methods.idMarketItem(1).call());
+      // console.log(await dTTMarketContract.methods.idMarketItem(2).call());
     } catch (err) {
       console.error(err);
     }
@@ -87,7 +94,10 @@ const ParentMinting = () => {
       }
       const response = await dTT.methods
         .createToken(
-          "https://w.namu.la/s/b46567c75bd8a9359a0ca3a8cb1b340f11b6b285e622cf9135faf12e3dbf98ba748c2697ba48f1419429982a2bf578efccb7787e2ac4faad1044b4d5363aeb2ea32d6f54c2baa4344bfd4cb3478521783b9670a1900658e94c096a33a31aa7d3",
+          "지희NFT",
+          "지희꺼다NFT",
+          "https://www.ssafy.com",
+          false,
           dTTMarketAddress
         )
         .send({
@@ -105,7 +115,7 @@ const ParentMinting = () => {
   const onClickCreate = async () => {
     try {
       const response = await dTTMarketContract.methods
-        .createMarketItem(1, "7888000000000000")
+        .createMarketItem(11, "12340000000000000")
         .send({
           from: userInfo.address,
           gas: 3000000,
@@ -128,7 +138,7 @@ const ParentMinting = () => {
         .send({
           from: userInfo.address,
           gas: 3000000,
-          value: "7888000000000000",
+          value: "1000000000000000000",
           gasPrice: "10000000000",
         })
         .then(console.log);
