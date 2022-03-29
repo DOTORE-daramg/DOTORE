@@ -1,7 +1,7 @@
 //SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import './DTT.sol';
+import "./DTT.sol";
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -13,18 +13,16 @@ contract DTTMarket is ReentrancyGuard {
     Counters.Counter private _itemsSold; // 팔린 items 수
 
     DTT public dTT;
-    address payable owner; // 컨트랙트 주인
 
     constructor(address _dTTAddress) {
-        owner = payable(msg.sender);
         dTT = DTT(_dTTAddress);
     }
 
     struct MarketItem {
         uint256 saleId;
         uint256 tokenId;
-        address payable seller; // nft 파는 사람
-        address payable owner; // nft 소유주
+        address seller; // nft 파는 사람
+        address owner; // nft 소유주
         uint256 price;
         bool sold;
     }
@@ -35,34 +33,34 @@ contract DTTMarket is ReentrancyGuard {
     // saleId 값으로 접근
     mapping(uint256 => MarketItem) public idMarketItem;
 
-    event MarketItemCreated(
-        uint256 indexed saleId,
+    event MarketItemEvent(
+        uint256 saleId,
         uint256 indexed tokenId,
-        address seller,
-        address owner,
+        address indexed seller,
+        address indexed owner,
         uint256 price,
         bool sold
     );
 
-    // createMarketItem
     function createMarketItem(
         uint256 tokenId,
         uint256 price
-    ) public payable nonReentrant returns (uint256) {
+    ) public nonReentrant checkExistence(tokenId) returns (uint256) {
         require(price > 0, "Price must be above zero");
         require(saleMap[tokenId] == 0, "Already on sale");
+        require(dTT.getIsFirst(tokenId) == false, "This token can't be sold");
+        require(dTT.ownerOf(tokenId) == msg.sender, "You are not the owner of the token");
 
         _saleIds.increment();
         uint256 saleId = _saleIds.current();
 
-        // 매핑
         saleMap[tokenId] = saleId;
 
         idMarketItem[saleId] = MarketItem(
             saleId,
             tokenId,
-            payable(msg.sender), //판매자의 주소
-            payable(address(0)), //아직 소유주 없으니까 0으로 둠
+            msg.sender, //판매자의 주소
+            address(0), //아직 소유주 없으니까 0으로 둠
             price,
             false
         );
@@ -71,11 +69,11 @@ contract DTTMarket is ReentrancyGuard {
         dTT.transferFrom(msg.sender, address(this), tokenId);
 
         // log
-        emit MarketItemCreated(
+        emit MarketItemEvent(
             saleId,
             tokenId,
             msg.sender,
-            address(0),
+            msg.sender,
             price,
             false
         );
@@ -88,25 +86,26 @@ contract DTTMarket is ReentrancyGuard {
         public
         payable
         nonReentrant
+        checkExistence(tokenId)
+        checkSale(tokenId)
     {
-        require(saleMap[tokenId] != 0, "Not for sale");
-
         uint256 _saleId = saleMap[tokenId];
         uint256 price = idMarketItem[_saleId].price;
+        address seller = idMarketItem[_saleId].seller;
 
-        require(msg.sender != idMarketItem[_saleId].seller, 'Owner cannot buy');
+        require(msg.sender != seller, "Owners can't purchase their own token");
         require(
-            msg.value >= price,
+            msg.value == price,
             "Please submit the asking price in order to complete purchase"
         );
 
         // 판매자에게 지불
-        payable(idMarketItem[_saleId].seller).transfer(msg.value);
+        payable(seller).transfer(price);
 
         // 컨트랙트가 가지고 있던 소유권을 구매하려는 사람에게 넘김
         dTT.transferFrom(address(this), msg.sender, tokenId);
 
-        idMarketItem[_saleId].owner = payable(msg.sender); // 구매자를 owner로
+        idMarketItem[_saleId].owner = msg.sender; // 구매자를 owner로
         idMarketItem[_saleId].sold = true; // 팔렸다고 표시
         _itemsSold.increment();  // 팔린 물건 수 + 1
 
@@ -114,19 +113,36 @@ contract DTTMarket is ReentrancyGuard {
         if(!dTT.isApprovedForAll(msg.sender, address(this))){
             dTT.setApprovalForAll(msg.sender, address(this), true);
         }
+
+        emit MarketItemEvent(
+            _saleId,
+            tokenId,
+            seller,
+            msg.sender,
+            price,
+            true
+        );
     }
 
     // 판매 취소 함수
-    function cancelSale(uint256 tokenId) public {
-        uint256 _saleId = saleMap[tokenId];
-        // 존재하지 않는 토큰 require
-        
-        require(_saleId != 0, "Not for sale");
-        require(msg.sender == idMarketItem[_saleId].seller, "You are not the owner of the token");
-
+    function cancelSale(uint256 tokenId) public checkExistence(tokenId) checkSale(tokenId) checkOwner(tokenId) {
         // NFT 돌려주기
         dTT.transferFrom(address(this), msg.sender, tokenId);
-
         saleMap[tokenId] = 0;
+    }
+
+    modifier checkExistence(uint256 tokenId) {
+        require(dTT.ownerOf(tokenId) != address(0), "Token does not exist");
+        _;
+    }
+    modifier checkSale(uint256 tokenId) {
+        uint256 _saleId = saleMap[tokenId];
+        require(_saleId != 0, "This token is not for sale");
+        _;
+    }
+    modifier checkOwner(uint256 tokenId) {
+        uint256 _saleId = saleMap[tokenId];
+        require(msg.sender == idMarketItem[_saleId].seller, "You are not the owner of the token");
+        _;
     }
 }

@@ -15,12 +15,22 @@ contract DTT is ERC721URIStorage {
     constructor() ERC721("Dotore NFT", "DTT") {
     }
 
-    function createToken(string memory tokenURI, address marketplaceAddress) public returns (uint256) {
+    struct Item {
+        string title;
+        string description;
+        bool isFirst;
+    }
+
+    mapping(uint256 => Item) public Items;
+
+    function createToken(string memory title, string memory description, string memory tokenURI, bool isFirst, address marketplaceAddress) public returns (uint256) {
         _tokenIds.increment();
         uint256 newItemId = _tokenIds.current();
 
         _mint(msg.sender, newItemId); // 민팅
         _setTokenURI(newItemId, tokenURI); // 가스비 줄이려고! baseURI랑 tokenURI 연결.
+        Items[newItemId] = Item(title, description, isFirst);
+
         if(!isApprovedForAll(msg.sender, marketplaceAddress)){
             setApprovalForAll(marketplaceAddress, true); // marketplace에 trx 권한을 준다.
         }
@@ -30,5 +40,9 @@ contract DTT is ERC721URIStorage {
 
     function setApprovalForAll(address sender, address operator, bool approved) public virtual {
         _setApprovalForAll(sender, operator, approved);
-    }  
+    }
+
+    function getIsFirst(uint256 tokenId) view public returns(bool) {
+        return Items[tokenId].isFirst;
+    }
 }
