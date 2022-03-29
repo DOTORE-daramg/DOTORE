@@ -197,7 +197,12 @@ const Feedback = () => {
                 }
               ></FeedbackComment>
             ))}
-          {isMine && <FeedbackInputBox item={item}></FeedbackInputBox>}
+          {isMine && (
+            <FeedbackInputBox
+              articleNo={articleNo}
+              item={item}
+            ></FeedbackInputBox>
+          )}
         </Container>
       )}
     </>

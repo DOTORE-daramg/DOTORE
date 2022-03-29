@@ -13,7 +13,7 @@ import { mediaBlockRenderer } from "./MediaBlock";
 import { Button } from "../Button";
 import "draft-js/dist/Draft.css";
 import { Iitem } from "../../pages/feedback/FeedbackCreate";
-import { createFeedback } from "../../api/feedback";
+import { createAnswer, createFeedback } from "../../api/feedback";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { useNavigate } from "react-router-dom";
@@ -103,9 +103,10 @@ const TextEditorFooter = styled.div`
 
 export interface TEProps {
   item?: Iitem;
+  articleNo?: string;
 }
 // 텍스트 에디터
-export const TextEditor = ({ item }: TEProps) => {
+export const TextEditor = ({ articleNo, item }: TEProps) => {
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
@@ -220,22 +221,34 @@ export const TextEditor = ({ item }: TEProps) => {
   const onClick = () => {
     // console.log(editorState.getCurrentContent().get);
     if (item) {
-      const params = {
-        description: editorState.getCurrentContent().getPlainText("\u000A"),
-        imgUrl: "https://s3.nft1.jpg",
-        questioner: userInfo.address,
-        // questioner: "11",
-        respondent: item.authorAddress,
-        tokenId: Number(item.tokenId),
-      };
-      createFeedback(params)
-        .then((res) => {
+      if (articleNo) {
+        const params = {
+          articleNo: Number(articleNo),
+          description: editorState.getCurrentContent().getPlainText("\u000A"),
+          writer: userInfo.address,
+        };
+        createAnswer(params).then((res) => {
           console.log("성공");
-          navigate(`/artist/${userInfo.address}/feedback`);
-        })
-        .catch((error) => {
-          console.log(error);
+          window.location.reload();
         });
+      } else {
+        const params = {
+          description: editorState.getCurrentContent().getPlainText("\u000A"),
+          imgUrl: "https://s3.nft1.jpg",
+          questioner: userInfo.address,
+          // questioner: "11",
+          respondent: item.authorAddress,
+          tokenId: Number(item.tokenId),
+        };
+        createFeedback(params)
+          .then((res) => {
+            console.log("성공");
+            navigate(`/artist/${userInfo.address}/feedback`);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
   };
 
