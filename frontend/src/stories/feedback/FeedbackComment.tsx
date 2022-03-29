@@ -119,7 +119,7 @@ export const FeedbackComment = ({
       <StyledHeader>
         {!isEditorShow && (
           <PencilIconContainer onClick={handleToggleEditor}>
-            <Icon style="fas" icon="pencil" color="#959595"></Icon>
+            <Icon mode="fas" icon="pencil" color="#959595"></Icon>
           </PencilIconContainer>
         )}
         <span>작성자 </span>
@@ -135,7 +135,7 @@ export const FeedbackComment = ({
       {isEditorShow ? (
         <FeedbackUpdateContainer>
           <CloseIconContainer onClick={handleToggleEditor}>
-            <Icon style="fas" icon="xmark" color="#959595"></Icon>
+            <Icon mode="fas" icon="xmark" color="#959595"></Icon>
           </CloseIconContainer>
           <TextEditor
             isUpdate={true}

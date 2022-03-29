@@ -15,7 +15,7 @@ const Count = styled.div<{ fontSize?: string }>`
 `;
 
 interface AmountProps {
-  style: IconPrefix;
+  mode: IconPrefix;
   icon: IconName;
   iconColor?: string;
   iconSize?: string;
@@ -25,7 +25,7 @@ interface AmountProps {
 }
 
 export const Amount = ({
-  style,
+  mode,
   icon,
   iconColor,
   iconSize,
@@ -42,7 +42,7 @@ export const Amount = ({
 
   return (
     <AmountContainer>
-      <Icon style={style} icon={icon} color={iconColor} size={iconSize} />
+      <Icon mode={mode} icon={icon} color={iconColor} size={iconSize} />
       <Count className="count" fontSize={fontSize}>
         {pCount}
         {unit && <div>{unit}</div>}

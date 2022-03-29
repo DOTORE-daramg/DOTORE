@@ -12,12 +12,13 @@ const ModalContainer = styled.div`
   position: relative;
   width: 32rem;
   background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1), 0px 20px 50px rgba(32, 37, 38, 0.1);
+  box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1),
+    0px 20px 50px rgba(32, 37, 38, 0.1);
   border-radius: 6px;
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     width: 28rem;
   }
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: 500px) {
     width: 24rem;
   }
 `;
@@ -91,7 +92,7 @@ const ModalBody = styled.div`
     order: 0;
     flex-grow: 0;
   }
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     padding: 1rem;
   }
 `;
@@ -146,7 +147,7 @@ export const Modal = ({
       <ModalContainer>
         <ModalHeader>
           <h3>{title}</h3>
-          <Icon style="fas" icon="xmark" color="#9FABAE" />
+          <Icon mode="fas" icon="xmark" color="#9FABAE" />
         </ModalHeader>
         <ModalBorder></ModalBorder>
         <ModalBody>

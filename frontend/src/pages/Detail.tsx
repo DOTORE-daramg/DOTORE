@@ -239,11 +239,14 @@ const Detail = () => {
 
   // 질문 카테고라이징
   const [isAllQuestions, setIsAllQuestions] = useState<boolean>(true);
+  // 좋아요 여부
+  const [isLike, setIsLike] = useState<boolean>(false);
   const [isModalShow, setIsModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   const { tokenId } = useParams();
   const navigate = useNavigate();
+
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
@@ -253,9 +256,14 @@ const Detail = () => {
     setIsLoading(true);
 
     getItem(tokenId).then((res) => {
-      setItem(res.data);
-      setIsFirst(res.data.isFirst);
-      setIsSale(res.data.onSaleYn);
+      const { data } = res;
+      const {
+        data: { isFirst, onSaleYn, isLike },
+      } = res;
+      setItem(data);
+      setIsFirst(isFirst);
+      setIsSale(onSaleYn);
+      setIsLike(isLike);
       setTimeout(() => {
         setIsLoading(false);
       }, 600);
@@ -327,23 +335,32 @@ const Detail = () => {
               </BadgeContainer>
               <BuyContainer>
                 <AmountContainer>
-                  <Amount
-                    style="fas"
-                    icon="heart"
-                    count={like}
-                    iconColor="#6667ab"
-                  />
+                  {isLike ? (
+                    <Amount
+                      mode="fas"
+                      icon="heart"
+                      count={like}
+                      iconColor="#6667ab"
+                    />
+                  ) : (
+                    <Amount
+                      mode="fas"
+                      icon="heart"
+                      count={like}
+                      iconColor="white"
+                    />
+                  )}
                   {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
                   {isFirst ? (
                     <Amount
-                      style="fas"
+                      mode="fas"
                       icon="download"
                       count={download}
                       iconColor="#6667ab"
                     />
                   ) : (
                     <Amount
-                      style="fab"
+                      mode="fab"
                       icon="ethereum"
                       count={0.03}
                       iconColor="#6667ab"
@@ -386,12 +403,12 @@ const Detail = () => {
           {isOwner && !isFirst && !isSale && (
             <>
               <SaleContainer>
-                <Icon style="fas" icon="circle-exclamation" />
+                <Icon mode="fas" icon="circle-exclamation" />
                 <div>
                   아직 작품의 판매가 시작되지 않았어요. 판매 등록을 할까요?
                 </div>
                 <div id="link" onClick={onClickToggleModal}>
-                  <Icon style="fas" icon="right-long" />
+                  <Icon mode="fas" icon="right-long" />
                 </div>
               </SaleContainer>
             </>
@@ -400,13 +417,13 @@ const Detail = () => {
           {isOwner && !isFirst && isSale && (
             <>
               <SaleContainer>
-                <Icon style="fas" icon="circle-exclamation" />
+                <Icon mode="fas" icon="circle-exclamation" />
                 <div>
                   작품이 0.03eth에 판매 등록되어 있습니다. 거래를 취소하거나
                   가격을 바꿀까요?
                 </div>
                 <div id="link" onClick={onClickToggleModal}>
-                  <Icon style="fas" icon="right-long" />
+                  <Icon mode="fas" icon="right-long" />
                 </div>
               </SaleContainer>
             </>

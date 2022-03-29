@@ -42,9 +42,9 @@ const ItemSkeleton = ({ width }: ItemSkeletonProps) => {
         <Skeleton width="7rem" height="1.5rem" />
       </TextContainer>
       <AmountContainer>
-        <Icon style="fas" icon="download" color="#6667ab" />
+        <Icon mode="fas" icon="download" color="#6667ab" />
         <Skeleton width="1.5rem" height="1.5rem" />
-        <Icon style="fas" icon="heart" color="#6667ab" />
+        <Icon mode="fas" icon="heart" color="#6667ab" />
         <Skeleton width="1.5rem" height="1.5rem" />
       </AmountContainer>
     </Container>

@@ -59,12 +59,7 @@ const RelatedNFT = ({ relatedNFTs }: RelatedNFTProps) => {
       <TitleContainer>
         <Title title="관련 있는 NFT 작품" />
         <IconContainer>
-          <Icon
-            style="fas"
-            icon="circle-question"
-            color="#6667ab"
-            size="12px"
-          />
+          <Icon mode="fas" icon="circle-question" color="#6667ab" size="12px" />
           <Info>
             지금 보고 계신 작품과 관련 있는 다른 작품들이에요. <br />
             1차 NFT의 경우 해당 작품에서 파생된 2차 NFT 작품들, <br />
