@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getFeedbacks } from "../api/item";
+import { getFeedbacks, getFeedbacksFromMe } from "../api/item";
 import { getItem, getRelatedItem } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
@@ -18,8 +18,10 @@ import { RealtedNFTItemProps } from "../stories/detail/RealtedNFTItem";
 import RelatedNFT from "../stories/detail/RelatedNFT";
 import { SaleModal } from "../stories/detail/SaleModal";
 import Transaction from "../stories/detail/Transaction";
-import Skeleton from "../stories/list/Skeleton";
 import { Title } from "../stories/Title";
+import { Title as SubTitle } from "../stories/detail/Title";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "..";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -144,7 +146,11 @@ const InfoContainer = styled.div`
     margin-left: 0;
   }
 `;
-
+const QuestionTitleContainer = styled.div`
+  display: flex;
+  width: 70%;
+  justify-content: space-between;
+`;
 const SaleContainer = styled.div`
   width: calc(28rem + 350px);
   background-color: rgba(102, 103, 171, 0.3);
@@ -231,7 +237,10 @@ const Detail = () => {
   const [relatedNFTs, setRelatedNFTs] = useState<RealtedNFTItemProps[]>();
   const [questions, setQuestions] = useState<QuestionProps[]>();
 
+  // 질문 카테고라이징
+  const [isAllQuestions, setIsAllQuestions] = useState<boolean>(true);
   const [isModalShow, setIsModalShow] = useState(false);
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   const { tokenId } = useParams();
   const navigate = useNavigate();
@@ -249,25 +258,34 @@ const Detail = () => {
       setIsSale(res.data.onSaleYn);
       setTimeout(() => {
         setIsLoading(false);
-      }, 1000);
+      }, 600);
     });
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });
   }, [tokenId]);
 
+  const onClickQuestionCategory = () => {
+    if (isAllQuestions) {
+      // 내질문으로 바꿔야 함
+      getFeedbacksFromMe(tokenId, userInfo.address).then((res) => {
+        setQuestions(res.data.data.slice(0, 3));
+      });
+    } else {
+      // 모든 질문으로 바꿔야 함
+      getFeedbacks(tokenId).then((res) => {
+        setQuestions(res.data.data.slice(0, 3));
+      });
+    }
+    setIsAllQuestions((prev) => !prev);
+  };
   useEffect(() => {
     if (isFirst) {
       getFeedbacks(tokenId)
         .then((res) => {
-          console.log(res);
           setQuestions(res.data.data.slice(-3));
         })
-        .catch(() => {
-          // setQuestions([
-          //   { articleno: -1, yn: false, nickname: "", description: "" },
-          // ]);
-        });
+        .catch(() => {});
     }
   }, [isFirst]);
   return (
@@ -406,6 +424,29 @@ const Detail = () => {
             {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
             {isFirst ? (
               <QuestionContainer>
+                {isAllQuestions ? (
+                  <QuestionTitleContainer>
+                    <SubTitle title="등록된 질문들" />
+                    <SubTitle title="|" color="#999999" />
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={onClickQuestionCategory}
+                    >
+                      <SubTitle title="내 질문" color="#999999" />
+                    </div>
+                  </QuestionTitleContainer>
+                ) : (
+                  <QuestionTitleContainer>
+                    <div
+                      style={{ cursor: "pointer" }}
+                      onClick={onClickQuestionCategory}
+                    >
+                      <SubTitle title="등록된 질문들" color="#999999" />
+                    </div>
+                    <SubTitle title="|" color="#999999" />
+                    <SubTitle title="내 질문" />
+                  </QuestionTitleContainer>
+                )}
                 {questions ? (
                   <Questions tokenId={tokenId} questions={questions} />
                 ) : (

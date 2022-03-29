@@ -39,7 +39,11 @@ const QuestionItem = ({
     <Container onClick={() => navigate(`/feedback/${tokenId}/${articleNo}`)}>
       <div>{yn ? "해결" : "미해결"}</div>
       <div>{nickname}</div>
-      <Category>{description}</Category>
+      <Category>
+        {description.length >= 15
+          ? description.slice(0, 15) + "..."
+          : description}
+      </Category>
     </Container>
   );
 };

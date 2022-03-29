@@ -15,3 +15,10 @@ export const getRelatedItem = async (tokenId?: string) => {
 export const getFeedbacks = async (tokenId?: string) => {
   return await api.get(`/api/feedbacks/${tokenId}`);
 };
+
+export const getFeedbacksFromMe = async (
+  tokenId?: string,
+  address?: string
+) => {
+  return await api.post(`/api/feedbacks/me`, { tokenId, address });
+};

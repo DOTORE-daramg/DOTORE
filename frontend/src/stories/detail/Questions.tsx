@@ -45,11 +45,11 @@ interface QuestionsProps {
 const Questions = ({ tokenId, questions }: QuestionsProps) => {
   return (
     <Container>
-      <TitleContainer>
+      {/* <TitleContainer>
         <Title title="등록된 질문들" />
         <Title title="|" color="#999999" />
         <Title title="내 질문" color="#999999" />
-      </TitleContainer>
+      </TitleContainer> */}
       <InnerContainer>
         <CategoryContainer>
           <Category>답변 여부</Category>
