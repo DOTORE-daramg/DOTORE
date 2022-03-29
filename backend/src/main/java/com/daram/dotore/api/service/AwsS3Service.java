@@ -65,44 +65,6 @@ public class AwsS3Service {
         return uploadImageUrl;
     }
 
-    /**
-     * feedback 업로드
-     * S3버킷에 파일을 업로드하는 함수
-     * 파일, 경로, request(사용자 주소, String)
-     * 파일이 업로드된 경로(주소)를 반환
-     */
-    public String uploadFeedback(MultipartFile multipartFile, String dirName, BigInteger tokenId,String address) throws IOException {
-        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
-        return uploadFeedbackArticle(uploadFile, dirName, tokenId, address);
-    }
-
-    public String uploadFeedbackArticle(File uploadFile, String filePath, BigInteger tokenId,String address) {
-        String fileName = filePath + "/" + tokenId + "&" + address;   // S3에 저장된 파일 이름
-        String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-        removeNewFile(uploadFile);
-        return uploadImageUrl;
-    }
-
-    /**
-     * answer 업로드
-     * S3버킷에 파일을 업로드하는 함수
-     * 파일, 경로, request(사용자 주소, String)
-     * 파일이 업로드된 경로(주소)를 반환
-     */
-    public String uploadAnswer(MultipartFile multipartFile, String dirName, Integer articleNo,String address) throws IOException {
-        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
-                .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
-        return uploadAnswerArticle(uploadFile, dirName, articleNo, address);
-    }
-
-    public String uploadAnswerArticle(File uploadFile, String filePath, Integer articleNo,String address) {
-        String fileName = filePath + "/" + articleNo + "&" + address;   // S3에 저장된 파일 이름
-        String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
-        removeNewFile(uploadFile);
-        return uploadImageUrl;
-    }
-
     // S3로 업로드
     private String putS3(File uploadFile, String fileName) {
         amazonS3Client.putObject(new PutObjectRequest(bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
