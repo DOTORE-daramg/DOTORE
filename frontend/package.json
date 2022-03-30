@@ -17,6 +17,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^17.0.40",
     "@types/react-dom": "^17.0.13",
+    "@types/react-dropzone": "^5.1.0",
     "@types/react-js-pagination": "^3.0.4",
     "@types/react-responsive": "^8.0.5",
     "@types/react-router-dom": "^5.3.3",
