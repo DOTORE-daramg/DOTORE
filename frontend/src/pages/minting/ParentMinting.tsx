@@ -71,9 +71,8 @@ const ParentMinting = () => {
   const handleChangeTagInput = (e: any) => {
     console.log(e.target.value);
   };
-  const handleChangeFile = (e: any) => {
-    setitemFile(e.target.files[0]);
-    console.log(itemFile);
+  const handleFileChanged = (file: File) => {
+    setitemFile(file);
   };
 
   // const onClickBalanceOf = async () => {
@@ -163,7 +162,7 @@ const ParentMinting = () => {
           <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
         <InputContainer>
-          <FileDropBox onChange={handleChangeFile}></FileDropBox>
+          <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
           <InputTextContainer>
             <InputBox
               placeholder="작품 제목"

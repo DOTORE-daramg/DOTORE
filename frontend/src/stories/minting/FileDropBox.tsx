@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 import { Icon } from "../common/Icon";
@@ -49,38 +49,34 @@ const DeleteFile = styled.div<{ isShow: boolean }>`
 `;
 
 interface FileDropBoxProps {
-  onChange: (e: any) => void;
+  handleFileChanged: (file: File) => void;
 }
 
-export const FileDropBox = ({ onChange }: FileDropBoxProps) => {
-  const [preview, setPreview] = useState<string>(""); // 프리뷰 url
-  const [file, setFile] = useState<File>({} as File); // 파일
-  const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*, audio/*, video/*",
-    onDrop: (files: File[]) => {
-      const newFile = files[0];
-      setFile(newFile);
-      setPreview(URL.createObjectURL(files[0]));
-      console.log(preview);
+export const FileDropBox = ({ handleFileChanged }: FileDropBoxProps) => {
+  const [preview, setPreview] = useState<string>("");
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      const preview = URL.createObjectURL(file);
+      setPreview(preview);
+      handleFileChanged(file);
     },
+    [handleFileChanged]
+  );
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/*",
+    maxFiles: 1,
+    onDrop,
   });
 
   function onClickDeleteFile() {
-    setFile({} as File);
+    handleFileChanged({} as File);
     setPreview("");
   }
 
-  // Make sure to revoke the data uris to avoid memory leaks
-  // useEffect(() => {
-  //   URL.revokeObjectURL(preview);
-  // }, [preview]);
-
   return (
     <Container imageUrl={preview ? preview : ""}>
-      <DeleteFile
-        isShow={file && file ? true : false}
-        onClick={onClickDeleteFile}
-      >
+      <DeleteFile isShow={preview ? true : false} onClick={onClickDeleteFile}>
         <Icon mode="fas" icon={"xmark"}></Icon>
       </DeleteFile>
       <FileDropDiv {...getRootProps({ className: "dropzone" })}>

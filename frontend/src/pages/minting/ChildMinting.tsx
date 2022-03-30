@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
@@ -45,6 +45,8 @@ const InputTextContainer = styled.div`
 `;
 
 const ChildMinting = () => {
+  const [itemFile, setitemFile] = useState<File>();
+
   const handleChangeSearchInput = (e: any) => {
     console.log(e.target.value);
   };
@@ -57,9 +59,10 @@ const ChildMinting = () => {
   const handleChangeTagInput = (e: any) => {
     console.log(e.target.value);
   };
-  const handleChangeFile = (e: any) => {
-    console.log(e.target);
+  const handleFileChanged = (file: File) => {
+    setitemFile(file);
   };
+
   return (
     <Container>
       <MintingContainer>
@@ -68,7 +71,7 @@ const ChildMinting = () => {
         </TitleContainer>
 
         <InputContainer>
-          <FileDropBox onChange={handleChangeFile}></FileDropBox>
+          <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
           <InputTextContainer>
             <InputBox
               placeholder="영감받은 원작 작품을 검색해 주세요."
