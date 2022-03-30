@@ -70,7 +70,7 @@ const ChildMinting = () => {
       if (!isLoggedIn) {
         return;
       }
-      createToken({ title, description, tokenUrl, isFirst, userAddress });
+      // createToken({ title, description, tokenUrl, isFirst, userAddress });
       // console.log(response);
     } catch (err) {
       console.error(err);
@@ -79,7 +79,7 @@ const ChildMinting = () => {
 
   const onClickCreateMarketItem = async () => {
     try {
-      createMarketItem({ tokenId, price, userAddress });
+      // createMarketItem({ tokenId, price, userAddress });
       // console.log(response);
     } catch (err) {
       console.error(err);
@@ -88,7 +88,7 @@ const ChildMinting = () => {
 
   const onClickPurchase = async () => {
     try {
-      purchase({ tokenId, price, userAddress });
+      // purchase({ tokenId, price, userAddress });
       // console.log(response);
     } catch (err) {
       console.error(err);
