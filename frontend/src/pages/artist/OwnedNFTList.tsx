@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 import { useMediaQuery } from "react-responsive";
+import { getNFTList } from "../../api/artist";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
+import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
+import { useParams } from "react-router-dom";
 
 const dummyItemList = [
   {
@@ -88,13 +93,30 @@ const OwnedNFTList = () => {
   const isTablet = useMediaQuery({ minWidth: 500 });
   const columnCount = isPc ? 4 : isTablet ? 3 : 3;
   const gridSize = isPc ? "52rem" : isTablet ? "40rem" : "20rem";
+  // const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const { userAddress } = useParams();
+  const [itemList, setItemList] = useState<ThumbnailProps[]>();
+  useEffect(() => {
+    if (userAddress) {
+      getNFTList(userAddress).then((res) => {
+        console.log(res);
+        if (res.data.result !== "작품 목록이 없습니다.") {
+          setItemList(res.data.data);
+        }
+      });
+    }
+  }, []);
   return (
     <Container>
-      <ThumbnailGrid
-        itemList={dummyItemList}
-        size={gridSize}
-        columnCount={columnCount}
-      ></ThumbnailGrid>
+      {itemList ? (
+        <ThumbnailGrid
+          itemList={itemList}
+          size={gridSize}
+          columnCount={columnCount}
+        ></ThumbnailGrid>
+      ) : (
+        <div>아직 소유한 작품이 없습니다.</div>
+      )}
     </Container>
   );
 };

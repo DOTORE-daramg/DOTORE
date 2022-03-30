@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Thumbnail, ThumbnailProps } from "./Thumbnail";
 
@@ -40,10 +41,14 @@ export const ThumbnailGrid = ({
   size,
   columnCount,
 }: ThumbnailGridProps) => {
+  const navigate = useNavigate();
   return (
     <GridContainer size={size} columnCount={columnCount}>
       {itemList.map((item, index) => (
-        <GridItem key={item.tokenId}>
+        <GridItem
+          onClick={() => navigate(`/detail/${item.tokenId}`)}
+          key={item.tokenId}
+        >
           <Thumbnail {...item}></Thumbnail>
         </GridItem>
       ))}
