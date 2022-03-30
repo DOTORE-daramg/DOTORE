@@ -71,7 +71,6 @@ public class ItemController {
             itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
@@ -90,7 +89,6 @@ public class ItemController {
             }
             return ResponseEntity.status(200).body(ItemListRes.of("Success", list));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(ItemListRes.of("존재하지 않는 token_id"));
         }
     }
