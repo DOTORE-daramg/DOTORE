@@ -62,17 +62,24 @@ const ParentMinting = () => {
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<File>();
 
-  const handleChangeTitleInput = (e: any) => {
+  const handleTitleChanged = (e: any) => {
     setItemTitle(e.target.value);
   };
-  const handleChangeDescInput = (e: any) => {
+  const handleDescChanged = (e: any) => {
     setitemDesc(e.target.value);
   };
-  const handleChangeTagInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTagChanged = (label: string) => {
+    setitemTags((prev) => [...prev, label]);
   };
   const handleFileChanged = (file: File) => {
     setitemFile(file);
+  };
+
+  const createMint = async () => {
+    console.log(itemTitle);
+    console.log(itemDesc);
+    console.log(itemTags);
+    console.log(itemFile);
   };
 
   // const onClickBalanceOf = async () => {
@@ -167,17 +174,23 @@ const ParentMinting = () => {
             <InputBox
               placeholder="작품 제목"
               width="23rem"
-              onChange={handleChangeTitleInput}
+              onChange={handleTitleChanged}
               value={itemTitle}
             ></InputBox>
             <TextAreaBox
               placeholder="작품 설명"
               width="23rem"
               rows={6}
-              onChange={handleChangeDescInput}
+              onChange={handleDescChanged}
               value={itemDesc}
             ></TextAreaBox>
-            <TagInputBox></TagInputBox>
+            <TagInputBox handleTagChanged={handleTagChanged}></TagInputBox>
+            <Button
+              label={"작품 등록"}
+              width="7rem"
+              backgroundColor="#6667ab"
+              onClick={createMint}
+            ></Button>
           </InputTextContainer>
         </InputContainer>
       </MintingContainer>

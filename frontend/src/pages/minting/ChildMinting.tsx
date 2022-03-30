@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
 import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { Button } from "../../stories/Button";
+import { isLoggedInState, userInfoState } from "../..";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -45,22 +47,33 @@ const InputTextContainer = styled.div`
 `;
 
 const ChildMinting = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const userInfo = useRecoilValue(userInfoState);
+  const [itemTitle, setItemTitle] = useState<string>("");
+  const [itemDesc, setitemDesc] = useState<string>("");
+  const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<File>();
 
   const handleChangeSearchInput = (e: any) => {
     console.log(e.target.value);
   };
-  const handleChangeTitleInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTitleChanged = (e: any) => {
+    setItemTitle(e.target.value);
   };
-  const handleChangeDescInput = (e: any) => {
-    console.log(e.target.value);
+  const handleDescChanged = (e: any) => {
+    setitemDesc(e.target.value);
   };
-  const handleChangeTagInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTagChanged = (label: string) => {
+    setitemTags((prev) => [...prev, label]);
   };
   const handleFileChanged = (file: File) => {
     setitemFile(file);
+  };
+  const createMint = async () => {
+    console.log(itemTitle);
+    console.log(itemDesc);
+    console.log(itemTags);
+    console.log(itemFile);
   };
 
   return (
@@ -82,25 +95,25 @@ const ChildMinting = () => {
             <InputBox
               placeholder="작품 제목"
               width="23rem"
-              onChange={handleChangeTitleInput}
+              onChange={handleTitleChanged}
             ></InputBox>
             <TextAreaBox
               placeholder="작품 설명"
               width="23rem"
               rows={6}
-              onChange={handleChangeDescInput}
+              onChange={handleDescChanged}
             ></TextAreaBox>
             <InputBox
               placeholder="태그"
               width="23rem"
               icon="hashtag"
-              onChange={handleChangeTagInput}
+              onChange={handleTagChanged}
             ></InputBox>
             <Button
               label={"작품 등록"}
               width="7rem"
               backgroundColor="#6667ab"
-              onClick={() => console.log("작품 등록")}
+              onClick={createMint}
             ></Button>
           </InputTextContainer>
         </InputContainer>
