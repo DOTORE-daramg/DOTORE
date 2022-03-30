@@ -85,6 +85,7 @@ export const TextAreaBox = ({
   width,
   rows,
   maxLength = 100,
+  value,
   onChange,
 }: InputProps) => {
   return (
@@ -94,6 +95,7 @@ export const TextAreaBox = ({
         rows={rows}
         onChange={onChange}
         maxLength={maxLength}
+        value={value}
       ></StyledTextArea>
     </InputDiv>
   );

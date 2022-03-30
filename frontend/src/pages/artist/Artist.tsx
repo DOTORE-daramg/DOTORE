@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import { ProfileBanner } from "../../stories/artist/ProfileBanner";
 import { ArtistNav } from "../../stories/artist/ArtistNav";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
 import { getUserInfo } from "../../api/user";
 
 const Artist = () => {
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const setUserInfo = useSetRecoilState<userInfoTypes>(userInfoState);
   const [isModalShow, setIsModalShow] = useState(false);
   const { userAddress } = useParams();
   const [artistInfo, setArtistInfo] = useState<userInfoTypes>();
@@ -34,6 +35,7 @@ const Artist = () => {
       {isModalShow && (
         <ProfileUpdateModal
           userInfo={userInfo}
+          setUserInfo={setUserInfo}
           onClickToggleModal={onClickToggleModal}
         ></ProfileUpdateModal>
       )}

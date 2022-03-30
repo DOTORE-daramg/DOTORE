@@ -158,7 +158,13 @@ export const ProfileBanner = ({
           </ProfileDescriptionContainerTop>
           <ProfileDescriptionContainerBottom>
             <ProfileAddress>{profileAddress}</ProfileAddress>
-            <ProfileDescription>{profileDescription}</ProfileDescription>
+            {profileDescription ? (
+              <ProfileDescription>{profileDescription}</ProfileDescription>
+            ) : (
+              <ProfileDescription>
+                아직 작성된 한줄 소개가 없습니다.
+              </ProfileDescription>
+            )}
             <ProfileDotoriAmount>
               <img src={dicon} alt="dicon" />
               {profileDotoriAmount}

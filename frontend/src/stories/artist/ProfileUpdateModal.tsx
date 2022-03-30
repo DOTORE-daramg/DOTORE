@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { userInfoTypes } from "../..";
 import { useMediaQuery } from "react-responsive";
@@ -6,6 +6,8 @@ import { ProfileImg } from "../profile/ProfileImg";
 import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
+import { updateDesc, updateNickname } from "../../api/user";
+import { SetterOrUpdater } from "recoil";
 
 const Section = styled.div`
   width: 100%;
@@ -170,6 +172,7 @@ const Backdrop = styled.div`
 
 export interface ProfileUpdateModalProps {
   userInfo: userInfoTypes;
+  setUserInfo: SetterOrUpdater<userInfoTypes>;
   onClose?: () => void;
   onValidate?: () => void;
   onClickToggleModal: () => void;
@@ -183,6 +186,7 @@ export interface ProfileUpdateModalProps {
 
 export const ProfileUpdateModal = ({
   userInfo,
+  setUserInfo,
   onClose,
   onValidate,
   onClickToggleModal,
@@ -191,10 +195,37 @@ export const ProfileUpdateModal = ({
   const isMoblie = useMediaQuery({ maxWidth: 500 });
   const isPc = useMediaQuery({ minWidth: 768 });
   const imageSize = isMoblie ? "6rem" : isPc ? "10rem" : "7rem";
+  const [nickname, setNickname] = useState<string>(userInfo.nickname);
+  const [desc, setDesc] = useState<string>(userInfo.description);
+  console.log(desc);
   const onClickSaveButton = () => {
     console.log("save!");
+    if (nickname) {
+      updateNickname(userInfo.address, nickname).then((res) => {
+        console.log(res);
+        setUserInfo({ ...userInfo, nickname });
+      });
+    }
+
+    if (desc) {
+      updateDesc(userInfo.address, desc).then((res) => {
+        setUserInfo({ ...userInfo, description: desc });
+
+        console.log(res);
+      });
+    }
     onClickToggleModal();
+    // window.location.reload();
   };
+
+  const onNicknameChange = (e: any) => {
+    setNickname(e.target.value);
+  };
+
+  const onDescChange = (e: any) => {
+    setDesc(e.target.value);
+  };
+
   return (
     <Section>
       <ModalContainer>
@@ -217,11 +248,15 @@ export const ProfileUpdateModal = ({
               placeholder="닉네임"
               width="100%"
               maxLength={10}
+              value={nickname}
+              onChange={onNicknameChange}
             ></InputBox>
             <TextAreaBox
               placeholder="한 줄 소개"
               width="100%"
               rows={5}
+              value={desc}
+              onChange={onDescChange}
             ></TextAreaBox>
           </ModalInputBoxContainer>
         </ModalBody>
