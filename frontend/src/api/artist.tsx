@@ -15,3 +15,7 @@ export const getResFeedbacks = async (address: string) => {
 export const getReqFeedbacks = async (address: string) => {
   return await api.post(`/api/mypage/request/${address}`);
 };
+
+export const getLikedNFTList = async (address: string) => {
+  return await api.get(`/api/mypage/like/${address}`);
+};
