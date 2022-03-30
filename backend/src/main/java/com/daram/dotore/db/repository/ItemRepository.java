@@ -13,6 +13,8 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
 
     Optional<Items> findByTokenId(BigInteger tokenId);
 
+    Optional<Items> findByItemTrxHash(String itemTrxHash);
+
     List<Items> findByIsFirst(boolean isFirst);
 
     List<Items> findByOnSaleYn(boolean onSaleYn);
@@ -31,6 +33,11 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
             + "FROM Items "
             + "WHERE owner_address = :address", nativeQuery = true)
     List<Items> getItemList(@Param("address") String address);
+
+    @Query(value = "SELECT * "
+        + "FROM Items "
+        + "WHERE author_address = :address and token_id is null ", nativeQuery = true)
+    List<Items> getPendingItemList(@Param("address") String address);
 
     @Query(value = "SELECT * "
             + "FROM Items "

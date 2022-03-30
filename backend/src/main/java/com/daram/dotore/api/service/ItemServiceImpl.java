@@ -1,6 +1,7 @@
 package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
 import com.daram.dotore.api.response.ItemDetailRes;
@@ -47,16 +48,18 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
+            .itemTrxHash(itemReq.getItemTrxHash())
             .tokenId(itemReq.getTokenId())
             .item_hash(itemReq.getItemHash())
             .item_title(itemReq.getItemTitle())
             .item_description(itemReq.getItemDescription())
             .created_at(LocalDateTime.now())
             .author_address(itemReq.getAuthorAddress())
-            .owner_address(itemReq.getOwnerAddress())
+            .owner_address(itemReq.getAuthorAddress())
             .on_sale_yn(false)
             .is_first(itemReq.getIsFirst())
             .format(itemReq.getFormat())
+            .status("Pending")
             .build());
 
         for (String tag : itemReq.getTags()) {
@@ -84,6 +87,22 @@ public class ItemServiceImpl implements ItemService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Items getItemByTrxHash(String itemTrxHash) {
+        Optional<Items> opt = itemRepository.findByItemTrxHash(itemTrxHash);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Items updateTokenId(ItemTrxReq itemTrxReq) {
+        Items item = getItemByTrxHash(itemTrxReq.getItemTrxHash());
+        return itemRepository.save(item.setTokenId(itemTrxReq.getTokenId()));
     }
 
     @Override
@@ -143,7 +162,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean checkLike(String address, BigInteger tokenId) {
-        Optional<Likes> opt=likeRepository.findByAddressAndTokenId(address, tokenId);
+        Optional<Likes> opt = likeRepository.findByAddressAndTokenId(address, tokenId);
         if (opt.isPresent()) {
             return true;
         }
@@ -183,6 +202,11 @@ public class ItemServiceImpl implements ItemService {
     public List<Items> getItemList(String address) {
 
         return itemRepository.getItemList(address);
+    }
+
+    @Override
+    public List<Items> getPendingItemList(String address) {
+        return itemRepository.getPendingItemList(address);
     }
 
     @Override

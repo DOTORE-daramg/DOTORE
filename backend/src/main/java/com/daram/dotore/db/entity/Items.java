@@ -19,7 +19,10 @@ import lombok.NoArgsConstructor;
 public class Items {
 
     @Id
-    @Column(name = "token_id", nullable = false, unique = true)
+    @Column(name = "item_trx_hash", nullable = false, unique = true)
+    String itemTrxHash;
+
+    @Column(name = "token_id")
     BigInteger tokenId;
 
     @NotNull
@@ -54,10 +57,14 @@ public class Items {
     @Pattern(regexp = "[a-zA-Z0-9]{1,10}")
     String format;
 
+    @NotNull
+    String status;
+
     @Builder
-    public Items(BigInteger tokenId, String item_hash, String item_title,
+    public Items(String itemTrxHash, BigInteger tokenId, String item_hash, String item_title,
         String item_description, LocalDateTime created_at, String author_address,
-        String owner_address, boolean on_sale_yn, boolean is_first, String format) {
+        String owner_address, boolean on_sale_yn, boolean is_first, String format, String status) {
+        this.itemTrxHash = itemTrxHash;
         this.tokenId = tokenId;
         this.item_hash = item_hash;
         this.item_title = item_title;
@@ -67,16 +74,22 @@ public class Items {
         this.owner_address = owner_address;
         this.onSaleYn = on_sale_yn;
         this.isFirst = is_first;
-        this.format=format;
+        this.format = format;
+        this.status = status;
     }
 
-    public Items setOwner(String owner_address){
-        this.owner_address=owner_address;
+    public Items setTokenId(BigInteger tokenId) {
+        this.tokenId = tokenId;
         return this;
     }
 
-    public Items setOnSaleYn(boolean onSaleYn){
-        this.onSaleYn=onSaleYn;
+    public Items setOwner(String owner_address) {
+        this.owner_address = owner_address;
+        return this;
+    }
+
+    public Items setOnSaleYn(boolean onSaleYn) {
+        this.onSaleYn = onSaleYn;
         return this;
     }
 

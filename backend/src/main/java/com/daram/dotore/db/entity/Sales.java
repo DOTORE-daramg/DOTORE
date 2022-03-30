@@ -21,15 +21,15 @@ import lombok.NoArgsConstructor;
 public class Sales {
 
     @Id
-    @Column(name = "sale_id", nullable = false, unique = true)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sale_trx_hash", nullable = false, unique = true)
+    String saleTrxHash;
+
+    @Column(name = "sale_id")
     int saleId;
 
     @NotNull
     @Column(name = "token_id")
     BigInteger tokenId;
-
-    String saleContractAddress;
 
     String cashContractAddress;
 
@@ -52,12 +52,12 @@ public class Sales {
     LocalDateTime completed_at;
 
     @Builder
-    public Sales(int saleId, BigInteger tokenId, String saleContractAddress,
+    public Sales(String saleTrxHash, int saleId, BigInteger tokenId,
         String cashContractAddress, Boolean saleYn, String sellerAddress, String buyerAddress,
         String price, LocalDateTime created_at, LocalDateTime completed_at) {
+        this.saleTrxHash = saleTrxHash;
         this.saleId = saleId;
         this.tokenId = tokenId;
-        this.saleContractAddress = saleContractAddress;
         this.cashContractAddress = cashContractAddress;
         this.saleYn = saleYn;
         this.sellerAddress = sellerAddress;

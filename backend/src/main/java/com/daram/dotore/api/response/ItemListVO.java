@@ -18,5 +18,6 @@ public class ItemListVO {
     private LocalDateTime createdAt;
     private String ownerAddress;
     //is_first를 사용하는 곳은 없지만 일단 그냥 넘겨주는걸로...
-    private  Boolean isFirst;
+    private Boolean isFirst;
+    private String status;
 }

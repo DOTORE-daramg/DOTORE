@@ -11,6 +11,7 @@ import java.math.BigInteger;
 @ApiModel("SalesRequest")
 public class SalesReq {
 
+    private String saleTrxHash;
     private BigInteger tokenId;
     private String sellerAddress;
     private String salesContractAddress;

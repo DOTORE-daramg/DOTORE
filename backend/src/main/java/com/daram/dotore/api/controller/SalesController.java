@@ -78,7 +78,7 @@ public class SalesController {
             itemService.updateOnSaleYnAndOwnerAddress(saleCompleteReq);
 
             //판매 테이블에서 다음 항목 업데이트
-            //sale_yn=true
+            //sale_yn=false
             //buyer_address
             //completed_at
             saleService.updateSaleYnAndBuyerAddressAndCompletedAt(saleCompleteReq);
@@ -89,7 +89,7 @@ public class SalesController {
         }
     }
 
-    @DeleteMapping("/cancel")
+    @PostMapping("/cancel")
     @ApiOperation(value = "판매 취소", notes = "판매 취소")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = BaseRes.class),

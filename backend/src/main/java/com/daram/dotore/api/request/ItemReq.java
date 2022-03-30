@@ -11,13 +11,13 @@ import lombok.Setter;
 @ApiModel("ItemRequest")
 public class ItemReq {
 
+    private String itemTrxHash;
     private BigInteger tokenId;
     private String itemHash;
     private String itemTitle;
     private String itemDescription;
     private LocalDateTime createdAt;
     private String authorAddress;
-    private String ownerAddress;
     private Boolean isFirst;
     private String format;
     private String[] tags;
