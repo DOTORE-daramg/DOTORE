@@ -14,6 +14,7 @@ import {
   dTTMarketContract,
   web3,
 } from "../../contracts";
+import { createToken, createMarketItem, purchase } from "../../contracts/api";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -92,41 +93,13 @@ const ParentMinting = () => {
       if (!isLoggedIn) {
         return;
       }
-      const response = await dTT.methods
-        .createToken(
-          "지희NFT",
-          "지희꺼다NFT",
-          "https://www.ssafy.com",
-          false,
-          dTTMarketAddress
-        )
-        .send({
-          from: userInfo.address,
-          gas: 3000000,
-          gasPrice: "10000000000",
-        });
-
+      createToken({ title, description, tokenUrl, isFirst, userAddress });
       console.log(response);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const onClickCreate = async () => {
-    try {
-      const response = await dTTMarketContract.methods
-        .createMarketItem(11, "12340000000000000")
-        .send({
-          from: userInfo.address,
-          gas: 3000000,
-          gasPrice: "10000000000",
-        })
-        .then(console.log);
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const onClickPurchase = async () => {
     try {
