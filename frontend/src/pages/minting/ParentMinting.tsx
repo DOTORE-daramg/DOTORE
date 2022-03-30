@@ -7,14 +7,7 @@ import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
-import {
-  dTT,
-  dTTAddress,
-  dTTMarketAddress,
-  dTTMarketContract,
-  web3,
-} from "../../contracts";
-import { createToken, createMarketItem, purchase } from "../../contracts/api/first";
+import { createToken } from "../../contracts/api/first";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -69,24 +62,6 @@ const ParentMinting = () => {
     console.log(e.target.value);
   };
 
-  // const onClickBalanceOf = async () => {
-  //   try {
-  //     const balance = await dTT.methods.balanceOf(userInfo.address).call();
-  //     console.log("balance: ", balance);
-  //     console.log(
-  //       await dTTMarketContract.getPastEvents("allEvents", { fromBlock: 1 })
-  //     );
-  //     console.log(await dTT.getPastEvents("allEvents", { fromBlock: 1 }));
-  //     console.log(await dTTMarketContract.methods.dTT().call());
-
-  //     // console.log(await dTTMarketContract.methods.idMarketItem(0).call());
-  //     // console.log(await dTTMarketContract.methods.idMarketItem(1).call());
-  //     // console.log(await dTTMarketContract.methods.idMarketItem(2).call());
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
   const onClickCreateToken = async () => {
     console.log("Click Mint DTT!!");
     try {
@@ -94,29 +69,12 @@ const ParentMinting = () => {
         return;
       }
       createToken({ title, description, tokenUrl, isFirst, userAddress });
-      console.log(response);
+      // console.log(response);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const onClickCreateMarketItem = async () => {
-    try {
-      createMarketItem({ tokenId, price, userAddress });
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const onClickPurchase = async () => {
-    try {
-      purchase({ tokenId, price, userAddress });
-      console.log(response);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <Container>
@@ -130,18 +88,6 @@ const ParentMinting = () => {
           width="7rem"
           backgroundColor="#6667ab"
           onClick={onClickCreateToken}
-        ></Button>
-        <Button
-          label={"판매 등록"}
-          width="7rem"
-          backgroundColor="#6667ab"
-          onClick={onClickCreateMarketItem}
-        ></Button>
-        <Button
-          label={"구매"}
-          width="7rem"
-          backgroundColor="#6667ab"
-          onClick={onClickPurchase}
         ></Button>
 
         <InputContainer>
