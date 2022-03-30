@@ -172,7 +172,7 @@ export const SaleModal = ({
       <ModalContainer>
         <ModalHeader>
           <h3>NFT 판매 등록</h3>
-          <Icon style="fas" icon="xmark" color="#9FABAE" />
+          <Icon mode="fas" icon="xmark" color="#9FABAE" />
         </ModalHeader>
         <ModalBorder></ModalBorder>
         <ModalBody>

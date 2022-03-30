@@ -85,9 +85,9 @@ const Item = ({
         <Amount>{nickname}</Amount>
       </TextContainer>
       <AmountContainer>
-        <Icon style="fas" icon="download" color="#6667ab" />
+        <Icon mode="fas" icon="download" color="#6667ab" />
         <Amount>{download}</Amount>
-        <Icon style="fas" icon="heart" color="#6667ab" />
+        <Icon mode="fas" icon="heart" color="#6667ab" />
         <Amount>{like}</Amount>
       </AmountContainer>
     </Container>

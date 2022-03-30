@@ -5,7 +5,7 @@ export const viewAll = async () => {
 };
 
 export const getItem = async (tokenId?: string) => {
-  return await api.get(`/api/items/${tokenId}/453`);
+  return await api.get(`/api/items/${tokenId}`);
 };
 
 export const getRelatedItem = async (tokenId?: string) => {
@@ -22,3 +22,15 @@ export const getFeedbacksFromMe = async (
 ) => {
   return await api.post(`/api/feedbacks/me`, { tokenId, address });
 };
+
+export const getIsLike = async (tokenId?: string, address?: string) => {
+  return await api.get(`/api/items/like/${tokenId}/${address}`);
+};
+
+export const putLike = async (address: string, tokenId?: string) => {
+  return await api.post(`/api/items/like`, { address, tokenId });
+};
+
+// export const dislike = async (address: string, tokenId: string) => {
+//   return await api.delete(`/api/items/like`, { address, tokenId });
+// };

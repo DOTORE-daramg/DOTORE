@@ -1,9 +1,9 @@
-import React from 'react';
+import React from "react";
 import styled from "styled-components";
-import { Icon } from '../common/Icon';
-import { ProfileImg } from '../profile/ProfileImg';
-import dicon from '../assets/mypage/default-dotori-icon.png';
-import { useMediaQuery } from 'react-responsive';
+import { Icon } from "../common/Icon";
+import { ProfileImg } from "../profile/ProfileImg";
+import dicon from "../assets/mypage/default-dotori-icon.png";
+import { useMediaQuery } from "react-responsive";
 
 // Banner Container ============================================
 const BannerContainer = styled.div`
@@ -44,7 +44,6 @@ const ProfileImgContainer = styled.div`
   }
 `;
 
-
 // Profile Container - DescriptionContainer =========
 const ProfileDescriptionContainer = styled.div`
   display: flex;
@@ -69,7 +68,7 @@ const ProfileNickname = styled.span`
 `;
 const ProfileLevel = styled.span`
   font-size: 0.8rem;
-  color: #4B4B4B;
+  color: #4b4b4b;
   font-weight: 400;
 `;
 const ProfileDescriptionContainerBottom = styled.div`
@@ -84,7 +83,7 @@ const ProfileAddress = styled.span`
 `;
 const ProfileDescription = styled.span`
   font-size: 1rem;
-  color: #4B4B4B;
+  color: #4b4b4b;
   font-weight: 500;
   margin-top: 1rem;
   @media screen and (max-width: 500px) {
@@ -134,7 +133,7 @@ export const ProfileBanner = ({
   ...props
 }: ProfileBannerProps) => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
-  
+
   return (
     <BannerContainer>
       <ProfileContainer>
@@ -149,13 +148,16 @@ export const ProfileBanner = ({
             <ProfileNickname>{profileNickname}</ProfileNickname>
             <ProfileLevel>{profileLevel}</ProfileLevel>
             <div onClick={onClickToggleModal}>
-              <Icon style='fas' icon='pencil' color='#959595'></Icon>
+              <Icon mode="fas" icon="pencil" color="#959595"></Icon>
             </div>
           </ProfileDescriptionContainerTop>
           <ProfileDescriptionContainerBottom>
             <ProfileAddress>{profileAddress}</ProfileAddress>
             <ProfileDescription>{profileDescription}</ProfileDescription>
-            <ProfileDotoriAmount><img src={dicon} alt='dicon' />{profileDotoriAmount}</ProfileDotoriAmount>
+            <ProfileDotoriAmount>
+              <img src={dicon} alt="dicon" />
+              {profileDotoriAmount}
+            </ProfileDotoriAmount>
           </ProfileDescriptionContainerBottom>
         </ProfileDescriptionContainer>
       </ProfileContainer>

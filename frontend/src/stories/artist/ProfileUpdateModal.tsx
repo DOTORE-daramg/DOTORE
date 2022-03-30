@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { userInfoTypes } from '../..';
+import { userInfoTypes } from "../..";
 import { useMediaQuery } from "react-responsive";
-import { ProfileImg } from '../profile/ProfileImg';
+import { ProfileImg } from "../profile/ProfileImg";
 import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
@@ -27,13 +27,14 @@ const ModalContainer = styled.div`
   position: fixed;
   width: 32rem;
   background: #ffffff;
-  box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1), 0px 20px 50px rgba(32, 37, 38, 0.1);
+  box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1),
+    0px 20px 50px rgba(32, 37, 38, 0.1);
   border-radius: 6px;
   z-index: 10000;
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     width: 28rem;
   }
-  @media screen and (max-width: 500px){
+  @media screen and (max-width: 500px) {
     width: 24rem;
   }
 `;
@@ -113,7 +114,7 @@ const ModalBody = styled.div`
     order: 0;
     flex-grow: 0;
   }
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     padding: 1rem;
   }
 `;
@@ -189,20 +190,18 @@ export const ProfileUpdateModal = ({
 }: ProfileUpdateModalProps) => {
   const isMoblie = useMediaQuery({ maxWidth: 500 });
   const isPc = useMediaQuery({ minWidth: 768 });
-  const imageSize = isMoblie ? "6rem"
-    : isPc ? "10rem"
-      : "7rem";
+  const imageSize = isMoblie ? "6rem" : isPc ? "10rem" : "7rem";
   const onClickSaveButton = () => {
-    console.log('save!');
-    onClickToggleModal()
-  }
+    console.log("save!");
+    onClickToggleModal();
+  };
   return (
     <Section>
       <ModalContainer>
         <ModalHeader>
           <h3>내 정보 수정</h3>
           <IconContainer onClick={onClickToggleModal}>
-            <Icon style="fas" icon="xmark" color="#9FABAE"/>
+            <Icon mode="fas" icon="xmark" color="#9FABAE" />
           </IconContainer>
         </ModalHeader>
         <ModalBorder></ModalBorder>
@@ -214,20 +213,28 @@ export const ProfileUpdateModal = ({
             ></ProfileImg>
           </ProfileImgContainer>
           <ModalInputBoxContainer>
-            <InputBox placeholder="닉네임" width="100%" maxLength={10}></InputBox>
-            <TextAreaBox placeholder="한 줄 소개" width="100%" rows={ 5 }></TextAreaBox>
+            <InputBox
+              placeholder="닉네임"
+              width="100%"
+              maxLength={10}
+            ></InputBox>
+            <TextAreaBox
+              placeholder="한 줄 소개"
+              width="100%"
+              rows={5}
+            ></TextAreaBox>
           </ModalInputBoxContainer>
         </ModalBody>
         <ModalFooter>
           <div className="buttons">
             <Button
-              width={ isMoblie ? "4rem" : "6rem" }
+              width={isMoblie ? "4rem" : "6rem"}
               label="취소"
               backgroundColor="#a09fae"
               onClick={onClickToggleModal}
             />
             <Button
-              width={ isMoblie ? "4rem" : "6rem" }
+              width={isMoblie ? "4rem" : "6rem"}
               label="저장"
               backgroundColor="#6667AB"
               onClick={onClickSaveButton}
@@ -235,7 +242,7 @@ export const ProfileUpdateModal = ({
           </div>
         </ModalFooter>
       </ModalContainer>
-      <Backdrop onClick={onClickToggleModal}/>
+      <Backdrop onClick={onClickToggleModal} />
     </Section>
   );
 };

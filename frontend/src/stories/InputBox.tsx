@@ -67,7 +67,7 @@ export const InputBox = ({
 }: InputProps) => {
   return (
     <InputDiv width={width}>
-      {icon ? <Icon style="fas" icon={icon}></Icon> : null}
+      {icon ? <Icon mode="fas" icon={icon}></Icon> : null}
       <StyledInput
         name={name}
         value={value}

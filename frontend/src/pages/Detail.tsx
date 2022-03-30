@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getFeedbacks, getFeedbacksFromMe } from "../api/item";
-import { getItem, getRelatedItem } from "../api/item";
+import { getFeedbacks, getFeedbacksFromMe, getIsLike } from "../api/item";
+import { getItem, getRelatedItem, putLike } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
 import { Badge } from "../stories/common/Badge";
@@ -99,6 +99,11 @@ const AmountContainer = styled.div`
   width: 35%;
   display: flex;
   justify-content: space-between;
+  #heart svg {
+    stroke: black;
+    stroke-width: 20;
+    cursor: pointer;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -212,7 +217,7 @@ const Detail = () => {
   // 2차 NFT의 경우 구매 가능, 불가능으로 나뉜다
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
-  const [isOwner, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(false);
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
     itemTitle: "",
@@ -239,11 +244,14 @@ const Detail = () => {
 
   // 질문 카테고라이징
   const [isAllQuestions, setIsAllQuestions] = useState<boolean>(true);
+  // 좋아요 여부
+  const [isLike, setIsLike] = useState<boolean>(false);
   const [isModalShow, setIsModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   const { tokenId } = useParams();
   const navigate = useNavigate();
+
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
@@ -253,13 +261,31 @@ const Detail = () => {
     setIsLoading(true);
 
     getItem(tokenId).then((res) => {
-      setItem(res.data);
-      setIsFirst(res.data.isFirst);
-      setIsSale(res.data.onSaleYn);
+      const { data } = res;
+      const {
+        data: { isFirst, onSaleYn, authorAddress },
+      } = res;
+
+      setItem(data);
+      setIsFirst(isFirst);
+      setIsSale(onSaleYn);
+      if (authorAddress === userInfo.address) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
       setTimeout(() => {
         setIsLoading(false);
       }, 600);
     });
+    if (userInfo.address) {
+      getIsLike(tokenId, userInfo.address).then((res) => {
+        const {
+          data: { isLike },
+        } = res;
+        setIsLike(isLike);
+      });
+    }
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });
@@ -278,6 +304,26 @@ const Detail = () => {
       });
     }
     setIsAllQuestions((prev) => !prev);
+  };
+
+  const onHeartClick = () => {
+    if (userInfo.address) {
+      if (isLike) {
+        // dislike(userInfo.address, tokenId).then((res) => {
+        //   console.log("성공!");
+        //   setItem({ ...item, like: res.data.count });
+        //   setIsLike(false);
+        // });
+      } else {
+        putLike(userInfo.address, tokenId).then((res) => {
+          console.log("성공!");
+          setItem({ ...item, like: res.data.count });
+          setIsLike(true);
+        });
+      }
+    } else {
+      alert("로그인 후 가능합니다!");
+    }
   };
   useEffect(() => {
     if (isFirst) {
@@ -327,23 +373,36 @@ const Detail = () => {
               </BadgeContainer>
               <BuyContainer>
                 <AmountContainer>
-                  <Amount
-                    style="fas"
-                    icon="heart"
-                    count={like}
-                    iconColor="#6667ab"
-                  />
+                  {isLike ? (
+                    <div onClick={onHeartClick}>
+                      <Amount
+                        mode="fas"
+                        icon="heart"
+                        count={like}
+                        iconColor="#6667ab"
+                      />
+                    </div>
+                  ) : (
+                    <div id="heart" onClick={onHeartClick}>
+                      <Amount
+                        mode="fas"
+                        icon="heart"
+                        count={like}
+                        iconColor="white"
+                      />
+                    </div>
+                  )}
                   {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
                   {isFirst ? (
                     <Amount
-                      style="fas"
+                      mode="fas"
                       icon="download"
                       count={download}
                       iconColor="#6667ab"
                     />
                   ) : (
                     <Amount
-                      style="fab"
+                      mode="fab"
                       icon="ethereum"
                       count={0.03}
                       iconColor="#6667ab"
@@ -386,12 +445,12 @@ const Detail = () => {
           {isOwner && !isFirst && !isSale && (
             <>
               <SaleContainer>
-                <Icon style="fas" icon="circle-exclamation" />
+                <Icon mode="fas" icon="circle-exclamation" />
                 <div>
                   아직 작품의 판매가 시작되지 않았어요. 판매 등록을 할까요?
                 </div>
                 <div id="link" onClick={onClickToggleModal}>
-                  <Icon style="fas" icon="right-long" />
+                  <Icon mode="fas" icon="right-long" />
                 </div>
               </SaleContainer>
             </>
@@ -400,13 +459,13 @@ const Detail = () => {
           {isOwner && !isFirst && isSale && (
             <>
               <SaleContainer>
-                <Icon style="fas" icon="circle-exclamation" />
+                <Icon mode="fas" icon="circle-exclamation" />
                 <div>
                   작품이 0.03eth에 판매 등록되어 있습니다. 거래를 취소하거나
                   가격을 바꿀까요?
                 </div>
                 <div id="link" onClick={onClickToggleModal}>
-                  <Icon style="fas" icon="right-long" />
+                  <Icon mode="fas" icon="right-long" />
                 </div>
               </SaleContainer>
             </>

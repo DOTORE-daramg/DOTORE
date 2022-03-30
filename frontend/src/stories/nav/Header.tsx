@@ -10,7 +10,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 
 const Wrapper = styled.div`
-  padding: 15px 10vh;
+  padding: 15px 10vw;
   width: 100%;
   display: flex;
   align-items: center;

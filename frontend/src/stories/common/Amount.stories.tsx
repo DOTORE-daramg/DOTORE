@@ -16,14 +16,14 @@ const Template: ComponentStory<typeof Amount> = (args) => <Amount {...args} />;
 export const Ethereum = Template.bind({});
 // More on args: https://storybook.js.org/docs/react/writing-stories/args
 Ethereum.args = {
-  style: "fab",
+  mode: "fab",
   icon: "ethereum",
   count: 123234,
   unit: "ETH",
 };
 export const Heart = Template.bind({});
 Heart.args = {
-  style: "fas",
+  mode: "fas",
   icon: "heart",
   count: 492,
 };

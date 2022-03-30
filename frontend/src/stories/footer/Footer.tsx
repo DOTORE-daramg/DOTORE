@@ -88,17 +88,17 @@ export const Footer = () => (
         <div className="name">DOTORI</div>
       </LogoContainer>
       <Description>
-        <Icon style="fas" icon="phone" />
+        <Icon mode="fas" icon="phone" />
         <div className="title">고객센터</div>
         <div className="desc">02-1544-9001</div>
       </Description>
       <Description>
-        <Icon style="fas" icon="envelope" />
+        <Icon mode="fas" icon="envelope" />
         <div className="title">문의사항</div>
         <div className="desc">dotori@dotori.com</div>
       </Description>
       <Description>
-        <Icon style="fas" icon="laptop-code" />
+        <Icon mode="fas" icon="laptop-code" />
         <div className="title">TEAM</div>
         <div className="desc">한지희 이성재 이호진 인주비 조영운 제진명</div>
       </Description>
