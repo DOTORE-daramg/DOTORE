@@ -100,6 +100,14 @@ const ParentMinting = () => {
     }
   };
 
+  const onClickCreate = async () => {
+    try {
+      createMarketItem({ tokenId, price, userAddress });
+      console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const onClickPurchase = async () => {
     try {
