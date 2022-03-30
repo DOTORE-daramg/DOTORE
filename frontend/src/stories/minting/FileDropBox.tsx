@@ -11,7 +11,7 @@ const Container = styled.div<{ imageUrl: string }>`
   border-radius: 30px;
   padding: 0.3rem;
   background-clip: content-box;
-  background-image: url(${(props) => props.imageUrl});
+  background-image: url(${(props) => (props.imageUrl ? props.imageUrl : "")});
   background-size: cover;
   svg {
     color: #9d9d9d;
@@ -53,31 +53,32 @@ interface FileDropBoxProps {
 }
 
 export const FileDropBox = ({ onChange }: FileDropBoxProps) => {
-  const [file, setFile] = useState<{ file: File; preview: string }>();
+  const [preview, setPreview] = useState<string>(""); // 프리뷰 url
+  const [file, setFile] = useState<File>({} as File); // 파일
   const { getRootProps, getInputProps } = useDropzone({
-    accept: "image/*",
+    accept: "image/*, audio/*, video/*",
     onDrop: (files: File[]) => {
       const newFile = files[0];
-      setFile({ file: newFile, preview: URL.createObjectURL(files[0]) });
-      console.log(file);
+      setFile(newFile);
+      setPreview(URL.createObjectURL(files[0]));
+      console.log(preview);
     },
   });
 
   function onClickDeleteFile() {
-    setFile({ file: {} as File, preview: "" });
+    setFile({} as File);
+    setPreview("");
   }
 
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    if (file?.preview) {
-      URL.revokeObjectURL(file.preview);
-    }
-  }, [file]);
+  // Make sure to revoke the data uris to avoid memory leaks
+  // useEffect(() => {
+  //   URL.revokeObjectURL(preview);
+  // }, [preview]);
 
   return (
-    <Container imageUrl={file && file.preview ? file.preview : ""}>
+    <Container imageUrl={preview ? preview : ""}>
       <DeleteFile
-        isShow={file && file.preview ? true : false}
+        isShow={file && file ? true : false}
         onClick={onClickDeleteFile}
       >
         <Icon mode="fas" icon={"xmark"}></Icon>
