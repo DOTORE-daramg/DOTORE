@@ -14,7 +14,7 @@ import {
   dTTMarketContract,
   web3,
 } from "../../contracts";
-import { createToken, createMarketItem, purchase } from "../../contracts/api";
+import { createToken, createMarketItem, purchase } from "../../contracts/api/first";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -69,25 +69,25 @@ const ParentMinting = () => {
     console.log(e.target.value);
   };
 
-  const onClickBalanceOf = async () => {
-    try {
-      const balance = await dTT.methods.balanceOf(userInfo.address).call();
-      console.log("balance: ", balance);
-      console.log(
-        await dTTMarketContract.getPastEvents("allEvents", { fromBlock: 1 })
-      );
-      console.log(await dTT.getPastEvents("allEvents", { fromBlock: 1 }));
-      console.log(await dTTMarketContract.methods.dTT().call());
+  // const onClickBalanceOf = async () => {
+  //   try {
+  //     const balance = await dTT.methods.balanceOf(userInfo.address).call();
+  //     console.log("balance: ", balance);
+  //     console.log(
+  //       await dTTMarketContract.getPastEvents("allEvents", { fromBlock: 1 })
+  //     );
+  //     console.log(await dTT.getPastEvents("allEvents", { fromBlock: 1 }));
+  //     console.log(await dTTMarketContract.methods.dTT().call());
 
-      // console.log(await dTTMarketContract.methods.idMarketItem(0).call());
-      // console.log(await dTTMarketContract.methods.idMarketItem(1).call());
-      // console.log(await dTTMarketContract.methods.idMarketItem(2).call());
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  //     // console.log(await dTTMarketContract.methods.idMarketItem(0).call());
+  //     // console.log(await dTTMarketContract.methods.idMarketItem(1).call());
+  //     // console.log(await dTTMarketContract.methods.idMarketItem(2).call());
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // };
 
-  const onClickDTT = async () => {
+  const onClickCreateToken = async () => {
     console.log("Click Mint DTT!!");
     try {
       if (!isLoggedIn) {
@@ -100,7 +100,7 @@ const ParentMinting = () => {
     }
   };
 
-  const onClickCreate = async () => {
+  const onClickCreateMarketItem = async () => {
     try {
       createMarketItem({ tokenId, price, userAddress });
       console.log(response);
@@ -125,18 +125,17 @@ const ParentMinting = () => {
           <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
 
-        <button onClick={onClickBalanceOf}>토큰 개수</button>
         <Button
           label={"민팅"}
           width="7rem"
           backgroundColor="#6667ab"
-          onClick={onClickDTT}
+          onClick={onClickCreateToken}
         ></Button>
         <Button
           label={"판매 등록"}
           width="7rem"
           backgroundColor="#6667ab"
-          onClick={onClickCreate}
+          onClick={onClickCreateMarketItem}
         ></Button>
         <Button
           label={"구매"}
