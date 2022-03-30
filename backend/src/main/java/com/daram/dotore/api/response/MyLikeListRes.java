@@ -28,6 +28,7 @@ public class MyLikeListRes extends BaseRes {
         for (int i = 0; i < list.size(); i++) {
             res.getData()
                 .add(new ItemListVO(
+                    list.get(i).getItemTrxHash(),
                     list.get(i).getTokenId(),
                     list.get(i).getItem_hash(),
                     list.get(i).getItem_title(),

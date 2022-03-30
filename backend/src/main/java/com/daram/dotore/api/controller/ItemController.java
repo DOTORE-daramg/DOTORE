@@ -66,17 +66,18 @@ public class ItemController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> beforeMint(@ModelAttribute ItemReq itemReq,@RequestPart("data") MultipartFile file) {
+    public ResponseEntity<BaseRes> beforeMint(@ModelAttribute ItemReq itemReq) {
         try {
             itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
 
     @GetMapping("/mint/{address}")
-    @ApiOperation(value = "Pending중인 트랜잭션 반환", notes = "DB에 token_id가 비어있는 트랜잭션 반환")
+    @ApiOperation(value = "해당 address의 Pending중인 트랜잭션 반환", notes = "DB에 token_id가 비어있는 트랜잭션 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
@@ -84,8 +85,8 @@ public class ItemController {
     public ResponseEntity<BaseRes> afterMint(@PathVariable String address) {
         try {
             List<Items> list = itemService.getPendingItemList(address);
-            if(list.size()==0){
-                return ResponseEntity.status(201).body(ItemListRes.of("작품 목록이 없습니다.", list));
+            if (list.size() == 0) {
+                return ResponseEntity.status(201).body(ItemListRes.of("진행중인 트랜잭션이 존재하지 않음", list));
             }
             return ResponseEntity.status(200).body(ItemListRes.of("Success", list));
         } catch (Exception e) {
@@ -103,9 +104,9 @@ public class ItemController {
     public ResponseEntity<BaseRes> updateMint(@RequestBody ItemTrxReq itemTrxReq) {
         Items item = itemService.getItemByTrxHash(itemTrxReq.getItemTrxHash());
         if (item == null) {
-            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 트랜잭션값"));
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 트랜잭션"));
         }
-        itemService.updateTokenId(itemTrxReq);
+        itemService.updateMint(itemTrxReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
@@ -177,7 +178,6 @@ public class ItemController {
             }
             return ResponseEntity.status(200).body(ItemRelationRes.of("Success", list));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(ItemRelationRes.of("존재하지 않는 token_id"));
         }
     }
@@ -228,7 +228,8 @@ public class ItemController {
     })
     public ResponseEntity<ItemButtonRes> download(@RequestBody ItemButtonReq itemButtonReq) {
 
-        Download download=itemService.getDownload(itemButtonReq.getAddress(),itemButtonReq.getTokenId());
+        Download download = itemService.getDownload(itemButtonReq.getAddress(),
+            itemButtonReq.getTokenId());
         int count = itemService.countDownload(itemButtonReq.getTokenId());
         if (download == null) {
             itemService.saveNewDownload(itemButtonReq.getAddress(), itemButtonReq.getTokenId());
@@ -246,8 +247,8 @@ public class ItemController {
         @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
     })
     public ResponseEntity<ItemsRes> getAllItems() {
-        ItemsRes itemsRes=itemService.getAll();
-        if(itemsRes==null){
+        ItemsRes itemsRes = itemService.getAll();
+        if (itemsRes == null) {
             return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
         }
         return ResponseEntity.status(200).body(itemsRes);
@@ -259,8 +260,8 @@ public class ItemController {
         @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
     })
     public ResponseEntity<ItemsRes> getFirstItems() {
-        ItemsRes itemsRes=itemService.getFirst();
-        if(itemsRes==null){
+        ItemsRes itemsRes = itemService.getFirst();
+        if (itemsRes == null) {
             return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
         }
         return ResponseEntity.status(200).body(itemsRes);
@@ -272,8 +273,8 @@ public class ItemController {
         @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
     })
     public ResponseEntity<ItemsRes> getSecondItems() {
-        ItemsRes itemsRes=itemService.getSecond();
-        if(itemsRes==null){
+        ItemsRes itemsRes = itemService.getSecond();
+        if (itemsRes == null) {
             return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
         }
         return ResponseEntity.status(200).body(itemsRes);
@@ -285,8 +286,8 @@ public class ItemController {
         @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
     })
     public ResponseEntity<ItemsRes> getSaleItems() {
-        ItemsRes itemsRes=itemService.getSale();
-        if(itemsRes==null){
+        ItemsRes itemsRes = itemService.getSale();
+        if (itemsRes == null) {
             return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
         }
         return ResponseEntity.status(200).body(itemsRes);

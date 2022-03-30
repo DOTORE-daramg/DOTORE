@@ -25,17 +25,21 @@ public class Taglist {
     int tagId;
 
     @Column(name = "token_id")
-    @NotNull
     BigInteger tokenId;
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,20}")
     String tag;
 
+    @NotNull
+    @Column(name = "item_trx_hash")
+    String itemTrxHash;
+
     @Builder
-    public Taglist(int tagId, BigInteger tokenId, String tag) {
+    public Taglist(int tagId, BigInteger tokenId, String tag, String itemTrxHash) {
         this.tagId = tagId;
         this.tokenId = tokenId;
         this.tag = tag;
+        this.itemTrxHash = itemTrxHash;
     }
 }

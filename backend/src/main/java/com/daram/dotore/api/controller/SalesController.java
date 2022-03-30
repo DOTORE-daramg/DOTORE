@@ -44,7 +44,7 @@ public class SalesController {
             itemService.updateOnSaleYn(tokenId);
             Sales sales = saleService.saveNewSales(salesReq);
             return ResponseEntity.status(200)
-                    .body(BaseRes.of("Success"));
+                .body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
@@ -53,7 +53,7 @@ public class SalesController {
     @GetMapping("/{token_id}")
     @ApiOperation(value = "판매 정보 상세 조회", notes = "판매 정보 상세 조회")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = SalesInfoRes.class),
+        @ApiResponse(code = 200, message = "Success", response = SalesInfoRes.class),
     })
     public ResponseEntity<SalesInfoRes> salesInfo(@PathVariable BigInteger token_id) {
         try {
@@ -69,10 +69,10 @@ public class SalesController {
     @PatchMapping("/complete")
     @ApiOperation(value = "판매 완료", notes = "판매 완료")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
     })
     public ResponseEntity<BaseRes> saleComplete(@RequestBody SaleCompleteReq saleCompleteReq) {
-        try{
+        try {
             //작품 테이블에서 해당 token_id 로우를 업데이트한다
             //on_sale_yn > false, owner_address > 구매자 address
             itemService.updateOnSaleYnAndOwnerAddress(saleCompleteReq);
@@ -92,16 +92,16 @@ public class SalesController {
     @PostMapping("/cancel")
     @ApiOperation(value = "판매 취소", notes = "판매 취소")
     @ApiResponses({
-            @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
     })
     public ResponseEntity<BaseRes> saleCancel(@RequestBody SalesCancelReq salesCancelReq) {
-        try{
+        try {
             //판매 테이블에서 token_id로 completed_at이 비어있는 row 삭제
             //전달받은 address와 seller_address가 같으면서
             String address = salesCancelReq.getAddress();
             BigInteger tokenId = salesCancelReq.getTokenId();
-            saleService.deleteCompletedAt(tokenId,address);
-            
+            saleService.deleteCompletedAt(tokenId, address);
+
             //작품 테이블에서 해당 token_id로 on_sale_yn > false 업데이트
             itemService.updateCancelOnSaleYn(salesCancelReq.getTokenId());
             return ResponseEntity.status(200).body(BaseRes.of("Success"));

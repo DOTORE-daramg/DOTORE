@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,7 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     UserService userService;
 
+    @Transactional
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
@@ -62,18 +64,22 @@ public class ItemServiceImpl implements ItemService {
             .status("Pending")
             .build());
 
-        for (String tag : itemReq.getTags()) {
-            tagRepository.save(Taglist.builder()
-                .tokenId(itemReq.getTokenId())
-                .tag(tag)
-                .build());
+        if (itemReq.getTags() != null) {
+            for (String tag : itemReq.getTags()) {
+                tagRepository.save(Taglist.builder()
+                    .tag(tag)
+                    .itemTrxHash(itemReq.getItemTrxHash())
+                    .build());
+            }
         }
 
-        for (BigInteger ori : itemReq.getOriginal()) {
-            secondaryRepository.save(Secondary.builder()
-                .tokenId(itemReq.getTokenId())
-                .original(ori)
-                .build());
+        if (itemReq.getOriginal() != null) {
+            for (BigInteger ori : itemReq.getOriginal()) {
+                secondaryRepository.save(Secondary.builder()
+                    .original(ori)
+                    .itemTrxHash(itemReq.getItemTrxHash())
+                    .build());
+            }
         }
 
         return item;
@@ -99,9 +105,13 @@ public class ItemServiceImpl implements ItemService {
         }
     }
 
+    @Transactional
     @Override
-    public Items updateTokenId(ItemTrxReq itemTrxReq) {
+    public Items updateMint(ItemTrxReq itemTrxReq) {
         Items item = getItemByTrxHash(itemTrxReq.getItemTrxHash());
+        tagRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
+        secondaryRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
+
         return itemRepository.save(item.setTokenId(itemTrxReq.getTokenId()));
     }
 
