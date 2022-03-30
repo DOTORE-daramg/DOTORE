@@ -18,7 +18,6 @@ public class ItemReq {
     private String itemDescription;
     private LocalDateTime createdAt;
     private String authorAddress;
-    private String ownerAddress;
     private Boolean isFirst;
     private String format;
     private String[] tags;

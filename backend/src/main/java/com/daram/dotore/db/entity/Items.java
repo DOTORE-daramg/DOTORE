@@ -78,6 +78,11 @@ public class Items {
         this.status = status;
     }
 
+    public Items setTokenId(BigInteger tokenId) {
+        this.tokenId = tokenId;
+        return this;
+    }
+
     public Items setOwner(String owner_address) {
         this.owner_address = owner_address;
         return this;

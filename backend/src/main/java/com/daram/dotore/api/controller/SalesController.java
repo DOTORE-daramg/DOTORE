@@ -89,7 +89,7 @@ public class SalesController {
         }
     }
 
-    @DeleteMapping("/cancel")
+    @PostMapping("/cancel")
     @ApiOperation(value = "판매 취소", notes = "판매 취소")
     @ApiResponses({
             @ApiResponse(code = 200, message = "Success", response = BaseRes.class),

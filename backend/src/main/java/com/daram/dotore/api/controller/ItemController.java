@@ -2,12 +2,14 @@ package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
 import com.daram.dotore.api.response.ItemImageRes;
 import com.daram.dotore.api.response.ItemLikeRes;
+import com.daram.dotore.api.response.ItemListRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.response.ItemsRes;
 import com.daram.dotore.api.service.AwsS3Service;
@@ -43,7 +45,7 @@ public class ItemController {
     @Autowired
     AwsS3Service awsS3Service;
 
-    @PostMapping("/upload")
+    @PostMapping("/mint/upload")
     @ApiOperation(value = "민팅 전 파일 업로드", notes = "민팅 버튼을 누르면 파일을 s3 서버에 먼저 업로드하고 그 url을 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemImageRes.class),
@@ -58,38 +60,53 @@ public class ItemController {
         }
     }
 
-    @PostMapping
-    @ApiOperation(value = "민팅 전 정보 인서트", notes = "민팅 버튼을 누르면 파이")
+    @PostMapping("/mint/before")
+    @ApiOperation(value = "민팅 시작시 정보 전달", notes = "민팅 버튼을 누르면 token_id를 제외한 다른 정보들을 전달해서 DB에 추가")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
     public ResponseEntity<BaseRes> beforeMint(@ModelAttribute ItemReq itemReq,@RequestPart("data") MultipartFile file) {
         try {
-            //item_hash가 아무값이나 들어가 있는 상태로 db에 저장
-            Items item = itemService.saveNewItem(itemReq);
-            //프로필 이미지 업로드 및 주소 반환
-            String imageUrl = awsS3Service.uploadItem(file, "items",item.getTokenId(),item.getAuthor_address());
-            itemService.updateImageUrl(item.getTokenId(),imageUrl);
+            itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
 
-    @PatchMapping
-    @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
+    @GetMapping("/mint/{address}")
+    @ApiOperation(value = "Pending중인 트랜잭션 반환", notes = "DB에 token_id가 비어있는 트랜잭션 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> afterMint(@ModelAttribute ItemReq itemReq) {
+    public ResponseEntity<BaseRes> afterMint(@PathVariable String address) {
         try {
-
-            return ResponseEntity.status(200).body(BaseRes.of("Success"));
+            List<Items> list = itemService.getPendingItemList(address);
+            if(list.size()==0){
+                return ResponseEntity.status(201).body(ItemListRes.of("작품 목록이 없습니다.", list));
+            }
+            return ResponseEntity.status(200).body(ItemListRes.of("Success", list));
         } catch (Exception e) {
-            return ResponseEntity.status(400).body(BaseRes.of("Fail"));
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(ItemListRes.of("존재하지 않는 token_id"));
         }
+    }
+
+    @PatchMapping("/mint")
+    @ApiOperation(value = "민팅 성공시 token_id 업데이트", notes = "민팅 성공시 token_id 업데이트")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 404, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> updateMint(@RequestBody ItemTrxReq itemTrxReq) {
+        Items item = itemService.getItemByTrxHash(itemTrxReq.getItemTrxHash());
+        if (item == null) {
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 트랜잭션값"));
+        }
+        itemService.updateTokenId(itemTrxReq);
+        return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
     @PatchMapping
@@ -184,7 +201,7 @@ public class ItemController {
         return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
     }
 
-    @DeleteMapping("/dislike")
+    @PostMapping("/dislike")
     @ApiOperation(value = "좋아요 취소", notes = "좋아요를 취소하면 DB에서 제거하고 좋아요 개수 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemButtonRes.class),
