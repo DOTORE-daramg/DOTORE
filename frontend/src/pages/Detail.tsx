@@ -217,7 +217,7 @@ const Detail = () => {
   // 2차 NFT의 경우 구매 가능, 불가능으로 나뉜다
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
-  const [isOwner, setIsOwner] = useState(true);
+  const [isOwner, setIsOwner] = useState(false);
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
     itemTitle: "",
@@ -263,12 +263,17 @@ const Detail = () => {
     getItem(tokenId).then((res) => {
       const { data } = res;
       const {
-        data: { isFirst, onSaleYn },
+        data: { isFirst, onSaleYn, authorAddress },
       } = res;
 
       setItem(data);
       setIsFirst(isFirst);
       setIsSale(onSaleYn);
+      if (authorAddress === userInfo.address) {
+        setIsOwner(true);
+      } else {
+        setIsOwner(false);
+      }
       setTimeout(() => {
         setIsLoading(false);
       }, 600);
