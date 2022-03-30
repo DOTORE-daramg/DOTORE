@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useState } from 'react';
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ArtistNavMenu } from "./ArtistNavMenu";
@@ -20,7 +20,7 @@ const Nav = styled.div`
 `;
 
 export const ArtistNav = () => {
-  const [selectedTab, setSelectedTab] = useState('ownednft');
+  const [selectedTab, setSelectedTab] = useState("ownednft");
   const navigate = useNavigate();
   useEffect(() => {
     navigate(selectedTab);
@@ -28,51 +28,51 @@ export const ArtistNav = () => {
   return (
     <Nav>
       <ArtistNavMenu
-        id='ownednft'
-        label="나의 NFT"
-        isSelected={selectedTab === 'ownednft'}
+        id="ownednft"
+        label="소유한 NFT"
+        isSelected={selectedTab === "ownednft"}
         onClick={() => {
-          setSelectedTab('ownednft')
+          setSelectedTab("ownednft");
         }}
       />
       <ArtistNavMenu
-        id='authorednft'
+        id="authorednft"
         label="창작물"
-        isSelected={selectedTab === 'authorednft'}
+        isSelected={selectedTab === "authorednft"}
         onClick={() => {
-          setSelectedTab('authorednft')
+          setSelectedTab("authorednft");
         }}
       />
       <ArtistNavMenu
-        id='history'
+        id="history"
         label="거래 내역"
-        isSelected={selectedTab === 'history'}
+        isSelected={selectedTab === "history"}
         onClick={() => {
-          setSelectedTab('history')
+          setSelectedTab("history");
         }}
       />
       <ArtistNavMenu
-        id='feedback'
+        id="feedback"
         label="피드백"
-        isSelected={selectedTab === 'feedback'}
+        isSelected={selectedTab === "feedback"}
         onClick={() => {
-          setSelectedTab('feedback')
+          setSelectedTab("feedback");
         }}
       />
       <ArtistNavMenu
-        id='download'
+        id="download"
         label="다운로드"
-        isSelected={selectedTab === 'download'}
+        isSelected={selectedTab === "download"}
         onClick={() => {
-          setSelectedTab('download')
+          setSelectedTab("download");
         }}
       />
       <ArtistNavMenu
-        id='like'
+        id="like"
         label="좋아요"
-        isSelected={selectedTab === 'like'}
+        isSelected={selectedTab === "like"}
         onClick={() => {
-          setSelectedTab('like')
+          setSelectedTab("like");
         }}
       />
     </Nav>

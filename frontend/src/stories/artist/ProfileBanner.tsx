@@ -4,6 +4,8 @@ import { Icon } from "../common/Icon";
 import { ProfileImg } from "../profile/ProfileImg";
 import dicon from "../assets/mypage/default-dotori-icon.png";
 import { useMediaQuery } from "react-responsive";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 // Banner Container ============================================
 const BannerContainer = styled.div`
@@ -133,6 +135,7 @@ export const ProfileBanner = ({
   ...props
 }: ProfileBannerProps) => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   return (
     <BannerContainer>
@@ -147,9 +150,11 @@ export const ProfileBanner = ({
           <ProfileDescriptionContainerTop>
             <ProfileNickname>{profileNickname}</ProfileNickname>
             <ProfileLevel>{profileLevel}</ProfileLevel>
-            <div onClick={onClickToggleModal}>
-              <Icon mode="fas" icon="pencil" color="#959595"></Icon>
-            </div>
+            {userInfo.address === profileAddress && (
+              <div onClick={onClickToggleModal}>
+                <Icon mode="fas" icon="pencil" color="#959595"></Icon>
+              </div>
+            )}
           </ProfileDescriptionContainerTop>
           <ProfileDescriptionContainerBottom>
             <ProfileAddress>{profileAddress}</ProfileAddress>
