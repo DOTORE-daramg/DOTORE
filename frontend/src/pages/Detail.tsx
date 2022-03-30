@@ -273,12 +273,14 @@ const Detail = () => {
         setIsLoading(false);
       }, 600);
     });
-    getIsLike(tokenId, userInfo.address).then((res) => {
-      const {
-        data: { isLike },
-      } = res;
-      setIsLike(isLike);
-    });
+    if (userInfo.address) {
+      getIsLike(tokenId, userInfo.address).then((res) => {
+        const {
+          data: { isLike },
+        } = res;
+        setIsLike(isLike);
+      });
+    }
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });

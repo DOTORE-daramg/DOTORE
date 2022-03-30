@@ -108,6 +108,13 @@ const AppRouter = () => {
     setIsLoggedIn({
       isLoggedIn: false,
     });
+    setUserInfo({
+      address: "",
+      acorn: 0,
+      description: "",
+      nickname: "",
+      profile_img_url: "",
+    });
   };
 
   return (
