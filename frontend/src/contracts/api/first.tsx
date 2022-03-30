@@ -8,18 +8,17 @@ interface createTokenProps {
     title: string;
     description: string;
     tokenUrl: string;
-    isFirst: boolean;
     userAddress: string;
 }
 
 // onClickDTT - createToken
-export const createToken = async ({ title, description, tokenUrl, isFirst, userAddress }: createTokenProps) => {
+export const createToken = async ({ title, description, tokenUrl, userAddress }: createTokenProps) => {
     await dTT.methods
         .createToken(
             title,
             description,
             tokenUrl,
-            isFirst,
+            true,
             dTTMarketAddress
         )
         .send({
