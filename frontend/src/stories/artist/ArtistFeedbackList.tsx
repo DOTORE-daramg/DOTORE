@@ -1,12 +1,15 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FeedbackToggleButtons } from "./FeedbackToggleButtons";
 
 export interface IFeedback {
-  isAnswered: boolean;
+  articleNo: number;
+  yn: boolean;
   itemTitle: string;
-  questionTitle: string;
-  recentDate: string;
+  description: string;
+  createdAt: string;
+  tokenId: number;
 }
 
 interface ArtistFeedbackListProps {
@@ -35,6 +38,15 @@ const TableRow = styled.div`
   font-weight: 500;
   height: 5rem;
   align-items: center;
+
+  #link {
+    cursor: pointer;
+    :hover {
+      transition: 0.3;
+      color: #6667ab;
+    }
+  }
+
   @media screen and (max-width: 768px) {
     height: 3rem;
   }
@@ -59,19 +71,9 @@ export const ArtistFeedbackList = ({
   feedbackList,
   width,
 }: ArtistFeedbackListProps) => {
-  const [selectedIndex, setSelectedIndex] = useState<0 | 1>(0); // 0: 받은 질문, 1: 보낸 질문
-  const handleToggleSelectedIndex = () => {
-    setSelectedIndex((prev) => (prev === 1 ? 0 : 1));
-  };
-
+  const navigate = useNavigate();
   return (
     <Container width={width}>
-      <FeedbackToggleButtons
-        leftLabel="받은 질문"
-        rightLabel="보낸 질문"
-        selected={selectedIndex}
-        handleToggleSelectedIndex={handleToggleSelectedIndex}
-      ></FeedbackToggleButtons>
       <TableContainer>
         <TableHeader>
           <TableBlock width="15%">
@@ -88,18 +90,28 @@ export const ArtistFeedbackList = ({
           </TableBlock>
         </TableHeader>
         {feedbackList.map((feedback) => (
-          <TableRow>
+          <TableRow key={feedback.articleNo}>
             <TableBlock width="15%">
-              <TableCell>{feedback.isAnswered ? "해결" : "미해결"}</TableCell>
+              <TableCell>{feedback.yn ? "해결" : "미해결"}</TableCell>
             </TableBlock>
-            <TableBlock width="33%">
+            <TableBlock
+              onClick={() => navigate(`/detail/${feedback.tokenId}`)}
+              id="link"
+              width="33%"
+            >
               <TableCell>{feedback.itemTitle}</TableCell>
             </TableBlock>
-            <TableBlock width="33%">
-              <TableCell>{feedback.questionTitle}</TableCell>
+            <TableBlock
+              onClick={() =>
+                navigate(`/feedback/${feedback.tokenId}/${feedback.articleNo}`)
+              }
+              id="link"
+              width="33%"
+            >
+              <TableCell>{feedback.description}</TableCell>
             </TableBlock>
             <TableBlock width="19%">
-              <TableCell>{feedback.recentDate}</TableCell>
+              <TableCell>{feedback.createdAt.slice(0, 10)}</TableCell>
             </TableBlock>
           </TableRow>
         ))}

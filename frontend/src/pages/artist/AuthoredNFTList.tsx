@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { getAuthoredNFTList } from "../../api/artist";
+import LoadingSpinner from "../../stories/common/LoadingSpinner";
+import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 
 const dummyItemList = [
@@ -81,6 +85,8 @@ const Container = styled.div`
   margin: auto;
   padding: 5rem 2rem;
   justify-content: center;
+  min-height: 22rem;
+  align-items: center;
 `;
 
 const AuthoredNFTList = () => {
@@ -88,14 +94,42 @@ const AuthoredNFTList = () => {
   const isTablet = useMediaQuery({ minWidth: 500 });
   const columnCount = isPc ? 4 : isTablet ? 3 : 3;
   const gridSize = isPc ? "52rem" : isTablet ? "40rem" : "20rem";
+  const { userAddress } = useParams();
+  const [itemList, setItemList] = useState<ThumbnailProps[]>();
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  useEffect(() => {
+    if (isLoading) {
+      if (userAddress) {
+        getAuthoredNFTList(userAddress).then((res) => {
+          if (res.data.result !== "작품 목록이 없습니다.") {
+            setItemList(res.data.data);
+          }
+        });
+      }
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 300);
+    }
+    return () => clearTimeout();
+  }, []);
   return (
     <Container>
-      <ThumbnailGrid
-        itemList={dummyItemList}
-        size={gridSize}
-        columnCount={columnCount}
-      ></ThumbnailGrid>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <>
+          {itemList && itemList.length > 0 ? (
+            <ThumbnailGrid
+              itemList={itemList}
+              size={gridSize}
+              columnCount={columnCount}
+            ></ThumbnailGrid>
+          ) : (
+            <div>아직 창작한 작품이 없습니다.</div>
+          )}
+        </>
+      )}
     </Container>
   );
 };

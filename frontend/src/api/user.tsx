@@ -12,3 +12,11 @@ export const getUserInfo = async (address: string) => {
 export const getUsers = async () => {
   return await api.get(`/api/user`);
 };
+
+export const updateDesc = async (address: string, description: string) => {
+  return await api.patch(`/api/mypage/desc`, { address, description });
+};
+
+export const updateNickname = async (address: string, nickname: string) => {
+  return await api.patch(`/api/mypage/nickname`, { address, nickname });
+};
