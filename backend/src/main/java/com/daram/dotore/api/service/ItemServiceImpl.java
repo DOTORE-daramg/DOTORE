@@ -58,6 +58,7 @@ public class ItemServiceImpl implements ItemService {
             .on_sale_yn(false)
             .is_first(itemReq.getIsFirst())
             .format(itemReq.getFormat())
+            .status("Pending")
             .build());
 
         for (String tag : itemReq.getTags()) {
