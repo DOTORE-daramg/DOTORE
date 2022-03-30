@@ -57,6 +57,9 @@ const ChildMinting = () => {
   const handleChangeTagInput = (e: any) => {
     console.log(e.target.value);
   };
+  const handleChangeFile = (e: any) => {
+    console.log(e.target);
+  };
   return (
     <Container>
       <MintingContainer>
@@ -65,7 +68,7 @@ const ChildMinting = () => {
         </TitleContainer>
 
         <InputContainer>
-          <FileDropBox></FileDropBox>
+          <FileDropBox onChange={handleChangeFile}></FileDropBox>
           <InputTextContainer>
             <InputBox
               placeholder="영감받은 원작 작품을 검색해 주세요."
