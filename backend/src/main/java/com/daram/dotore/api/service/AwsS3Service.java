@@ -100,4 +100,22 @@ public class AwsS3Service {
         String key = fileKey.replace("https://dotore.s3.ap-northeast-2.amazonaws.com/profile/", "");
         amazonS3Client.deleteObject(bucket, key);
     }
+
+    /**
+     * 민팅 전 파일 업로드 후 이미지 url 전달
+     * S3버킷에 파일을 업로드하는 함수
+     * 파일이 업로드된 경로(주소)를 반환
+     */
+    public String BeforeMint(MultipartFile multipartFile, String dirName) throws IOException {
+        File uploadFile = convert(multipartFile)  // 파일 변환할 수 없으면 에러
+            .orElseThrow(() -> new IllegalArgumentException("error: MultipartFile -> File convert fail"));
+        return uploadBeforeMint(uploadFile,dirName);
+    }
+
+    public String uploadBeforeMint(File uploadFile, String dirName) {
+        String fileName = dirName + "/" + UUID.randomUUID() + "&" + uploadFile.getName();   // S3에 저장된 파일 이름
+        String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
+        removeNewFile(uploadFile);
+        return uploadImageUrl;
+    }
 }

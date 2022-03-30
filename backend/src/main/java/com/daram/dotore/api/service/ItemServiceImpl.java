@@ -47,6 +47,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
+            .itemTrxHash(itemReq.getItemTrxHash())
             .tokenId(itemReq.getTokenId())
             .item_hash(itemReq.getItemHash())
             .item_title(itemReq.getItemTitle())
@@ -143,7 +144,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean checkLike(String address, BigInteger tokenId) {
-        Optional<Likes> opt=likeRepository.findByAddressAndTokenId(address, tokenId);
+        Optional<Likes> opt = likeRepository.findByAddressAndTokenId(address, tokenId);
         if (opt.isPresent()) {
             return true;
         }

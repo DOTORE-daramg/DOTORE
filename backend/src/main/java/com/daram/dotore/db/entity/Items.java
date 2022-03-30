@@ -58,9 +58,10 @@ public class Items {
     String format;
 
     @Builder
-    public Items(BigInteger tokenId, String item_hash, String item_title,
+    public Items(String itemTrxHash, BigInteger tokenId, String item_hash, String item_title,
         String item_description, LocalDateTime created_at, String author_address,
         String owner_address, boolean on_sale_yn, boolean is_first, String format) {
+        this.itemTrxHash = itemTrxHash;
         this.tokenId = tokenId;
         this.item_hash = item_hash;
         this.item_title = item_title;

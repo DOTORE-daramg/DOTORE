@@ -3,10 +3,10 @@ package com.daram.dotore.api.controller;
 import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
-import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
+import com.daram.dotore.api.response.ItemImageRes;
 import com.daram.dotore.api.response.ItemLikeRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.response.ItemsRes;
@@ -43,19 +43,49 @@ public class ItemController {
     @Autowired
     AwsS3Service awsS3Service;
 
+    @PostMapping("/upload")
+    @ApiOperation(value = "민팅 전 파일 업로드", notes = "민팅 버튼을 누르면 파일을 s3 서버에 먼저 업로드하고 그 url을 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemImageRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = ItemImageRes.class),
+    })
+    public ResponseEntity<BaseRes> upload(@RequestPart("data") MultipartFile file) {
+        try {
+            String imageUrl = awsS3Service.BeforeMint(file, "items");
+            return ResponseEntity.status(200).body(ItemImageRes.of("Success", imageUrl));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(ItemImageRes.of("Fail"));
+        }
+    }
+
     @PostMapping
-    @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
+    @ApiOperation(value = "민팅 전 정보 인서트", notes = "민팅 버튼을 누르면 파이")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> login(@ModelAttribute ItemReq itemReq,@RequestPart("data") MultipartFile file) {
+    public ResponseEntity<BaseRes> beforeMint(@ModelAttribute ItemReq itemReq,@RequestPart("data") MultipartFile file) {
         try {
             //item_hash가 아무값이나 들어가 있는 상태로 db에 저장
             Items item = itemService.saveNewItem(itemReq);
             //프로필 이미지 업로드 및 주소 반환
             String imageUrl = awsS3Service.uploadItem(file, "items",item.getTokenId(),item.getAuthor_address());
             itemService.updateImageUrl(item.getTokenId(),imageUrl);
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(BaseRes.of("Fail"));
+        }
+    }
+
+    @PatchMapping
+    @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> afterMint(@ModelAttribute ItemReq itemReq) {
+        try {
+
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));

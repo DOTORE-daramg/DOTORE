@@ -22,7 +22,7 @@ public class Sales {
 
     @Id
     @Column(name = "sale_trx_hash", nullable = false, unique = true)
-    int saleTrxHash;
+    String saleTrxHash;
 
     @Column(name = "sale_id")
     int saleId;
@@ -52,9 +52,10 @@ public class Sales {
     LocalDateTime completed_at;
 
     @Builder
-    public Sales(int saleId, BigInteger tokenId,
+    public Sales(String saleTrxHash, int saleId, BigInteger tokenId,
         String cashContractAddress, Boolean saleYn, String sellerAddress, String buyerAddress,
         String price, LocalDateTime created_at, LocalDateTime completed_at) {
+        this.saleTrxHash = saleTrxHash;
         this.saleId = saleId;
         this.tokenId = tokenId;
         this.cashContractAddress = cashContractAddress;

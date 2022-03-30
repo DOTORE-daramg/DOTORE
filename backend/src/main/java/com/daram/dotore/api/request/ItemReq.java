@@ -11,6 +11,7 @@ import lombok.Setter;
 @ApiModel("ItemRequest")
 public class ItemReq {
 
+    private String itemTrxHash;
     private BigInteger tokenId;
     private String itemHash;
     private String itemTitle;
