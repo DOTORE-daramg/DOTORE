@@ -111,18 +111,7 @@ const ParentMinting = () => {
 
   const onClickPurchase = async () => {
     try {
-      const response = await dTTMarketContract.methods
-        .purchase(
-          1
-          // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-        )
-        .send({
-          from: userInfo.address,
-          gas: 3000000,
-          value: "1000000000000000000",
-          gasPrice: "10000000000",
-        })
-        .then(console.log);
+      purchase({ tokenId, price, userAddress });
       console.log(response);
     } catch (err) {
       console.error(err);

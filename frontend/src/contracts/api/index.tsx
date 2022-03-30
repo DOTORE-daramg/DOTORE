@@ -53,20 +53,26 @@ export const createMarketItem = async ({ tokenId, price, userAddress }: createMa
         });
 
 }
+interface purchaseProps {
+    tokenId: number;
+    price: number;
+    userAddress: string;
+}
 
 // onClickPurchase - purchase
-export const purchase = async () => {
+export const purchase = async ({ tokenId, price, userAddress }: purchaseProps) => {
     await dTTMarketContract.methods
         .purchase(
-            1
-            // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
+            tokenId,
+            // userAddress
         )
         .send({
-            from: userInfo.address,
+            from: userAddress,
             gas: 3000000,
-            value: "1000000000000000000",
+            value: price,
             gasPrice: "10000000000",
-        }).on('transactionHash', (hash) => {
+        })
+        .on('transactionHash', (hash) => {
             // 백엔드에 해시값, item title, descriptionn, file, (tokenId 빼고 다)
         });
 }
