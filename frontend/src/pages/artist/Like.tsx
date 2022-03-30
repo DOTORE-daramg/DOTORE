@@ -111,6 +111,7 @@ const Like = () => {
         setIsLoading(false);
       }, 300);
     }
+    return () => clearTimeout();
   }, []);
   return (
     <Container>
@@ -118,7 +119,7 @@ const Like = () => {
         <LoadingSpinner />
       ) : (
         <>
-          {itemList ? (
+          {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
               size={gridSize}

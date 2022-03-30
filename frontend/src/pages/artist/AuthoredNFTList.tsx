@@ -119,7 +119,7 @@ const AuthoredNFTList = () => {
         <LoadingSpinner />
       ) : (
         <>
-          {itemList ? (
+          {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
               size={gridSize}

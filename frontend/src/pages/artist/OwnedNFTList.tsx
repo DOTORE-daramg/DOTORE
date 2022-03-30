@@ -113,6 +113,7 @@ const OwnedNFTList = () => {
         setIsLoading(false);
       }, 300);
     }
+    return () => clearTimeout();
   }, []);
   return (
     <Container>
@@ -120,7 +121,7 @@ const OwnedNFTList = () => {
         <LoadingSpinner />
       ) : (
         <>
-          {itemList ? (
+          {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
               size={gridSize}
