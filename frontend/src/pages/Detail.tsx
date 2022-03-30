@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getFeedbacks, getFeedbacksFromMe } from "../api/item";
-import { getItem, getRelatedItem } from "../api/item";
+import { getFeedbacks, getFeedbacksFromMe, getIsLike } from "../api/item";
+import { getItem, getRelatedItem, putLike } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
 import { Badge } from "../stories/common/Badge";
@@ -99,6 +99,11 @@ const AmountContainer = styled.div`
   width: 35%;
   display: flex;
   justify-content: space-between;
+  #heart svg {
+    stroke: black;
+    stroke-width: 20;
+    cursor: pointer;
+  }
 `;
 
 const ButtonContainer = styled.div`
@@ -258,15 +263,21 @@ const Detail = () => {
     getItem(tokenId).then((res) => {
       const { data } = res;
       const {
-        data: { isFirst, onSaleYn, isLike },
+        data: { isFirst, onSaleYn },
       } = res;
+
       setItem(data);
       setIsFirst(isFirst);
       setIsSale(onSaleYn);
-      setIsLike(isLike);
       setTimeout(() => {
         setIsLoading(false);
       }, 600);
+    });
+    getIsLike(tokenId, userInfo.address).then((res) => {
+      const {
+        data: { isLike },
+      } = res;
+      setIsLike(isLike);
     });
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
@@ -286,6 +297,22 @@ const Detail = () => {
       });
     }
     setIsAllQuestions((prev) => !prev);
+  };
+
+  const onHeartClick = () => {
+    if (isLike) {
+      // dislike(userInfo.address, tokenId).then((res) => {
+      //   console.log("성공!");
+      //   setItem({ ...item, like: res.data.count });
+      //   setIsLike(false);
+      // });
+    } else {
+      putLike(userInfo.address, tokenId).then((res) => {
+        console.log("성공!");
+        setItem({ ...item, like: res.data.count });
+        setIsLike(true);
+      });
+    }
   };
   useEffect(() => {
     if (isFirst) {
@@ -336,19 +363,23 @@ const Detail = () => {
               <BuyContainer>
                 <AmountContainer>
                   {isLike ? (
-                    <Amount
-                      mode="fas"
-                      icon="heart"
-                      count={like}
-                      iconColor="#6667ab"
-                    />
+                    <div onClick={onHeartClick}>
+                      <Amount
+                        mode="fas"
+                        icon="heart"
+                        count={like}
+                        iconColor="#6667ab"
+                      />
+                    </div>
                   ) : (
-                    <Amount
-                      mode="fas"
-                      icon="heart"
-                      count={like}
-                      iconColor="white"
-                    />
+                    <div id="heart" onClick={onHeartClick}>
+                      <Amount
+                        mode="fas"
+                        icon="heart"
+                        count={like}
+                        iconColor="white"
+                      />
+                    </div>
                   )}
                   {/* 1차 NFT시 (fas)download, 2차 NFT시 (fab)ethereum */}
                   {isFirst ? (
