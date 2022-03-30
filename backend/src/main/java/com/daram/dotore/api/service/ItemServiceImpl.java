@@ -309,4 +309,11 @@ public class ItemServiceImpl implements ItemService {
         item.get().setOnSaleYn(false);
         return itemRepository.save(item.get());
     }
+
+    @Override
+    public Items updateImageUrl(BigInteger tokenId, String imageUrl) {
+        Items item = getItemByTokenId(tokenId);
+        item.setItem_hash(imageUrl);
+        return itemRepository.save(item);
+    }
 }

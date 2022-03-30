@@ -29,7 +29,6 @@ public class ItemDetailRes extends BaseRes {
 
     int download;
     int like;
-    Boolean isLike;
     String format;
     String[] tags;
 
@@ -63,33 +62,6 @@ public class ItemDetailRes extends BaseRes {
         }
         res.setDownload(download);
         res.setLike(like);
-        res.setTags(tags);
-        return res;
-    }
-
-    public static ItemDetailRes of(String result, Items item, Users user, int download, int like, boolean isLike, String[] tags) {
-        ItemDetailRes res = new ItemDetailRes();
-        res.setResult(result);
-        if(item != null){
-            res.setTokenId(item.getTokenId());
-            res.setItemHash(item.getItem_hash());
-            res.setItemTitle(item.getItem_title());
-            res.setItemDescription(item.getItem_description());
-            res.setCreatedAt(item.getCreated_at());
-            res.setAuthorAddress(item.getAuthor_address());
-            res.setOwnerAddress(item.getOwner_address());
-            res.setOnSaleYn(item.getOnSaleYn());
-            res.setIsFirst(item.getIsFirst());
-            res.setFormat(item.getFormat());
-        }
-        if (user != null) {
-            res.setNickname(user.getNickname());
-            res.setAcorn(user.getAcorn());
-            res.setProfileImgUrl(user.getProfile_img_url());
-        }
-        res.setDownload(download);
-        res.setLike(like);
-        res.setIsLike(isLike);
         res.setTags(tags);
         return res;
     }

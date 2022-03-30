@@ -3,11 +3,14 @@ package com.daram.dotore.api.controller;
 import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.request.ProfileUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
+import com.daram.dotore.api.response.ItemLikeRes;
 import com.daram.dotore.api.response.ItemRelationRes;
 import com.daram.dotore.api.response.ItemsRes;
+import com.daram.dotore.api.service.AwsS3Service;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Download;
@@ -22,15 +25,8 @@ import java.math.BigInteger;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin("*")
 @Api(value = "NFT 작품 관련 API")
@@ -44,16 +40,22 @@ public class ItemController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    AwsS3Service awsS3Service;
+
     @PostMapping
     @ApiOperation(value = "민팅", notes = "DB에 해당 NFT 작품 정보 저장")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> login(@RequestBody ItemReq itemReq) {
-
+    public ResponseEntity<BaseRes> login(@ModelAttribute ItemReq itemReq,@RequestPart("data") MultipartFile file) {
         try {
-            itemService.saveNewItem(itemReq);
+            //item_hash가 아무값이나 들어가 있는 상태로 db에 저장
+            Items item = itemService.saveNewItem(itemReq);
+            //프로필 이미지 업로드 및 주소 반환
+            String imageUrl = awsS3Service.uploadItem(file, "items",item.getTokenId(),item.getAuthor_address());
+            itemService.updateImageUrl(item.getTokenId(),imageUrl);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
@@ -75,24 +77,40 @@ public class ItemController {
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
-    @GetMapping("/{token_id}/{address}")
+    @GetMapping("/{token_id}")
     @ApiOperation(value = "작품 상세페이지", notes = "작품을 눌러서 나오는 상세페이지에 필요한 정보 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = ItemDetailRes.class),
         @ApiResponse(code = 404, message = "존재하지 않는 token_id", response = ItemDetailRes.class),
     })
-    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id, @PathVariable String address) {
+    public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id) {
         try {
             Items item = itemService.getItemByTokenId(token_id);
             Users user = userService.getUserByAddress(item.getOwner_address());
             int download = itemService.countDownload(token_id);
             int like = itemService.countLike(token_id);
-            boolean isLike=itemService.checkLike(address, token_id);
             String[] tags = itemService.getTags(token_id);
             return ResponseEntity.status(200)
-                .body(ItemDetailRes.of("Success", item, user, download, like, isLike, tags));
+                .body(ItemDetailRes.of("Success", item, user, download, like, tags));
         } catch (Exception e) {
             return ResponseEntity.status(404).body(ItemDetailRes.of("존재하지 않는 token_id"));
+        }
+    }
+
+    @GetMapping("/like/{token_id}/{address}")
+    @ApiOperation(value = "좋아요 여부 확인", notes = "해당 유저가 이 작품에 좋아요를 눌렀는지 확인")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = ItemLikeRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = ItemLikeRes.class),
+    })
+    public ResponseEntity<ItemLikeRes> getDetail(@PathVariable BigInteger token_id,
+        @PathVariable String address) {
+        try {
+            boolean like = itemService.checkLike(address, token_id);
+            return ResponseEntity.status(200)
+                .body(ItemLikeRes.of("Success", like));
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(ItemLikeRes.of("Fail"));
         }
     }
 
