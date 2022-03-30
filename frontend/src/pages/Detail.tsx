@@ -302,18 +302,22 @@ const Detail = () => {
   };
 
   const onHeartClick = () => {
-    if (isLike) {
-      // dislike(userInfo.address, tokenId).then((res) => {
-      //   console.log("성공!");
-      //   setItem({ ...item, like: res.data.count });
-      //   setIsLike(false);
-      // });
+    if (userInfo.address) {
+      if (isLike) {
+        // dislike(userInfo.address, tokenId).then((res) => {
+        //   console.log("성공!");
+        //   setItem({ ...item, like: res.data.count });
+        //   setIsLike(false);
+        // });
+      } else {
+        putLike(userInfo.address, tokenId).then((res) => {
+          console.log("성공!");
+          setItem({ ...item, like: res.data.count });
+          setIsLike(true);
+        });
+      }
     } else {
-      putLike(userInfo.address, tokenId).then((res) => {
-        console.log("성공!");
-        setItem({ ...item, like: res.data.count });
-        setIsLike(true);
-      });
+      alert("로그인 후 가능합니다!");
     }
   };
   useEffect(() => {
