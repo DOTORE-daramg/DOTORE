@@ -19,7 +19,10 @@ import lombok.NoArgsConstructor;
 public class Items {
 
     @Id
-    @Column(name = "token_id", nullable = false, unique = true)
+    @Column(name = "item_trx_hash", nullable = false, unique = true)
+    String itemTrxHash;
+
+    @Column(name = "token_id")
     BigInteger tokenId;
 
     @NotNull

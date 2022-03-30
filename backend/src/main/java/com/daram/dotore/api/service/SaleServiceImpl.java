@@ -22,7 +22,6 @@ public class SaleServiceImpl implements SaleService{
         return saleRepository.save(Sales.builder()
                 .tokenId(salesReq.getTokenId())
                 .sellerAddress(salesReq.getSellerAddress())
-                .saleContractAddress(salesReq.getSalesContractAddress())
                 .cashContractAddress(salesReq.getCashContractAddress())
                 .price(salesReq.getPrice())
                 .created_at(LocalDateTime.now())
