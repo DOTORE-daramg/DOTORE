@@ -109,7 +109,7 @@ const AuthoredNFTList = () => {
       }
       setTimeout(() => {
         setIsLoading(false);
-      }, 500);
+      }, 300);
     }
     return () => clearTimeout();
   }, []);
