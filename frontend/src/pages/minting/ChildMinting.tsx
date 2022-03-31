@@ -6,6 +6,7 @@ import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { Button } from "../../stories/Button";
 import { isLoggedInState, userInfoState } from "../..";
+import { createToken, createMarketItem, purchase } from "../../contracts/api/second";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -69,11 +70,40 @@ const ChildMinting = () => {
   const handleFileChanged = (file: File) => {
     setitemFile(file);
   };
-  const createMint = async () => {
+
+  const onClickCreateToken = async () => {
+    console.log("Click Mint DTT!!");
     console.log(itemTitle);
     console.log(itemDesc);
     console.log(itemTags);
     console.log(itemFile);
+    try {
+      if (!isLoggedIn) {
+        return;
+      }
+      // createToken({ title, description, tokenUrl, isFirst, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickCreateMarketItem = async () => {
+    try {
+      // createMarketItem({ tokenId, price, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickPurchase = async () => {
+    try {
+      // purchase({ tokenId, price, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -82,6 +112,25 @@ const ChildMinting = () => {
         <TitleContainer>
           <Title label={"2차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
+
+        <Button
+          label={"민팅"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickCreateToken}
+        ></Button>
+        <Button
+          label={"판매 등록"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickCreateMarketItem}
+        ></Button>
+        <Button
+          label={"구매"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickPurchase}
+        ></Button>
 
         <InputContainer>
           <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
@@ -113,7 +162,7 @@ const ChildMinting = () => {
               label={"작품 등록"}
               width="7rem"
               backgroundColor="#6667ab"
-              onClick={createMint}
+              onClick={onClickCreateToken}
             ></Button>
           </InputTextContainer>
         </InputContainer>
