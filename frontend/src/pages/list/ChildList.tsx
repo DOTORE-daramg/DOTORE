@@ -47,7 +47,7 @@ const FilterContainer = styled.div`
 const CategoryContainer = styled.div`
   display: flex;
   width: 10rem;
-  justify-content: space-between;
+  justify-content: space-around;
   margin: 30px 0;
   @media screen and (max-width: 768px) {
     width: 45%;

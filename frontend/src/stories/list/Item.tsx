@@ -64,7 +64,7 @@ const Item = ({
 }: ItemProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
-  const viewMode = isPc ? "list" : isTablet ? "list" : "listM";
+  const viewMode = isPc ? "list" : isTablet ? "listM" : "listM";
   const navigate = useNavigate();
 
   return (
