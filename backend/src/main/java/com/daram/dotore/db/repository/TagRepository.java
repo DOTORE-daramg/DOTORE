@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface TagRepository extends JpaRepository<Taglist, Integer> {
     List<Taglist> findByTokenId(BigInteger tokenId);
@@ -14,5 +15,5 @@ public interface TagRepository extends JpaRepository<Taglist, Integer> {
     @Query(value = "UPDATE Taglist "
         + "SET token_id = :tokenId "
         + "WHERE item_trx_hash = :itemTrxHash", nativeQuery = true)
-    int updateTokenId(String itemTrxHash, BigInteger tokenId);
+    int updateTokenId(@Param("itemTrxHash") String itemTrxHash, @Param("tokenId") BigInteger tokenId);
 }

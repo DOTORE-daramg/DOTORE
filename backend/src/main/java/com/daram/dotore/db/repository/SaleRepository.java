@@ -37,5 +37,5 @@ public interface SaleRepository extends JpaRepository<Sales, Integer> {
     @Query(value = "SELECT * "
         + "FROM Sales "
         + "WHERE seller_address = :address and sale_id is null ", nativeQuery = true)
-    List<Sales> getPendingItemList(String address);
+    List<Sales> getPendingItemList(@Param("address") String address);
 }

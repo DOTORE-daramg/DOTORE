@@ -20,16 +20,10 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Autowired
-    FeedbackRepository feedRepository;
-
-    @Autowired
     DownloadRepository downloadRepository;
 
     @Autowired
     LikeRepository likeRepository;
-
-    @Autowired
-    ItemRepository itemRepository;
 
     @Override
     public Users getUserByAddress(String address) {
@@ -72,6 +66,14 @@ public class UserServiceImpl implements UserService {
         Users user = getUserByAddress(profileUpdateReq.getAddress());
         return userRepository.save(user.setProfile_img_url(profileUpdateReq.getProfileImgUrl()));
     }
+
+    @Override
+    public Users plusAcorn(String address, int amount) {
+        Users user = getUserByAddress(address);
+        int acorn = user.getAcorn() + amount;
+        return userRepository.save(user.setAcorn(acorn));
+    }
+
     @Override
     public List<Users> getUsers() {
 

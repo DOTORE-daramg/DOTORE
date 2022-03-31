@@ -22,6 +22,7 @@ public class ItemDetailRes extends BaseRes {
     private String ownerAddress;
     private Boolean onSaleYn;
     private Boolean isFirst;
+    private String status;
 
     private String nickname;
     private int acorn;
@@ -54,6 +55,7 @@ public class ItemDetailRes extends BaseRes {
             res.setOnSaleYn(item.getOnSaleYn());
             res.setIsFirst(item.getIsFirst());
             res.setFormat(item.getFormat());
+            res.setStatus(item.getStatus());
         }
         if (user != null) {
             res.setNickname(user.getNickname());
@@ -79,6 +81,7 @@ public class ItemDetailRes extends BaseRes {
             res.setOwnerAddress(item.getOwner_address());
             res.setOnSaleYn(item.getOnSaleYn());
             res.setFormat(item.getFormat());
+            res.setStatus(item.getStatus());
         }
         if (user != null) {
             res.setNickname(user.getNickname());

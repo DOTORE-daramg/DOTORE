@@ -10,6 +10,7 @@ import com.daram.dotore.api.response.FeedbackListRes;
 import com.daram.dotore.api.response.FeedbackRes;
 import com.daram.dotore.api.service.AwsS3Service;
 import com.daram.dotore.api.service.FeedbackService;
+import com.daram.dotore.api.service.UserService;
 import com.daram.dotore.db.entity.Answer;
 import com.daram.dotore.db.entity.Feedback;
 import io.swagger.annotations.Api;
@@ -29,6 +30,9 @@ public class FeedBackController {
 
     @Autowired
     FeedbackService feedbackService;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     AwsS3Service awsS3Service;
@@ -88,6 +92,7 @@ public class FeedBackController {
         throws Exception {
         try {
             Feedback feedback = feedbackService.saveNewFeedback(feedbackReq);
+            userService.plusAcorn(feedback.getAddress(), 2);
             return ResponseEntity.status(200)
                 .body(FeedbackRes.of("Success", feedback.getArticleno()));
         } catch (Exception e) {
@@ -103,9 +108,9 @@ public class FeedBackController {
     })
     public ResponseEntity<BaseRes> writeAnswer(@RequestBody AnswerReq answerReq) throws Exception {
         try {
-            feedbackService.saveNewAnswer(answerReq);
-            return ResponseEntity.status(200)
-                .body(BaseRes.of("Success"));
+            Answer answer = feedbackService.saveNewAnswer(answerReq);
+            userService.plusAcorn(answer.getWriter(), 2);
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
