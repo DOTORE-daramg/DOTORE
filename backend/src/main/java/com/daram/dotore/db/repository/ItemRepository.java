@@ -19,12 +19,12 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
 
     List<Items> findByOnSaleYn(boolean onSaleYn);
 
-    @Query(value = "SELECT i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format "
+    @Query(value = "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
         + "FROM Items i JOIN Secondary s ON i.token_id=s.token_id "
         + "WHERE s.original = :ori", nativeQuery = true)
     List<Items> getSecond(@Param("ori") BigInteger original);
 
-    @Query(value = "SELECT i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format "
+    @Query(value = "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
         + "FROM Items i JOIN Secondary s ON i.token_id=s.original "
         + "WHERE s.token_id = :tokenId", nativeQuery = true)
     List<Items> getFirst(@Param("tokenId") BigInteger tokenId);

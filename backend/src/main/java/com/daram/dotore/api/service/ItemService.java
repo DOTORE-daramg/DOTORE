@@ -20,7 +20,7 @@ public interface ItemService {
 
     Items getItemByTrxHash(String itemTrxHash);
 
-    Items updateTokenId(ItemTrxReq itemTrxReq);
+    Items updateMint(ItemTrxReq itemTrxReq);
 
     Items updateOwner(ItemUpdateReq itemReq);
 
