@@ -35,7 +35,6 @@ public class SalesInfoRes extends BaseRes{
         res.setResult(result);
         res.setCashContractAddress(item.getCashContractAddress());
         res.setCreatedAt(item.getCreated_at());
-        res.setSaleContractAddress(item.getSaleContractAddress());
         res.setSaleId(item.getSaleId());
         res.setSaleYn(item.getSaleYn());
         res.setSellerAddress(item.getSellerAddress());

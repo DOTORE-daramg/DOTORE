@@ -14,11 +14,11 @@ public interface SaleRepository extends JpaRepository<Sales, Integer> {
     Optional<Sales> findByTokenIdAndSaleYn(BigInteger tokenId, boolean saleYn);
     Optional<Sales> findByTokenId(BigInteger tokenId);
 
-    @Query(value = "SELECT sale_id, sale_contract_address,cash_contract_address,sale_yn,seller_address,buyer_address,price,created_at,completed_at,token_id "
+    @Query(value = "SELECT sale_trx_hash, sale_id, token_id, cash_contract_address, sale_yn, seller_address, buyer_address, price, created_at, completed_at "
             + "FROM Sales "
-            + "WHERE token_id = :token_id "
+            + "WHERE token_id = :tokenId "
             + "AND completed_at is null ", nativeQuery = true)
-    Sales getEmptyCompletedAtItem(@Param("token_id") BigInteger token_id);
+    Sales getEmptyCompletedAtItem(@Param("tokenId") BigInteger tokenId);
 
     @Modifying
     @Transactional

@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Outlet, useParams } from "react-router-dom";
 import { ProfileBanner } from "../../stories/artist/ProfileBanner";
 import { ArtistNav } from "../../stories/artist/ArtistNav";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState, useRecoilState } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
 import styled from "styled-components";
+import { getUserInfo } from "../../api/user";
 
 const Container = styled.div`
   padding: 30px 0px 70px 0px;
@@ -13,33 +14,49 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-
 const Artist = () => {
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
-
-  console.log(userInfo);
+  const setUserInfo = useSetRecoilState<userInfoTypes>(userInfoState);
   const [isModalShow, setIsModalShow] = useState(false);
+  const { userAddress } = useParams();
+  const [artistInfo, setArtistInfo] = useState<userInfoTypes>();
+  const [isMine, setIsMine] = useState<boolean>(false);
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
   };
+
+  useEffect(() => {
+    if (userAddress) {
+      getUserInfo(userAddress).then((res) => {
+        console.log(res.data);
+        setArtistInfo(res.data);
+        if (res.data.address == userInfo.address) {
+          setIsMine(true);
+        }
+      });
+    }
+  }, []);
   return (
     <>
       {isModalShow && (
         <ProfileUpdateModal
           userInfo={userInfo}
+          setUserInfo={setUserInfo}
           onClickToggleModal={onClickToggleModal}
         ></ProfileUpdateModal>
       )}
-      <ProfileBanner
-        profileImgUrl={userInfo.profile_img_url}
-        profileNickname={userInfo.nickname}
-        profileLevel="Lv.2 어린이 도토리"
-        profileAddress={userInfo.address}
-        profileDescription={userInfo.description}
-        profileDotoriAmount={`${userInfo.acorn}`}
-        onClickToggleModal={onClickToggleModal}
-      ></ProfileBanner>
+      {artistInfo && (
+        <ProfileBanner
+          profileImgUrl={artistInfo.profile_img_url}
+          profileNickname={artistInfo.nickname}
+          profileLevel="Lv.2 어린이 도토리"
+          profileAddress={artistInfo.address}
+          profileDescription={artistInfo.description}
+          profileDotoriAmount={`${artistInfo.acorn}`}
+          onClickToggleModal={onClickToggleModal}
+        ></ProfileBanner>
+      )}
       <ArtistNav></ArtistNav>
       <Container>
         <Outlet />

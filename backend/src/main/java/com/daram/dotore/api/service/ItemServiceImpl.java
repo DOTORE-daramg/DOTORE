@@ -1,6 +1,7 @@
 package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
 import com.daram.dotore.api.response.ItemDetailRes;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,33 +46,40 @@ public class ItemServiceImpl implements ItemService {
     @Autowired
     UserService userService;
 
+    @Transactional
     @Override
     public Items saveNewItem(ItemReq itemReq) throws Exception {
         Items item = itemRepository.save(Items.builder()
+            .itemTrxHash(itemReq.getItemTrxHash())
             .tokenId(itemReq.getTokenId())
             .item_hash(itemReq.getItemHash())
             .item_title(itemReq.getItemTitle())
             .item_description(itemReq.getItemDescription())
             .created_at(LocalDateTime.now())
             .author_address(itemReq.getAuthorAddress())
-            .owner_address(itemReq.getOwnerAddress())
+            .owner_address(itemReq.getAuthorAddress())
             .on_sale_yn(false)
             .is_first(itemReq.getIsFirst())
             .format(itemReq.getFormat())
+            .status("Pending")
             .build());
 
-        for (String tag : itemReq.getTags()) {
-            tagRepository.save(Taglist.builder()
-                .tokenId(itemReq.getTokenId())
-                .tag(tag)
-                .build());
+        if (itemReq.getTags() != null) {
+            for (String tag : itemReq.getTags()) {
+                tagRepository.save(Taglist.builder()
+                    .tag(tag)
+                    .itemTrxHash(itemReq.getItemTrxHash())
+                    .build());
+            }
         }
 
-        for (BigInteger ori : itemReq.getOriginal()) {
-            secondaryRepository.save(Secondary.builder()
-                .tokenId(itemReq.getTokenId())
-                .original(ori)
-                .build());
+        if (itemReq.getOriginal() != null) {
+            for (BigInteger ori : itemReq.getOriginal()) {
+                secondaryRepository.save(Secondary.builder()
+                    .original(ori)
+                    .itemTrxHash(itemReq.getItemTrxHash())
+                    .build());
+            }
         }
 
         return item;
@@ -84,6 +93,26 @@ public class ItemServiceImpl implements ItemService {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public Items getItemByTrxHash(String itemTrxHash) {
+        Optional<Items> opt = itemRepository.findByItemTrxHash(itemTrxHash);
+        if (opt.isPresent()) {
+            return opt.get();
+        } else {
+            return null;
+        }
+    }
+
+    @Transactional
+    @Override
+    public Items updateMint(ItemTrxReq itemTrxReq) {
+        Items item = getItemByTrxHash(itemTrxReq.getItemTrxHash());
+        tagRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
+        secondaryRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
+
+        return itemRepository.save(item.setTokenId(itemTrxReq.getTokenId()));
     }
 
     @Override
@@ -143,7 +172,7 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public boolean checkLike(String address, BigInteger tokenId) {
-        Optional<Likes> opt=likeRepository.findByAddressAndTokenId(address, tokenId);
+        Optional<Likes> opt = likeRepository.findByAddressAndTokenId(address, tokenId);
         if (opt.isPresent()) {
             return true;
         }
@@ -183,6 +212,11 @@ public class ItemServiceImpl implements ItemService {
     public List<Items> getItemList(String address) {
 
         return itemRepository.getItemList(address);
+    }
+
+    @Override
+    public List<Items> getPendingItemList(String address) {
+        return itemRepository.getPendingItemList(address);
     }
 
     @Override

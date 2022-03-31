@@ -24,16 +24,20 @@ public class Secondary {
     int second_id;
 
     @Column(name = "token_id")
-    @NotNull
     BigInteger tokenId;
 
     @NotNull
     BigInteger original;
 
+    @NotNull
+    @Column(name = "item_trx_hash")
+    String itemTrxHash;
+
     @Builder
-    public Secondary(int second_id, BigInteger tokenId, BigInteger original) {
+    public Secondary(int second_id, BigInteger tokenId, BigInteger original, String itemTrxHash) {
         this.second_id = second_id;
         this.tokenId = tokenId;
         this.original = original;
+        this.itemTrxHash = itemTrxHash;
     }
 }

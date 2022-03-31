@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
-public class SaleServiceImpl implements SaleService{
+public class SaleServiceImpl implements SaleService {
 
     @Autowired
     SaleRepository saleRepository;
@@ -20,14 +20,14 @@ public class SaleServiceImpl implements SaleService{
     @Override
     public Sales saveNewSales(SalesReq salesReq) {
         return saleRepository.save(Sales.builder()
-                .tokenId(salesReq.getTokenId())
-                .sellerAddress(salesReq.getSellerAddress())
-                .saleContractAddress(salesReq.getSalesContractAddress())
-                .cashContractAddress(salesReq.getCashContractAddress())
-                .price(salesReq.getPrice())
-                .created_at(LocalDateTime.now())
-                .saleYn(false)
-                .build());
+            .saleTrxHash(salesReq.getSaleTrxHash())
+            .tokenId(salesReq.getTokenId())
+            .sellerAddress(salesReq.getSellerAddress())
+            .cashContractAddress(salesReq.getCashContractAddress())
+            .price(salesReq.getPrice())
+            .created_at(LocalDateTime.now())
+            .saleYn(false)
+            .build());
     }
 
     @Override
@@ -39,7 +39,7 @@ public class SaleServiceImpl implements SaleService{
     public Sales updateSaleYnAndBuyerAddressAndCompletedAt(SaleCompleteReq saleCompleteReq) {
         BigInteger tokenId = saleCompleteReq.getTokenId();
         Optional<Sales> item = saleRepository.findByTokenId(tokenId);
-        if(!item.isPresent()){
+        if (!item.isPresent()) {
             return null;
         }
         item.get().setOnSaleYn(false);
@@ -49,7 +49,7 @@ public class SaleServiceImpl implements SaleService{
     }
 
     @Override
-    public void deleteCompletedAt(BigInteger tokenId,String address) {
-        saleRepository.findDelete(tokenId,address);
+    public void deleteCompletedAt(BigInteger tokenId, String address) {
+        saleRepository.findDelete(tokenId, address);
     }
 }
