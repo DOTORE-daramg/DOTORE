@@ -21,6 +21,8 @@ public interface UserService {
 
     Users updateProfile(ProfileUpdateReq profileUpdateReq);
 
+    Users plusAcorn(String address, int amount);
+
     List<Users> getUsers();
 
     List<Download> getDownloadList(String address);

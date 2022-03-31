@@ -117,7 +117,9 @@ public class ItemServiceImpl implements ItemService {
             item.setStatus("Fail");
         }else{
             item.setStatus("Success");
+            userService.plusAcorn(item.getAuthor_address(), 10);
         }
+
         return itemRepository.save(item);
     }
 
