@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import styled from "styled-components";
 import { InputBox } from "../InputBox";
 import { Badge } from "../common/Badge";
@@ -14,19 +14,36 @@ const TagContainer = styled.div`
   gap: 0.3rem;
 `;
 
-export const TagInputBox = () => {
+interface TagInputBoxProps {
+  handleTagChanged: (label: string) => void;
+}
+
+export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
   const [badgeLabelList, setBadgeLabelList] = useState<string[]>([]);
   const [form, setForm] = useState({
     label: "",
   });
   const { label } = form;
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setBadgeLabelList((prev) => [...prev, label]);
-    setForm({
-      label: "",
-    });
-  };
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      setBadgeLabelList((prev) => [...prev, label]);
+      handleTagChanged(label);
+      setForm({
+        label: "",
+      });
+    },
+    [handleTagChanged, label]
+  );
+
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault();
+  //   setBadgeLabelList((prev) => [...prev, label]);
+  //   setForm({
+  //     label: "",
+  //   });
+  // };
+
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     console.log("on Change");
