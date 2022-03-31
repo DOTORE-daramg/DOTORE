@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { InputBox } from "../InputBox";
 import { Badge } from "../common/Badge";
@@ -26,8 +26,13 @@ export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
       return;
     }
     if (e.key === "Enter" || e.key === " ") {
-      const label = e.target.value;
-      if (label.trim().length === 0) {
+      const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+      if (special_pattern.test(e.target.value)) {
+        window.confirm("특수문자는 넣을 수 없음");
+        return;
+      }
+      const label = e.target.value.replace(/ /gi, "");
+      if (label.length === 0) {
         e.target.value = "";
         return;
       }

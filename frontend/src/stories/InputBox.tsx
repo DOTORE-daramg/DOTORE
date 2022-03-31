@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { IconName } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "./common/Icon";
@@ -50,9 +50,10 @@ interface InputProps {
   width: string;
   rows?: number;
   maxLength?: number;
-  onChange?: (event: any) => void;
   name?: string;
   value?: string;
+  onBlur?: (event: any) => void;
+  onKeyDown?: (event: any) => void;
 }
 
 export const InputBox = ({
@@ -60,9 +61,10 @@ export const InputBox = ({
   icon,
   width,
   maxLength = 100,
-  onChange,
+  onBlur,
   name,
   value,
+  onKeyDown,
   ...props
 }: InputProps) => {
   return (
@@ -73,7 +75,8 @@ export const InputBox = ({
         value={value}
         placeholder={placeholder}
         isPaddingStart={!!icon}
-        onChange={onChange}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
         maxLength={maxLength}
       ></StyledInput>
     </InputDiv>
@@ -86,14 +89,14 @@ export const TextAreaBox = ({
   rows,
   maxLength = 100,
   value,
-  onChange,
+  onBlur,
 }: InputProps) => {
   return (
     <InputDiv width={width}>
       <StyledTextArea
         placeholder={placeholder}
         rows={rows}
-        onChange={onChange}
+        onBlur={onBlur}
         maxLength={maxLength}
         value={value}
       ></StyledTextArea>

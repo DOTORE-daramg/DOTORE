@@ -143,24 +143,24 @@ const ChildMinting = () => {
               placeholder="영감받은 원작 작품을 검색해 주세요."
               width="23rem"
               icon="magnifying-glass"
-              onChange={handleChangeSearchInput}
+              onBlur={handleChangeSearchInput}
             ></InputBox>
             <InputBox
               placeholder="작품 제목"
               width="23rem"
-              onChange={handleTitleChanged}
+              onBlur={handleTitleChanged}
             ></InputBox>
             <TextAreaBox
               placeholder="작품 설명"
               width="23rem"
               rows={6}
-              onChange={handleDescChanged}
+              onBlur={handleDescChanged}
             ></TextAreaBox>
             <InputBox
               placeholder="태그"
               width="23rem"
               icon="hashtag"
-              onChange={handleTagChanged}
+              onBlur={handleTagChanged}
             ></InputBox>
             <Button
               label={"작품 등록"}
