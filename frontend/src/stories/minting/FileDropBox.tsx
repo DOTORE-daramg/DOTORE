@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 import { Icon } from "../common/Icon";
 
-const Container = styled.div<{ imageUrl: string }>`
+const Container = styled.div<{ width?: string; imageUrl: string }>`
   position: relative;
   width: 23rem;
   height: 23rem;
@@ -50,6 +50,7 @@ const DeleteFile = styled.div<{ isShow: boolean }>`
 `;
 
 interface FileDropBoxProps {
+  width?: string;
   handleFileChanged: (file: Blob) => void;
 }
 

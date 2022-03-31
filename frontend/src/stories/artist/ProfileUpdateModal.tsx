@@ -6,8 +6,9 @@ import { ProfileImg } from "../profile/ProfileImg";
 import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
-import { updateDesc, updateNickname } from "../../api/user";
+import { updateDesc, updateImage, updateNickname } from "../../api/user";
 import { SetterOrUpdater } from "recoil";
+import { FileDropBox } from "../minting/FileDropBox";
 
 const Section = styled.div`
   width: 100%;
@@ -124,6 +125,13 @@ const ModalBody = styled.div`
 const ProfileImgContainer = styled.div`
   border-radius: 400px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  input {
+    display: none;
+  }
 `;
 
 const ModalInputBoxContainer = styled.div`
@@ -178,12 +186,6 @@ export interface ProfileUpdateModalProps {
   onClickToggleModal: () => void;
 }
 
-// interface IUserInfo {
-//   nickname: string,
-//   profileImgUrl: string,
-//   description: string,
-// }
-
 export const ProfileUpdateModal = ({
   userInfo,
   setUserInfo,
@@ -197,12 +199,11 @@ export const ProfileUpdateModal = ({
   const imageSize = isMoblie ? "6rem" : isPc ? "10rem" : "7rem";
   const [nickname, setNickname] = useState<string>(userInfo.nickname);
   const [desc, setDesc] = useState<string>(userInfo.description);
-  console.log(desc);
+
   const onClickSaveButton = () => {
     console.log("save!");
     if (nickname) {
       updateNickname(userInfo.address, nickname).then((res) => {
-        console.log(res);
         setUserInfo({ ...userInfo, nickname });
       });
     }
@@ -210,12 +211,19 @@ export const ProfileUpdateModal = ({
     if (desc) {
       updateDesc(userInfo.address, desc).then((res) => {
         setUserInfo({ ...userInfo, description: desc });
+      });
+    }
 
-        console.log(res);
+    if (itemFile) {
+      const format = itemFile.type.split("/")[0];
+      const data = new FormData();
+      data.append("data", itemFile);
+      updateImage(userInfo.address, data).then(() => {
+        console.log("성공!");
       });
     }
     onClickToggleModal();
-    // window.location.reload();
+    window.location.reload();
   };
 
   const onNicknameChange = (e: any) => {
@@ -226,6 +234,30 @@ export const ProfileUpdateModal = ({
     setDesc(e.target.value);
   };
 
+  const [itemFile, setItemFile] = useState<Blob>(new Blob());
+  const onFileUpload = (e: any) => {
+    const formData = new FormData();
+    let itemTitle = e.target.value;
+    let file_kind = e.target.value.lastIndexOf(".");
+    let file_name = e.target.value.substring(file_kind + 1, e.length);
+    let file_type = file_name.toLowerCase();
+    let check_file_type = new Array();
+    check_file_type = ["jpg", "gif", "png", "jpeg"];
+
+    if (check_file_type.indexOf(file_type) == -1) {
+      alert("이미지 파일만 선택할 수 있습니다.");
+      // return false;
+    }
+
+    formData.append("multipartFile", e.target.files[0]);
+    console.log(formData);
+    updateImage(userInfo.address, formData).then(() => {
+      console.log("성공!");
+    });
+  };
+  const handleFileChanged = (file: Blob) => {
+    setItemFile(file);
+  };
   return (
     <Section>
       <ModalContainer>
@@ -238,10 +270,26 @@ export const ProfileUpdateModal = ({
         <ModalBorder></ModalBorder>
         <ModalBody>
           <ProfileImgContainer>
-            <ProfileImg
-              profileImgUrl={userInfo.profile_img_url}
-              size={imageSize}
-            ></ProfileImg>
+            <label htmlFor="file-input">
+              <ProfileImg
+                profileImgUrl={userInfo.profile_img_url}
+                size={imageSize}
+              ></ProfileImg>
+            </label>
+            {/* <div>
+                <Button
+                  backgroundColor="#6667ab"
+                  width="8rem"
+                  label="파일 선택"
+                />
+              </div> */}
+            <input
+              id="file-input"
+              type="file"
+              accept="image/gif, image/jpeg, image/png, image/jpg"
+              onChange={onFileUpload}
+            />
+            {/* <FileDropBox handleFileChanged={handleFileChanged} /> */}
           </ProfileImgContainer>
           <ModalInputBoxContainer>
             <InputBox
