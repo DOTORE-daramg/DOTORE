@@ -111,8 +111,8 @@ const Like = () => {
         setIsLoading(false);
       }, 300);
     }
-    return () => clearTimeout();
-  }, []);
+    return () => setIsLoading(false);
+  }, [userAddress, isLoading]);
   return (
     <Container>
       {isLoading ? (

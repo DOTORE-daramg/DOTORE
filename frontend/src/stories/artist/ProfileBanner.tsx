@@ -10,10 +10,11 @@ import { userInfoState, userInfoTypes } from "../..";
 // Banner Container ============================================
 const BannerContainer = styled.div`
   width: 100%;
-  height: 18rem;
+  height: 20rem;
   background: rgba(102, 103, 171, 0.1);
   display: flex;
   justify-content: center;
+  margin-top: 4rem;
 `;
 
 // Profile Container ============================================

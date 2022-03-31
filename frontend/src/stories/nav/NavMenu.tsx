@@ -70,19 +70,17 @@ export const NavMenu = ({
   return (
     <>
       <Wrapper onClick={onClick}>
-        <Item {...props}>
-          {label}
-          <DropDownContent>
-            {dropdown &&
-              link &&
-              dropdown.map((menu, index) => (
-                <DropDownItem onClick={() => navigate(link[index])} key={index}>
-                  {menu}
-                </DropDownItem>
-              ))}
-            {/* <DropDownItem>hi</DropDownItem> */}
-          </DropDownContent>
-        </Item>
+        <Item {...props}>{label}</Item>
+        <DropDownContent>
+          {dropdown &&
+            link &&
+            dropdown.map((menu, index) => (
+              <DropDownItem onClick={() => navigate(link[index])} key={index}>
+                {menu}
+              </DropDownItem>
+            ))}
+          {/* <DropDownItem>hi</DropDownItem> */}
+        </DropDownContent>
       </Wrapper>
     </>
   );

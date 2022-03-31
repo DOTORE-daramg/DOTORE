@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router-dom";
 import { ProfileBanner } from "../../stories/artist/ProfileBanner";
 import { ArtistNav } from "../../stories/artist/ArtistNav";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
 import { getUserInfo } from "../../api/user";
@@ -13,7 +13,6 @@ const Artist = () => {
   const [isModalShow, setIsModalShow] = useState(false);
   const { userAddress } = useParams();
   const [artistInfo, setArtistInfo] = useState<userInfoTypes>();
-  const [isMine, setIsMine] = useState<boolean>(false);
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
     console.log("toggle!");
@@ -24,9 +23,6 @@ const Artist = () => {
       getUserInfo(userAddress).then((res) => {
         console.log(res.data);
         setArtistInfo(res.data);
-        if (res.data.address == userInfo.address) {
-          setIsMine(true);
-        }
       });
     }
   }, []);
