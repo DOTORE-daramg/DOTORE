@@ -54,6 +54,11 @@ public class Users {
         return this;
     }
 
+    public Users setAcorn(int acorn){
+        this.acorn=acorn;
+        return this;
+    }
+
     public Users setProfile_img_url(String profile_img_url){
         this.profile_img_url=profile_img_url;
         return this;

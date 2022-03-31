@@ -66,11 +66,12 @@ public class ItemController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> beforeMint(@ModelAttribute ItemReq itemReq) {
+    public ResponseEntity<BaseRes> beforeMint(@RequestBody ItemReq itemReq) {
         try {
             itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
+            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }
