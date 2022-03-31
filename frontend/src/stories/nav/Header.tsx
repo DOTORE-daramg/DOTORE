@@ -12,12 +12,15 @@ import { MobileMenu } from "./MobileMenu";
 
 const Wrapper = styled.div`
   padding: 15px 10vw;
+  position: fixed;
   width: 100%;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #6667ab;
-  background-color: rgba(102, 103, 171, 0.06);
+  background-color: #f6f6fa;
+  z-index: 10;
   @media screen and (max-width: 768px) {
     padding: 2vh;
     justify-content: center;
@@ -141,7 +144,14 @@ export const Header = ({
           </RightWrapper>
         </Wrapper>
       </header>
-      <MobileMenu isOpen={isOpen} onClick={onClickHamburger} />
+      <MobileMenu
+        userInfo={userInfo}
+        isLoggedIn={isLoggedIn}
+        isOpen={isOpen}
+        onClick={onClickHamburger}
+        onLogin={onLogin}
+        onLogout={onLogout}
+      />
     </>
   );
 };
