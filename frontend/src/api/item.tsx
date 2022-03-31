@@ -34,3 +34,11 @@ export const putLike = async (address: string, tokenId?: string) => {
 // export const dislike = async (address: string, tokenId: string) => {
 //   return await api.delete(`/api/items/like`, { address, tokenId });
 // };
+
+export const getProgressTx = async (address: string) => {
+  return await api.get(`/api/items/mint/${address}`);
+};
+
+export const modifyTokenId = async (req: object) => {
+  return await api.patch(`/api/items/mint`, req);
+};
