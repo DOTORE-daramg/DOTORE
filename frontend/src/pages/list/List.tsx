@@ -113,7 +113,7 @@ const List = () => {
   const [items, setItems] = useState<ItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSelected, setIsSelected] = useState<number>(0);
-  const categories = ["최신순", "인기순", "가격순"];
+  const categories = ["최신순", "인기순"];
 
   useEffect(() => {
     viewAll().then((res) => {
@@ -150,8 +150,6 @@ const List = () => {
                   isSelected={isSelected === index ? true : false}
                 />
               ))}
-              {/* <Category label="인기순" onClick={() => setIsSelected(1)} isSelected={false} />
-              <Category label="가격순" onClick={() => setIsSelected(2)} isSelected={false} /> */}
             </CategoryContainer>
             <CheckboxContainer>
               <Checkbox label="이미지" />
@@ -183,7 +181,6 @@ const List = () => {
               <Message>등록된 작품이 없습니다.</Message>
             </>
           )}
-          {/* <Item {...item} /> */}
           <StyledPagination />
         </MainContainer>
       </InnerContainer>
