@@ -98,6 +98,13 @@ const ItemContainer = styled.div`
     grid-gap: 15px;
   }
 `;
+
+const Message = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+`;
 const List = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -133,20 +140,29 @@ const List = () => {
           </FilterContainer>
         </SideContainer>
         <MainContainer>
-          <ItemContainer>
-            {!isLoading &&
-              items &&
-              items.map((item) => <Item key={item.tokenId} {...item} />)}
-            {/* <Item {...item} /> */}
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-            <ItemSkeleton width={viewMode} />
-          </ItemContainer>
+          {isLoading ? (
+            <ItemContainer>
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+              <ItemSkeleton width={viewMode} />
+            </ItemContainer>
+          ) : items && items.length > 0 ? (
+            <ItemContainer>
+              {items.map((item) => (
+                <Item key={item.tokenId} {...item} />
+              ))}
+            </ItemContainer>
+          ) : (
+            <>
+              <Message>등록된 작품이 없습니다.</Message>
+            </>
+          )}
+          {/* <Item {...item} /> */}
           <StyledPagination />
         </MainContainer>
       </InnerContainer>
