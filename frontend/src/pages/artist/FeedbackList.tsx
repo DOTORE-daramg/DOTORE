@@ -51,7 +51,7 @@ import { useParams } from "react-router-dom";
 const Container = styled.div`
   display: flex;
   padding: 5rem 2rem;
-
+  font-size: 1rem;
   min-height: 22rem;
   align-items: center;
   flex-direction: column;

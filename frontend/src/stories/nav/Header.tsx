@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../Button";
 import { Logo } from "../common/Logo";
@@ -6,17 +6,21 @@ import { NavMenu } from "./NavMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
+import { MobileMenu } from "./MobileMenu";
 
 const Wrapper = styled.div`
   padding: 15px 10vw;
+  position: fixed;
   width: 100%;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #6667ab;
-  background-color: rgba(102, 103, 171, 0.06);
+  background-color: #f6f6fa;
+  z-index: 10;
   @media screen and (max-width: 768px) {
     padding: 2vh;
     justify-content: center;
@@ -28,7 +32,7 @@ const Hamburger = styled.div`
   @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
-    left: 1rem;
+    left: 1.5rem;
   }
 `;
 const LogoWrapper = styled.div`
@@ -81,59 +85,73 @@ export const Header = ({
   onLogout,
 }: HeaderProps) => {
   const navigate = useNavigate();
-  const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
-
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const onClickHamburger = () => {
+    setIsOpen((prev) => !prev);
+    console.log("click");
+  };
   return (
-    <header>
-      <Wrapper>
-        <Hamburger>
-          <FontAwesomeIcon icon={faBars} />
-        </Hamburger>
-        <LogoWrapper onClick={() => navigate("/")}>
-          <Logo color="#6667ab" size="2rem" />
-          <Title>DOTORE</Title>
-        </LogoWrapper>
-        <RightWrapper>
-          <MenuWrapper>
-            <NavMenu
-              label="NFT 등록"
-              dropdown={["1차 NFT 등록", "2차 NFT 등록"]}
-              link={["/prminting", "/cdminting"]}
-            />
-            <NavMenu
-              label="NFT 보기"
-              dropdown={["view all", "1차 NFT 보기", "2차 NFT 보기"]}
-              link={["/list", "/prlist", "/cdlist"]}
-            />
-            <NavMenu label="NFT 구매" onClick={() => navigate("/sell")} />
-            {isLoggedIn && (
+    <>
+      <header>
+        <Wrapper>
+          <Hamburger onClick={onClickHamburger}>
+            <FontAwesomeIcon icon={faBars} size="lg" />
+          </Hamburger>
+          <LogoWrapper onClick={() => navigate("/")}>
+            <Logo color="#6667ab" size="2rem" />
+            <Title>DOTORE</Title>
+          </LogoWrapper>
+          <RightWrapper>
+            <MenuWrapper>
               <NavMenu
-                label="마이페이지"
-                onClick={() => navigate(`/artist/${userInfo.address}`)}
+                label="NFT 등록"
+                dropdown={["1차 NFT 등록", "2차 NFT 등록"]}
+                link={["/prminting", "/cdminting"]}
               />
+              <NavMenu
+                label="NFT 보기"
+                dropdown={["view all", "1차 NFT 보기", "2차 NFT 보기"]}
+                link={["/list", "/prlist", "/cdlist"]}
+              />
+              <NavMenu label="NFT 구매" onClick={() => navigate("/sell")} />
+              {isLoggedIn && (
+                <NavMenu
+                  label="마이페이지"
+                  onClick={() => navigate(`/artist/${userInfo.address}`)}
+                />
+              )}
+            </MenuWrapper>
+            {isLoggedIn ? (
+              <>
+                <Button
+                  width="6rem"
+                  onClick={onLogout}
+                  label="로그아웃"
+                  backgroundColor="#6667ab"
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  width="6rem"
+                  onClick={onLogin}
+                  label="로그인"
+                  backgroundColor="#6667ab"
+                />
+              </>
             )}
-          </MenuWrapper>
-          {isLoggedIn ? (
-            <>
-              <Button
-                width="6rem"
-                onClick={onLogout}
-                label="로그아웃"
-                backgroundColor="#6667ab"
-              />
-            </>
-          ) : (
-            <>
-              <Button
-                width="6rem"
-                onClick={onLogin}
-                label="로그인"
-                backgroundColor="#6667ab"
-              />
-            </>
-          )}
-        </RightWrapper>
-      </Wrapper>
-    </header>
+          </RightWrapper>
+        </Wrapper>
+      </header>
+      <MobileMenu
+        userInfo={userInfo}
+        isLoggedIn={isLoggedIn}
+        isOpen={isOpen}
+        onClick={onClickHamburger}
+        onLogin={onLogin}
+        onLogout={onLogout}
+      />
+    </>
   );
 };

@@ -112,7 +112,13 @@ public class ItemServiceImpl implements ItemService {
         tagRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
         secondaryRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
 
-        return itemRepository.save(item.setTokenId(itemTrxReq.getTokenId()));
+        item.setTokenId(itemTrxReq.getTokenId());
+        if(itemTrxReq.getTokenId().intValue()==0){
+            item.setStatus("Fail");
+        }else{
+            item.setStatus("Success");
+        }
+        return itemRepository.save(item);
     }
 
     @Override

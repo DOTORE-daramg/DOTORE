@@ -104,8 +104,8 @@ const AuthoredNFTList = () => {
         setIsLoading(false);
       }, 300);
     }
-    return () => clearTimeout();
-  }, [isLoading]);
+    return () => setIsLoading(false);
+  }, [userAddress, isLoading]);
   return (
     <>
       {isLoading ? (

@@ -7,13 +7,7 @@ import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
-import {
-  dTT,
-  dTTAddress,
-  dTTMarketAddress,
-  dTTMarketContract,
-  web3,
-} from "../../contracts";
+import { createToken } from "../../contracts/api/first";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -75,92 +69,23 @@ const ParentMinting = () => {
     setitemFile(file);
   };
 
-  const createMint = async () => {
+  const onClickCreateToken = async () => {
     console.log(itemTitle);
     console.log(itemDesc);
     console.log(itemTags);
     console.log(itemFile);
+    console.log("Click Mint DTT!!");
+    try {
+      if (!isLoggedIn) {
+        return;
+      }
+      // createToken({ title, description, tokenUrl, isFirst, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  // const onClickBalanceOf = async () => {
-  //   try {
-  //     const balance = await dTT.methods.balanceOf(userInfo.address).call();
-  //     console.log("balance: ", balance);
-  //     console.log(
-  //       await dTTMarketContract.getPastEvents("allEvents", { fromBlock: 1 })
-  //     );
-  //     console.log(await dTT.getPastEvents("allEvents", { fromBlock: 1 }));
-  //     console.log(await dTTMarketContract.methods.dTT().call());
-
-  //     // console.log(await dTTMarketContract.methods.idMarketItem(0).call());
-  //     // console.log(await dTTMarketContract.methods.idMarketItem(1).call());
-  //     // console.log(await dTTMarketContract.methods.idMarketItem(2).call());
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // const onClickDTT = async () => {
-  //   console.log("Click Mint DTT!!");
-  //   try {
-  //     if (!isLoggedIn) {
-  //       return;
-  //     }
-  //     const response = await dTT.methods
-  //       .createToken(
-  //         "지희NFT",
-  //         "지희꺼다NFT",
-  //         "https://www.ssafy.com",
-  //         false,
-  //         dTTMarketAddress
-  //       )
-  //       .send({
-  //         from: userInfo.address,
-  //         gas: 3000000,
-  //         gasPrice: "10000000000",
-  //       });
-
-  //     console.log(response);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // const onClickCreate = async () => {
-  //   try {
-  //     const response = await dTTMarketContract.methods
-  //       .createMarketItem(11, "12340000000000000")
-  //       .send({
-  //         from: userInfo.address,
-  //         gas: 3000000,
-  //         gasPrice: "10000000000",
-  //       })
-  //       .then(console.log);
-  //     console.log(response);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
-
-  // const onClickPurchase = async () => {
-  //   try {
-  //     const response = await dTTMarketContract.methods
-  //       .purchase(
-  //         1
-  //         // "0x2170ed0880ac9a755fd29b2688956bd959f933f8",
-  //       )
-  //       .send({
-  //         from: userInfo.address,
-  //         gas: 3000000,
-  //         value: "1000000000000000000",
-  //         gasPrice: "10000000000",
-  //       })
-  //       .then(console.log);
-  //     console.log(response);
-  //   } catch (err) {
-  //     console.error(err);
-  //   }
-  // };
 
   return (
     <Container>
@@ -189,7 +114,7 @@ const ParentMinting = () => {
               label={"작품 등록"}
               width="7rem"
               backgroundColor="#6667ab"
-              onClick={createMint}
+              onClick={onClickCreateToken}
             ></Button>
           </InputTextContainer>
         </InputContainer>

@@ -4,84 +4,9 @@ import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 import { useMediaQuery } from "react-responsive";
 import { RefreshTx } from "../../stories/artist/RefreshTx";
 import { getNFTList } from "../../api/artist";
-import { useRecoilValue } from "recoil";
-import { userInfoState, userInfoTypes } from "../..";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
-
-const dummyItemList = [
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-];
 
 const OwnedNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
@@ -106,8 +31,8 @@ const OwnedNFTList = () => {
         setIsLoading(false);
       }, 300);
     }
-    return () => clearTimeout();
-  }, [isLoading]);
+    return () => setIsLoading(false);
+  }, [userAddress, isLoading]);
   return (
     <>
       {isLoading ? (

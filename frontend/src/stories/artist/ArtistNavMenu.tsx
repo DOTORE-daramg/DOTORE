@@ -4,9 +4,10 @@ import styled from "styled-components";
 const MenuItem = styled.div<{ isSelected: boolean }>`
   display: flex;
   /* color: black; */
-  color: ${props => props.isSelected ? '#6667AB' : 'black'};
-  font-weight: ${props => props.isSelected ? '800' : '500'};
-  background-color: ${props => props.isSelected ? '#ffffff' : 'rgba(0, 0, 0, 0)'};
+  color: ${(props) => (props.isSelected ? "#6667AB" : "black")};
+  font-weight: ${(props) => (props.isSelected ? "800" : "500")};
+  background-color: ${(props) =>
+    props.isSelected ? "#ffffff" : "rgba(0, 0, 0, 0)"};
   font-style: Medium;
   font-size: 1.2rem;
   line-height: 22px;
@@ -23,12 +24,17 @@ const MenuItem = styled.div<{ isSelected: boolean }>`
     font-size: 1rem;
   }
   @media screen and (max-width: 500px) {
-    width: 4rem;
-    font-size: 0.8rem;
+    width: 5.5rem;
   }
 `;
 
-type ArtistNavMenuId = 'ownednft' | 'authorednft' | 'feedback' | 'history' | 'download' | 'like';
+type ArtistNavMenuId =
+  | "ownednft"
+  | "authorednft"
+  | "feedback"
+  | "history"
+  | "download"
+  | "like";
 
 export interface ArtistNavMenuProps {
   id: ArtistNavMenuId;
@@ -44,12 +50,8 @@ export const ArtistNavMenu = ({
   ...props
 }: ArtistNavMenuProps) => {
   return (
-    <MenuItem
-      {...props}
-      isSelected={props.isSelected}
-      onClick={onClick}
-    >
+    <MenuItem {...props} isSelected={props.isSelected} onClick={onClick}>
       <span>{label}</span>
     </MenuItem>
-  )
+  );
 };
