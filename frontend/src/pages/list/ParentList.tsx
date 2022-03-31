@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import StyledPagination from "../../stories/common/StyledPagination";
@@ -110,6 +110,10 @@ const ParentList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
+  const [items, setItems] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSelected, setIsSelected] = useState<number>(0);
+  const categories = ["최신순", "인기순", "가격순"];
   return (
     <Container>
       <Title label="1차 NFT 보기" size="2rem"></Title>
@@ -118,9 +122,13 @@ const ParentList = () => {
           <InputBox width="100%" placeholder="작품명 / 작가명 검색" />
           <FilterContainer>
             <CategoryContainer>
-              <Category label="최신순" isSelected={true} />
-              <Category label="인기순" isSelected={false} />
-              <Category label="가격순" isSelected={false} />
+              {categories.map((category, index) => (
+                <Category
+                  label={category}
+                  onClick={() => setIsSelected(index)}
+                  isSelected={isSelected === index ? true : false}
+                />
+              ))}
             </CategoryContainer>
             <CheckboxContainer>
               <Checkbox label="이미지" />

@@ -45,7 +45,7 @@ const Amount = styled.div`
   font-size: 1rem;
 `;
 
-interface ItemProps {
+export interface ItemProps {
   itemHash: string;
   itemTitle: string;
   nickname: string;
