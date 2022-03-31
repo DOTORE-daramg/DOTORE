@@ -20,7 +20,6 @@ import java.math.BigInteger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin("*")
 @Api(value = "피드백 API")
@@ -54,8 +53,10 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = FeedbackListRes.class),
         @ApiResponse(code = 404, message = "아무 피드백도 존재하지 않음", response = FeedbackListRes.class),
     })
-    public ResponseEntity<FeedbackListRes> getFeedbackList(@RequestBody FeedbackMeReq feedbackMeReq) {
-        FeedbackListRes res = feedbackService.getMyFeedbacks(feedbackMeReq.getTokenId(),feedbackMeReq.getAddress());
+    public ResponseEntity<FeedbackListRes> getFeedbackList(
+        @RequestBody FeedbackMeReq feedbackMeReq) {
+        FeedbackListRes res = feedbackService.getMyFeedbacks(feedbackMeReq.getTokenId(),
+            feedbackMeReq.getAddress());
         if (res == null) {
             return ResponseEntity.status(404).body(FeedbackListRes.of("아무 피드백도 존재하지 않음"));
         }
@@ -100,7 +101,7 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> writeAnswer(@RequestBody AnswerReq answerReq) throws Exception{
+    public ResponseEntity<BaseRes> writeAnswer(@RequestBody AnswerReq answerReq) throws Exception {
         try {
             feedbackService.saveNewAnswer(answerReq);
             return ResponseEntity.status(200)
@@ -116,9 +117,10 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> modifyFeedback(@RequestBody FeedbackUpdateReq feedbackUpdateReq){
-        Feedback feedback=feedbackService.updateFeedback(feedbackUpdateReq);
-        if(feedback==null){
+    public ResponseEntity<BaseRes> modifyFeedback(
+        @RequestBody FeedbackUpdateReq feedbackUpdateReq) {
+        Feedback feedback = feedbackService.updateFeedback(feedbackUpdateReq);
+        if (feedback == null) {
             return ResponseEntity.status(400)
                 .body(BaseRes.of("Fail"));
         }
@@ -132,9 +134,9 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> modifyAnswer(@RequestBody FeedbackUpdateReq feedbackUpdateReq){
-        Answer answer=feedbackService.updateAnswer(feedbackUpdateReq);
-        if(answer==null){
+    public ResponseEntity<BaseRes> modifyAnswer(@RequestBody FeedbackUpdateReq feedbackUpdateReq) {
+        Answer answer = feedbackService.updateAnswer(feedbackUpdateReq);
+        if (answer == null) {
             return ResponseEntity.status(400)
                 .body(BaseRes.of("Fail"));
         }

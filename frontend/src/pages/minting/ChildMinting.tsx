@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
 import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { Button } from "../../stories/Button";
+import { isLoggedInState, userInfoState } from "../..";
+import { createToken, createMarketItem, purchase } from "../../contracts/api/second";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -45,18 +48,64 @@ const InputTextContainer = styled.div`
 `;
 
 const ChildMinting = () => {
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+  const userInfo = useRecoilValue(userInfoState);
+  const [itemTitle, setItemTitle] = useState<string>("");
+  const [itemDesc, setitemDesc] = useState<string>("");
+  const [itemTags, setitemTags] = useState<string[]>([]);
+  const [itemFile, setitemFile] = useState<File>();
+
   const handleChangeSearchInput = (e: any) => {
     console.log(e.target.value);
   };
-  const handleChangeTitleInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTitleChanged = (e: any) => {
+    setItemTitle(e.target.value);
   };
-  const handleChangeDescInput = (e: any) => {
-    console.log(e.target.value);
+  const handleDescChanged = (e: any) => {
+    setitemDesc(e.target.value);
   };
-  const handleChangeTagInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTagChanged = (label: string) => {
+    setitemTags((prev) => [...prev, label]);
   };
+  const handleFileChanged = (file: File) => {
+    setitemFile(file);
+  };
+
+  const onClickCreateToken = async () => {
+    console.log("Click Mint DTT!!");
+    console.log(itemTitle);
+    console.log(itemDesc);
+    console.log(itemTags);
+    console.log(itemFile);
+    try {
+      if (!isLoggedIn) {
+        return;
+      }
+      // createToken({ title, description, tokenUrl, isFirst, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickCreateMarketItem = async () => {
+    try {
+      // createMarketItem({ tokenId, price, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const onClickPurchase = async () => {
+    try {
+      // purchase({ tokenId, price, userAddress });
+      // console.log(response);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <Container>
       <MintingContainer>
@@ -64,8 +113,27 @@ const ChildMinting = () => {
           <Title label={"2차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
 
+        <Button
+          label={"민팅"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickCreateToken}
+        ></Button>
+        <Button
+          label={"판매 등록"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickCreateMarketItem}
+        ></Button>
+        <Button
+          label={"구매"}
+          width="7rem"
+          backgroundColor="#6667ab"
+          onClick={onClickPurchase}
+        ></Button>
+
         <InputContainer>
-          <FileDropBox></FileDropBox>
+          <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
           <InputTextContainer>
             <InputBox
               placeholder="영감받은 원작 작품을 검색해 주세요."
@@ -76,25 +144,25 @@ const ChildMinting = () => {
             <InputBox
               placeholder="작품 제목"
               width="23rem"
-              onChange={handleChangeTitleInput}
+              onChange={handleTitleChanged}
             ></InputBox>
             <TextAreaBox
               placeholder="작품 설명"
               width="23rem"
               rows={6}
-              onChange={handleChangeDescInput}
+              onChange={handleDescChanged}
             ></TextAreaBox>
             <InputBox
               placeholder="태그"
               width="23rem"
               icon="hashtag"
-              onChange={handleChangeTagInput}
+              onChange={handleTagChanged}
             ></InputBox>
             <Button
               label={"작품 등록"}
               width="7rem"
               backgroundColor="#6667ab"
-              onClick={() => console.log("작품 등록")}
+              onClick={onClickCreateToken}
             ></Button>
           </InputTextContainer>
         </InputContainer>

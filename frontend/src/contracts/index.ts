@@ -1,7 +1,7 @@
 import { AbiItem } from "web3-utils";
 import Web3 from "web3";
 
-const mintTokenAbi: AbiItem[] = [
+const dTTABI: AbiItem[] = [
   {
     inputs: [],
     stateMutability: "nonpayable",
@@ -85,6 +85,35 @@ const mintTokenAbi: AbiItem[] = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "Items",
+    outputs: [
+      {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isFirst",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "to",
         type: "address",
@@ -122,20 +151,40 @@ const mintTokenAbi: AbiItem[] = [
   {
     inputs: [
       {
+        internalType: "string",
+        name: "title",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "description",
+        type: "string",
+      },
+      {
+        internalType: "string",
+        name: "tokenURI",
+        type: "string",
+      },
+      {
+        internalType: "bool",
+        name: "isFirst",
+        type: "bool",
+      },
+      {
+        internalType: "address",
+        name: "marketplaceAddress",
+        type: "address",
+      },
+    ],
+    name: "createToken",
+    outputs: [
+      {
         internalType: "uint256",
         name: "",
         type: "uint256",
       },
     ],
-    name: "fileUrls",
-    outputs: [
-      {
-        internalType: "string",
-        name: "",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -152,6 +201,25 @@ const mintTokenAbi: AbiItem[] = [
         internalType: "address",
         name: "",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "getIsFirst",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
       },
     ],
     stateMutability: "view",
@@ -179,19 +247,6 @@ const mintTokenAbi: AbiItem[] = [
       },
     ],
     stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "string",
-        name: "_fileUrl",
-        type: "string",
-      },
-    ],
-    name: "mintToken",
-    outputs: [],
-    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -281,6 +336,29 @@ const mintTokenAbi: AbiItem[] = [
     inputs: [
       {
         internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "operator",
+        type: "address",
+      },
+      {
+        internalType: "bool",
+        name: "approved",
+        type: "bool",
+      },
+    ],
+    name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
         name: "operator",
         type: "address",
       },
@@ -331,49 +409,6 @@ const mintTokenAbi: AbiItem[] = [
     inputs: [
       {
         internalType: "uint256",
-        name: "index",
-        type: "uint256",
-      },
-    ],
-    name: "tokenByIndex",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "owner",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "index",
-        type: "uint256",
-      },
-    ],
-    name: "tokenOfOwnerByIndex",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
         name: "tokenId",
         type: "uint256",
       },
@@ -384,19 +419,6 @@ const mintTokenAbi: AbiItem[] = [
         internalType: "string",
         name: "",
         type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "totalSupply",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -427,11 +449,196 @@ const mintTokenAbi: AbiItem[] = [
   },
 ];
 
-const mintTokenAddress = "0xa049feb84e5d81fd0162d8e4da0fef83eC255572";
+const dTTMarketABI: AbiItem[] = [
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_dTTAddress",
+        type: "address",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "saleId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "seller",
+        type: "address",
+      },
+      {
+        indexed: true,
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "sold",
+        type: "bool",
+      },
+    ],
+    name: "MarketItemEvent",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "cancelSale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+    ],
+    name: "createMarketItem",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "dTT",
+    outputs: [
+      {
+        internalType: "contract DTT",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "idMarketItem",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "saleId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "seller",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        internalType: "bool",
+        name: "sold",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "purchase",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    name: "saleMap",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+];
 
 export const web3 = new Web3(window.ethereum);
 
-export const mintTokenContract = new web3.eth.Contract(
-  mintTokenAbi,
-  mintTokenAddress
+export const dTTAddress = "0xE4C0Dc5d15E82Ae75608B9A572Add9bD8De52006";
+export const dTT = new web3.eth.Contract(dTTABI, dTTAddress);
+
+export const dTTMarketAddress = "0xab2fa44327a1c6d2a07b4a51e9d8b063e45e0d84";
+export const dTTMarketContract = new web3.eth.Contract(
+  dTTMarketABI,
+  dTTMarketAddress
 );

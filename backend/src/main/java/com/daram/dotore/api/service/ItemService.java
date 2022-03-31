@@ -1,6 +1,7 @@
 package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
 import com.daram.dotore.api.response.ItemsRes;
@@ -16,6 +17,10 @@ public interface ItemService {
     Items saveNewItem(ItemReq itemReq) throws Exception;
 
     Items getItemByTokenId(BigInteger token_id);
+
+    Items getItemByTrxHash(String itemTrxHash);
+
+    Items updateMint(ItemTrxReq itemTrxReq);
 
     Items updateOwner(ItemUpdateReq itemReq);
 
@@ -42,6 +47,8 @@ public interface ItemService {
     List<Items> getFirst(BigInteger original);
 
     List<Items> getItemList(String address);
+
+    List<Items> getPendingItemList(String address);
 
     List<Items> getAuthorItemList(String address);
 

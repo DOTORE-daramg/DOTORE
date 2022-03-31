@@ -28,14 +28,15 @@ public class ItemListRes extends BaseRes {
         for (int i = 0; i < list.size(); i++) {
             res.getData()
                 .add(new ItemListVO(
-                        //nickname,
-                        list.get(i).getTokenId(),
-                        list.get(i).getItem_hash(),
-                        list.get(i).getItem_title(),
-                        list.get(i).getItem_description(),
-                        list.get(i).getCreated_at(),
-                        list.get(i).getOwner_address(),
-                        list.get(i).getIsFirst()
+                    list.get(i).getItemTrxHash(),
+                    list.get(i).getTokenId(),
+                    list.get(i).getItem_hash(),
+                    list.get(i).getItem_title(),
+                    list.get(i).getItem_description(),
+                    list.get(i).getCreated_at(),
+                    list.get(i).getOwner_address(),
+                    list.get(i).getIsFirst(),
+                    list.get(i).getStatus()
                 ));
         }
         return res;

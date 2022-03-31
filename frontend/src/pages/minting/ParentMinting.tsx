@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Title } from "../../stories/Title";
 import { InputBox, TextAreaBox } from "../../stories/InputBox";
@@ -7,7 +7,7 @@ import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
-import { mintTokenContract } from "../../contracts";
+import { createToken } from "../../contracts/api/first";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -51,46 +51,41 @@ const InputTextContainer = styled.div`
 const ParentMinting = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const userInfo = useRecoilValue(userInfoState);
+  const [itemTitle, setItemTitle] = useState<string>("");
+  const [itemDesc, setitemDesc] = useState<string>("");
+  const [itemTags, setitemTags] = useState<string[]>([]);
+  const [itemFile, setitemFile] = useState<File>();
 
-  const handleChangeTitleInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTitleChanged = (e: any) => {
+    setItemTitle(e.target.value);
   };
-  const handleChangeDescInput = (e: any) => {
-    console.log(e.target.value);
+  const handleDescChanged = (e: any) => {
+    setitemDesc(e.target.value);
   };
-  const handleChangeTagInput = (e: any) => {
-    console.log(e.target.value);
+  const handleTagChanged = (label: string) => {
+    setitemTags((prev) => [...prev, label]);
+  };
+  const handleFileChanged = (file: File) => {
+    setitemFile(file);
   };
 
-  const onClickMint = async () => {
-    console.log("Click Mint!!");
+  const onClickCreateToken = async () => {
+    console.log(itemTitle);
+    console.log(itemDesc);
+    console.log(itemTags);
+    console.log(itemFile);
+    console.log("Click Mint DTT!!");
     try {
       if (!isLoggedIn) {
         return;
       }
-      const response = await mintTokenContract.methods
-        .mintToken("www.ssafy.com")
-        .send({ from: userInfo.address, gas: 3000000 });
-
-      console.log(response);
+      // createToken({ title, description, tokenUrl, isFirst, userAddress });
+      // console.log(response);
     } catch (err) {
       console.error(err);
     }
   };
 
-  const onClickBalanceOf = async () => {
-    try {
-      const balance = await mintTokenContract.methods
-        .balanceOf(userInfo.address)
-        .call();
-      const fileUrlRes = await mintTokenContract.methods.fileUrls(1).call();
-
-      console.log("balance: ", balance);
-      console.log("fileUrlRes: ", fileUrlRes);
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   return (
     <Container>
@@ -98,35 +93,28 @@ const ParentMinting = () => {
         <TitleContainer>
           <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
         </TitleContainer>
-
-        <button onClick={onClickBalanceOf}>balance</button>
-
         <InputContainer>
-          <FileDropBox></FileDropBox>
+          <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
           <InputTextContainer>
             <InputBox
               placeholder="작품 제목"
               width="23rem"
-              onChange={handleChangeTitleInput}
+              onChange={handleTitleChanged}
+              value={itemTitle}
             ></InputBox>
             <TextAreaBox
               placeholder="작품 설명"
               width="23rem"
               rows={6}
-              onChange={handleChangeDescInput}
+              onChange={handleDescChanged}
+              value={itemDesc}
             ></TextAreaBox>
-            <TagInputBox></TagInputBox>
-            {/* <InputBox
-              placeholder="태그"
-              width="23rem"
-              icon="hashtag"
-              onChange={handleChangeTagInput}
-            ></InputBox> */}
+            <TagInputBox handleTagChanged={handleTagChanged}></TagInputBox>
             <Button
               label={"작품 등록"}
               width="7rem"
               backgroundColor="#6667ab"
-              onClick={onClickMint}
+              onClick={onClickCreateToken}
             ></Button>
           </InputTextContainer>
         </InputContainer>
