@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { viewAll } from "../api/item";
 import { getUsers } from "../api/user";
 import banner1 from "../assets/banner1.png";
+import Skeleton from "../stories/list/Skeleton";
 import Banner from "../stories/main/Banner";
 import Profile from "../stories/profile/Profile";
 import { SubTitle } from "../stories/SubTitle";
@@ -182,13 +183,16 @@ const Main = () => {
   //   },
   // ];
 
-  const [isLoading, setIsLoading] = useState(true);
+  const [isNFTLoading, setIsNFTLoading] = useState(true);
+  const [isProfileLoading, setIsProfileLoading] = useState(true);
+
   const [itemList, setItemList] = useState<ThumbnailProps[]>([]);
   const [profileList, setProfileList] = useState<Iuser[]>([]);
-
+  const isPc = useMediaQuery({ minWidth: 768 });
   const navigete = useNavigate();
+
   useEffect(() => {
-    if (isLoading) {
+    if (isNFTLoading) {
       viewAll().then((res) => {
         const {
           data: { data: data },
@@ -200,9 +204,7 @@ const Main = () => {
           };
 
           itemList.push({
-            // itemHash,
-            itemHash:
-              "https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg",
+            itemHash,
             itemTitle,
             nickname,
             like,
@@ -213,7 +215,13 @@ const Main = () => {
         itemList.sort((a, b) => {
           return b.like - a.like;
         });
+        setIsNFTLoading(false);
       });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isProfileLoading) {
       getUsers().then((res) => {
         const {
           data: { data: data },
@@ -240,25 +248,37 @@ const Main = () => {
         profileList.sort((a, b) => {
           return b.acorn - a.acorn;
         });
-        setIsLoading(false);
+        setIsProfileLoading(false);
       });
     }
-  }, [isLoading]);
-  const isPc = useMediaQuery({ minWidth: 768 });
+  }, [isProfileLoading]);
 
   return (
     <Container>
-      {/* <Banner src={banner1} /> */}
       <Banner />
       <NFTContainer>
         <Title label="Popular NFTs" size="4rem" />
         <SubTitle label="지금 이 시각 가장 활발한 창작물" />
-        {!isLoading && isPc && (
-          <ThumbnailGrid itemList={itemList} size="48rem" columnCount={3} />
+        {!isNFTLoading ? (
+          <ThumbnailGrid
+            itemList={itemList}
+            size={isPc ? `48rem` : `20rem`}
+            columnCount={isPc ? 3 : 2}
+          />
+        ) : (
+          <div
+            style={{
+              display: "flex",
+              width: isPc ? `48rem` : `20rem`,
+              justifyContent: "space-between",
+            }}
+          >
+            <Skeleton width="15rem" height="15rem" />
+            <Skeleton width="15rem" height="15rem" />
+            <Skeleton width="15rem" height="15rem" />
+          </div>
         )}
-        {!isLoading && !isPc && (
-          <ThumbnailGrid itemList={itemList} size="20rem" columnCount={2} />
-        )}
+
         <Link to="/list">
           <SubTitle label="&gt; 더 많은 작품 보러 가기"></SubTitle>
         </Link>
@@ -267,7 +287,7 @@ const Main = () => {
       <NFTContainer>
         <Title label="Top Artists" size="4rem" />
         <SubTitle label="지금 이 시각 가장 주목받는 작가" />
-        {!isLoading ? (
+        {!isProfileLoading ? (
           <GridContainer>
             {profileList &&
               profileList
@@ -284,7 +304,11 @@ const Main = () => {
                 ))}
           </GridContainer>
         ) : (
-          <div>로딩중</div>
+          <GridContainer>
+            <Skeleton width="233.33px" height="104px" />
+            <Skeleton width="233.33px" height="104px" />
+            <Skeleton width="233.33px" height="104px" />
+          </GridContainer>
         )}
       </NFTContainer>
     </Container>
