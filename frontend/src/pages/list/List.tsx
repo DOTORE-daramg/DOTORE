@@ -15,10 +15,9 @@ const Container = styled.div`
   margin: 100px 200px;
 
   @media screen and (max-width: 768px) {
-    margin: 60px 0;
+    margin: 100px 0;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
   }
 `;

@@ -87,6 +87,7 @@ const Container = styled.div`
   justify-content: center;
   min-height: 22rem;
   align-items: center;
+  font-size: 1rem;
 `;
 
 const Like = () => {
