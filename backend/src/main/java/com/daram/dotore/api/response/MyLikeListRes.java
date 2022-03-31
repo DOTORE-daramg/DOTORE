@@ -10,7 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
-@ApiModel("MyDownloadListResponse")
+@ApiModel("MyLikeListResponse")
 public class MyLikeListRes extends BaseRes {
 
     private List<ItemListVO> data = new ArrayList<>();

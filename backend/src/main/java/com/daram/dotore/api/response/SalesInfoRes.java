@@ -13,9 +13,9 @@ import java.time.LocalDateTime;
 @ApiModel("SalesInfoResponse")
 public class SalesInfoRes extends BaseRes{
 
+    private String saleTrxHash;
     private String cashContractAddress;
     private LocalDateTime createdAt;
-    private String saleContractAddress;
     private int saleId;
     private Boolean saleYn;
     private String sellerAddress;
@@ -33,6 +33,7 @@ public class SalesInfoRes extends BaseRes{
     public static SalesInfoRes of(String result, Sales item) {
         SalesInfoRes res = new SalesInfoRes();
         res.setResult(result);
+        res.setSaleTrxHash(item.getSaleTrxHash());
         res.setCashContractAddress(item.getCashContractAddress());
         res.setCreatedAt(item.getCreated_at());
         res.setSaleId(item.getSaleId());

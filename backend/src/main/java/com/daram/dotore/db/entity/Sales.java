@@ -51,10 +51,13 @@ public class Sales {
 
     LocalDateTime completed_at;
 
+    @NotNull
+    String status;
+
     @Builder
     public Sales(String saleTrxHash, int saleId, BigInteger tokenId,
         String cashContractAddress, Boolean saleYn, String sellerAddress, String buyerAddress,
-        String price, LocalDateTime created_at, LocalDateTime completed_at) {
+        String price, LocalDateTime created_at, LocalDateTime completed_at, String status) {
         this.saleTrxHash = saleTrxHash;
         this.saleId = saleId;
         this.tokenId = tokenId;
@@ -65,20 +68,31 @@ public class Sales {
         this.price = price;
         this.created_at = created_at;
         this.completed_at = completed_at;
+        this.status = status;
     }
 
-    public Sales setOnSaleYn(boolean onSaleYn){
-        this.saleYn=onSaleYn;
+    public Sales setOnSaleYn(boolean onSaleYn) {
+        this.saleYn = onSaleYn;
         return this;
     }
 
-    public Sales setBuyerAddress(String buyerAddress){
-        this.buyerAddress=buyerAddress;
+    public Sales setBuyerAddress(String buyerAddress) {
+        this.buyerAddress = buyerAddress;
         return this;
     }
 
-    public Sales setCompletedAt(LocalDateTime time){
-        this.completed_at=time;
+    public Sales setCompletedAt(LocalDateTime time) {
+        this.completed_at = time;
+        return this;
+    }
+
+    public Sales setSaleId(int saleId) {
+        this.saleId = saleId;
+        return this;
+    }
+
+    public Sales setStatus(String status) {
+        this.status = status;
         return this;
     }
 }

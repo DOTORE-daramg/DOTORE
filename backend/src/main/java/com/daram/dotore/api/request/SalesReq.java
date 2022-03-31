@@ -14,7 +14,6 @@ public class SalesReq {
     private String saleTrxHash;
     private BigInteger tokenId;
     private String sellerAddress;
-    private String salesContractAddress;
     private String cashContractAddress;
     private String price;
 }
