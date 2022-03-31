@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import dotori from '../../assets/feedback/sitting-dotori.png';
+import React from "react";
+import styled from "styled-components";
+import dotori from "../../assets/feedback/sitting-dotori.png";
 
 const Container = styled.div`
   height: 194px;
