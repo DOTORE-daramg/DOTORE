@@ -25,9 +25,9 @@ export const RefreshTx = ({ gridSize, setIsLoading }: RefreshTxProps) => {
 
   const onRefreshTx = () => {
     getProgressTx(userInfo.address).then((res) => {
-      const data: string[] = res.data.data;
+      const data: any[] = res.data.data;
       if (data.length === 0) return;
-      data.map((TxHash: string) => CheckDoneTx(TxHash));
+      data.map((TxHash: any) => CheckDoneTx(TxHash.itemTrxHash));
     });
     setIsLoading(true);
   };
