@@ -20,56 +20,49 @@ interface TagInputBoxProps {
 
 export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
   const [badgeLabelList, setBadgeLabelList] = useState<string[]>([]);
-  const [form, setForm] = useState({
-    label: "",
-  });
-  const { label } = form;
-  const handleSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
+  const handleSubmit = (e: any) => {
+    if (badgeLabelList.length >= 5) {
+      // 태그 6개 이상은 넣을 수 없음!
+      return;
+    }
+    if (e.key === "Enter" || e.key === " ") {
+      const label = e.target.value;
+      if (label.trim().length === 0) {
+        e.target.value = "";
+        return;
+      }
       setBadgeLabelList((prev) => [...prev, label]);
+      e.target.value = "";
       handleTagChanged(label);
-      setForm({
-        label: "",
-      });
-    },
-    [handleTagChanged, label]
-  );
-
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault();
-  //   setBadgeLabelList((prev) => [...prev, label]);
-  //   setForm({
-  //     label: "",
-  //   });
-  // };
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    console.log("on Change");
-    setForm({
-      ...form,
-      [name]: value,
-    });
+    }
   };
+  const deleteBadge = (i: number) => {
+    setBadgeLabelList((prev) => [
+      ...prev.slice(0, i),
+      ...prev.slice(i + 1, prev.length),
+    ]);
+  };
+
   return (
     <Container>
       <TagContainer>
-        {badgeLabelList.map((label) => (
-          <Badge key={label} label={label}></Badge>
+        {badgeLabelList.map((label, index) => (
+          <Badge
+            key={index}
+            label={label}
+            index={index}
+            deleteBadge={deleteBadge}
+          ></Badge>
         ))}
       </TagContainer>
-      <form onSubmit={handleSubmit}>
-        <InputBox
-          value={label}
-          name="label"
-          placeholder="태그"
-          icon="hashtag"
-          width="23rem"
-          maxLength={20}
-          onChange={onChange}
-        ></InputBox>
-      </form>
+      <InputBox
+        name="label"
+        placeholder="태그"
+        icon="hashtag"
+        width="23rem"
+        maxLength={20}
+        onKeyDown={handleSubmit}
+      ></InputBox>
     </Container>
   );
 };
