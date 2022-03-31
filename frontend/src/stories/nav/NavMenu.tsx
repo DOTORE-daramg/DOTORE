@@ -33,6 +33,7 @@ const Item = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const DropDownItem = styled.div`
@@ -70,19 +71,17 @@ export const NavMenu = ({
   return (
     <>
       <Wrapper onClick={onClick}>
-        <Item {...props}>
-          {label}
-          <DropDownContent>
-            {dropdown &&
-              link &&
-              dropdown.map((menu, index) => (
-                <DropDownItem onClick={() => navigate(link[index])} key={index}>
-                  {menu}
-                </DropDownItem>
-              ))}
-            {/* <DropDownItem>hi</DropDownItem> */}
-          </DropDownContent>
-        </Item>
+        <Item {...props}>{label}</Item>
+        <DropDownContent>
+          {dropdown &&
+            link &&
+            dropdown.map((menu, index) => (
+              <DropDownItem onClick={() => navigate(link[index])} key={index}>
+                {menu}
+              </DropDownItem>
+            ))}
+          {/* <DropDownItem>hi</DropDownItem> */}
+        </DropDownContent>
       </Wrapper>
     </>
   );

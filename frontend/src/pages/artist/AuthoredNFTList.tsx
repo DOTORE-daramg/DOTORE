@@ -87,6 +87,7 @@ const Container = styled.div`
   justify-content: center;
   min-height: 22rem;
   align-items: center;
+  font-size: 1rem;
 `;
 
 const AuthoredNFTList = () => {
@@ -111,8 +112,8 @@ const AuthoredNFTList = () => {
         setIsLoading(false);
       }, 300);
     }
-    return () => clearTimeout();
-  }, []);
+    return () => setIsLoading(false);
+  }, [userAddress, isLoading]);
   return (
     <Container>
       {isLoading ? (
