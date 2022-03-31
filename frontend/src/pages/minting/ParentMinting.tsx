@@ -8,6 +8,7 @@ import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
 import { createToken } from "../../contracts/api/first";
+import { postFile, postMintBefore } from "../../api/item";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -54,7 +55,7 @@ const ParentMinting = () => {
   const [itemTitle, setItemTitle] = useState<string>("");
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
-  const [itemFile, setitemFile] = useState<File>();
+  const [itemFile, setitemFile] = useState<Blob>(new Blob());
 
   const handleTitleChanged = (e: any) => {
     setItemTitle(e.target.value);
@@ -65,27 +66,62 @@ const ParentMinting = () => {
   const handleTagChanged = (label: string) => {
     setitemTags((prev) => [...prev, label]);
   };
-  const handleFileChanged = (file: File) => {
+  const handleFileChanged = (file: Blob) => {
     setitemFile(file);
+  };
+  const uploadFile = async () => {
+    const data = new FormData();
+    data.append("data", itemFile);
+    const response = await postFile(data);
+    return response.data.imageUrl;
   };
 
   const onClickCreateToken = async () => {
-    console.log(itemTitle);
-    console.log(itemDesc);
-    console.log(itemTags);
-    console.log(itemFile);
-    console.log("Click Mint DTT!!");
     try {
       if (!isLoggedIn) {
         return;
       }
-      // createToken({ title, description, tokenUrl, isFirst, userAddress });
-      // console.log(response);
+      if (
+        itemTitle === "" ||
+        itemDesc === "" ||
+        !itemFile ||
+        itemFile.size === 0
+      ) {
+        return;
+      }
+      const format = itemFile.type.split("/")[0]; // 파일 포맷
+
+      // 백엔드에 파일 업로드
+      const fileUrl = await uploadFile(); // 받아온 Url
+
+      // 블록체인 컨트랙트에게 요청
+      const hash = await createToken({
+        title: itemTitle,
+        description: itemDesc,
+        tokenUrl: fileUrl,
+        tags: itemTags,
+        format,
+        userAddress: userInfo.address,
+      });
+
+      // 백엔드에게 TX Hash, 작품 정보 전송
+      const res = await postMintBefore({
+        authorAddress: userInfo.address,
+        format: format,
+        isFirst: true,
+        itemDescription: itemDesc,
+        itemHash: fileUrl,
+        itemTitle: itemTitle,
+        itemTrxHash: hash,
+        tags: itemTags,
+      });
+      console.log(res.data);
+
+      console.log(hash);
     } catch (err) {
       console.error(err);
     }
   };
-
 
   return (
     <Container>

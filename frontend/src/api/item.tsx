@@ -1,3 +1,4 @@
+import AppRouter from "../Router";
 import { api } from "./api";
 
 export const viewAll = async () => {
@@ -34,3 +35,12 @@ export const putLike = async (address: string, tokenId?: string) => {
 // export const dislike = async (address: string, tokenId: string) => {
 //   return await api.delete(`/api/items/like`, { address, tokenId });
 // };
+
+export const postFile = async (data: any) => {
+  return await api.post(`/api/items/mint/upload`, data);
+};
+
+export const postMintBefore = async (data: Object) => {
+  console.log(data);
+  return await api.post(`/api/items/mint/before`, data);
+};
