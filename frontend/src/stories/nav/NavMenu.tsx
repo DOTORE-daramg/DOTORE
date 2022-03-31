@@ -33,6 +33,7 @@ const Item = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 `;
 
 const DropDownItem = styled.div`
