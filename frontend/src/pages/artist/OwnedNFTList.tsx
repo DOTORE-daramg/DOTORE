@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 import { useMediaQuery } from "react-responsive";
@@ -83,15 +83,6 @@ const dummyItemList = [
   },
 ];
 
-const Container = styled.div`
-  display: flex;
-  margin: auto;
-  padding: 5rem 2rem;
-  justify-content: center;
-  min-height: 22rem;
-  align-items: center;
-`;
-
 const OwnedNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -100,6 +91,7 @@ const OwnedNFTList = () => {
   const { userAddress } = useParams();
   const [itemList, setItemList] = useState<ThumbnailProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     if (isLoading) {
       if (userAddress) {
@@ -115,13 +107,14 @@ const OwnedNFTList = () => {
       }, 300);
     }
     return () => clearTimeout();
-  }, []);
+  }, [isLoading]);
   return (
-    <Container>
+    <>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <>
+          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
@@ -133,7 +126,7 @@ const OwnedNFTList = () => {
           )}
         </>
       )}
-    </Container>
+    </>
   );
 };
 

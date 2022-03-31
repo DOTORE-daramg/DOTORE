@@ -82,15 +82,6 @@ const dummyItemList = [
   },
 ];
 
-const Container = styled.div`
-  display: flex;
-  margin: auto;
-  padding: 5rem 2rem;
-  justify-content: center;
-  min-height: 22rem;
-  align-items: center;
-`;
-
 const AuthoredNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -114,13 +105,14 @@ const AuthoredNFTList = () => {
       }, 300);
     }
     return () => clearTimeout();
-  }, []);
+  }, [isLoading]);
   return (
-    <Container>
+    <>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <>
+          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
@@ -132,7 +124,7 @@ const AuthoredNFTList = () => {
           )}
         </>
       )}
-    </Container>
+    </>
   );
 };
 
