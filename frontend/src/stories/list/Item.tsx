@@ -76,8 +76,8 @@ const Item = ({
     >
       <Image
         mode={viewMode}
-        imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-        // imageUrl={itemHash}
+        // imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+        imageUrl={itemHash}
         name={itemTitle}
       />
       <TextContainer>
