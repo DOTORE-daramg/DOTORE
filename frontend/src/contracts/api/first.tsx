@@ -26,7 +26,7 @@ export const createToken = async ({ title, description, tokenUrl, userAddress }:
             gas: 3000000,
             gasPrice: "10000000000",
         })
-        .on('transactionHash', (hash) => {
-            // 백엔드에 해시값, item title, description, file, (tokenId 빼고 다)
-        });
+    // .on('transactionHash', (hash) => {
+    //     // 백엔드에 해시값, item title, description, file, (tokenId 빼고 다)
+    // });
 }
