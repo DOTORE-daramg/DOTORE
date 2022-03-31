@@ -1,17 +1,22 @@
 package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.SaleCompleteReq;
+import com.daram.dotore.api.request.SaleTrxReq;
 import com.daram.dotore.api.request.SalesCancelReq;
 import com.daram.dotore.api.request.SalesReq;
 import com.daram.dotore.api.response.BaseRes;
+import com.daram.dotore.api.response.ItemListRes;
+import com.daram.dotore.api.response.SaleListRes;
 import com.daram.dotore.api.response.SalesInfoRes;
 import com.daram.dotore.api.service.ItemService;
 import com.daram.dotore.api.service.SaleService;
+import com.daram.dotore.db.entity.Items;
 import com.daram.dotore.db.entity.Sales;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,24 +35,58 @@ public class SalesController {
     @Autowired
     ItemService itemService;
 
-    @PostMapping
-    @ApiOperation(value = "판매 정보 등록", notes = "판매 정보 등록")
+    @PostMapping("/before")
+    @ApiOperation(value = "판매 등록 요청", notes = "트랜잭션을 포함한 판매 정보 등록")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
     })
-    public ResponseEntity<BaseRes> makeSales(@RequestBody SalesReq salesReq)
+    public ResponseEntity<BaseRes> beforeSale(@RequestBody SalesReq salesReq)
         throws Exception {
         try {
-            //토큰 아이디 검색
-            BigInteger tokenId = salesReq.getTokenId(); //2
-            //작품 테이블에서 tokenId로 검색해서 on_sale_yn true로 업데이트
-            itemService.updateOnSaleYn(tokenId);
-            Sales sales = saleService.saveNewSales(salesReq);
-            return ResponseEntity.status(200)
-                .body(BaseRes.of("Success"));
+            saleService.saveNewSales(salesReq);
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
+    }
+
+    @PostMapping("/{address}}")
+    @ApiOperation(value = "해당 유저 address로 Pending중인 판매 트랜잭션 반환", notes = "DB에 sale_id가 비어있는 트랜잭션 반환")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<SaleListRes> getPending(@PathVariable String address)
+        throws Exception {
+        try {
+            List<Sales> list = saleService.getPendingSaleList(address);
+            if (list.size() == 0) {
+                return ResponseEntity.status(201).body(SaleListRes.of("진행중인 트랜잭션이 존재하지 않음", list));
+            }
+            return ResponseEntity.status(200).body(SaleListRes.of("Success", list));
+        } catch (Exception e) {
+            return ResponseEntity.status(404).body(SaleListRes.of("존재하지 않는 address"));
+        }
+    }
+
+    @PatchMapping
+    @ApiOperation(value = "판매 등록 트랜잭션이 완료되면 sale_id와 status 업데이트", notes = "판매 등록 성공시 sale_id 및 yn 업데이트")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> updateSale(@RequestBody SaleTrxReq saleTrxReq)
+        throws Exception {
+        Sales sale = saleService.getSaleByTrxHash(saleTrxReq.getSaleTrxHash());
+        if (sale == null) {
+            return ResponseEntity.status(404).body(BaseRes.of("존재하지 않는 트랜잭션"));
+        }
+
+        BigInteger tokenId = sale.getTokenId();
+        itemService.updateOnSaleYn(tokenId);
+        saleService.updateSale(saleTrxReq);
+        return ResponseEntity.status(200).body(BaseRes.of("Success"));
     }
 
     @GetMapping("/{token_id}")
