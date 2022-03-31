@@ -13,7 +13,6 @@ const Nav = styled.div`
   flex-wrap: nowrap;
   background: rgba(102, 103, 171, 0.1);
   @media screen and (max-width: 500px) {
-    /* padding: 2vh; */
     justify-content: center;
     height: 2.6rem;
   }

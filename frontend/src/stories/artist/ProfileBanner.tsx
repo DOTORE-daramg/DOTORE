@@ -10,10 +10,15 @@ import { userInfoState, userInfoTypes } from "../..";
 // Banner Container ============================================
 const BannerContainer = styled.div`
   width: 100%;
-  height: 18rem;
+  height: 20rem;
   background: rgba(102, 103, 171, 0.1);
   display: flex;
   justify-content: center;
+  margin-top: 4rem;
+  @media screen and (max-width: 768px) {
+    height: 23rem;
+    padding-top: 2rem;
+  }
 `;
 
 // Profile Container ============================================
@@ -64,9 +69,6 @@ const ProfileNickname = styled.span`
   color: #000000;
   font-weight: 700;
   margin-right: 1.5rem;
-  @media screen and (max-width: 500px) {
-    font-size: 1.2rem;
-  }
 `;
 const ProfileLevel = styled.span`
   font-size: 0.8rem;
@@ -88,9 +90,6 @@ const ProfileDescription = styled.span`
   color: #4b4b4b;
   font-weight: 500;
   margin-top: 1rem;
-  @media screen and (max-width: 500px) {
-    font-size: 0.9rem;
-  }
 `;
 const ProfileDotoriAmount = styled.div`
   font-size: 1rem;

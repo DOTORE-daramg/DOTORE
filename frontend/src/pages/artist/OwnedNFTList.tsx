@@ -3,84 +3,9 @@ import styled from "styled-components";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 import { useMediaQuery } from "react-responsive";
 import { getNFTList } from "../../api/artist";
-import { useRecoilValue } from "recoil";
-import { userInfoState, userInfoTypes } from "../..";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
-
-const dummyItemList = [
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-];
 
 const Container = styled.div`
   display: flex;
@@ -89,6 +14,7 @@ const Container = styled.div`
   justify-content: center;
   min-height: 22rem;
   align-items: center;
+  font-size: 1rem;
 `;
 
 const OwnedNFTList = () => {
@@ -113,8 +39,8 @@ const OwnedNFTList = () => {
         setIsLoading(false);
       }, 300);
     }
-    return () => clearTimeout();
-  }, []);
+    return () => setIsLoading(false);
+  }, [userAddress, isLoading]);
   return (
     <Container>
       {isLoading ? (

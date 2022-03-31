@@ -213,7 +213,6 @@ const Main = () => {
         itemList.sort((a, b) => {
           return b.like - a.like;
         });
-        setIsLoading(false);
       });
       getUsers().then((res) => {
         const {
@@ -241,11 +240,11 @@ const Main = () => {
         profileList.sort((a, b) => {
           return b.acorn - a.acorn;
         });
+        setIsLoading(false);
       });
     }
-  }, []);
+  }, [isLoading]);
   const isPc = useMediaQuery({ minWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 500 });
 
   return (
     <Container>
@@ -254,10 +253,10 @@ const Main = () => {
       <NFTContainer>
         <Title label="Popular NFTs" size="4rem" />
         <SubTitle label="지금 이 시각 가장 활발한 창작물" />
-        {isPc && (
+        {!isLoading && isPc && (
           <ThumbnailGrid itemList={itemList} size="48rem" columnCount={3} />
         )}
-        {!isPc && (
+        {!isLoading && !isPc && (
           <ThumbnailGrid itemList={itemList} size="20rem" columnCount={2} />
         )}
         <Link to="/list">
@@ -268,18 +267,25 @@ const Main = () => {
       <NFTContainer>
         <Title label="Top Artists" size="4rem" />
         <SubTitle label="지금 이 시각 가장 주목받는 작가" />
-        <GridContainer>
-          {profileList.slice(0, 6).map((profile) => (
-            <Profile
-              profileImgUrl={profile.profile_img_url}
-              profileNickname={profile.nickname}
-              profileLevel={profile.profileLevel}
-              size="72px"
-              onClick={profile.onClick}
-              key={profile.address}
-            />
-          ))}
-        </GridContainer>
+        {!isLoading ? (
+          <GridContainer>
+            {profileList &&
+              profileList
+                .slice(0, 6)
+                .map((profile) => (
+                  <Profile
+                    profileImgUrl={profile.profile_img_url}
+                    profileNickname={profile.nickname}
+                    profileLevel={profile.profileLevel}
+                    size="72px"
+                    onClick={profile.onClick}
+                    key={profile.address}
+                  />
+                ))}
+          </GridContainer>
+        ) : (
+          <div>로딩중</div>
+        )}
       </NFTContainer>
     </Container>
   );

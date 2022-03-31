@@ -12,13 +12,12 @@ import { Title } from "../../stories/Title";
 
 const Container = styled.div`
   height: fit-content;
-  margin: 100px 200px;
+  margin: 150px 200px;
 
   @media screen and (max-width: 768px) {
-    margin: 60px 0;
+    margin: 100px 0;
     display: flex;
     flex-direction: column;
-    /* justify-content: center; */
     align-items: center;
   }
 `;
