@@ -76,12 +76,12 @@ public class ItemController {
     }
 
     @GetMapping("/mint/{address}")
-    @ApiOperation(value = "해당 address의 Pending중인 트랜잭션 반환", notes = "DB에 token_id가 비어있는 트랜잭션 반환")
+    @ApiOperation(value = "해당 유저 address로 Pending중인 민팅 트랜잭션 반환", notes = "DB에 token_id가 비어있는 트랜잭션 반환")
     @ApiResponses({
-        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
-        @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+        @ApiResponse(code = 200, message = "Success", response = ItemListRes.class),
+        @ApiResponse(code = 400, message = "Fail", response = ItemListRes.class),
     })
-    public ResponseEntity<BaseRes> afterMint(@PathVariable String address) {
+    public ResponseEntity<ItemListRes> getPending(@PathVariable String address) {
         try {
             List<Items> list = itemService.getPendingItemList(address);
             if (list.size() == 0) {
@@ -89,12 +89,12 @@ public class ItemController {
             }
             return ResponseEntity.status(200).body(ItemListRes.of("Success", list));
         } catch (Exception e) {
-            return ResponseEntity.status(404).body(ItemListRes.of("존재하지 않는 token_id"));
+            return ResponseEntity.status(404).body(ItemListRes.of("존재하지 않는 address"));
         }
     }
 
     @PatchMapping("/mint")
-    @ApiOperation(value = "민팅 성공시 token_id 업데이트", notes = "민팅 성공시 token_id 업데이트")
+    @ApiOperation(value = "민팅 트랜잭션이 완료되면 token_id와 status 업데이트", notes = "민팅 트랜잭션이 완료되면 token_id와 status 업데이트")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 404, message = "Fail", response = BaseRes.class),

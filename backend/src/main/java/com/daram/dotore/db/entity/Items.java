@@ -96,4 +96,8 @@ public class Items {
     public void setItem_hash(String item_hash) {
         this.item_hash = item_hash;
     }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

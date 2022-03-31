@@ -16,6 +16,6 @@ public class requestFeedbackVO {
     String itemTitle; //items
     String questioner; //본인의 주소 feed
     String description; //feed
-    boolean YN;
+    boolean yn;
     LocalDateTime createdAt; //feed
 }

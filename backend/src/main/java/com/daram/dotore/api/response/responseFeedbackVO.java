@@ -15,7 +15,7 @@ public class responseFeedbackVO {
     String itemTitle;
     String questioner;
     String description;
-    boolean YN;
+    boolean yn;
     LocalDateTime createdAt;
     BigInteger tokenId;
 }
