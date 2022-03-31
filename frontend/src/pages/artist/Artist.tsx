@@ -5,8 +5,15 @@ import { ArtistNav } from "../../stories/artist/ArtistNav";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
+import styled from "styled-components";
 import { getUserInfo } from "../../api/user";
 
+const Container = styled.div`
+  padding: 30px 0px 70px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
 const Artist = () => {
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
   const setUserInfo = useSetRecoilState<userInfoTypes>(userInfoState);
@@ -47,7 +54,9 @@ const Artist = () => {
         ></ProfileBanner>
       )}
       <ArtistNav></ArtistNav>
-      <Outlet />
+      <Container>
+        <Outlet />
+      </Container>
     </>
   );
 };
