@@ -1,3 +1,4 @@
+import AppRouter from "../Router";
 import { api } from "./api";
 
 export const viewAll = async () => {
@@ -41,4 +42,13 @@ export const getProgressTx = async (address: string) => {
 
 export const modifyTokenId = async (req: object) => {
   return await api.patch(`/api/items/mint`, req);
+};
+
+export const postFile = async (data: any) => {
+  return await api.post(`/api/items/mint/upload`, data);
+};
+
+export const postMintBefore = async (data: Object) => {
+  console.log(data);
+  return await api.post(`/api/items/mint/before`, data);
 };

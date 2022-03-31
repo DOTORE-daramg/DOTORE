@@ -6,7 +6,11 @@ import { InputBox, TextAreaBox } from "../../stories/InputBox";
 import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { Button } from "../../stories/Button";
 import { isLoggedInState, userInfoState } from "../..";
-import { createToken, createMarketItem, purchase } from "../../contracts/api/second";
+import {
+  createToken,
+  createMarketItem,
+  purchase,
+} from "../../contracts/api/second";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -53,7 +57,7 @@ const ChildMinting = () => {
   const [itemTitle, setItemTitle] = useState<string>("");
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
-  const [itemFile, setitemFile] = useState<File>();
+  const [itemFile, setitemFile] = useState<Blob>(new Blob());
 
   const handleChangeSearchInput = (e: any) => {
     console.log(e.target.value);
@@ -67,7 +71,7 @@ const ChildMinting = () => {
   const handleTagChanged = (label: string) => {
     setitemTags((prev) => [...prev, label]);
   };
-  const handleFileChanged = (file: File) => {
+  const handleFileChanged = (file: Blob) => {
     setitemFile(file);
   };
 
