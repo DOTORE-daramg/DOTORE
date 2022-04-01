@@ -179,7 +179,7 @@ export interface ModalProps {
   icon?: string;
   title?: string;
   imageUrl: string;
-  onClose?: () => void;
+  onClose: () => void;
   onValidate?: () => void;
 }
 
@@ -199,14 +199,12 @@ export const SaleModal = ({
       return;
     }
     const wei = web3.utils.toWei(price);
-    await createMarketItem({
+    createMarketItem({
       tokenId: tokenId ? parseInt(tokenId) : 0,
       price: wei,
       userAddress: userInfo.address,
     });
-    if (onClose) {
-      onClose();
-    }
+    onClose();
   };
 
   const handlePriceChanged = (e: any) => {
@@ -229,7 +227,7 @@ export const SaleModal = ({
           <InnerContainer>
             <div>{title}</div>
             <InputBox
-              placeholder="원하는 가격을 등록하세요. 가격: (eth)"
+              placeholder="원하는 가격을 등록하세요. 가격: (ETH)"
               width="90%"
               maxLength={30}
               onBlur={handlePriceChanged}
