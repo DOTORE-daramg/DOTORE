@@ -47,10 +47,11 @@ const FilterContainer = styled.div`
 const CategoryContainer = styled.div`
   display: flex;
   width: 10rem;
-  justify-content: space-around;
+  justify-content: flex-start;
   margin: 30px 0;
   @media screen and (max-width: 768px) {
     width: 45%;
+    justify-content: space-around;
   }
 `;
 
@@ -111,20 +112,23 @@ const List = () => {
   const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
 
   const [items, setItems] = useState<ItemProps[]>([]);
+  const [filteredItems, setFilteredItems] = useState<ItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isSelected, setIsSelected] = useState<number>(0);
+  // const [keyword, setKeyword] = useState<string>("");
   const categories = ["최신순", "인기순"];
 
   useEffect(() => {
     viewAll().then((res) => {
       console.log(res.data.data);
+      setItems(res.data.data);
 
       if (isSelected === 0) {
         // 최신순
-        setItems(res.data.data);
+        setFilteredItems(res.data.data);
       } else if (isSelected === 1) {
         // 인기순
-        setItems(
+        setFilteredItems(
           res.data.data.sort((a: ItemProps, b: ItemProps) => {
             return b.like - a.like;
           })
@@ -139,7 +143,13 @@ const List = () => {
       <Title label="NFT 보기" size="2rem"></Title>
       <InnerContainer>
         <SideContainer>
-          <InputBox width="100%" placeholder="작품명 / 작가명 검색" />
+          <InputBox
+            items={items}
+            filteredItems={filteredItems}
+            setFilteredItems={setFilteredItems}
+            width="100%"
+            placeholder="작품명 / 작가명 검색"
+          />
           <FilterContainer>
             <CategoryContainer>
               {categories.map((category, index) => (
@@ -172,7 +182,7 @@ const List = () => {
             </ItemContainer>
           ) : items && items.length > 0 ? (
             <ItemContainer>
-              {items.map((item) => (
+              {filteredItems.map((item) => (
                 <Item key={item.tokenId} {...item} />
               ))}
             </ItemContainer>

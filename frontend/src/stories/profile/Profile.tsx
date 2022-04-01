@@ -67,7 +67,6 @@ interface ProfileImgProps {
 }
 
 function Profile({
-  // children,
   profileImgUrl,
   profileNickname,
   profileLevel,

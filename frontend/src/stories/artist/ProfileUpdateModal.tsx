@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { userInfoTypes } from "../..";
+import { userInfoState, userInfoTypes } from "../..";
 import { useMediaQuery } from "react-responsive";
 import { ProfileImg } from "../profile/ProfileImg";
 import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
 import { updateDesc, updateImage, updateNickname } from "../../api/user";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 import { FileDropBox } from "../minting/FileDropBox";
 
 const Section = styled.div`
@@ -179,16 +179,16 @@ const Backdrop = styled.div`
 `;
 
 export interface ProfileUpdateModalProps {
-  userInfo: userInfoTypes;
-  setUserInfo: SetterOrUpdater<userInfoTypes>;
+  // userInfo: userInfoTypes;
+  // setUserInfo: SetterOrUpdater<userInfoTypes>;
   onClose?: () => void;
   onValidate?: () => void;
   onClickToggleModal: () => void;
 }
 
 export const ProfileUpdateModal = ({
-  userInfo,
-  setUserInfo,
+  // userInfo,
+  // setUserInfo,
   onClose,
   onValidate,
   onClickToggleModal,
@@ -197,34 +197,36 @@ export const ProfileUpdateModal = ({
   const isMoblie = useMediaQuery({ maxWidth: 500 });
   const isPc = useMediaQuery({ minWidth: 768 });
   const imageSize = isMoblie ? "6rem" : isPc ? "10rem" : "7rem";
+  const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
   const [nickname, setNickname] = useState<string>(userInfo.nickname);
   const [desc, setDesc] = useState<string>(userInfo.description);
-  const [itemFile, setItemFile] = useState<Blob>(new Blob());
+  const [itemFile, setItemFile] = useState<Blob>();
 
   const onClickSaveButton = () => {
     console.log("save!");
-    if (nickname) {
-      updateNickname(userInfo.address, nickname).then((res) => {
-        setUserInfo({ ...userInfo, nickname });
-      });
-    }
 
-    if (desc) {
-      updateDesc(userInfo.address, desc).then((res) => {
-        setUserInfo({ ...userInfo, description: desc });
+    updateNickname(userInfo.address, nickname)
+      .then(() => {
+        console.log("하이");
+        return nickname;
+      })
+      .then((nickname) => {
+        updateDesc(userInfo.address, desc).then(() => {
+          setUserInfo({ ...userInfo, nickname, description: desc });
+        });
+      })
+      .then(() => {
+        if (itemFile) {
+          const data = new FormData();
+          data.append("data", itemFile);
+          console.log(data);
+          updateImage(userInfo.address, data).then(() => {
+            console.log("성공!");
+          });
+        }
       });
-    }
-
-    if (itemFile) {
-      // const format = itemFile.type.split("/")[0];
-      const data = new FormData();
-      data.append("data", itemFile);
-      updateImage(userInfo.address, data).then(() => {
-        console.log("성공!");
-      });
-    }
+    // console.log(itemFile);
     onClickToggleModal();
-    window.location.reload();
   };
 
   const onNicknameChange = (e: any) => {

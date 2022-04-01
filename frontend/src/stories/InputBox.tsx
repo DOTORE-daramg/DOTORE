@@ -1,7 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IconName } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "./common/Icon";
+import { ItemProps } from "./list/Item";
 
 const InputDiv = styled.div<{ width: string }>`
   width: ${(props) => props.width};
@@ -52,6 +53,9 @@ interface InputProps {
   maxLength?: number;
   name?: string;
   value?: string;
+  items?: ItemProps[];
+  filteredItems?: ItemProps[];
+  setFilteredItems?: React.Dispatch<React.SetStateAction<ItemProps[]>>;
   onBlur?: (event: any) => void;
   onKeyDown?: (event: any) => void;
   onChange?: (event: any) => void;
@@ -65,22 +69,46 @@ export const InputBox = ({
   onBlur,
   name,
   value,
+  items,
+  setFilteredItems,
   onKeyDown,
   onChange,
   ...props
 }: InputProps) => {
+  const [keyword, setKeyword] = useState<string>("");
+
+  const onKeywordChange = (e: any) => {
+    setKeyword(e.target.value);
+    console.log(keyword);
+  };
+
+  useEffect(() => {
+    if (items && setFilteredItems) {
+      setFilteredItems(
+        items.filter((item) => {
+          if (keyword === "") {
+            return item;
+          }
+          return (
+            item.itemTitle.includes(keyword) || item.nickname.includes(keyword)
+          );
+        })
+      );
+    }
+  }, [keyword]);
+
   return (
     <InputDiv width={width}>
       {icon ? <Icon mode="fas" icon={icon}></Icon> : null}
       <StyledInput
         name={name}
-        value={value}
+        value={value ? value : keyword}
         placeholder={placeholder}
         isPaddingStart={!!icon}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         maxLength={maxLength}
-        onChange={onChange}
+        onChange={onChange ? onChange : onKeywordChange}
       ></StyledInput>
     </InputDiv>
   );
