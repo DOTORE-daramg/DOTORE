@@ -1,19 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useRecoilValue } from "recoil";
+import { web3 } from "../../contracts";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
 import { InputBox } from "../InputBox";
 import { Image } from "./Image";
+import { createMarketItem } from "../../contracts/api/second";
+import { userInfoState } from "../..";
+import { useParams } from "react-router-dom";
 
 const Section = styled.div`
   position: absolute;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
 `;
 const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  position: relative;
+  z-index: 10000;
+  position: fixed;
+  overflow: hidden;
   width: 32rem;
   background: #ffffff;
   box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1),
@@ -152,6 +161,20 @@ const ModalFooter = styled.div`
   }
 `;
 
+const IconContainer = styled.div`
+  cursor: pointer;
+`;
+
+const Backdrop = styled.div`
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.3);
+`;
+
 export interface ModalProps {
   icon?: string;
   title?: string;
@@ -167,12 +190,36 @@ export const SaleModal = ({
   onValidate,
   ...props
 }: ModalProps) => {
+  const userInfo = useRecoilValue(userInfoState);
+  const { tokenId } = useParams();
+  const [price, setPrice] = useState<string>("");
+
+  const onClickCreateSale = async () => {
+    if (!tokenId || tokenId === "0" || !price || !userInfo.address) {
+      return;
+    }
+    const wei = web3.utils.toWei(price);
+    await createMarketItem({
+      tokenId: tokenId ? parseInt(tokenId) : 0,
+      price: wei,
+      userAddress: userInfo.address,
+    });
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handlePriceChanged = (e: any) => {
+    setPrice(e.target.value);
+  };
   return (
     <Section>
       <ModalContainer>
         <ModalHeader>
           <h3>NFT 판매 등록</h3>
-          <Icon mode="fas" icon="xmark" color="#9FABAE" />
+          <IconContainer onClick={onClose}>
+            <Icon mode="fas" icon="xmark" color="#9FABAE" />
+          </IconContainer>
         </ModalHeader>
         <ModalBorder></ModalBorder>
         <ModalBody>
@@ -184,7 +231,9 @@ export const SaleModal = ({
             <InputBox
               placeholder="원하는 가격을 등록하세요. 가격: (eth)"
               width="90%"
-              maxLength={10}
+              maxLength={30}
+              onBlur={handlePriceChanged}
+              type="number"
             />
             <div id="info">판매는 언제든지 취소할 수 있습니다.</div>
           </InnerContainer>
@@ -197,10 +246,16 @@ export const SaleModal = ({
               backgroundColor="#a09fae"
               onClick={onClose}
             />
-            <Button width="6rem" label="등록" backgroundColor="#6667AB" />
+            <Button
+              width="6rem"
+              label="등록"
+              backgroundColor="#6667AB"
+              onClick={onClickCreateSale}
+            />
           </div>
         </ModalFooter>
       </ModalContainer>
+      <Backdrop onClick={onClose} />
     </Section>
   );
 };
