@@ -117,7 +117,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             .address(feedbackReq.getQuestioner())
             .respondent(feedbackReq.getRespondent())
             .description(feedbackReq.getDescription())
-            .created_at(LocalDateTime.now())
+            .createdAt(LocalDateTime.now())
             .imgUrl(feedbackReq.getImgUrl())
             .build());
     }
@@ -138,7 +138,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             .articleno(answerReq.getArticleNo())
             .writer(answerReq.getWriter())
             .description(answerReq.getDescription())
-            .created_at(LocalDateTime.now())
+            .createdAt(LocalDateTime.now())
             .imgUrl(answerReq.getImgUrl())
             .build());
     }
