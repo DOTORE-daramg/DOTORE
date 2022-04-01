@@ -118,9 +118,9 @@ const ChildMinting = () => {
     if (!titleValidation) {
       console.log("Bad title");
       return;
-    } else if (originalTokenId.length === 0) {
-      console.log("Select Originals");
-      return;
+      // } else if (originalTokenId.length === 0) {
+      //   console.log("Select Originals");
+      //   return;
     } else if (itemFile.size === 0) {
       console.log("Upload File!");
       return;

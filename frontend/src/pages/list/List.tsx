@@ -23,7 +23,7 @@ const Container = styled.div`
 `;
 const SideContainer = styled.div`
   width: 15rem;
-  margin-right: 10rem;
+  margin-right: 6rem;
   height: 100%;
   margin-top: 30px;
   display: flex;
@@ -77,7 +77,7 @@ const InnerContainer = styled.div`
 `;
 
 const MainContainer = styled.div`
-  width: calc(100vw - 20rem);
+  width: calc(100% - 20rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -89,7 +89,7 @@ const MainContainer = styled.div`
 const ItemContainer = styled.div`
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   place-items: center;
   @media screen and (max-width: 768px) {
