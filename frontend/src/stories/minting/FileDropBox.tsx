@@ -7,9 +7,9 @@ const Container = styled.div<{ width?: string; imageUrl: string }>`
   position: relative;
   width: 23rem;
   height: 23rem;
-  border: 4px dashed rgba(102, 103, 171, 0.55);
+  border: 3px dashed rgba(102, 103, 171, 0.55);
   border-radius: 30px;
-  padding: 0.3rem;
+  padding: 0.05rem;
   background-clip: content-box;
   background-image: url(${(props) => (props.imageUrl ? props.imageUrl : "")});
   background-size: cover;

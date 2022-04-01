@@ -3,7 +3,7 @@ import styled from "styled-components";
 import dotori from "../../assets/feedback/sitting-dotori.png";
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 500px;
   background-color: rgba(102, 103, 171, 0.3);
   margin-top: 60px;
