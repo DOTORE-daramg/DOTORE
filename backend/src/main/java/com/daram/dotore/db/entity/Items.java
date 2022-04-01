@@ -29,7 +29,7 @@ public class Items {
     String item_hash;
 
     @NotNull
-    @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣]{1,100}")
+    @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣 ]{1,100}")
     String item_title;
 
     @NotNull
