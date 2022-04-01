@@ -28,7 +28,6 @@ export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
     if (e.key === "Enter" || e.key === " ") {
       const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
       if (special_pattern.test(e.target.value)) {
-        window.confirm("특수문자는 넣을 수 없음");
         return;
       }
       const label = e.target.value.replace(/ /gi, "");

@@ -160,8 +160,6 @@ const ParentMinting = () => {
     const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
     if (itemTitle.length < 1 || itemTitle.length > 100) {
       setTitleValidation(false);
-    } else if (itemTitle.search(/\s/) !== -1) {
-      setTitleValidation(false);
     } else if (special_pattern.test(itemTitle)) {
       setTitleValidation(false);
     } else {
@@ -190,7 +188,7 @@ const ParentMinting = () => {
           <InputTextContainer>
             <div>
               <SubTitleContainer isRequired={true}>제목</SubTitleContainer>
-              <SmallMutedText>공백, 특수 문자 포함 불가</SmallMutedText>
+              <SmallMutedText>특수 문자 포함 불가</SmallMutedText>
               <InputBox
                 placeholder="작품 제목"
                 width="23rem"
