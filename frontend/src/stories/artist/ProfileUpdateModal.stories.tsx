@@ -30,5 +30,5 @@ const userInfo: userInfoTypes = {
 export const ModifyModal = Template.bind({});
 ModifyModal.args = {
   // disclosure,
-  userInfo,
+  // userInfo,
 };

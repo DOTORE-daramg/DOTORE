@@ -188,6 +188,7 @@ const SaleContainer = styled.div`
 `;
 type Iitem = {
   authorAddress: string;
+  profileImgUrl: string;
   itemTitle: string;
   itemHash: string;
   nickname: string;
@@ -231,6 +232,7 @@ const Detail = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
+    profileImgUrl: "",
     itemTitle: "",
     itemHash: "",
     nickname: "",
@@ -242,6 +244,7 @@ const Detail = () => {
   });
   const {
     authorAddress,
+    profileImgUrl,
     itemTitle,
     itemHash,
     nickname,
@@ -370,7 +373,7 @@ const Detail = () => {
               <Description
                 title={itemTitle}
                 descrition={itemDescription}
-                profileImgUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+                profileImgUrl={profileImgUrl}
                 profileNickname={nickname}
                 profileLevel="Lv.2 꼬맹이도토리"
                 size="fit-content"
