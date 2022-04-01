@@ -2,7 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
-import { getFeedbacks, getFeedbacksFromMe, getIsLike } from "../api/item";
+import {
+  dislike,
+  getFeedbacks,
+  getFeedbacksFromMe,
+  getIsLike,
+} from "../api/item";
 import { getItem, getRelatedItem, putLike } from "../api/item";
 import { Button } from "../stories/Button";
 import { Amount } from "../stories/common/Amount";
@@ -37,7 +42,12 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 60px 0;
+  padding-left: 60px;
+  padding-top: 150px;
+  @media screen and (max-width: 768px) {
+    padding: 100px 0;
+    justify-content: center;
+  }
 `;
 
 const TitleContainer = styled.div`
@@ -155,6 +165,7 @@ const QuestionTitleContainer = styled.div`
   display: flex;
   width: 70%;
   justify-content: space-between;
+  margin-bottom: 20px;
 `;
 const SaleContainer = styled.div`
   width: calc(28rem + 350px);
@@ -294,9 +305,13 @@ const Detail = () => {
   const onClickQuestionCategory = () => {
     if (isAllQuestions) {
       // 내질문으로 바꿔야 함
-      getFeedbacksFromMe(tokenId, userInfo.address).then((res) => {
-        setQuestions(res.data.data.slice(0, 3));
-      });
+      getFeedbacksFromMe(tokenId, userInfo.address)
+        .then((res) => {
+          setQuestions(res.data.data.slice(0, 3));
+        })
+        .catch(() => {
+          // setQuestions();
+        });
     } else {
       // 모든 질문으로 바꿔야 함
       getFeedbacks(tokenId).then((res) => {
@@ -309,11 +324,11 @@ const Detail = () => {
   const onHeartClick = () => {
     if (userInfo.address) {
       if (isLike) {
-        // dislike(userInfo.address, tokenId).then((res) => {
-        //   console.log("성공!");
-        //   setItem({ ...item, like: res.data.count });
-        //   setIsLike(false);
-        // });
+        dislike(userInfo.address, tokenId).then((res) => {
+          console.log("성공!");
+          setItem({ ...item, like: res.data.count });
+          setIsLike(false);
+        });
       } else {
         putLike(userInfo.address, tokenId).then((res) => {
           console.log("성공!");
@@ -352,12 +367,7 @@ const Detail = () => {
           </TitleContainer>
           {/* 상단 정보 Container */}
           <MainContainer>
-            <Image
-              name="메타콩즈1"
-              // imageUrl={itemHash}
-              imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
-              mode={viewMode}
-            />
+            <Image name="메타콩즈1" imageUrl={itemHash} mode={viewMode} />
             <DescContainer>
               <Description
                 title={itemTitle}
