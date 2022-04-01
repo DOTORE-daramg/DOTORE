@@ -173,7 +173,7 @@ const Feedback = () => {
           ></FeedbackTitle>
           <FeedbackComment
             articleNo={articleNo}
-            profileImgUrl=""
+            profileImgUrl={questions.question.profileImgUrl}
             profileNickname={questions.question.nickname}
             profileLevel="Lv2. 청소년 도토리"
             content={questions.question.description}
@@ -186,7 +186,7 @@ const Feedback = () => {
               <FeedbackComment
                 key={answer.answerNo}
                 answerNo={answer.answerNo}
-                profileImgUrl=""
+                profileImgUrl={answer.profileImgUrl}
                 profileNickname={answer.nickname}
                 profileLevel="Lv2. 청소년 도토리"
                 content={answer.description}
