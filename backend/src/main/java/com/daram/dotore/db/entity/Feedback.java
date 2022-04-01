@@ -26,6 +26,7 @@ public class Feedback {
     String respondent;
 
     @NotNull
+    @Lob
     @Column(name = "description")
     String description;
 

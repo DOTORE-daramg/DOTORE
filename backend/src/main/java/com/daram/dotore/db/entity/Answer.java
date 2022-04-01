@@ -24,6 +24,7 @@ public class Answer {
     String writer;
 
     @NotNull
+    @Lob
     @Column(name = "description")
     String description;
 
