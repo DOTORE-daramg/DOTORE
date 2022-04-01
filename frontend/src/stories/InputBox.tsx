@@ -54,6 +54,7 @@ interface InputProps {
   value?: string;
   onBlur?: (event: any) => void;
   onKeyDown?: (event: any) => void;
+  onChange?: (event: any) => void;
 }
 
 export const InputBox = ({
@@ -65,6 +66,7 @@ export const InputBox = ({
   name,
   value,
   onKeyDown,
+  onChange,
   ...props
 }: InputProps) => {
   return (
@@ -78,6 +80,7 @@ export const InputBox = ({
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         maxLength={maxLength}
+        onChange={onChange}
       ></StyledInput>
     </InputDiv>
   );
@@ -90,6 +93,7 @@ export const TextAreaBox = ({
   maxLength = 100,
   value,
   onBlur,
+  onChange,
 }: InputProps) => {
   return (
     <InputDiv width={width}>
@@ -99,6 +103,7 @@ export const TextAreaBox = ({
         onBlur={onBlur}
         maxLength={maxLength}
         value={value}
+        onChange={onChange}
       ></StyledTextArea>
     </InputDiv>
   );
