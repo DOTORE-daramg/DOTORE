@@ -8,8 +8,7 @@ import { Button } from "../../stories/Button";
 import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
 import { createToken } from "../../contracts/api/first";
-import { postFile, postMintBefore } from "../../api/item";
-import { modifyTokenId } from "../../api/item";
+import { postFile, modifyTokenId } from "../../api/item";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -121,14 +120,6 @@ const ParentMinting = () => {
     }
     try {
       if (!isLoggedIn) {
-        return;
-      }
-      if (
-        itemTitle === "" ||
-        itemDesc === "" ||
-        !itemFile ||
-        itemFile.size === 0
-      ) {
         return;
       }
       const format = itemFile.type.split("/")[0]; // 파일 포맷
