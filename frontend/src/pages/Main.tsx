@@ -71,7 +71,7 @@ interface Iuser {
   acorn: number;
   address: string;
   nickname: string;
-  profile_img_url: string;
+  profileImgUrl: string;
   profileLevel: string;
   onClick: () => void;
 }
@@ -228,7 +228,7 @@ const Main = () => {
         } = res;
 
         data.map((res: Iuser) => {
-          const { acorn, address, nickname, profile_img_url } = res;
+          const { acorn, address, nickname, profileImgUrl } = res;
           const onClick = () => {
             navigete(`/artist/${address}`);
           };
@@ -238,9 +238,7 @@ const Main = () => {
             acorn,
             address,
             nickname,
-            // profile_img_url
-            profile_img_url:
-              "https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg",
+            profileImgUrl: profileImgUrl,
             profileLevel,
             onClick,
           });
@@ -294,7 +292,7 @@ const Main = () => {
                 .slice(0, 6)
                 .map((profile) => (
                   <Profile
-                    profileImgUrl={profile.profile_img_url}
+                    profileImgUrl={profile.profileImgUrl}
                     profileNickname={profile.nickname}
                     profileLevel={profile.profileLevel}
                     size="72px"

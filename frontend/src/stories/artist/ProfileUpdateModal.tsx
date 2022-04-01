@@ -199,6 +199,7 @@ export const ProfileUpdateModal = ({
   const imageSize = isMoblie ? "6rem" : isPc ? "10rem" : "7rem";
   const [nickname, setNickname] = useState<string>(userInfo.nickname);
   const [desc, setDesc] = useState<string>(userInfo.description);
+  const [itemFile, setItemFile] = useState<Blob>(new Blob());
 
   const onClickSaveButton = () => {
     console.log("save!");
@@ -215,7 +216,7 @@ export const ProfileUpdateModal = ({
     }
 
     if (itemFile) {
-      const format = itemFile.type.split("/")[0];
+      // const format = itemFile.type.split("/")[0];
       const data = new FormData();
       data.append("data", itemFile);
       updateImage(userInfo.address, data).then(() => {
@@ -234,29 +235,17 @@ export const ProfileUpdateModal = ({
     setDesc(e.target.value);
   };
 
-  const [itemFile, setItemFile] = useState<Blob>(new Blob());
   const onFileUpload = (e: any) => {
-    const formData = new FormData();
-    let itemTitle = e.target.value;
-    let file_kind = e.target.value.lastIndexOf(".");
-    let file_name = e.target.value.substring(file_kind + 1, e.length);
-    let file_type = file_name.toLowerCase();
-    let check_file_type = new Array();
-    check_file_type = ["jpg", "gif", "png", "jpeg"];
-
+    const file_kind = e.target.value.lastIndexOf(".");
+    const file_name = e.target.value.substring(file_kind + 1, e.length);
+    const file_type = file_name.toLowerCase();
+    const check_file_type = ["jpg", "gif", "png", "jpeg"];
+    console.log(check_file_type.indexOf("jpg"));
     if (check_file_type.indexOf(file_type) == -1) {
       alert("이미지 파일만 선택할 수 있습니다.");
       // return false;
     }
-
-    formData.append("multipartFile", e.target.files[0]);
-    console.log(formData);
-    updateImage(userInfo.address, formData).then(() => {
-      console.log("성공!");
-    });
-  };
-  const handleFileChanged = (file: Blob) => {
-    setItemFile(file);
+    setItemFile(e.target.files[0]);
   };
   return (
     <Section>
@@ -272,7 +261,7 @@ export const ProfileUpdateModal = ({
           <ProfileImgContainer>
             <label htmlFor="file-input">
               <ProfileImg
-                profileImgUrl={userInfo.profile_img_url}
+                profileImgUrl={userInfo.profileImgUrl}
                 size={imageSize}
               ></ProfileImg>
             </label>
