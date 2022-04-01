@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Feedback from "./pages/feedback/Feedback";
 import ChildList from "./pages/list/ChildList";
@@ -29,6 +29,7 @@ import {
   userInfoTypes,
 } from ".";
 import List from "./pages/list/List";
+import { web3 } from "./contracts";
 
 const Container = styled.div`
   min-height: 100vh;
@@ -43,20 +44,20 @@ const Container = styled.div`
 `;
 
 const AppRouter = () => {
-  const {
-    connector,
-    library,
-    chainId,
-    account,
-    active,
-    error,
-    activate,
-    deactivate,
-  } = useWeb3React();
+  const { account, activate, deactivate } = useWeb3React();
   const [isLoggedIn, setIsLoggedIn] =
     useRecoilState<isLoggedInTypes>(isLoggedInState);
   const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
+  const [address, setAddress] = useState<string>();
 
+  // 메타마스크, 페이지 모두 로그인 안돼있는 경우 => 로그인 버튼 눌러서 연결해줘야됨
+  // 메타마스크만 로그인 돼있는 경우
+  // 껏다가 다시 들어오면 메타마스크는 로그인 돼있으니까 새로고침 하면 account = undefined
+  // 리코일에 저장이 돼있으니까 isLoggedIn = true
+  // 계정을 바꾸면 activate가 안돼있으니까 account 안생김
+  // activate를 항상 활성화 하자니 지맘대로 로그인돼
+  // 메타마스크는 로그인 안했는데 우리사이트는 로그인 돼있는 경우 리코일에 저장돼있으면 메타마스크랑 상관없이 로그인돼있어요
+  // 민팅 리코일에 저장돼있는 userinfo를 가져다 쓰니까
   // 로그인 시나리오
   // 1 세션에 저장된 address가 존재하는지 확인
   // 2.1 존재한다면 해당 address로 connect를 시도하여 account가 일치하는지 확인
@@ -64,39 +65,51 @@ const AppRouter = () => {
   // 2.2 존재하지 않는다면 로그인 시도 안함
 
   // 계정 주소가 변하면 실행
+
+  const getAccount = async () => {
+    return await web3.eth.getAccounts();
+  };
+
   useEffect(() => {
-    console.log(account);
-    console.log(active);
-    console.log(connector);
-    console.log(chainId);
-    console.log(userInfo);
-    console.log(library);
-    if (account) {
-      console.log(connector?.getChainId().then((res) => console.log(res)));
-      login(account)
-        .then(() => {
-          getUserInfo(account).then((res) => {
-            const data = res.data;
-            setUserInfo({
-              address: data.address,
-              acorn: data.acorn,
-              description: data.description,
-              nickname: data.nickname,
-              profileImgUrl: data.profileImgUrl,
+    if (account)
+      getAccount().then((response) => {
+        console.log(response[0]);
+        setAddress(response[0]);
+        login(response[0])
+          .then(() => {
+            getUserInfo(response[0]).then((res) => {
+              const data = res.data;
+              setUserInfo({
+                address: data.address,
+                acorn: data.acorn,
+                description: data.description,
+                nickname: data.nickname,
+                profileImgUrl: data.profileImgUrl,
+              });
+              setIsLoggedIn({
+                isLoggedIn: true,
+              });
             });
-            setIsLoggedIn({
-              isLoggedIn: true,
-            });
+          })
+          .catch((e) => {
+            console.log("로그인 실패>>>>>>");
           });
-        })
-        .catch((e) => {
-          console.log("로그인 실패>>>>>>");
-        });
-    }
+      });
   }, [account]);
 
-  const onLogin = () => {
-    activate(injected, (e) => {
+  useEffect(() => {
+    if (userInfo.address)
+      activate(injected, (e) => {
+        if (
+          e.message === "No Ethereum provider was found on window.ethereum."
+        ) {
+          window.open("https://metamask.io/download.html");
+        }
+      });
+  }, []);
+
+  const onLogin = async () => {
+    await activate(injected, (e) => {
       if (e.message === "No Ethereum provider was found on window.ethereum.") {
         window.open("https://metamask.io/download.html");
       }
