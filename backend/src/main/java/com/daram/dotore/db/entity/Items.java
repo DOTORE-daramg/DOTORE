@@ -63,7 +63,7 @@ public class Items {
     @Builder
     public Items(String itemTrxHash, BigInteger tokenId, String itemHash, String itemTitle,
         String itemDescription, LocalDateTime createdAt, String authorAddress,
-        String ownerAddress, boolean on_sale_yn, boolean is_first, String format, String status) {
+        String ownerAddress, boolean onSaleYn, boolean isFirst, String format, String status) {
         this.itemTrxHash = itemTrxHash;
         this.tokenId = tokenId;
         this.itemHash = itemHash;
@@ -72,8 +72,8 @@ public class Items {
         this.createdAt = createdAt;
         this.authorAddress = authorAddress;
         this.ownerAddress = ownerAddress;
-        this.onSaleYn = on_sale_yn;
-        this.isFirst = is_first;
+        this.onSaleYn = onSaleYn;
+        this.isFirst = isFirst;
         this.format = format;
         this.status = status;
     }

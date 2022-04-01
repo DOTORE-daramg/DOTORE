@@ -52,14 +52,14 @@ public class ItemServiceImpl implements ItemService {
         Items item = itemRepository.save(Items.builder()
             .itemTrxHash(itemReq.getItemTrxHash())
             .tokenId(itemReq.getTokenId())
-            .item_hash(itemReq.getItemHash())
-            .item_title(itemReq.getItemTitle())
-            .item_description(itemReq.getItemDescription())
-            .created_at(LocalDateTime.now())
-            .author_address(itemReq.getAuthorAddress())
-            .owner_address(itemReq.getAuthorAddress())
-            .on_sale_yn(false)
-            .is_first(itemReq.getIsFirst())
+            .itemHash(itemReq.getItemHash())
+            .itemTitle(itemReq.getItemTitle())
+            .itemDescription(itemReq.getItemDescription())
+            .createdAt(LocalDateTime.now())
+            .authorAddress(itemReq.getAuthorAddress())
+            .ownerAddress(itemReq.getAuthorAddress())
+            .onSaleYn(false)
+            .isFirst(itemReq.getIsFirst())
             .format(itemReq.getFormat())
             .status("Pending")
             .build());
@@ -235,14 +235,14 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getAll() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findAll();
+        List<Items> items = itemRepository.findByStatus("Success");
         if (items == null) {
             return null;
         }
         Users user;
         int download = 0;
         int like = 0;
-        String[] tags = new String[items.size()];
+        String[] tags;
         for (Items item : items) {
             user = userService.getUserByAddress(item.getOwnerAddress());
             download = downloadRepository.countByTokenId(item.getTokenId());
@@ -256,7 +256,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getFirst() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirst(true);
+        List<Items> items = itemRepository.findByIsFirstAndStatus(true, "Success");
         if (items.isEmpty()) {
             return null;
         }
@@ -277,7 +277,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getSecond() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirst(false);
+        List<Items> items = itemRepository.findByIsFirstAndStatus(false, "Success");
         if (items.isEmpty()) {
             return null;
         }
