@@ -40,8 +40,8 @@ export const putLike = async (address: string, tokenId?: string) => {
   return await api.post(`/api/items/like`, { address, tokenId });
 };
 
-export const dislike = async (address: string, tokenId: string) => {
-  return await api.post(`/api/items/like`, { address, tokenId });
+export const dislike = async (address: string, tokenId?: string) => {
+  return await api.post(`/api/items/dislike`, { address, tokenId });
 };
 
 export const getProgressTx = async (address: string) => {

@@ -16,7 +16,7 @@ const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 60px 0;
+  padding: 150px 0;
 `;
 
 const TitleContainer = styled.div`
@@ -47,7 +47,7 @@ const DescContainer = styled.div`
   padding-left: 5rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   @media screen and (max-width: 768px) {
     justify-content: center;
     width: 80%;
@@ -105,12 +105,7 @@ const FeedbackCreate = () => {
       </TitleContainer>
       {/* 상단 정보 Container */}
       <MainContainer>
-        <Image
-          name={itemTitle}
-          //imageUrl={itemHash}
-          imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
-          mode={viewMode}
-        />
+        <Image name={itemTitle} imageUrl={itemHash} mode={viewMode} />
         <DescContainer>
           <Description
             title={itemTitle}
