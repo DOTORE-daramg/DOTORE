@@ -7,12 +7,14 @@ import { FileDropBox } from "../../stories/minting/FileDropBox";
 import { Button } from "../../stories/Button";
 import { isLoggedInState, userInfoState } from "../..";
 import { TagInputBox } from "../../stories/minting/TagInputBox";
-import { postFile, modifyTokenId } from "../../api/item";
+import { postFile, modifyTokenId, viewFirst } from "../../api/item";
 import {
   createToken,
   createMarketItem,
   purchase,
 } from "../../contracts/api/second";
+import { Iitem } from "../feedback/FeedbackCreate";
+import SearchResult from "../../stories/minting/SearchResult";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -79,6 +81,18 @@ const InputTextContainer = styled.div`
   }
 `;
 
+const SearchResults = styled.div`
+  width: 23rem;
+  background-color: white;
+  height: 300px;
+  position: absolute;
+  z-index: 10;
+  /* box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1),
+    0px 20px 50px rgba(32, 37, 38, 0.1); */
+  border: 1px solid lightgray;
+  border-radius: 20px;
+`;
+
 const ChildMinting = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const userInfo = useRecoilValue(userInfoState);
@@ -88,9 +102,20 @@ const ChildMinting = () => {
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
   const [titleValidation, setTitleValidation] = useState<boolean>(true);
   const [originalTokenId, setOriginalTokenId] = useState<Number[]>([]);
+  const [keyword, setKeyword] = useState<string>();
+  const [results, setResults] = useState<Iitem[]>([]);
 
   const handleChangeSearchInput = (e: any) => {
-    console.log(e.target.value);
+    setKeyword(e.target.value);
+    viewFirst().then((res) => {
+      res.data.data.map((item: any) => {
+        if (item.itemTitle.includes(keyword)) {
+          console.log(item);
+          setResults([...results, item]);
+        }
+      });
+      // setResults(res.data.data);
+    });
   };
   const handleTitleChanged = (e: any) => {
     setItemTitle(e.target.value);
@@ -169,6 +194,10 @@ const ChildMinting = () => {
     }
   };
 
+  const onItemClick = () => {
+    /// 구현해야 할 부분
+  };
+
   return (
     <Container>
       <MintingContainer>
@@ -197,6 +226,13 @@ const ChildMinting = () => {
                 icon="magnifying-glass"
                 onBlur={handleChangeSearchInput}
               ></InputBox>
+              {results.length > 0 && (
+                <SearchResults>
+                  {results.map((result) => (
+                    <SearchResult onClick={onItemClick} item={result} />
+                  ))}
+                </SearchResults>
+              )}
             </div>
             <div>
               <SubTitleContainer isRequired={true}>제목</SubTitleContainer>
