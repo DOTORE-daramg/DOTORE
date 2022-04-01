@@ -20,7 +20,7 @@ public interface SaleRepository extends JpaRepository<Sales, Integer> {
     Optional<Sales> findBySaleTrxHash(String saleTrxHash);
 
     @Query(value =
-        "SELECT sale_trx_hash, sale_id, token_id, cash_contract_address, sale_yn, seller_address, buyer_address, price, created_at, completed_at "
+        "SELECT sale_trx_hash, sale_id, token_id, cash_contract_address, sale_yn, seller_address, buyer_address, price, created_at, completed_at, status "
             + "FROM Sales "
             + "WHERE token_id = :tokenId "
             + "AND completed_at is null ", nativeQuery = true)

@@ -27,6 +27,7 @@ import { Title } from "../stories/Title";
 import { Title as SubTitle } from "../stories/detail/Title";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "..";
+import { getSale } from "../api/sale";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -198,6 +199,18 @@ type Iitem = {
   tags: string[];
 };
 
+type Isale = {
+  saleTrxHash: string | undefined;
+  cashContractAddress: string;
+  completedAt: string;
+  price: string;
+  result: string;
+  saleId: number | undefined;
+  saleYn: boolean;
+  sellerAddress: string;
+  tokenId: number;
+};
+
 const Detail = () => {
   const transacrions = [
     {
@@ -229,6 +242,7 @@ const Detail = () => {
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(false);
+  const [saleStatus, setSaleStatus] = useState<string>("");
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
     itemTitle: "",
@@ -300,6 +314,15 @@ const Detail = () => {
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });
+    // if (tokenId) {
+    //   getSale(tokenId)
+    //     .then((res) => {
+    //       console.log(res.data);
+    //     })
+    //     .catch((err) => {
+    //       console.error(err);
+    //     });
+    // }
   }, [tokenId]);
 
   const onClickQuestionCategory = () => {
@@ -479,13 +502,6 @@ const Detail = () => {
             </>
           )}
 
-          {isModalShow && (
-            <SaleModal
-              imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
-              onClose={onClickToggleModal}
-            />
-          )}
-
           {/* 하단 정보 컨테이너 시작 */}
           <DetailContainer>
             {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
@@ -531,6 +547,12 @@ const Detail = () => {
               </InfoContainer>
             )}
           </DetailContainer>
+          {isModalShow && (
+            <SaleModal
+              imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
+              onClose={onClickToggleModal}
+            />
+          )}
         </Container>
       )}
     </>

@@ -28,6 +28,9 @@ const StyledInput = styled.input<{ isPaddingStart: boolean }>`
   ::placeholder {
     color: #7b7b7b;
   }
+  [type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 `;
 
 const StyledTextArea = styled.textarea`
@@ -52,6 +55,7 @@ interface InputProps {
   maxLength?: number;
   name?: string;
   value?: string;
+  type?: string;
   onBlur?: (event: any) => void;
   onKeyDown?: (event: any) => void;
   onChange?: (event: any) => void;
@@ -62,6 +66,7 @@ export const InputBox = ({
   icon,
   width,
   maxLength = 100,
+  type = "text",
   onBlur,
   name,
   value,
@@ -77,6 +82,7 @@ export const InputBox = ({
         value={value}
         placeholder={placeholder}
         isPaddingStart={!!icon}
+        type={type}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         maxLength={maxLength}
