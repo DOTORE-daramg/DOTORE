@@ -32,7 +32,8 @@ const Artist = () => {
         setArtistInfo(res.data);
       });
     }
-  }, []);
+  }, [userAddress]);
+  console.log(">>>>>>>", userInfo.profileImgUrl);
   return (
     <>
       {isModalShow && (
@@ -44,7 +45,7 @@ const Artist = () => {
       )}
       {artistInfo && (
         <ProfileBanner
-          profileImgUrl={artistInfo.profile_img_url}
+          profileImgUrl={artistInfo.profileImgUrl}
           profileNickname={artistInfo.nickname}
           profileLevel="Lv.2 어린이 도토리"
           profileAddress={artistInfo.address}

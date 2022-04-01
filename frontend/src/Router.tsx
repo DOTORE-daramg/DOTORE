@@ -82,7 +82,7 @@ const AppRouter = () => {
               acorn: data.acorn,
               description: data.description,
               nickname: data.nickname,
-              profile_img_url: data.profile_img_url,
+              profileImgUrl: data.profileImgUrl,
             });
             setIsLoggedIn({
               isLoggedIn: true,
@@ -113,7 +113,7 @@ const AppRouter = () => {
       acorn: 0,
       description: "",
       nickname: "",
-      profile_img_url: "",
+      profileImgUrl: "",
     });
   };
 

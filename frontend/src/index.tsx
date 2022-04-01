@@ -31,7 +31,7 @@ export interface userInfoTypes {
   acorn: number;
   description: string;
   nickname: string;
-  profile_img_url: string;
+  profileImgUrl: string;
 }
 
 export const userInfoState = atom<userInfoTypes>({
@@ -42,7 +42,7 @@ export const userInfoState = atom<userInfoTypes>({
     acorn: 0,
     description: "",
     nickname: "",
-    profile_img_url: "",
+    profileImgUrl: "",
   },
   effects_UNSTABLE: [persistAtom],
 });

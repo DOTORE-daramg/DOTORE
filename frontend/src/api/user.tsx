@@ -22,5 +22,5 @@ export const updateNickname = async (address: string, nickname: string) => {
 };
 
 export const updateImage = async (address: string, data: FormData) => {
-  return await api.patch(`/api/mypage/img`, { address, data });
+  return await api.patch(`/api/mypage/img?address=${address}`, data);
 };
