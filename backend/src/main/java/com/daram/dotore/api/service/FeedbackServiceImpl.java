@@ -98,7 +98,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         for (Answer answer : list) {
             String profile_img_url = userRepository.findByAddress(answer.getWriter()).get()
                 .getProfileImgUrl();
-            answers.add(new FeedbackAnswerVO(answer.getAnswerNo(), answer.getWriter(),
+            answers.add(new FeedbackAnswerVO(answer.getAnswerno(), answer.getWriter(),
                 answer.getDescription(), answer.getCreatedAt(), answer.getImgUrl(),
                 profile_img_url));
         }
