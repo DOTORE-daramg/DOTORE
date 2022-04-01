@@ -17,10 +17,10 @@ const InputDiv = styled.div<{ width: string }>`
 `;
 
 const StyledInput = styled.input<{ isPaddingStart: boolean }>`
-  padding: 0.7rem;
-  margin-left: ${(props) => (props.isPaddingStart ? "1.3rem" : "0")};
+  padding: 0.7rem 0.7rem 0.7rem 0.1rem;
+  margin-left: ${(props) => (props.isPaddingStart ? "2rem" : "0")};
   border: none;
-  width: ${(props) => (props.isPaddingStart ? "calc(100% - 1.3rem)" : "100%")};
+  width: ${(props) => (props.isPaddingStart ? "calc(100% - 2rem)" : "100%")};
   font-family: "SUIT", sans-serif;
   :focus {
     outline: none;
@@ -31,7 +31,7 @@ const StyledInput = styled.input<{ isPaddingStart: boolean }>`
 `;
 
 const StyledTextArea = styled.textarea`
-  padding: 0.7rem;
+  padding: 0.7rem 0.7rem 0.7rem 0.1rem;
   border: none;
   width: 100%;
   resize: none;
