@@ -1,10 +1,10 @@
-import { useEffect, useState } from "@storybook/addons";
 import React from "react";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { userInfoState, userInfoTypes } from "../..";
 import { getProgressTx } from "../../api/item";
-import { CheckDoneTx } from "../../contracts/api/mypage";
+import { getPendingSale } from "../../api/sale";
+import { checkMintDoneTx, checkSaleDoneTx } from "../../contracts/api/mypage";
 import { Icon } from "../common/Icon";
 
 const RefreshIcon = styled.div<{ width: string }>`
@@ -24,10 +24,18 @@ export const RefreshTx = ({ gridSize, setIsLoading }: RefreshTxProps) => {
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   const onRefreshTx = () => {
+    // 유저가 민팅 pending 중인 트랜잭션 목록 갱신
     getProgressTx(userInfo.address).then((res) => {
       const data: any[] = res.data.data;
       if (data.length === 0) return;
-      data.map((TxHash: any) => CheckDoneTx(TxHash.itemTrxHash));
+      data.map((TxHash: any) => checkMintDoneTx(TxHash.itemTrxHash));
+    });
+    // 유저가 판매 등록 pending중인 판매 트랜잭션 목록 갱신
+    getPendingSale(userInfo.address).then((res) => {
+      console.log(res.data.data);
+      const txList = res.data.data;
+      if (txList.length === 0) return;
+      txList.map((txhash: any) => checkSaleDoneTx(txhash.saleTrxHash));
     });
     setIsLoading(true);
   };
