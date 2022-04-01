@@ -297,14 +297,14 @@ export const ProfileUpdateModal = ({
               width="100%"
               maxLength={10}
               value={nickname}
-              onChange={onNicknameChange}
+              onBlur={onNicknameChange}
             ></InputBox>
             <TextAreaBox
               placeholder="한 줄 소개"
               width="100%"
               rows={5}
               value={desc}
-              onChange={onDescChange}
+              onBlur={onDescChange}
             ></TextAreaBox>
           </ModalInputBoxContainer>
         </ModalBody>
