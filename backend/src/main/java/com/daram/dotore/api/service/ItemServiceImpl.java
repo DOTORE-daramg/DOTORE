@@ -113,11 +113,11 @@ public class ItemServiceImpl implements ItemService {
         secondaryRepository.updateTokenId(itemTrxReq.getItemTrxHash(), itemTrxReq.getTokenId());
 
         item.setTokenId(itemTrxReq.getTokenId());
-        if(itemTrxReq.getTokenId().intValue()==0){
+        if (itemTrxReq.getTokenId().intValue() == 0) {
             item.setStatus("Fail");
-        }else{
+        } else {
             item.setStatus("Success");
-            userService.plusAcorn(item.getAuthor_address(), 10);
+            userService.plusAcorn(item.getAuthorAddress(), 10);
         }
 
         return itemRepository.save(item);
@@ -244,7 +244,7 @@ public class ItemServiceImpl implements ItemService {
         int like = 0;
         String[] tags = new String[items.size()];
         for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwner_address());
+            user = userService.getUserByAddress(item.getOwnerAddress());
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());
             tags = getTags(item.getTokenId());
@@ -265,7 +265,7 @@ public class ItemServiceImpl implements ItemService {
         int like;
         String[] tags;
         for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwner_address());
+            user = userService.getUserByAddress(item.getOwnerAddress());
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());
             tags = getTags(item.getTokenId());
@@ -286,7 +286,7 @@ public class ItemServiceImpl implements ItemService {
         int like;
         String[] tags;
         for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwner_address());
+            user = userService.getUserByAddress(item.getOwnerAddress());
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());
             tags = getTags(item.getTokenId());
@@ -309,7 +309,7 @@ public class ItemServiceImpl implements ItemService {
         String[] tags;
         String price;
         for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwner_address());
+            user = userService.getUserByAddress(item.getOwnerAddress());
             download = downloadRepository.countByTokenId(item.getTokenId());
             like = likeRepository.countByTokenId(item.getTokenId());
             tags = getTags(item.getTokenId());
@@ -355,7 +355,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Items updateImageUrl(BigInteger tokenId, String imageUrl) {
         Items item = getItemByTokenId(tokenId);
-        item.setItem_hash(imageUrl);
+        item.setItemHash(imageUrl);
         return itemRepository.save(item);
     }
 }

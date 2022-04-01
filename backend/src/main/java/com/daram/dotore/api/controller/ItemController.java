@@ -133,7 +133,7 @@ public class ItemController {
     public ResponseEntity<ItemDetailRes> getDetail(@PathVariable BigInteger token_id) {
         try {
             Items item = itemService.getItemByTokenId(token_id);
-            Users user = userService.getUserByAddress(item.getOwner_address());
+            Users user = userService.getUserByAddress(item.getOwnerAddress());
             int download = itemService.countDownload(token_id);
             int like = itemService.countLike(token_id);
             String[] tags = itemService.getTags(token_id);

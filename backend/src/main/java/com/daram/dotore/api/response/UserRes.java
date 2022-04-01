@@ -24,7 +24,7 @@ public class UserRes extends BaseRes {
             res.setNickname(user.getNickname());
             res.setDescription(user.getDescription());
             res.setAcorn(user.getAcorn());
-            res.setProfileImgUrl(user.getProfile_img_url());
+            res.setProfileImgUrl(user.getProfileImgUrl());
         }
         return res;
     }

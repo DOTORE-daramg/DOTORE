@@ -97,12 +97,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         List<FeedbackAnswerVO> answers = new ArrayList<>();
         for (Answer answer : list) {
             String profile_img_url = userRepository.findByAddress(answer.getWriter()).get()
-                .getProfile_img_url();
-            answers.add(new FeedbackAnswerVO(answer.getAnswerno(), answer.getWriter(),
-                answer.getDescription(), answer.getCreated_at(), answer.getImgUrl(),
+                .getProfileImgUrl();
+            answers.add(new FeedbackAnswerVO(answer.getAnswerNo(), answer.getWriter(),
+                answer.getDescription(), answer.getCreatedAt(), answer.getImgUrl(),
                 profile_img_url));
         }
-        return FeedbackDetailRes.of("Success", feedback, user.getProfile_img_url(), answers);
+        return FeedbackDetailRes.of("Success", feedback, user.getProfileImgUrl(), answers);
     }
 
     @Override

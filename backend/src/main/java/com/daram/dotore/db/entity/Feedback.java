@@ -30,7 +30,7 @@ public class Feedback {
     String description;
 
     @NotNull
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
 
     String imgUrl;
 
@@ -42,11 +42,11 @@ public class Feedback {
     BigInteger tokenId;
 
     @Builder
-    public Feedback(int articleno, String respondent, String description, LocalDateTime created_at, String imgUrl, String address, BigInteger tokenId) {
+    public Feedback(int articleno, String respondent, String description, LocalDateTime createdAt, String imgUrl, String address, BigInteger tokenId) {
         this.articleno = articleno;
         this.respondent = respondent;
         this.description = description;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.imgUrl = imgUrl;
         this.address = address;
         this.tokenId = tokenId;

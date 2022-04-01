@@ -17,7 +17,7 @@ public class Answer {
     @Id
     @Column(name = "answerno", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int answerno;
+    int answerNo;
 
     @NotNull
     @Column(name = "writer")
@@ -28,21 +28,21 @@ public class Answer {
     String description;
 
     @NotNull
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
 
     String imgUrl;
 
     @NotNull
-    int articleno;
+    int articleNo;
 
     @Builder
-    public Answer(int answerno, String writer, String description, LocalDateTime created_at, String imgUrl, int articleno) {
-        this.answerno = answerno;
+    public Answer(int answerNo, String writer, String description, LocalDateTime createdAt, String imgUrl, int articleNo) {
+        this.answerNo = answerNo;
         this.writer = writer;
         this.description = description;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.imgUrl = imgUrl;
-        this.articleno = articleno;
+        this.articleNo = articleNo;
     }
 
     public Answer updateAnswer(String description, String img_url){

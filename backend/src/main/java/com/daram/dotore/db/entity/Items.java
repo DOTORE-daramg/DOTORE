@@ -26,25 +26,25 @@ public class Items {
     BigInteger tokenId;
 
     @NotNull
-    String item_hash;
+    String itemHash;
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9ㄱ-ㅎ가-힣 ]{1,100}")
-    String item_title;
+    String itemTitle;
 
     @NotNull
-    String item_description;
+    String itemDescription;
 
     @NotNull
-    LocalDateTime created_at;
-
-    @NotNull
-    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
-    String author_address;
+    LocalDateTime createdAt;
 
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
-    String owner_address;
+    String authorAddress;
+
+    @NotNull
+    @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
+    String ownerAddress;
 
     @NotNull
     Boolean onSaleYn;
@@ -61,17 +61,17 @@ public class Items {
     String status;
 
     @Builder
-    public Items(String itemTrxHash, BigInteger tokenId, String item_hash, String item_title,
-        String item_description, LocalDateTime created_at, String author_address,
-        String owner_address, boolean on_sale_yn, boolean is_first, String format, String status) {
+    public Items(String itemTrxHash, BigInteger tokenId, String itemHash, String itemTitle,
+        String itemDescription, LocalDateTime createdAt, String authorAddress,
+        String ownerAddress, boolean on_sale_yn, boolean is_first, String format, String status) {
         this.itemTrxHash = itemTrxHash;
         this.tokenId = tokenId;
-        this.item_hash = item_hash;
-        this.item_title = item_title;
-        this.item_description = item_description;
-        this.created_at = created_at;
-        this.author_address = author_address;
-        this.owner_address = owner_address;
+        this.itemHash = itemHash;
+        this.itemTitle = itemTitle;
+        this.itemDescription = itemDescription;
+        this.createdAt = createdAt;
+        this.authorAddress = authorAddress;
+        this.ownerAddress = ownerAddress;
         this.onSaleYn = on_sale_yn;
         this.isFirst = is_first;
         this.format = format;
@@ -84,7 +84,7 @@ public class Items {
     }
 
     public Items setOwner(String owner_address) {
-        this.owner_address = owner_address;
+        this.ownerAddress = owner_address;
         return this;
     }
 
@@ -93,8 +93,8 @@ public class Items {
         return this;
     }
 
-    public void setItem_hash(String item_hash) {
-        this.item_hash = item_hash;
+    public void setItemHash(String itemHash) {
+        this.itemHash = itemHash;
     }
 
     public void setStatus(String status) {

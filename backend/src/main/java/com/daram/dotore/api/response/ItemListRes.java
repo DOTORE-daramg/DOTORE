@@ -30,11 +30,11 @@ public class ItemListRes extends BaseRes {
                 .add(new ItemListVO(
                     list.get(i).getItemTrxHash(),
                     list.get(i).getTokenId(),
-                    list.get(i).getItem_hash(),
-                    list.get(i).getItem_title(),
-                    list.get(i).getItem_description(),
-                    list.get(i).getCreated_at(),
-                    list.get(i).getOwner_address(),
+                    list.get(i).getItemHash(),
+                    list.get(i).getItemTitle(),
+                    list.get(i).getItemDescription(),
+                    list.get(i).getCreatedAt(),
+                    list.get(i).getOwnerAddress(),
                     list.get(i).getIsFirst(),
                     list.get(i).getStatus()
                 ));
