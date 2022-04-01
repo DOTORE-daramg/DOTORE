@@ -17,10 +17,10 @@ const InputDiv = styled.div<{ width: string }>`
 `;
 
 const StyledInput = styled.input<{ isPaddingStart: boolean }>`
-  padding: 0.7rem;
-  margin-left: ${(props) => (props.isPaddingStart ? "1.3rem" : "0")};
+  padding: 0.7rem 0.7rem 0.7rem 0.1rem;
+  margin-left: ${(props) => (props.isPaddingStart ? "2rem" : "0")};
   border: none;
-  width: ${(props) => (props.isPaddingStart ? "calc(100% - 1.3rem)" : "100%")};
+  width: ${(props) => (props.isPaddingStart ? "calc(100% - 2rem)" : "100%")};
   font-family: "SUIT", sans-serif;
   :focus {
     outline: none;
@@ -31,7 +31,7 @@ const StyledInput = styled.input<{ isPaddingStart: boolean }>`
 `;
 
 const StyledTextArea = styled.textarea`
-  padding: 0.7rem;
+  padding: 0.7rem 0.7rem 0.7rem 0.1rem;
   border: none;
   width: 100%;
   resize: none;
@@ -54,6 +54,7 @@ interface InputProps {
   value?: string;
   onBlur?: (event: any) => void;
   onKeyDown?: (event: any) => void;
+  onChange?: (event: any) => void;
 }
 
 export const InputBox = ({
@@ -65,6 +66,7 @@ export const InputBox = ({
   name,
   value,
   onKeyDown,
+  onChange,
   ...props
 }: InputProps) => {
   return (
@@ -78,6 +80,7 @@ export const InputBox = ({
         onBlur={onBlur}
         onKeyDown={onKeyDown}
         maxLength={maxLength}
+        onChange={onChange}
       ></StyledInput>
     </InputDiv>
   );
@@ -90,6 +93,7 @@ export const TextAreaBox = ({
   maxLength = 100,
   value,
   onBlur,
+  onChange,
 }: InputProps) => {
   return (
     <InputDiv width={width}>
@@ -99,6 +103,7 @@ export const TextAreaBox = ({
         onBlur={onBlur}
         maxLength={maxLength}
         value={value}
+        onChange={onChange}
       ></StyledTextArea>
     </InputDiv>
   );

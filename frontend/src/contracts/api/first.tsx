@@ -35,13 +35,13 @@ export const createToken = async ({
       txHash = hash;
       postMintBefore({
         authorAddress: userAddress,
-        format: format,
+        format,
         isFirst: true,
         itemDescription: description,
         itemHash: tokenUrl,
         itemTitle: title,
         itemTrxHash: hash,
-        tags: tags,
+        tags,
       });
     });
   return { tx, txHash };
