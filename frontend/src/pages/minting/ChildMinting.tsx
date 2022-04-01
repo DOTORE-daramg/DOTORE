@@ -101,7 +101,7 @@ const ChildMinting = () => {
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
   const [titleValidation, setTitleValidation] = useState<boolean>(true);
-  const [originalTokenId, setOriginalTokenId] = useState<Number[]>([]);
+  const [originalTokenId, setOriginalTokenId] = useState<number[]>([]);
   const [keyword, setKeyword] = useState<string>();
   const [results, setResults] = useState<Iitem[]>([]);
 
@@ -194,8 +194,11 @@ const ChildMinting = () => {
     }
   };
 
-  const onItemClick = () => {
+  const onItemClick = (e: any) => {
     /// 구현해야 할 부분
+    console.log(e);
+
+    console.log(e.target.id);
   };
 
   return (
@@ -228,11 +231,24 @@ const ChildMinting = () => {
               ></InputBox>
               {results.length > 0 && (
                 <SearchResults>
-                  {results.map((result) => (
-                    <SearchResult onClick={onItemClick} item={result} />
+                  {results.map((result: any) => (
+                    <SearchResult
+                      onClick={() => {
+                        setOriginalTokenId([
+                          ...originalTokenId,
+                          result.tokenId,
+                        ]);
+                        setResults([]);
+                      }}
+                      id={result.tokenId}
+                      key={result.tokenId}
+                      item={result}
+                    />
                   ))}
                 </SearchResults>
               )}
+              {originalTokenId.length > 0 &&
+                originalTokenId.map((original) => <div>{original}</div>)}
             </div>
             <div>
               <SubTitleContainer isRequired={true}>제목</SubTitleContainer>
