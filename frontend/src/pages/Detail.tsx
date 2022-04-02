@@ -385,18 +385,18 @@ const Detail = () => {
   };
 
   const onClickPurchase = async () => {
-    console.log(saleStatus.price);
-    if (tokenId) {
-      try {
-        await purchase({
-          tokenId: +tokenId,
-          price: saleStatus.price,
-          userAddress: userInfo.address,
-        });
-        await completeSale(userInfo.address, +tokenId);
-      } catch (err) {
-        console.error(err);
-      }
+    if (!tokenId || isOwner) {
+      return;
+    }
+    try {
+      await purchase({
+        tokenId: +tokenId,
+        price: saleStatus.price,
+        userAddress: userInfo.address,
+      });
+      await completeSale(userInfo.address, +tokenId);
+    } catch (err) {
+      console.error(err);
     }
   };
 
