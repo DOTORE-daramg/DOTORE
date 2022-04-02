@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { useDropzone } from "react-dropzone";
 import { Icon } from "../common/Icon";
 
-const Container = styled.div<{ imageUrl: string }>`
+const Container = styled.div<{ width?: string; imageUrl: string }>`
   position: relative;
   width: 23rem;
   height: 23rem;
-  border: 4px dashed rgba(102, 103, 171, 0.55);
+  border: 3px dashed rgba(102, 103, 171, 0.55);
   border-radius: 30px;
-  padding: 0.3rem;
+  padding: 0.05rem;
   background-clip: content-box;
   background-image: url(${(props) => (props.imageUrl ? props.imageUrl : "")});
   background-size: cover;
@@ -19,7 +19,7 @@ const Container = styled.div<{ imageUrl: string }>`
   }
 `;
 
-const FileDropDiv = styled.div`
+const FileDropDiv = styled.div<{ isShow: boolean }>`
   width: 100%;
   height: 100%;
   padding: 1rem;
@@ -31,6 +31,7 @@ const FileDropDiv = styled.div`
   align-items: center;
   svg {
     font-size: 6rem;
+    display: ${(props) => (props.isShow ? "inline" : "none")};
   }
   :hover {
     background-color: rgba(0, 0, 0, 0.1);
@@ -49,7 +50,8 @@ const DeleteFile = styled.div<{ isShow: boolean }>`
 `;
 
 interface FileDropBoxProps {
-  handleFileChanged: (file: File) => void;
+  width?: string;
+  handleFileChanged: (file: Blob) => void;
 }
 
 export const FileDropBox = ({ handleFileChanged }: FileDropBoxProps) => {
@@ -70,7 +72,7 @@ export const FileDropBox = ({ handleFileChanged }: FileDropBoxProps) => {
   });
 
   function onClickDeleteFile() {
-    handleFileChanged({} as File);
+    handleFileChanged({} as Blob);
     setPreview("");
   }
 
@@ -79,7 +81,10 @@ export const FileDropBox = ({ handleFileChanged }: FileDropBoxProps) => {
       <DeleteFile isShow={preview ? true : false} onClick={onClickDeleteFile}>
         <Icon mode="fas" icon={"xmark"}></Icon>
       </DeleteFile>
-      <FileDropDiv {...getRootProps({ className: "dropzone" })}>
+      <FileDropDiv
+        isShow={preview ? false : true}
+        {...getRootProps({ className: "dropzone" })}
+      >
         <input {...getInputProps()} />
         <Icon mode="fas" icon={"image"}></Icon>
       </FileDropDiv>

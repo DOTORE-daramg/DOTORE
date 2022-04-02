@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import { RefreshTx } from "../../stories/artist/RefreshTx";
+import { Icon } from "../../stories/common/Icon";
 import { getAuthoredNFTList } from "../../api/artist";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
@@ -80,16 +82,6 @@ const dummyItemList = [
   },
 ];
 
-const Container = styled.div`
-  display: flex;
-  margin: auto;
-  padding: 5rem 2rem;
-  justify-content: center;
-  min-height: 22rem;
-  align-items: center;
-  font-size: 1rem;
-`;
-
 const AuthoredNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -115,11 +107,12 @@ const AuthoredNFTList = () => {
     return () => setIsLoading(false);
   }, [userAddress, isLoading]);
   return (
-    <Container>
+    <>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <>
+          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
@@ -131,7 +124,7 @@ const AuthoredNFTList = () => {
           )}
         </>
       )}
-    </Container>
+    </>
   );
 };
 

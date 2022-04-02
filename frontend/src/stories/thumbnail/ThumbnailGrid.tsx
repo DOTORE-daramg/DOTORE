@@ -47,7 +47,7 @@ export const ThumbnailGrid = ({
       {itemList.map((item, index) => (
         <GridItem
           onClick={() => navigate(`/detail/${item.tokenId}`)}
-          key={item.tokenId}
+          key={index + String(item.tokenId)}
         >
           <Thumbnail {...item}></Thumbnail>
         </GridItem>

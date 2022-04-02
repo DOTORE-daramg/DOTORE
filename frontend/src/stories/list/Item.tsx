@@ -45,7 +45,7 @@ const Amount = styled.div`
   font-size: 1rem;
 `;
 
-interface ItemProps {
+export interface ItemProps {
   itemHash: string;
   itemTitle: string;
   nickname: string;
@@ -64,7 +64,7 @@ const Item = ({
 }: ItemProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
-  const viewMode = isPc ? "list" : isTablet ? "list" : "listM";
+  const viewMode = isPc ? "list" : isTablet ? "listM" : "listM";
   const navigate = useNavigate();
 
   return (
@@ -76,8 +76,8 @@ const Item = ({
     >
       <Image
         mode={viewMode}
-        imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-        // imageUrl={itemHash}
+        // imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+        imageUrl={itemHash}
         name={itemTitle}
       />
       <TextContainer>

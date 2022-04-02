@@ -1,8 +1,9 @@
 import React from "react";
 import styled from "styled-components";
+import dotori from "../../assets/feedback/sitting-dotori.png";
 
 const Container = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 500px;
   background-color: rgba(102, 103, 171, 0.3);
   margin-top: 60px;
@@ -17,7 +18,7 @@ const Content = styled.div`
   font-weight: 600;
   font-size: 1.8rem;
   color: #585858;
-  padding: 200px;
+  padding: 20%;
   line-height: 2;
   #name {
     font-weight: 800;
@@ -38,9 +39,23 @@ const Content = styled.div`
     padding: 20px;
   }
 `;
-// interface BannerProps {
-//     content: string
-// }
+const ImgContainer = styled.img`
+  position: absolute;
+  right: 20%;
+  top: 11px;
+  height: 480px;
+  @media screen and (max-width: 1200px) {
+    right: 50px;
+  }
+  @media screen and (max-width: 768px) {
+    right: 30px;
+    height: 280px;
+  }
+  @media screen and (max-width: 500px) {
+    opacity: 0.5;
+    right: 10px;
+  }
+`;
 const Banner = () => {
   return (
     <Container>
@@ -57,6 +72,7 @@ const Banner = () => {
           합니다. <br />
           <div id="last">그렇다면 이제 함께 도토리를 주우러 가 볼까요?</div>
         </div>
+        <ImgContainer src={dotori}></ImgContainer>
       </Content>
     </Container>
   );

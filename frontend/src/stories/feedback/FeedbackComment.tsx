@@ -5,6 +5,9 @@ import { HorizonProfile } from "../profile/HorizonProfile";
 import { Image } from "../detail/Image";
 import { Icon } from "../common/Icon";
 import { TextEditor } from "../common/TextEditor";
+import { convertFromRaw, EditorState } from "draft-js";
+import Editor from "@draft-js-plugins/editor";
+import createImagePlugin from "@draft-js-plugins/image";
 
 type CommentType = "MainQuestion" | "Question" | "Answer";
 
@@ -84,7 +87,7 @@ const CreatedAt = styled.div`
 export interface FeedbackArticleProps {
   answerNo?: number;
   articleNo?: string;
-  profileImgUrl: string;
+  profileImgUrl?: string;
   profileNickname: string;
   profileLevel: string;
   content: string;
@@ -108,8 +111,11 @@ export const FeedbackComment = ({
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "feedback" : isTablet ? "feedback" : "feedbackM";
-
+  const convertedContent = convertFromRaw(JSON.parse(content));
+  const initialEditorState = EditorState.createWithContent(convertedContent);
   const [isEditorShow, setIsEditorShow] = useState(false);
+  const imagePlugin = createImagePlugin();
+  const plugins = [imagePlugin];
   const handleToggleEditor = () => {
     setIsEditorShow((prev) => !prev);
     console.log(answerNo);
@@ -155,7 +161,14 @@ export const FeedbackComment = ({
               ></Image>
             </ImageContainer>
           )}
-          <Content>{content}</Content>
+          <Content>
+            <Editor
+              onChange={() => console.log("hi")}
+              editorState={initialEditorState}
+              readOnly={true}
+              plugins={plugins}
+            />
+          </Content>
           <CreatedAt>{createdAt}</CreatedAt>
         </div>
       )}

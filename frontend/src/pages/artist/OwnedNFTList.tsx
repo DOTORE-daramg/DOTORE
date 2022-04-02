@@ -1,21 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 import { useMediaQuery } from "react-responsive";
+import { RefreshTx } from "../../stories/artist/RefreshTx";
 import { getNFTList } from "../../api/artist";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
-
-const Container = styled.div`
-  display: flex;
-  margin: auto;
-  padding: 5rem 2rem;
-  justify-content: center;
-  min-height: 22rem;
-  align-items: center;
-  font-size: 1rem;
-`;
 
 const OwnedNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
@@ -25,6 +16,7 @@ const OwnedNFTList = () => {
   const { userAddress } = useParams();
   const [itemList, setItemList] = useState<ThumbnailProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+
   useEffect(() => {
     if (isLoading) {
       if (userAddress) {
@@ -42,11 +34,12 @@ const OwnedNFTList = () => {
     return () => setIsLoading(false);
   }, [userAddress, isLoading]);
   return (
-    <Container>
+    <>
       {isLoading ? (
         <LoadingSpinner />
       ) : (
         <>
+          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
@@ -58,7 +51,7 @@ const OwnedNFTList = () => {
           )}
         </>
       )}
-    </Container>
+    </>
   );
 };
 

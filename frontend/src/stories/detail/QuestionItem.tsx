@@ -35,14 +35,13 @@ const QuestionItem = ({
   description,
 }: QuestionProps) => {
   const navigate = useNavigate();
+  const desc = JSON.parse(description).blocks[0].text;
   return (
     <Container onClick={() => navigate(`/feedback/${tokenId}/${articleNo}`)}>
       <div>{yn ? "해결" : "미해결"}</div>
       <div>{nickname}</div>
       <Category>
-        {description.length >= 15
-          ? description.slice(0, 15) + "..."
-          : description}
+        {desc.length >= 15 ? desc.slice(0, 15) + "..." : desc}
       </Category>
     </Container>
   );

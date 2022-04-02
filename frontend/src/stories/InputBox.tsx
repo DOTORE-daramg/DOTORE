@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IconName } from "@fortawesome/free-solid-svg-icons";
 import { Icon } from "./common/Icon";
+import { ItemProps } from "./list/Item";
 
 const InputDiv = styled.div<{ width: string }>`
   width: ${(props) => props.width};
@@ -17,10 +18,10 @@ const InputDiv = styled.div<{ width: string }>`
 `;
 
 const StyledInput = styled.input<{ isPaddingStart: boolean }>`
-  padding: 0.7rem;
-  margin-left: ${(props) => (props.isPaddingStart ? "1.3rem" : "0")};
+  padding: 0.7rem 0.7rem 0.7rem 0.1rem;
+  margin-left: ${(props) => (props.isPaddingStart ? "2rem" : "0")};
   border: none;
-  width: ${(props) => (props.isPaddingStart ? "calc(100% - 1.3rem)" : "100%")};
+  width: ${(props) => (props.isPaddingStart ? "calc(100% - 2rem)" : "100%")};
   font-family: "SUIT", sans-serif;
   :focus {
     outline: none;
@@ -28,10 +29,13 @@ const StyledInput = styled.input<{ isPaddingStart: boolean }>`
   ::placeholder {
     color: #7b7b7b;
   }
+  [type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
 `;
 
 const StyledTextArea = styled.textarea`
-  padding: 0.7rem;
+  padding: 0.7rem 0.7rem 0.7rem 0.1rem;
   border: none;
   width: 100%;
   resize: none;
@@ -50,9 +54,15 @@ interface InputProps {
   width: string;
   rows?: number;
   maxLength?: number;
-  onChange?: (event: any) => void;
   name?: string;
   value?: string;
+  items?: ItemProps[];
+  filteredItems?: ItemProps[];
+  setFilteredItems?: React.Dispatch<React.SetStateAction<ItemProps[]>>;
+  type?: string;
+  onBlur?: (event: any) => void;
+  onKeyDown?: (event: any) => void;
+  onChange?: (event: any) => void;
 }
 
 export const InputBox = ({
@@ -60,21 +70,51 @@ export const InputBox = ({
   icon,
   width,
   maxLength = 100,
-  onChange,
+  type = "text",
+  onBlur,
   name,
   value,
+  items,
+  setFilteredItems,
+  onKeyDown,
+  onChange,
   ...props
 }: InputProps) => {
+  const [keyword, setKeyword] = useState<string>("");
+
+  const onKeywordChange = (e: any) => {
+    setKeyword(e.target.value);
+    console.log(keyword);
+  };
+
+  useEffect(() => {
+    if (items && setFilteredItems) {
+      setFilteredItems(
+        items.filter((item) => {
+          if (keyword === "") {
+            return item;
+          }
+          return (
+            item.itemTitle.includes(keyword) || item.nickname.includes(keyword)
+          );
+        })
+      );
+    }
+  }, [keyword]);
+
   return (
     <InputDiv width={width}>
       {icon ? <Icon mode="fas" icon={icon}></Icon> : null}
       <StyledInput
         name={name}
-        value={value}
+        value={value ? value : keyword}
         placeholder={placeholder}
         isPaddingStart={!!icon}
-        onChange={onChange}
+        type={type}
+        onBlur={onBlur}
+        onKeyDown={onKeyDown}
         maxLength={maxLength}
+        onChange={onChange ? onChange : onKeywordChange}
       ></StyledInput>
     </InputDiv>
   );
@@ -86,6 +126,7 @@ export const TextAreaBox = ({
   rows,
   maxLength = 100,
   value,
+  onBlur,
   onChange,
 }: InputProps) => {
   return (
@@ -93,9 +134,10 @@ export const TextAreaBox = ({
       <StyledTextArea
         placeholder={placeholder}
         rows={rows}
-        onChange={onChange}
+        onBlur={onBlur}
         maxLength={maxLength}
         value={value}
+        onChange={onChange}
       ></StyledTextArea>
     </InputDiv>
   );

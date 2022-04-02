@@ -49,7 +49,7 @@ public class SalesController {
         }
     }
 
-    @PostMapping("/{address}}")
+    @PostMapping("/{address}")
     @ApiOperation(value = "해당 유저 address로 Pending중인 판매 트랜잭션 반환", notes = "DB에 sale_id가 비어있는 트랜잭션 반환")
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),

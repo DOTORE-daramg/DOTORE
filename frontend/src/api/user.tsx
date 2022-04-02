@@ -20,3 +20,7 @@ export const updateDesc = async (address: string, description: string) => {
 export const updateNickname = async (address: string, nickname: string) => {
   return await api.patch(`/api/mypage/nickname`, { address, nickname });
 };
+
+export const updateImage = async (address: string, data: FormData) => {
+  return await api.patch(`/api/mypage/img?address=${address}`, data);
+};

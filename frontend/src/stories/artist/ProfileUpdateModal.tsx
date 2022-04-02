@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { userInfoTypes } from "../..";
+import { userInfoState, userInfoTypes } from "../..";
 import { useMediaQuery } from "react-responsive";
 import { ProfileImg } from "../profile/ProfileImg";
 import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
-import { updateDesc, updateNickname } from "../../api/user";
-import { SetterOrUpdater } from "recoil";
+import { updateDesc, updateImage, updateNickname } from "../../api/user";
+import { SetterOrUpdater, useRecoilState } from "recoil";
+import { FileDropBox } from "../minting/FileDropBox";
 
 const Section = styled.div`
   width: 100%;
@@ -124,6 +125,13 @@ const ModalBody = styled.div`
 const ProfileImgContainer = styled.div`
   border-radius: 400px;
   box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  input {
+    display: none;
+  }
 `;
 
 const ModalInputBoxContainer = styled.div`
@@ -162,7 +170,7 @@ const ModalFooter = styled.div`
 `;
 
 const Backdrop = styled.div`
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   position: fixed;
   top: 0;
@@ -171,22 +179,16 @@ const Backdrop = styled.div`
 `;
 
 export interface ProfileUpdateModalProps {
-  userInfo: userInfoTypes;
-  setUserInfo: SetterOrUpdater<userInfoTypes>;
+  // userInfo: userInfoTypes;
+  // setUserInfo: SetterOrUpdater<userInfoTypes>;
   onClose?: () => void;
   onValidate?: () => void;
   onClickToggleModal: () => void;
 }
 
-// interface IUserInfo {
-//   nickname: string,
-//   profileImgUrl: string,
-//   description: string,
-// }
-
 export const ProfileUpdateModal = ({
-  userInfo,
-  setUserInfo,
+  // userInfo,
+  // setUserInfo,
   onClose,
   onValidate,
   onClickToggleModal,
@@ -195,27 +197,36 @@ export const ProfileUpdateModal = ({
   const isMoblie = useMediaQuery({ maxWidth: 500 });
   const isPc = useMediaQuery({ minWidth: 768 });
   const imageSize = isMoblie ? "6rem" : isPc ? "10rem" : "7rem";
+  const [userInfo, setUserInfo] = useRecoilState<userInfoTypes>(userInfoState);
   const [nickname, setNickname] = useState<string>(userInfo.nickname);
   const [desc, setDesc] = useState<string>(userInfo.description);
-  console.log(desc);
+  const [itemFile, setItemFile] = useState<Blob>();
+
   const onClickSaveButton = () => {
     console.log("save!");
-    if (nickname) {
-      updateNickname(userInfo.address, nickname).then((res) => {
-        console.log(res);
-        setUserInfo({ ...userInfo, nickname });
-      });
-    }
 
-    if (desc) {
-      updateDesc(userInfo.address, desc).then((res) => {
-        setUserInfo({ ...userInfo, description: desc });
-
-        console.log(res);
+    updateNickname(userInfo.address, nickname)
+      .then(() => {
+        console.log("하이");
+        return nickname;
+      })
+      .then((nickname) => {
+        updateDesc(userInfo.address, desc).then(() => {
+          setUserInfo({ ...userInfo, nickname, description: desc });
+        });
+      })
+      .then(() => {
+        if (itemFile) {
+          const data = new FormData();
+          data.append("data", itemFile);
+          console.log(data);
+          updateImage(userInfo.address, data).then(() => {
+            console.log("성공!");
+          });
+        }
       });
-    }
+    // console.log(itemFile);
     onClickToggleModal();
-    // window.location.reload();
   };
 
   const onNicknameChange = (e: any) => {
@@ -226,6 +237,18 @@ export const ProfileUpdateModal = ({
     setDesc(e.target.value);
   };
 
+  const onFileUpload = (e: any) => {
+    const file_kind = e.target.value.lastIndexOf(".");
+    const file_name = e.target.value.substring(file_kind + 1, e.length);
+    const file_type = file_name.toLowerCase();
+    const check_file_type = ["jpg", "gif", "png", "jpeg"];
+    console.log(check_file_type.indexOf("jpg"));
+    if (check_file_type.indexOf(file_type) == -1) {
+      alert("이미지 파일만 선택할 수 있습니다.");
+      // return false;
+    }
+    setItemFile(e.target.files[0]);
+  };
   return (
     <Section>
       <ModalContainer>
@@ -238,10 +261,26 @@ export const ProfileUpdateModal = ({
         <ModalBorder></ModalBorder>
         <ModalBody>
           <ProfileImgContainer>
-            <ProfileImg
-              profileImgUrl={userInfo.profile_img_url}
-              size={imageSize}
-            ></ProfileImg>
+            <label htmlFor="file-input">
+              <ProfileImg
+                profileImgUrl={userInfo.profileImgUrl}
+                size={imageSize}
+              ></ProfileImg>
+            </label>
+            {/* <div>
+                <Button
+                  backgroundColor="#6667ab"
+                  width="8rem"
+                  label="파일 선택"
+                />
+              </div> */}
+            <input
+              id="file-input"
+              type="file"
+              accept="image/gif, image/jpeg, image/png, image/jpg"
+              onChange={onFileUpload}
+            />
+            {/* <FileDropBox handleFileChanged={handleFileChanged} /> */}
           </ProfileImgContainer>
           <ModalInputBoxContainer>
             <InputBox
