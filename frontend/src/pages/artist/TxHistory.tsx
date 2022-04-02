@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
 import {
   ITransactionHistory,
   TransactionHistoryList,
 } from "../../stories/artist/TransactionHistoryList";
+import {
+  transactionRecordTypes,
+  userTxRecord,
+} from "../../contracts/api/transactionRecord";
+import { useParams } from 'react-router-dom';
 
 const transactionHistoryList: ITransactionHistory[] = [
   {
@@ -61,13 +66,28 @@ const Container = styled.div`
 const TxHistory = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
-  const width = isPc ? "52rem" : isTablet ? "32rem" : "24rem";
+  const width = isPc ? "80rem" : isTablet ? "32rem" : "24rem";
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [transactionRecord, setTransactionRecord] =
+    useState<transactionRecordTypes[]>();
+    const { userAddress } = useParams();
+  useEffect(() => {
+    if (!isLoading && userAddress) {
+      userTxRecord(userAddress).then((res) => {
+        console.log(res);
+        setTransactionRecord(res);
+        setIsLoading(true);
+      })
+    }
+  }, [isLoading]);
   return (
     <Container>
-      <TransactionHistoryList
-        txHistoryList={transactionHistoryList}
-        width={width}
-      ></TransactionHistoryList>
+      {isLoading && transactionRecord && transactionRecord.length !== 0 && (
+        <TransactionHistoryList
+          txHistoryList={transactionRecord}
+          width={width}
+        ></TransactionHistoryList>
+      )}
     </Container>
   );
 };

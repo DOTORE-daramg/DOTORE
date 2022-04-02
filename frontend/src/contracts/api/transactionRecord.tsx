@@ -1,12 +1,13 @@
 import { dTT, dTTMarketContract, web3 } from "..";
 
-interface retrunTypes {
+export interface transactionRecordTypes {
   from: string;
   to: string;
-  timeStamp: string | number;
+  timeStamp: Date;
   tokenId: number;
   status: string;
-  price: number;
+  price: string;
+  transactionHash: string;
 }
 
 export const userTxRecord = async (address: string) => {
@@ -26,50 +27,60 @@ export const userTxRecord = async (address: string) => {
   });
   // console.log(userToTx, userFromTx);
 
-  let saleToTx = await dTTMarketContract.getPastEvents("allEvents", {
-    filter: { to: address },
+  let saleToTx = await dTTMarketContract.getPastEvents("MarketItemEvent", {
+    filter: { owner : address },
     fromBlock: 0,
     toBlock: "latest",
   });
 
-  let saleFromTx = await dTTMarketContract.getPastEvents("allEvents", {
-    filter: { from: address },
+  let saleFromTx = await dTTMarketContract.getPastEvents("MarketItemEvent", {
+    filter: { seller : address },
     fromBlock: 0,
     toBlock: "latest",
   });
+  // console.log(saleFromTx)
 
   userToTx = [...userToTx, ...userFromTx, ...saleToTx, ...saleFromTx];
 
   // console.log(userToTx);
-  let result: retrunTypes[] = [];
-  userToTx.map((data) =>
-    getTimeStamp(data.blockHash).then((res) => {
-      if (data.event === "Transfer") {
-        result.push({
-          from: data.returnValues.from,
-          to: data.returnValues.to,
-          timeStamp: res.timestamp,
-          tokenId: data.returnValues.tokenId,
-          status: "Transfer",
-          price: 0,
-        });
-      } else {
-        result.push({
-          from: data.returnValues.owner,
-          to: data.returnValues.seller,
-          timeStamp: res.timestamp,
-          tokenId: data.returnValues.tokenId,
-          status: data.event,
-          price: data.returnValues.price,
-        });
-      }
-    })
-  );
-  return result.sort((a, b) =>
-    a.timeStamp > b.timeStamp ? -1 : a < b ? 1 : 0
-  );
+  
+  return await sortData(userToTx);
 };
 
 const getTimeStamp = async (blockHash: string) => {
   return await web3.eth.getBlock(blockHash);
 };
+
+async function sortData (list: any[]) {
+  if (list.length === 0) return;
+  let result: transactionRecordTypes[] = []
+  await list.reduce(async (previousPromise, nextData) => {
+    await previousPromise;
+    const newElem = await getTimeStamp(nextData.blockHash).then((res) => {
+      if (nextData.event === "Transfer") {
+        result.push({
+          from: nextData.returnValues.from,
+          to: nextData.returnValues.to,
+          timeStamp: new Date(parseInt(res.timestamp+"000")),
+          tokenId: nextData.returnValues.tokenId,
+          status: "Transfer",
+          price: "0",
+          transactionHash: nextData.transactionHash
+        });
+      } else {
+        result.push({
+          from: nextData.returnValues.owner,
+          to: nextData.returnValues.seller,
+          timeStamp: new Date(parseInt(res.timestamp+"000")),
+          tokenId: nextData.returnValues.tokenId,
+          status: nextData.event,
+          price: web3.utils.fromWei(nextData.returnValues.price),
+          transactionHash: nextData.transactionHash
+        });
+        result.sort((a, b) =>
+        a.timeStamp > b.timeStamp ? -1 : a < b ? 1 : 0)
+      }
+  })
+  })
+  return result
+}
