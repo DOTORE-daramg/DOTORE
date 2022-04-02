@@ -182,8 +182,8 @@ const List = () => {
             </ItemContainer>
           ) : items && items.length > 0 ? (
             <ItemContainer>
-              {filteredItems.map((item) => (
-                <Item key={item.tokenId} {...item} />
+              {filteredItems.map((item, index) => (
+                <Item key={index + String(item.tokenId)} {...item} />
               ))}
             </ItemContainer>
           ) : (
