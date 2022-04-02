@@ -95,7 +95,7 @@ export const Footer = () => (
       <Description>
         <Icon mode="fas" icon="envelope" />
         <div className="title">문의사항</div>
-        <div className="desc">dotori@dotori.com</div>
+        <div className="desc">dotore@dotore.com</div>
       </Description>
       <Description>
         <Icon mode="fas" icon="laptop-code" />
