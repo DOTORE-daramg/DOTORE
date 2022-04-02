@@ -84,7 +84,7 @@ export const createMarketItem = async ({
 
 interface purchaseProps {
   tokenId: number;
-  price: number;
+  price: string;
   userAddress: string;
 }
 
