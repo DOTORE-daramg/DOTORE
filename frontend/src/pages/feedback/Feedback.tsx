@@ -12,33 +12,6 @@ import { getUserInfo } from "../../api/user";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 
-const dummy = {
-  articleno: 0,
-  question: {
-    questioner: "이성재",
-    description: "안녕하세요. 질문 드리겠습니다. 받아보세요.",
-    created_at: "2022-03-14",
-    img_url: "",
-  },
-  answers: [
-    {
-      answerno: 0,
-      writer: "도토리_01",
-      description: "질문 받았습니다. 답변 받아보세요.",
-      img_url: "",
-      created_at: "2022-03-15",
-    },
-    {
-      answerno: 1,
-      writer: "이성재",
-      description: "답변 받았습니다. 질문 받아보세요.",
-      img_url:
-        "https://external-preview.redd.it/GHnsoZTj3vG2zaz0ARuX_OpeEAlJp40TCsDd4edm46U.jpg?auto=webp&s=475ac56e5f93cea40b6275f8a175a2f0e2f4c19e",
-      created_at: "2022-03-15",
-    },
-  ],
-};
-
 const Container = styled.div`
   width: 64rem;
   padding: 5rem 0;
@@ -168,12 +141,11 @@ const Feedback = () => {
         <Container>
           <FeedbackTitle
             itemTitle={itemTitle}
-            // imageUrl={itemHash}
-            imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
+            imageUrl={itemHash}
           ></FeedbackTitle>
           <FeedbackComment
             articleNo={articleNo}
-            profileImgUrl=""
+            profileImgUrl={questions.question.profileImgUrl}
             profileNickname={questions.question.nickname}
             profileLevel="Lv2. 청소년 도토리"
             content={questions.question.description}
@@ -186,7 +158,7 @@ const Feedback = () => {
               <FeedbackComment
                 key={answer.answerNo}
                 answerNo={answer.answerNo}
-                profileImgUrl=""
+                profileImgUrl={answer.profileImgUrl}
                 profileNickname={answer.nickname}
                 profileLevel="Lv2. 청소년 도토리"
                 content={answer.description}
