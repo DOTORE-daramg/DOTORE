@@ -100,7 +100,6 @@ const ChildMinting = () => {
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
-  const [titleValidation, setTitleValidation] = useState<boolean>(true);
   const [originalTokenId, setOriginalTokenId] = useState<number[]>([]);
   const [keyword, setKeyword] = useState<string>();
   const [results, setResults] = useState<Iitem[]>([]);
@@ -119,7 +118,6 @@ const ChildMinting = () => {
   };
   const handleTitleChanged = (e: any) => {
     setItemTitle(e.target.value);
-    validateTitle();
   };
   const handleDescChanged = (e: any) => {
     setitemDesc(e.target.value);
@@ -139,8 +137,7 @@ const ChildMinting = () => {
   };
 
   const onClickCreateToken = async () => {
-    validateTitle();
-    if (!titleValidation) {
+    if (!validateTitle()) {
       console.log("Bad title");
       return;
       // } else if (originalTokenId.length === 0) {
@@ -185,13 +182,14 @@ const ChildMinting = () => {
 
   const validateTitle = () => {
     const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    if (itemTitle.length < 1 || itemTitle.length > 100) {
-      setTitleValidation(false);
-    } else if (special_pattern.test(itemTitle)) {
-      setTitleValidation(false);
-    } else {
-      setTitleValidation(true);
+    if (
+      itemTitle.length < 1 ||
+      itemTitle.length > 100 ||
+      special_pattern.test(itemTitle)
+    ) {
+      return false;
     }
+    return true;
   };
 
   const onItemClick = (e: any) => {
