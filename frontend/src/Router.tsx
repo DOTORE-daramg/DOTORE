@@ -30,6 +30,7 @@ import {
 } from ".";
 import List from "./pages/list/List";
 import { web3 } from "./contracts";
+import ScrollToTop from './utils/ScrollToTop';
 
 const Container = styled.div`
   min-height: 100vh;
@@ -133,6 +134,7 @@ const AppRouter = () => {
   return (
     <Container>
       <Router>
+        <ScrollToTop />
         <Header
           isLoggedIn={isLoggedIn.isLoggedIn}
           onLogin={onLogin}
