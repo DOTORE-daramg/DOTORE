@@ -1,7 +1,7 @@
 import { web3 } from "..";
 import { dTT, dTTMarketAddress, dTTMarketContract } from "..";
 import { postMintBefore } from "../../api/item";
-import { createSale } from "../../api/sale";
+import { createSale, cancelSale, completeSale } from "../../api/sale";
 
 // 2차 NFT 민팅, 판매등록, 구매
 
@@ -94,19 +94,38 @@ export const purchase = async ({
   price,
   userAddress,
 }: purchaseProps) => {
-  await dTTMarketContract.methods
-    .purchase(
-      tokenId
-      // userAddress
-    )
-    .send({
+  try {
+    await dTTMarketContract.methods
+      .purchase(
+        tokenId
+        // userAddress
+      )
+      .send({
+        from: userAddress,
+        gas: 3000000,
+        value: price,
+        gasPrice: "10000000000",
+      });
+    await completeSale(userAddress, tokenId);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+interface cancleSaleProps {
+  tokenId: number;
+  userAddress: string;
+}
+
+export const cancleSale = async ({ tokenId, userAddress }: cancleSaleProps) => {
+  try {
+    await dTTMarketContract.methods.cancelSale(tokenId).send({
       from: userAddress,
       gas: 3000000,
-      value: price,
       gasPrice: "10000000000",
     });
-  // .on("transactionHash", (hash) => {
-  //   // 백엔드에 해시값, item title, descriptionn, file, (tokenId 빼고 다)
-
-  // });
+    await cancelSale(userAddress, tokenId);
+  } catch (err) {
+    console.error(err);
+  }
 };
