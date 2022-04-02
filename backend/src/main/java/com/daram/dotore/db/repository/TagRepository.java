@@ -12,7 +12,7 @@ public interface TagRepository extends JpaRepository<Taglist, Integer> {
     List<Taglist> findByTokenId(BigInteger tokenId);
 
     @Modifying
-    @Query(value = "UPDATE Taglist "
+    @Query(value = "UPDATE taglist "
         + "SET token_id = :tokenId "
         + "WHERE item_trx_hash = :itemTrxHash", nativeQuery = true)
     int updateTokenId(@Param("itemTrxHash") String itemTrxHash, @Param("tokenId") BigInteger tokenId);

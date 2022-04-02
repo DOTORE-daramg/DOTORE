@@ -22,12 +22,15 @@ import Questions from "../stories/detail/Questions";
 import { RealtedNFTItemProps } from "../stories/detail/RealtedNFTItem";
 import RelatedNFT from "../stories/detail/RelatedNFT";
 import { SaleModal } from "../stories/detail/SaleModal";
+import { SaleDeleteModal } from "../stories/detail/SaleDeleteModal";
 import Transaction from "../stories/detail/Transaction";
 import { Title } from "../stories/Title";
 import { Title as SubTitle } from "../stories/detail/Title";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "..";
 import { getSale } from "../api/sale";
+import { web3 } from "../contracts";
+import { dTTAddress } from "../contracts/";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -213,7 +216,7 @@ type Isale = {
 };
 
 const Detail = () => {
-  const transacrions = [
+  const transactions = [
     {
       date: "거래 일시",
       seller: "판매자",
@@ -243,7 +246,17 @@ const Detail = () => {
   const [isSale, setIsSale] = useState(true);
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(false);
-  const [saleStatus, setSaleStatus] = useState<string>("");
+  const [saleStatus, setSaleStatus] = useState<Isale>({
+    saleTrxHash: undefined,
+    cashContractAddress: "",
+    completedAt: "",
+    price: "",
+    result: "",
+    saleId: undefined,
+    saleYn: false,
+    sellerAddress: "",
+    tokenId: 0,
+  });
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
     profileImgUrl: "",
@@ -275,6 +288,7 @@ const Detail = () => {
   // 좋아요 여부
   const [isLike, setIsLike] = useState<boolean>(false);
   const [isModalShow, setIsModalShow] = useState(false);
+  const [isDeleteModalShow, setIsDeleteModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   const { tokenId } = useParams();
@@ -282,6 +296,11 @@ const Detail = () => {
 
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
+    console.log("toggle!");
+  };
+
+  const onClickToggleDeleteModal = () => {
+    setIsDeleteModalShow((prev) => !prev);
     console.log("toggle!");
   };
 
@@ -293,7 +312,6 @@ const Detail = () => {
       const {
         data: { isFirst, onSaleYn, authorAddress },
       } = res;
-
       setItem(data);
       setIsFirst(isFirst);
       setIsSale(onSaleYn);
@@ -317,15 +335,15 @@ const Detail = () => {
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });
-    // if (tokenId) {
-    //   getSale(tokenId)
-    //     .then((res) => {
-    //       console.log(res.data);
-    //     })
-    //     .catch((err) => {
-    //       console.error(err);
-    //     });
-    // }
+    if (tokenId) {
+      getSale(tokenId)
+        .then((res) => {
+          setSaleStatus(res.data);
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
   }, [tokenId]);
 
   const onClickQuestionCategory = () => {
@@ -391,7 +409,7 @@ const Detail = () => {
           </TitleContainer>
           {/* 상단 정보 Container */}
           <MainContainer>
-            <Image name="메타콩즈1" imageUrl={itemHash} mode={viewMode} />
+            <Image name={itemTitle} imageUrl={itemHash} mode={viewMode} />
             <DescContainer>
               <Description
                 title={itemTitle}
@@ -438,7 +456,7 @@ const Detail = () => {
                     <Amount
                       mode="fab"
                       icon="ethereum"
-                      count={0.03}
+                      count={+web3.utils.fromWei(saleStatus.price)}
                       iconColor="#6667ab"
                     />
                   )}
@@ -495,10 +513,10 @@ const Detail = () => {
               <SaleContainer>
                 <Icon mode="fas" icon="circle-exclamation" />
                 <div>
-                  작품이 0.03eth에 판매 등록되어 있습니다. 거래를 취소하거나
-                  가격을 바꿀까요?
+                  작품이 {+web3.utils.fromWei(saleStatus.price)}ETH에 판매
+                  등록되어 있습니다. 판매를 취소할까요?
                 </div>
-                <div id="link" onClick={onClickToggleModal}>
+                <div id="link" onClick={onClickToggleDeleteModal}>
                   <Icon mode="fas" icon="right-long" />
                 </div>
               </SaleContainer>
@@ -541,19 +559,22 @@ const Detail = () => {
               </QuestionContainer>
             ) : (
               <InfoContainer>
-                <Transaction transacrions={transacrions} />
+                <Transaction transactions={transactions} />
                 <Info
-                  address="0x48366...037453"
-                  tokenId="2"
+                  address={dTTAddress}
+                  tokenId={tokenId ? tokenId : ""}
                   standard="ERC-721"
                 />
               </InfoContainer>
             )}
           </DetailContainer>
           {isModalShow && (
-            <SaleModal
-              imageUrl="https://cdn.apnews.kr/news/photo/202203/3000347_20366_1256.jpg"
-              onClose={onClickToggleModal}
+            <SaleModal imageUrl={itemHash} onClose={onClickToggleModal} />
+          )}
+          {isDeleteModalShow && (
+            <SaleDeleteModal
+              imageUrl={itemHash}
+              onClose={onClickToggleDeleteModal}
             />
           )}
         </Container>

@@ -18,21 +18,21 @@ interface DetailProps {
   price: string;
 }
 interface TransactionProps {
-  transacrions: Array<DetailProps>;
+  transactions: Array<DetailProps>;
 }
 
-const Transaction = ({ transacrions }: TransactionProps) => {
+const Transaction = ({ transactions }: TransactionProps) => {
   return (
     <Container>
       <Title color="#6667ab" title="최근 거래 내역" />
       <InnerContainer>
-        {transacrions.map((transaction, index) => (
+        {transactions.map((transactions, index) => (
           <TransactionItem
             key={index}
-            date={transaction.date}
-            seller={transaction.seller}
-            buyer={transaction.buyer}
-            price={transaction.price}
+            date={transactions.date}
+            seller={transactions.seller}
+            buyer={transactions.buyer}
+            price={transactions.price}
           />
         ))}
       </InnerContainer>

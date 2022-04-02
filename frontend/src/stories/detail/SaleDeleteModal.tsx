@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
-import { web3 } from "../../contracts";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
-import { InputBox } from "../InputBox";
 import { Image } from "./Image";
-import { createMarketItem } from "../../contracts/api/second";
 import { userInfoState } from "../..";
 import { useParams } from "react-router-dom";
+import { getItem } from "../../api/item";
+import { cancleSale } from "../../contracts/api/second";
 
 const Section = styled.div`
   position: absolute;
@@ -43,15 +42,11 @@ const ModalHeader = styled.div`
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  /* color: #6667AB; */
   h3 {
-    /* 내 정보 수정 */
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 2rem;
-    /* identical to box height */
     color: #6667ab;
-    /* Inside auto layout */
     flex: none;
     order: 0;
     flex-grow: 0;
@@ -61,11 +56,9 @@ const ModalHeader = styled.div`
   }
 `;
 const ModalBorder = styled.div`
-  /* border */
   height: 2px;
   background: #f0f1f1;
   width: 100%;
-  /* Inside auto layout */
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -74,8 +67,6 @@ const ModalBorder = styled.div`
 `;
 
 const ModalBody = styled.div`
-  /* body text */
-  /* Auto layout */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -83,7 +74,6 @@ const ModalBody = styled.div`
   padding: 2rem 1rem;
   left: 30px;
   top: 81px;
-  /* Inside auto layout */
   flex: none;
   order: 2;
   flex-grow: 0;
@@ -96,11 +86,7 @@ const ModalBody = styled.div`
     font-weight: 400;
     font-size: 18px;
     line-height: 175%;
-    /* or 32px */
-
     color: #3f575c;
-
-    /* Inside auto layout */
     flex: none;
     order: 0;
     flex-grow: 0;
@@ -120,7 +106,6 @@ const InnerContainer = styled.div`
   margin-left: 20px;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-around; */
   div {
     margin-bottom: 20px;
   }
@@ -132,27 +117,21 @@ const InnerContainer = styled.div`
 `;
 
 const ModalFooter = styled.div`
-  /* footer */
-  /* Auto layout */
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   justify-content: center;
   background: #f1f1f1;
   padding: 1rem;
-  /* Inside auto layout */
   flex: none;
   order: 3;
   flex-grow: 0;
   width: 100%;
   .buttons {
-    /* buttons */
-    /* Auto layout */
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    /* Inside auto layout */
     flex: none;
     button {
       margin-left: 10px;
@@ -183,38 +162,38 @@ export interface ModalProps {
   onValidate?: () => void;
 }
 
-export const SaleModal = ({
+export const SaleDeleteModal = ({
   title,
   imageUrl,
   onClose,
-  onValidate,
   ...props
 }: ModalProps) => {
   const userInfo = useRecoilValue(userInfoState);
   const { tokenId } = useParams();
-  const [price, setPrice] = useState<string>("");
 
-  const onClickCreateSale = async () => {
-    if (!tokenId || tokenId === "0" || !price || !userInfo.address) {
+  const onClickDeleteSale = async () => {
+    if (!tokenId || tokenId === "0" || !userInfo.address) {
       return;
     }
-    const wei = web3.utils.toWei(price);
-    createMarketItem({
-      tokenId: tokenId ? parseInt(tokenId) : 0,
-      price: wei,
+    // 판매 등록 취소
+    cancleSale({
+      tokenId: parseInt(tokenId),
       userAddress: userInfo.address,
     });
     onClose();
+    try {
+      // 상세 페이지 정보 갱신
+      await getItem(tokenId);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handlePriceChanged = (e: any) => {
-    setPrice(e.target.value);
-  };
   return (
     <Section>
       <ModalContainer>
         <ModalHeader>
-          <h3>NFT 판매 등록</h3>
+          <h3>NFT 판매 등록 취소</h3>
           <IconContainer onClick={onClose}>
             <Icon mode="fas" icon="xmark" color="#9FABAE" />
           </IconContainer>
@@ -226,29 +205,22 @@ export const SaleModal = ({
           </ImgContainer>
           <InnerContainer>
             <div>{title}</div>
-            <InputBox
-              placeholder="원하는 가격을 등록하세요. 가격: (ETH)"
-              width="90%"
-              maxLength={30}
-              onBlur={handlePriceChanged}
-              type="number"
-            />
-            <div id="info">판매는 언제든지 취소할 수 있습니다.</div>
+            정말로 판매 등록 취소하시겠습니까?
           </InnerContainer>
         </ModalBody>
         <ModalFooter>
           <div className="buttons">
             <Button
               width="6rem"
-              label="취소"
+              label="닫기"
               backgroundColor="#a09fae"
               onClick={onClose}
             />
             <Button
               width="6rem"
-              label="등록"
+              label="판매 취소"
               backgroundColor="#6667AB"
-              onClick={onClickCreateSale}
+              onClick={onClickDeleteSale}
             />
           </div>
         </ModalFooter>

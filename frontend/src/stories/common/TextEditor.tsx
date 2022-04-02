@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import {
-  Editor,
   EditorState,
   RichUtils,
   DraftEditorCommand,
@@ -23,6 +22,8 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { useNavigate } from "react-router-dom";
+import Editor from "@draft-js-plugins/editor";
+import createImagePlugin from "@draft-js-plugins/image";
 
 const Container = styled.div`
   width: 100%;
@@ -125,6 +126,8 @@ export const TextEditor = ({
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
+  const imagePlugin = createImagePlugin();
+  const plugins = [imagePlugin];
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
   const navigate = useNavigate();
 
@@ -237,19 +240,23 @@ export const TextEditor = ({
     // console.log(editorState.getCurrentContent().get);
     if (item) {
       if (articleNo) {
+        const rawContentState = convertToRaw(editorState.getCurrentContent());
+        const markup = JSON.stringify(rawContentState);
+        console.log(markup);
         const params = {
           articleNo: Number(articleNo),
-          description: editorState.getCurrentContent().getPlainText("\u000A"),
+          description: markup,
           writer: userInfo.address,
         };
         createAnswer(params).then((res) => {
           console.log("성공");
-          window.location.reload();
+          // window.location.reload();
         });
       } else {
+        const rawContentState = convertToRaw(editorState.getCurrentContent());
+        const markup = JSON.stringify(rawContentState);
         const params = {
-          description: editorState.getCurrentContent().getPlainText("\u000A"),
-          imgUrl: "https://s3.nft1.jpg",
+          description: markup,
           questioner: userInfo.address,
           // questioner: "11",
           respondent: item.authorAddress,
@@ -343,6 +350,7 @@ export const TextEditor = ({
           placeholder="Write something!"
           handlePastedFiles={handlePastedFile}
           handleDroppedFiles={handleDroppedFile}
+          plugins={plugins}
         />
       </EditorContainer>
       <TextEditorFooter>

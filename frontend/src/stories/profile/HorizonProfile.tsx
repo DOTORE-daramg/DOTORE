@@ -11,7 +11,7 @@ const ProfileContainer = styled.div`
 `;
 
 export interface HorizonProfileProps {
-  profileImgUrl: string;
+  profileImgUrl?: string;
   profileNickname: string;
   profileLevel: string;
   imgSize: string;

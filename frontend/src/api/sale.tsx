@@ -11,8 +11,8 @@ interface createSaleParams {
 export const updateSaleStatus = async (saleId: number, saleTrxHash: string) => {
   return await api.patch(`api/sales`, { saleId, saleTrxHash });
 };
-export const updateSale = async (saleId: number, saleTrxHash: string) => {
-  return await api.patch(`/api/sales`, { saleId, saleTrxHash });
+export const getPendingSale = async (address: string) => {
+  return await api.post(`/api/sales/${address}`);
 };
 export const getSale = async (tokenId: string) => {
   return await api.get(`/api/sales/${tokenId}`);
@@ -24,5 +24,5 @@ export const cancelSale = async (address: string, tokenId: number) => {
   return await api.post(`/api/sales/cancel`, { address, tokenId });
 };
 export const completeSale = async (buyerAddress: string, tokenId: number) => {
-  return await api.patch(`/api/sales/cancel`, { buyerAddress, tokenId });
+  return await api.patch(`/api/sales/complete`, { buyerAddress, tokenId });
 };

@@ -108,7 +108,14 @@ export const ArtistFeedbackList = ({
               id="link"
               width="33%"
             >
-              <TableCell>{feedback.description}</TableCell>
+              <TableCell>
+                {JSON.parse(feedback.description).blocks[0].text.length >= 15
+                  ? JSON.parse(feedback.description).blocks[0].text.slice(
+                      0,
+                      15
+                    ) + "..."
+                  : JSON.parse(feedback.description).blocks[0].text}
+              </TableCell>
             </TableBlock>
             <TableBlock width="19%">
               <TableCell>{feedback.createdAt.slice(0, 10)}</TableCell>

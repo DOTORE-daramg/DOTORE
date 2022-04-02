@@ -12,7 +12,7 @@ const StyledProfileImg = styled.img<{ size: string }>`
 
 export interface ProfileImgProps {
   size: string;
-  profileImgUrl: string;
+  profileImgUrl?: string;
 }
 
 export const ProfileImg = ({ size, profileImgUrl }: ProfileImgProps) => {
