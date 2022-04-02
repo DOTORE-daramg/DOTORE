@@ -9,6 +9,7 @@ import Checkbox from "../../stories/list/Checkbox";
 import Item, { ItemProps } from "../../stories/list/Item";
 import ItemSkeleton from "../../stories/list/ItemSkeleton";
 import { Title } from "../../stories/Title";
+import { SearchBar } from "../../stories/common/SearchBar";
 
 const Container = styled.div`
   height: fit-content;
@@ -140,6 +141,7 @@ const List = () => {
 
   return (
     <Container>
+      {/* <SearchBar items={items}></SearchBar> */}
       <Title label="NFT 보기" size="2rem"></Title>
       <InnerContainer>
         <SideContainer>
