@@ -129,3 +129,12 @@ export const cancleSale = async ({ tokenId, userAddress }: cancleSaleProps) => {
     console.error(err);
   }
 };
+
+export const getSaleId = async (tokenId: number) => {
+  try {
+    const saleId = await dTTMarketContract.methods.saleMap(tokenId).call();
+    return saleId;
+  } catch (err) {
+    console.error(err);
+  }
+};
