@@ -7,6 +7,7 @@ import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
 import styled from "styled-components";
 import { getUserInfo } from "../../api/user";
+import { userTxRecord } from "../../contracts/api/transactionRecord";
 
 const Container = styled.div`
   padding: 30px 0px 70px 0px;
@@ -25,6 +26,11 @@ const Artist = () => {
   };
 
   useEffect(() => {
+    if (userAddress) {
+      userTxRecord(userAddress).then((res) => {
+        console.log("거래 내역>>>>>>>>", res);
+      });
+    }
     if (userAddress) {
       getUserInfo(userAddress).then((res) => {
         console.log(res.data);
