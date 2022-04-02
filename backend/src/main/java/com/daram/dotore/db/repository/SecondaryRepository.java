@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 public interface SecondaryRepository extends JpaRepository<Secondary, Integer> {
 
     @Modifying
-    @Query(value = "UPDATE Secondary "
+    @Query(value = "UPDATE secondary "
         + "SET token_id = :tokenId "
         + "WHERE item_trx_hash = :itemTrxHash", nativeQuery = true)
     int updateTokenId(String itemTrxHash, BigInteger tokenId);
