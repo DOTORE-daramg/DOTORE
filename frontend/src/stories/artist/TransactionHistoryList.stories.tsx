@@ -2,7 +2,6 @@ import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
 import { TransactionHistoryList, ITransactionHistory } from './TransactionHistoryList';
-import { transactionRecordTypes } from '../../contracts/api/transactionRecord';
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -14,7 +13,7 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof TransactionHistoryList> = (args) => <TransactionHistoryList {...args} />;
 
-const transactionHistoryList: transactionRecordTypes[] = []
+const transactionHistoryList: any[] = []
 //   {
 //     transactionHash: '0x1245',
 //     transactionType: 'minting',

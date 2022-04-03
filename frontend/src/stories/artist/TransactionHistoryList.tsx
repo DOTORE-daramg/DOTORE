@@ -1,12 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Image } from "../detail/Image";
 import { useMediaQuery } from "react-responsive";
-import { transactionRecordTypes } from '../../contracts/api/transactionRecord';
+import TransactionHistoryItem from "./TransactionHistoryItem";
 
 interface IItem {
   itemTitle: string;
   itemImgUrl: string;
+}
+
+export interface transactionRecordTypes {
+  address: string;
+  blockHash: string;
+  blockNumber: number;
+  event: string;
+  id: string;
+  logIndex: number;
+  raw: any;
+  removed: boolean;
+  returnValues: any;
+  signature: string;
+  transactionHash: string;
+  transactionIndex: number;
 }
 
 export interface ITransactionHistory {
@@ -20,7 +35,7 @@ export interface ITransactionHistory {
 }
 
 interface TransactionHistoryListProps {
-  txHistoryList: transactionRecordTypes[];
+  txHistoryList: any[];
   width: string;
 }
 
@@ -36,30 +51,12 @@ const TableHeader = styled.div`
   padding: 1rem 0;
 `;
 
-const TableRow = styled.div`
-  display: flex;
-  font-size: 0.8rem;
-  font-weight: 500;
-  border-bottom: solid 1px #6667ab;
-  height: 5rem;
-  align-items: center;
-`;
-
 const TableBlock = styled.div<{ width: string }>`
   display: flex;
   gap: 0.5rem;
   align-items: center;
   justify-content: center;
   width: ${(props) => props.width};
-`;
-
-const TableCell = styled.span`
-text-align: center;
-  text-overflow: ellipsis;
-  /* text-overflow: clip; */
-  overflow: hidden;
-  /* white-space: nowrap; */
-  /* margin: auto; */
 `;
 
 export const TransactionHistoryList = ({
@@ -69,7 +66,14 @@ export const TransactionHistoryList = ({
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "trade" : isTablet ? "trade" : "tradeM";
-  console.log(txHistoryList)
+  console.log(txHistoryList);
+  // return (
+  //   <Container width={width}>
+  //     {txHistoryList.map((data) =>
+  //       <div key={data.transactionHash}>{data.transactionHash}</div>
+  //     )}
+  //   </Container>
+  // );
   return (
     <Container width={width}>
       <TableHeader>
@@ -81,37 +85,12 @@ export const TransactionHistoryList = ({
         <TableBlock width="10%">가격</TableBlock>
       </TableHeader>
 
-      {txHistoryList.map((txHistory) => (
-        <TableRow key={txHistory.transactionHash}>
-          <TableBlock width="10%">
-            <TableCell>{txHistory.status}</TableCell>
-          </TableBlock>
-
-          {/* <TableBlock width="25%">
-            <Image
-              imageUrl={txHistory.item.itemImgUrl}
-              name={txHistory.item.itemTitle}
-              mode={viewMode}
-            ></Image>
-            <TableCell>{txHistory.item.itemTitle}</TableCell>
-          </TableBlock> */}
-          <TableBlock width='10%'>{txHistory.tokenId}</TableBlock>
-          <TableBlock width="10%">
-            <TableCell>{txHistory.timeStamp.getFullYear()}-{txHistory.timeStamp.getMonth()+1}-{txHistory.timeStamp.getDate()}</TableCell>
-          </TableBlock>
-          <TableBlock width="30%">
-            <TableCell>{txHistory.from}</TableCell>
-          </TableBlock>
-          <TableBlock width="30%">
-            <TableCell>{txHistory.to}</TableCell>
-          </TableBlock>
-          <TableBlock width="10%">
-            <TableCell>
-              {txHistory.price!=="0" ? `${txHistory.price} ETH` : ""}
-            </TableCell>
-          </TableBlock>
-        </TableRow>
-      ))}
+      {txHistoryList.map(
+      // (data,index) => <div key={index}> {data.blockHash}</div>
+      (data, index) => (
+        <TransactionHistoryItem key={index} data={data} />
+      )
+      )}
     </Container>
   );
 };
