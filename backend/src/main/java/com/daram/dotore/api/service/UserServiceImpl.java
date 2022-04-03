@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Users updateProfile(ProfileUpdateReq profileUpdateReq) {
         Users user = getUserByAddress(profileUpdateReq.getAddress());
-        return userRepository.save(user.setProfile_img_url(profileUpdateReq.getProfileImgUrl()));
+        return userRepository.save(user.setProfileImgUrl(profileUpdateReq.getProfileImgUrl()));
     }
 
     @Override

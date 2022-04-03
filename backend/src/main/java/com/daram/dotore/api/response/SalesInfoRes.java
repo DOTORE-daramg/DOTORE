@@ -22,7 +22,7 @@ public class SalesInfoRes extends BaseRes{
     private BigInteger tokenId;
     private String price;
 
-    LocalDateTime completed_at;
+    LocalDateTime completedAt;
 
     public static SalesInfoRes of(String result) {
         SalesInfoRes res = new SalesInfoRes();
@@ -35,7 +35,7 @@ public class SalesInfoRes extends BaseRes{
         res.setResult(result);
         res.setSaleTrxHash(item.getSaleTrxHash());
         res.setCashContractAddress(item.getCashContractAddress());
-        res.setCreatedAt(item.getCreated_at());
+        res.setCreatedAt(item.getCreatedAt());
         res.setSaleId(item.getSaleId());
         res.setSaleYn(item.getSaleYn());
         res.setSellerAddress(item.getSellerAddress());

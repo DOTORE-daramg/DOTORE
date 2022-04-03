@@ -21,7 +21,7 @@ public class Secondary {
     @Id
     @Column(name = "second_id", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int second_id;
+    int secondId;
 
     @Column(name = "token_id")
     BigInteger tokenId;
@@ -34,8 +34,8 @@ public class Secondary {
     String itemTrxHash;
 
     @Builder
-    public Secondary(int second_id, BigInteger tokenId, BigInteger original, String itemTrxHash) {
-        this.second_id = second_id;
+    public Secondary(int secondId, BigInteger tokenId, BigInteger original, String itemTrxHash) {
+        this.secondId = secondId;
         this.tokenId = tokenId;
         this.original = original;
         this.itemTrxHash = itemTrxHash;

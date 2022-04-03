@@ -28,7 +28,7 @@ public class FeedbackDetailRes extends BaseRes {
         FeedbackDetailRes res = new FeedbackDetailRes();
         res.setResult(result);
         res.setQuestion(new FeedbackQuestionVO(feedback.getAddress(), feedback.getDescription(),
-            feedback.getCreated_at(), feedback.getImgUrl(), profile_img_url));
+            feedback.getCreatedAt(), feedback.getImgUrl(), profile_img_url));
         res.setAnswers(list);
         return res;
     }

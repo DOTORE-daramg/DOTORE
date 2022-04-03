@@ -97,12 +97,12 @@ public class FeedbackServiceImpl implements FeedbackService {
         List<FeedbackAnswerVO> answers = new ArrayList<>();
         for (Answer answer : list) {
             String profile_img_url = userRepository.findByAddress(answer.getWriter()).get()
-                .getProfile_img_url();
+                .getProfileImgUrl();
             answers.add(new FeedbackAnswerVO(answer.getAnswerno(), answer.getWriter(),
-                answer.getDescription(), answer.getCreated_at(), answer.getImgUrl(),
+                answer.getDescription(), answer.getCreatedAt(), answer.getImgUrl(),
                 profile_img_url));
         }
-        return FeedbackDetailRes.of("Success", feedback, user.getProfile_img_url(), answers);
+        return FeedbackDetailRes.of("Success", feedback, user.getProfileImgUrl(), answers);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             .address(feedbackReq.getQuestioner())
             .respondent(feedbackReq.getRespondent())
             .description(feedbackReq.getDescription())
-            .created_at(LocalDateTime.now())
+            .createdAt(LocalDateTime.now())
             .imgUrl(feedbackReq.getImgUrl())
             .build());
     }
@@ -138,7 +138,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             .articleno(answerReq.getArticleNo())
             .writer(answerReq.getWriter())
             .description(answerReq.getDescription())
-            .created_at(LocalDateTime.now())
+            .createdAt(LocalDateTime.now())
             .imgUrl(answerReq.getImgUrl())
             .build());
     }

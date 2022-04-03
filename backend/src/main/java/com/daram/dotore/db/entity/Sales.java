@@ -4,8 +4,6 @@ import java.math.BigInteger;
 import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -47,9 +45,9 @@ public class Sales {
     String price;
 
     @NotNull
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
 
-    LocalDateTime completed_at;
+    LocalDateTime completedAt;
 
     @NotNull
     String status;
@@ -57,7 +55,7 @@ public class Sales {
     @Builder
     public Sales(String saleTrxHash, int saleId, BigInteger tokenId,
         String cashContractAddress, Boolean saleYn, String sellerAddress, String buyerAddress,
-        String price, LocalDateTime created_at, LocalDateTime completed_at, String status) {
+        String price, LocalDateTime createdAt, LocalDateTime completedAt, String status) {
         this.saleTrxHash = saleTrxHash;
         this.saleId = saleId;
         this.tokenId = tokenId;
@@ -66,8 +64,8 @@ public class Sales {
         this.sellerAddress = sellerAddress;
         this.buyerAddress = buyerAddress;
         this.price = price;
-        this.created_at = created_at;
-        this.completed_at = completed_at;
+        this.createdAt = createdAt;
+        this.completedAt = completedAt;
         this.status = status;
     }
 
@@ -82,7 +80,7 @@ public class Sales {
     }
 
     public Sales setCompletedAt(LocalDateTime time) {
-        this.completed_at = time;
+        this.completedAt = time;
         return this;
     }
 

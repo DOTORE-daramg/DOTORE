@@ -46,12 +46,12 @@ public class ItemDetailRes extends BaseRes {
         res.setResult(result);
         if(item != null){
             res.setTokenId(item.getTokenId());
-            res.setItemHash(item.getItem_hash());
-            res.setItemTitle(item.getItem_title());
-            res.setItemDescription(item.getItem_description());
-            res.setCreatedAt(item.getCreated_at());
-            res.setAuthorAddress(item.getAuthor_address());
-            res.setOwnerAddress(item.getOwner_address());
+            res.setItemHash(item.getItemHash());
+            res.setItemTitle(item.getItemTitle());
+            res.setItemDescription(item.getItemDescription());
+            res.setCreatedAt(item.getCreatedAt());
+            res.setAuthorAddress(item.getAuthorAddress());
+            res.setOwnerAddress(item.getOwnerAddress());
             res.setOnSaleYn(item.getOnSaleYn());
             res.setIsFirst(item.getIsFirst());
             res.setFormat(item.getFormat());
@@ -60,7 +60,7 @@ public class ItemDetailRes extends BaseRes {
         if (user != null) {
             res.setNickname(user.getNickname());
             res.setAcorn(user.getAcorn());
-            res.setProfileImgUrl(user.getProfile_img_url());
+            res.setProfileImgUrl(user.getProfileImgUrl());
         }
         res.setDownload(download);
         res.setLike(like);
@@ -73,12 +73,12 @@ public class ItemDetailRes extends BaseRes {
         res.setResult(result);
         if(item != null){
             res.setTokenId(item.getTokenId());
-            res.setItemHash(item.getItem_hash());
-            res.setItemTitle(item.getItem_title());
-            res.setItemDescription(item.getItem_description());
-            res.setCreatedAt(item.getCreated_at());
-            res.setAuthorAddress(item.getAuthor_address());
-            res.setOwnerAddress(item.getOwner_address());
+            res.setItemHash(item.getItemHash());
+            res.setItemTitle(item.getItemTitle());
+            res.setItemDescription(item.getItemDescription());
+            res.setCreatedAt(item.getCreatedAt());
+            res.setAuthorAddress(item.getAuthorAddress());
+            res.setOwnerAddress(item.getOwnerAddress());
             res.setOnSaleYn(item.getOnSaleYn());
             res.setFormat(item.getFormat());
             res.setStatus(item.getStatus());
@@ -86,7 +86,7 @@ public class ItemDetailRes extends BaseRes {
         if (user != null) {
             res.setNickname(user.getNickname());
             res.setAcorn(user.getAcorn());
-            res.setProfileImgUrl(user.getProfile_img_url());
+            res.setProfileImgUrl(user.getProfileImgUrl());
         }
         res.setDownload(download);
         res.setLike(like);
