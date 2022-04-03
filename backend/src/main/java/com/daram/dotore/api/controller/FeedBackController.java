@@ -57,7 +57,7 @@ public class FeedBackController {
         @ApiResponse(code = 200, message = "Success", response = FeedbackListRes.class),
         @ApiResponse(code = 404, message = "아무 피드백도 존재하지 않음", response = FeedbackListRes.class),
     })
-    public ResponseEntity<FeedbackListRes> getFeedbackList(
+    public ResponseEntity<FeedbackListRes> getMyFeedbackList(
         @RequestBody FeedbackMeReq feedbackMeReq) {
         FeedbackListRes res = feedbackService.getMyFeedbacks(feedbackMeReq.getTokenId(),
             feedbackMeReq.getAddress());

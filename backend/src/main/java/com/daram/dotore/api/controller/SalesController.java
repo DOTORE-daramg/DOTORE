@@ -121,7 +121,6 @@ public class SalesController {
             saleService.updateSaleYnAndBuyerAddressAndCompletedAt(saleCompleteReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(BaseRes.of("판매 실패"));
         }
     }
@@ -143,8 +142,7 @@ public class SalesController {
             itemService.updateCancelOnSaleYn(salesCancelReq.getTokenId());
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(404).body(BaseRes.of("판매 실패"));
+            return ResponseEntity.status(404).body(BaseRes.of("판매취소 실패"));
         }
     }
 }
