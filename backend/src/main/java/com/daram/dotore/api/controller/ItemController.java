@@ -71,7 +71,6 @@ public class ItemController {
             itemService.saveNewItem(itemReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
         }
     }

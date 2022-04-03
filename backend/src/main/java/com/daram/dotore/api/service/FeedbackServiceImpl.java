@@ -99,8 +99,7 @@ public class FeedbackServiceImpl implements FeedbackService {
             String profile_img_url = userRepository.findByAddress(answer.getWriter()).get()
                 .getProfileImgUrl();
             answers.add(new FeedbackAnswerVO(answer.getAnswerno(), answer.getWriter(),
-                answer.getDescription(), answer.getCreatedAt(), answer.getImgUrl(),
-                profile_img_url));
+                answer.getDescription(), answer.getCreatedAt(), profile_img_url));
         }
         return FeedbackDetailRes.of("Success", feedback, user.getProfileImgUrl(), answers);
     }
@@ -118,7 +117,6 @@ public class FeedbackServiceImpl implements FeedbackService {
             .respondent(feedbackReq.getRespondent())
             .description(feedbackReq.getDescription())
             .createdAt(LocalDateTime.now())
-            .imgUrl(feedbackReq.getImgUrl())
             .build());
     }
 
@@ -128,8 +126,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         if (feedback == null) {
             return null;
         }
-        return feedbackRepository.save(feedback.updateFeedback(feedbackUpdateReq.getDescription(),
-            feedbackUpdateReq.getImgUrl()));
+        return feedbackRepository.save(feedback.updateFeedback(feedbackUpdateReq.getDescription()));
     }
 
     @Override
@@ -139,7 +136,6 @@ public class FeedbackServiceImpl implements FeedbackService {
             .writer(answerReq.getWriter())
             .description(answerReq.getDescription())
             .createdAt(LocalDateTime.now())
-            .imgUrl(answerReq.getImgUrl())
             .build());
     }
 
@@ -149,7 +145,6 @@ public class FeedbackServiceImpl implements FeedbackService {
         if (answer == null) {
             return null;
         }
-        return answerRepository.save(answer.updateAnswer(feedbackUpdateReq.getDescription(),
-            feedbackUpdateReq.getImgUrl()));
+        return answerRepository.save(answer.updateAnswer(feedbackUpdateReq.getDescription()));
     }
 }

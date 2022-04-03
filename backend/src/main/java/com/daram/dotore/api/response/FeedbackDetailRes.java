@@ -12,7 +12,7 @@ import lombok.Setter;
 @ApiModel("FeedbackDetailResponse")
 public class FeedbackDetailRes extends BaseRes {
 
-    private int articleNo;
+    private int articleno;
     private FeedbackQuestionVO question;
     private List<FeedbackAnswerVO> answers = new ArrayList<>();
 
@@ -28,7 +28,7 @@ public class FeedbackDetailRes extends BaseRes {
         FeedbackDetailRes res = new FeedbackDetailRes();
         res.setResult(result);
         res.setQuestion(new FeedbackQuestionVO(feedback.getAddress(), feedback.getDescription(),
-            feedback.getCreatedAt(), feedback.getImgUrl(), profile_img_url));
+            feedback.getCreatedAt(), profile_img_url));
         res.setAnswers(list);
         return res;
     }

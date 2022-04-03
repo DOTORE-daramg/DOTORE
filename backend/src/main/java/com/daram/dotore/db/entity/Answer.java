@@ -31,8 +31,6 @@ public class Answer {
     @NotNull
     LocalDateTime createdAt;
 
-    String imgUrl;
-
     @NotNull
     int articleno;
 
@@ -42,13 +40,11 @@ public class Answer {
         this.writer = writer;
         this.description = description;
         this.createdAt = createdAt;
-        this.imgUrl = imgUrl;
         this.articleno = articleno;
     }
 
-    public Answer updateAnswer(String description, String img_url){
+    public Answer updateAnswer(String description){
         this.description=description;
-        this.imgUrl=img_url;
         return this;
     }
 }

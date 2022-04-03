@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FeedbackVO {
 
-    private int articleNo;
+    private int articleno;
     private String questioner;
     private String description;
     private boolean yn;

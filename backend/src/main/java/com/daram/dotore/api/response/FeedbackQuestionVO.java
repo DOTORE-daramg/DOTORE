@@ -13,6 +13,5 @@ public class FeedbackQuestionVO {
     private String questioner;
     private String description;
     private LocalDateTime createdAt;
-    private String imgUrl;
     private String profileImgUrl;
 }

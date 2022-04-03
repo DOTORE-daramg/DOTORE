@@ -98,7 +98,6 @@ public class SalesController {
             Sales item = saleService.getEmptyCompletedAtItem(token_id);
             return ResponseEntity.status(200).body(SalesInfoRes.of("Success", item));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(SalesInfoRes.of("존재하지 않는 token_id"));
         }
     }
