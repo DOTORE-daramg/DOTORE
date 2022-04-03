@@ -28,7 +28,7 @@ public class SaleServiceImpl implements SaleService {
             .sellerAddress(salesReq.getSellerAddress())
             .cashContractAddress(salesReq.getCashContractAddress())
             .price(salesReq.getPrice())
-            .created_at(LocalDateTime.now())
+            .createdAt(LocalDateTime.now())
             .saleYn(true)
             .status("Pending")
             .build());

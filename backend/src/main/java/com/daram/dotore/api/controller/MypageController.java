@@ -248,7 +248,7 @@ public class MypageController {
         @RequestPart("data") MultipartFile file) throws IOException {
         //이미 사용자의 프로필 이미지가 등록이 되어있는지 확인
         String oldImageUrl = userService.getUserByAddress(profileUpdateReq.getAddress())
-            .getProfile_img_url();
+            .getProfileImgUrl();
         //프로필 이미지 업로드 및 주소 반환
         String imageUrl = awsS3Service.uploadFiles(file, "profile", profileUpdateReq);
         //사용자 정보 불러오기

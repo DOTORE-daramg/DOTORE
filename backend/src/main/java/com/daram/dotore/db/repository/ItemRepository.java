@@ -15,9 +15,11 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
 
     Optional<Items> findByItemTrxHash(String itemTrxHash);
 
-    List<Items> findByIsFirst(boolean isFirst);
+    List<Items> findByIsFirstAndStatus(boolean isFirst, String status);
 
     List<Items> findByOnSaleYn(boolean onSaleYn);
+
+    List<Items> findByStatus(String status);
 
     @Query(value = "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
         + "FROM items i JOIN secondary s ON i.token_id=s.token_id "

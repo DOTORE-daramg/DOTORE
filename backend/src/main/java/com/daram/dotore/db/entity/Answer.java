@@ -29,7 +29,7 @@ public class Answer {
     String description;
 
     @NotNull
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
 
     String imgUrl;
 
@@ -37,11 +37,11 @@ public class Answer {
     int articleno;
 
     @Builder
-    public Answer(int answerno, String writer, String description, LocalDateTime created_at, String imgUrl, int articleno) {
+    public Answer(int answerno, String writer, String description, LocalDateTime createdAt, String imgUrl, int articleno) {
         this.answerno = answerno;
         this.writer = writer;
         this.description = description;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.imgUrl = imgUrl;
         this.articleno = articleno;
     }

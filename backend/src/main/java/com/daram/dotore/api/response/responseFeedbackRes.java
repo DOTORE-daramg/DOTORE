@@ -30,11 +30,11 @@ public class responseFeedbackRes extends BaseRes {
             res.getData()
                 .add(new responseFeedbackVO(
                     list.get(i).getArticleno(),
-                    list2.get(i).getItem_title(),
+                    list2.get(i).getItemTitle(),
                     list.get(i).getAddress(),
                     list.get(i).getDescription(),
                     booleanList.get(i),
-                    list.get(i).getCreated_at(),
+                    list.get(i).getCreatedAt(),
                     list.get(i).getTokenId()
                 ));
         }

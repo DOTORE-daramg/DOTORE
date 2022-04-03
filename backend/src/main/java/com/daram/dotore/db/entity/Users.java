@@ -33,7 +33,8 @@ public class Users {
     int acorn;
 
     @NotNull
-    String profile_img_url;
+    @Column(name = "profile_img_url")
+    String profileImgUrl;
 
     @Builder
     private Users(String address, String nickname, String description, int acorn, String profile_img_url) {
@@ -41,7 +42,7 @@ public class Users {
         this.nickname = nickname;
         this.description = description;
         this.acorn = acorn;
-        this.profile_img_url = profile_img_url;
+        this.profileImgUrl = profile_img_url;
     }
 
     public Users setNickname(String nickname){
@@ -59,8 +60,8 @@ public class Users {
         return this;
     }
 
-    public Users setProfile_img_url(String profile_img_url){
-        this.profile_img_url=profile_img_url;
+    public Users setProfileImgUrl(String profileImgUrl){
+        this.profileImgUrl = profileImgUrl;
         return this;
     }
 }
