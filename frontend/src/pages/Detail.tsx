@@ -95,6 +95,7 @@ const DescContainer = styled.div`
 const BadgeContainer = styled.div`
   width: 70%;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   /* justify-content: ; */
   margin-top: 20px;
