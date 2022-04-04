@@ -28,12 +28,7 @@ const RealtedNFTItem = ({
 
   return (
     <Container onClick={() => navigate(`/detail/${tokenId}`)}>
-      <Image
-        // imageUrl={itemHash}
-        imageUrl="https://mblogthumb-phinf.pstatic.net/20150302_49/1eunnue_1425222085350UyECd_JPEG/%BC%D5%B1%D7%B8%B2_%2814%29.jpg?type=w2"
-        name={itemTitle}
-        mode={viewMode}
-      />
+      <Image imageUrl={itemHash} name={itemTitle} mode={viewMode} />
     </Container>
   );
 };

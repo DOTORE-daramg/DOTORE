@@ -28,9 +28,10 @@ import { Title } from "../stories/Title";
 import { Title as SubTitle } from "../stories/detail/Title";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "..";
-import { getSale } from "../api/sale";
+import { getSale, completeSale } from "../api/sale";
 import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
+import { purchase } from "../contracts/api/second";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -310,12 +311,12 @@ const Detail = () => {
     getItem(tokenId).then((res) => {
       const { data } = res;
       const {
-        data: { isFirst, onSaleYn, authorAddress },
+        data: { isFirst, onSaleYn, authorAddress, ownerAddress },
       } = res;
       setItem(data);
       setIsFirst(isFirst);
       setIsSale(onSaleYn);
-      if (authorAddress === userInfo.address) {
+      if (ownerAddress === userInfo.address) {
         setIsOwner(true);
       } else {
         setIsOwner(false);
@@ -382,6 +383,23 @@ const Detail = () => {
       alert("로그인 후 가능합니다!");
     }
   };
+
+  const onClickPurchase = async () => {
+    if (!tokenId || isOwner) {
+      return;
+    }
+    try {
+      await purchase({
+        tokenId: +tokenId,
+        price: saleStatus.price,
+        userAddress: userInfo.address,
+      });
+      await completeSale(userInfo.address, +tokenId);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   useEffect(() => {
     if (isFirst) {
       getFeedbacks(tokenId)
@@ -481,6 +499,7 @@ const Detail = () => {
                     width="7rem"
                     label="구매 가능"
                     backgroundColor="#6667ab"
+                    onClick={onClickPurchase}
                   />
                 )}
                 {!isFirst && !isSale && (

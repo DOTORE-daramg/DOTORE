@@ -176,8 +176,8 @@ const SecondList = () => {
             </ItemContainer>
           ) : items && items.length > 0 ? (
             <ItemContainer>
-              {items.map((item) => (
-                <Item key={item.tokenId} {...item} />
+              {items.map((item, index) => (
+                <Item key={index + String(item.tokenId)} {...item} />
               ))}
             </ItemContainer>
           ) : (
