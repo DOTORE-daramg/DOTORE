@@ -222,8 +222,8 @@ const List = () => {
             displayCount={itemsPerPage}
           />
           {/* <Pagination
-            postsPerPage={itemsPerPage}
-            totalPosts={items.length}
+            itemsPerPage={itemsPerPage}
+            totalCount={items.length}
             paginate={setCurrentPage}>
             
             </Pagination> */}
