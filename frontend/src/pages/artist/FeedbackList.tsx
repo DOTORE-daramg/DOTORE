@@ -9,45 +9,6 @@ import { FeedbackToggleButtons } from "../../stories/artist/FeedbackToggleButton
 import { getReqFeedbacks, getResFeedbacks } from "../../api/artist";
 import { useParams } from "react-router-dom";
 
-// const feedbackList: IFeedback[] = [
-//   {
-//     isAnswered: false,
-//     itemTitle: "야, 너도 도토리 할 수 있어!",
-//     questionTitle: "도토리 색 조합에 대해 질문 드립니다.",
-//     recentDate: "2022-03-11",
-//   },
-//   {
-//     isAnswered: true,
-//     itemTitle: "야, 너는 도토리 못해!",
-//     questionTitle: "야, 너는 도토리 못해!",
-//     recentDate: "2022-03-12",
-//   },
-//   {
-//     isAnswered: false,
-//     itemTitle: "야, 너도 도토리 할 수 있어!",
-//     questionTitle: "도토리 색 조합에 대해 질문 드립니다.",
-//     recentDate: "2022-03-11",
-//   },
-//   {
-//     isAnswered: true,
-//     itemTitle: "야, 너는 도토리 못해!",
-//     questionTitle: "야, 너는 도토리 못해!",
-//     recentDate: "2022-03-12",
-//   },
-//   {
-//     isAnswered: false,
-//     itemTitle: "야, 너도 도토리 할 수 있어!",
-//     questionTitle: "도토리 색 조합에 대해 질문 드립니다.",
-//     recentDate: "2022-03-11",
-//   },
-//   {
-//     isAnswered: true,
-//     itemTitle: "야, 너는 도토리 못해!",
-//     questionTitle: "야, 너는 도토리 못해!",
-//     recentDate: "2022-03-12",
-//   },
-// ];
-
 const Container = styled.div`
   display: flex;
   padding: 5rem 2rem;
@@ -63,8 +24,6 @@ const Container = styled.div`
 
 const TopContainer = styled.div<{ width: string }>`
   display: flex;
-  /* padding-bottom: 5rem; */
-  /* margin: auto; */
   width: ${(props) => props.width};
 `;
 

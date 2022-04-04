@@ -12,16 +12,11 @@ import { SubTitle } from "../stories/SubTitle";
 import { ThumbnailProps } from "../stories/thumbnail/Thumbnail";
 import { ThumbnailGrid } from "../stories/thumbnail/ThumbnailGrid";
 import { Title } from "../stories/Title";
+import { getLevel } from "../utils/Level";
 
 const Container = styled.div`
   height: 100%;
 `;
-
-// const Banner = styled.img`
-//   /* width: 100%; */
-//   height: 30vh;
-//   margin-top: 100px;
-// `;
 
 const NFTContainer = styled.div`
   width: 100%;
@@ -127,8 +122,7 @@ const Main = () => {
           const onClick = () => {
             navigete(`/artist/${address}`);
           };
-          const profileLevel =
-            acorn > 10 ? "Lv2. 꼬맹이 도토리" : "Lv1. 새싹 도토리";
+          const profileLevel = getLevel(acorn);
           profileList.push({
             acorn,
             address,

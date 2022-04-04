@@ -7,6 +7,7 @@ import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
 import styled from "styled-components";
 import { getUserInfo } from "../../api/user";
+import { getLevel } from "../../utils/Level";
 
 const Container = styled.div`
   padding: 30px 0px 70px 0px;
@@ -33,17 +34,10 @@ const Artist = () => {
     }
   }, [userAddress, userInfo]);
 
-  // useEffect(() => {
-  //   if (artistInfo && userAddress === userInfo.address) {
-  //     setUserInfo(artistInfo);
-  //   }
-  // }, [artistInfo]);
   return (
     <>
       {isModalShow && (
         <ProfileUpdateModal
-          // userInfo={userInfo}
-          // setUserInfo={setUserInfo}
           onClickToggleModal={onClickToggleModal}
         ></ProfileUpdateModal>
       )}
@@ -51,7 +45,7 @@ const Artist = () => {
         <ProfileBanner
           profileImgUrl={artistInfo.profileImgUrl}
           profileNickname={artistInfo.nickname}
-          profileLevel="Lv.2 어린이 도토리"
+          profileLevel={getLevel(artistInfo.acorn)}
           profileAddress={artistInfo.address}
           profileDescription={artistInfo.description}
           profileDotoriAmount={`${artistInfo.acorn}`}
@@ -59,10 +53,6 @@ const Artist = () => {
         ></ProfileBanner>
       )}
       <ArtistNav></ArtistNav>
-      {/* { transactionRecord && 
-        transactionRecord.map((data, index) =>
-          <div key={index}> {data.from} {data.to} {data.timeStamp.getFullYear()}-{data.timeStamp.getMonth()+1}-{data.timeStamp.getDate()} </div>
-        )} */}
       <Container>
         <Outlet />
       </Container>

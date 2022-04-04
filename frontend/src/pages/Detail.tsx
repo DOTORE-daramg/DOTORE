@@ -33,6 +33,7 @@ import { getSale, completeSale } from "../api/sale";
 import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
+import { getLevel } from "../utils/Level";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -194,6 +195,7 @@ const SaleContainer = styled.div`
   }
 `;
 type Iitem = {
+  acorn: number;
   authorAddress: string;
   profileImgUrl: string;
   itemTitle: string;
@@ -261,6 +263,7 @@ const Detail = () => {
     tokenId: 0,
   });
   const [item, setItem] = useState<Iitem>({
+    acorn: 0,
     authorAddress: "",
     profileImgUrl: "",
     itemTitle: "",
@@ -273,6 +276,7 @@ const Detail = () => {
     tags: [],
   });
   const {
+    acorn,
     authorAddress,
     profileImgUrl,
     itemTitle,
@@ -447,7 +451,7 @@ const Detail = () => {
                 descrition={itemDescription}
                 profileImgUrl={profileImgUrl}
                 profileNickname={nickname}
-                profileLevel="Lv.2 꼬맹이도토리"
+                profileLevel={getLevel(acorn)}
                 size="fit-content"
               />
               <BadgeContainer>
