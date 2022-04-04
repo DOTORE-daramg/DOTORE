@@ -98,7 +98,6 @@ public class SalesController {
             Sales item = saleService.getEmptyCompletedAtItem(token_id);
             return ResponseEntity.status(200).body(SalesInfoRes.of("Success", item));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(SalesInfoRes.of("존재하지 않는 token_id"));
         }
     }
@@ -121,7 +120,6 @@ public class SalesController {
             saleService.updateSaleYnAndBuyerAddressAndCompletedAt(saleCompleteReq);
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(BaseRes.of("판매 실패"));
         }
     }
@@ -143,8 +141,7 @@ public class SalesController {
             itemService.updateCancelOnSaleYn(salesCancelReq.getTokenId());
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.status(404).body(BaseRes.of("판매 실패"));
+            return ResponseEntity.status(404).body(BaseRes.of("판매취소 실패"));
         }
     }
 }

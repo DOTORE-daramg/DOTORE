@@ -33,8 +33,6 @@ public class Feedback {
     @NotNull
     LocalDateTime createdAt;
 
-    String imgUrl;
-
     @NotNull
     @Pattern(regexp = "[a-zA-Z0-9]{1,66}")
     String address;
@@ -48,14 +46,12 @@ public class Feedback {
         this.respondent = respondent;
         this.description = description;
         this.createdAt = createdAt;
-        this.imgUrl = imgUrl;
         this.address = address;
         this.tokenId = tokenId;
     }
 
-    public Feedback updateFeedback(String description, String img_url){
+    public Feedback updateFeedback(String description){
         this.description=description;
-        this.imgUrl=img_url;
         return this;
     }
 }

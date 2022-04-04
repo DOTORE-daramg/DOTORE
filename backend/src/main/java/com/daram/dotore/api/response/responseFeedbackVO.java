@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class responseFeedbackVO {
-    int articleNo;
+
+    int articleno;
     String itemTitle;
     String questioner;
     String description;

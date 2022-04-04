@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("ItemImageResponse")
-public class ItemImageRes extends BaseRes{
+public class ItemImageRes extends BaseRes {
 
     private String imageUrl;
 

@@ -23,7 +23,8 @@ public class requestFeedbackRes extends BaseRes {
         return res;
     }
 
-    public static requestFeedbackRes of(String result, List<Feedback> list, List<Items> list2, List<Boolean> booleanList) {
+    public static requestFeedbackRes of(String result, List<Feedback> list, List<Items> list2,
+        List<Boolean> booleanList) {
         requestFeedbackRes res = new requestFeedbackRes();
         res.setResult(result);
         for (int i = 0; i < list.size(); i++) {

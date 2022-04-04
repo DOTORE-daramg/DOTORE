@@ -23,7 +23,8 @@ public interface SaleRepository extends JpaRepository<Sales, Integer> {
         "SELECT sale_trx_hash, sale_id, token_id, cash_contract_address, sale_yn, seller_address, buyer_address, price, created_at, completed_at, status "
             + "FROM sales "
             + "WHERE token_id = :tokenId "
-            + "AND completed_at is null ", nativeQuery = true)
+            + "AND completed_at is null "
+            + "ORDER BY token_id", nativeQuery = true)
     Sales getEmptyCompletedAtItem(@Param("tokenId") BigInteger tokenId);
 
     @Modifying
@@ -36,6 +37,7 @@ public interface SaleRepository extends JpaRepository<Sales, Integer> {
 
     @Query(value = "SELECT * "
         + "FROM sales "
-        + "WHERE seller_address = :address and sale_id = 0 ", nativeQuery = true)
+        + "WHERE seller_address = :address and sale_id = 0 "
+        + "ORDER BY token_id", nativeQuery = true)
     List<Sales> getPendingItemList(String address);
 }

@@ -4,14 +4,13 @@ import com.daram.dotore.db.entity.Sales;
 import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
-
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ApiModel("SalesInfoResponse")
-public class SalesInfoRes extends BaseRes{
+public class SalesInfoRes extends BaseRes {
 
     private String saleTrxHash;
     private String cashContractAddress;

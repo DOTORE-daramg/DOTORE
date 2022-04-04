@@ -7,9 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("FeedbackResponse")
-public class FeedbackRes extends BaseRes{
+public class FeedbackRes extends BaseRes {
 
-    private int articleNo;
+    private int articleno;
 
     public static FeedbackRes of(String result) {
         FeedbackRes res = new FeedbackRes();
@@ -20,7 +20,7 @@ public class FeedbackRes extends BaseRes{
     public static FeedbackRes of(String result, int articleno) {
         FeedbackRes res = new FeedbackRes();
         res.setResult(result);
-        res.setArticleNo(articleno);
+        res.setArticleno(articleno);
         return res;
     }
 }

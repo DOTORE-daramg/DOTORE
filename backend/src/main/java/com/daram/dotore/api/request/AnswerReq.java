@@ -12,9 +12,4 @@ public class AnswerReq {
     private int articleNo;
     private String writer;
     private String description;
-    private String imgUrl;
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
 }

@@ -8,7 +8,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("ItemsResponse")
-public class ItemsRes extends BaseRes{
+public class ItemsRes extends BaseRes {
+
     private List<ItemDetailRes> data;
 
     public static ItemsRes of(String result) {
