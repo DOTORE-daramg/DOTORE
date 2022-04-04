@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel("FeedbackResponse")
-public class FeedbackRes extends BaseRes{
+public class FeedbackRes extends BaseRes {
 
     private int articleno;
 

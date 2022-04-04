@@ -35,16 +35,17 @@ public class ItemDetailRes extends BaseRes {
 
     String price;
 
-    public static ItemDetailRes of(String result){
+    public static ItemDetailRes of(String result) {
         ItemDetailRes res = new ItemDetailRes();
         res.setResult(result);
         return res;
     }
 
-    public static ItemDetailRes of(String result, Items item, Users user, int download, int like, String[] tags) {
+    public static ItemDetailRes of(String result, Items item, Users user, int download, int like,
+        String[] tags) {
         ItemDetailRes res = new ItemDetailRes();
         res.setResult(result);
-        if(item != null){
+        if (item != null) {
             res.setTokenId(item.getTokenId());
             res.setItemHash(item.getItemHash());
             res.setItemTitle(item.getItemTitle());
@@ -68,10 +69,11 @@ public class ItemDetailRes extends BaseRes {
         return res;
     }
 
-    public static ItemDetailRes of(String result, Items item, Users user, int download, int like, String[] tags, String price) {
+    public static ItemDetailRes of(String result, Items item, Users user, int download, int like,
+        String[] tags, String price) {
         ItemDetailRes res = new ItemDetailRes();
         res.setResult(result);
-        if(item != null){
+        if (item != null) {
             res.setTokenId(item.getTokenId());
             res.setItemHash(item.getItemHash());
             res.setItemTitle(item.getItemTitle());

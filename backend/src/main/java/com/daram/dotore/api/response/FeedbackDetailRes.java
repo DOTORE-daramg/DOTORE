@@ -23,12 +23,12 @@ public class FeedbackDetailRes extends BaseRes {
         return res;
     }
 
-    public static FeedbackDetailRes of(String result, Feedback feedback, String profile_img_url,
+    public static FeedbackDetailRes of(String result, Feedback feedback, String profileImgUrl,
         List<FeedbackAnswerVO> list) {
         FeedbackDetailRes res = new FeedbackDetailRes();
         res.setResult(result);
         res.setQuestion(new FeedbackQuestionVO(feedback.getAddress(), feedback.getDescription(),
-            feedback.getCreatedAt(), profile_img_url));
+            feedback.getCreatedAt(), profileImgUrl));
         res.setAnswers(list);
         return res;
     }

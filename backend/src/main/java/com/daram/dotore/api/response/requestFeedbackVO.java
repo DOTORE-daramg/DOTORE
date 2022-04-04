@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 public class requestFeedbackVO {
+
     int articleNo; //feed
     BigInteger tokenId; //feed
     String itemTitle; //items
