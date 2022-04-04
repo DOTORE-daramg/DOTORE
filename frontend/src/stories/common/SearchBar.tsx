@@ -76,9 +76,9 @@ export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
     setInputKeyword(e.target.value);
   };
   const onClick = (item: ItemProps) => {
-    onClickItem(item);
     setInputKeyword("");
     setResults([]);
+    onClickItem(item);
   };
 
   useEffect(() => {

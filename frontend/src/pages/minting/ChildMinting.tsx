@@ -192,6 +192,9 @@ const ChildMinting = () => {
 
   const onClickItem = (item: ItemProps) => {
     /// 구현해야 할 부분
+    if (originalItem.find((currentItem) => currentItem === item)) {
+      return;
+    }
     setOriginalItem((prev) => [...prev, item]);
   };
 
