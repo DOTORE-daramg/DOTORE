@@ -66,7 +66,7 @@ const StyledInput = styled.input`
 
 interface SearchBarProps {
   items: ItemProps[];
-  onClickItem: (tokenId: number) => void;
+  onClickItem: (item: ItemProps) => void;
 }
 
 export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
@@ -75,8 +75,8 @@ export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.target.value);
   };
-  const onClick = (tokenId: number) => {
-    onClickItem(tokenId);
+  const onClick = (item: ItemProps) => {
+    onClickItem(item);
     setInputKeyword("");
     setResults([]);
   };
@@ -111,7 +111,7 @@ export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
               <SearchResult
                 key={result.tokenId}
                 item={result}
-                onClick={() => onClick(+result.tokenId)}
+                onClick={() => onClick(result)}
               ></SearchResult>
             ))
           : null}

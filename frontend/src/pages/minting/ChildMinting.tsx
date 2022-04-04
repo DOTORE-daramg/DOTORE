@@ -18,6 +18,8 @@ import SearchResult from "../../stories/minting/SearchResult";
 import { SearchBar } from "../../stories/common/SearchBar";
 import { ItemProps } from "../../stories/list/Item";
 import { viewAll } from "../../api/item";
+import { Image } from "../../stories/detail/Image";
+import { OriginalItemImage } from "../../stories/minting/OriginalItemImage";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -96,6 +98,12 @@ const SearchResults = styled.div`
   border-radius: 20px;
 `;
 
+const OriginalItems = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 0.3rem;
+`;
+
 const ChildMinting = () => {
   const isLoggedIn = useRecoilValue(isLoggedInState);
   const userInfo = useRecoilValue(userInfoState);
@@ -103,7 +111,9 @@ const ChildMinting = () => {
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
+  const [originalItem, setOriginalItem] = useState<ItemProps[]>([]);
   const [originalTokenId, setOriginalTokenId] = useState<number[]>([]);
+  const [originalItemHash, setOriginalItemHash] = useState<string[]>([]);
   const [items, setItems] = useState<ItemProps[]>([]);
 
   const handleTitleChanged = (e: any) => {
@@ -130,7 +140,7 @@ const ChildMinting = () => {
     if (!validateTitle()) {
       console.log("Bad title");
       return;
-    } else if (originalTokenId.length === 0) {
+    } else if (originalItem.length === 0) {
       console.log("Select Originals");
       return;
     } else if (itemFile.size === 0) {
@@ -156,7 +166,7 @@ const ChildMinting = () => {
         tokenUrl: fileUrl,
         tags: itemTags,
         format,
-        original: originalTokenId,
+        original: originalItem.map((item) => +item.tokenId),
         userAddress: userInfo.address,
       });
 
@@ -182,10 +192,15 @@ const ChildMinting = () => {
     return true;
   };
 
-  const onClickItem = (tokenId: number) => {
+  const onClickItem = (item: ItemProps) => {
     /// 구현해야 할 부분
-    console.log(tokenId);
-    setOriginalTokenId((prev) => [...prev, tokenId]);
+    setOriginalItem((prev) => [...prev, item]);
+  };
+
+  const onDeleteItem = (item: ItemProps) => {
+    console.log(item);
+    const idx = originalItem.findIndex((originalItem) => originalItem === item);
+    setOriginalItem((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
   };
 
   useEffect(() => {
@@ -214,6 +229,14 @@ const ChildMinting = () => {
             <div>
               <SubTitleContainer isRequired={true}>원작 작품</SubTitleContainer>
               <SmallMutedText>특수 문자 포함 불가</SmallMutedText>
+              <OriginalItems>
+                {originalItem.map((item) => (
+                  <OriginalItemImage
+                    item={item}
+                    onDeleteItem={onDeleteItem}
+                  ></OriginalItemImage>
+                ))}
+              </OriginalItems>
               <SearchBar items={items} onClickItem={onClickItem}></SearchBar>
 
               {originalTokenId.length > 0 &&
