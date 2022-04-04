@@ -7,6 +7,8 @@ import { getNFTList } from "../../api/artist";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 const OwnedNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
@@ -16,6 +18,7 @@ const OwnedNFTList = () => {
   const { userAddress } = useParams();
   const [itemList, setItemList] = useState<ThumbnailProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   useEffect(() => {
     if (isLoading) {
@@ -39,7 +42,9 @@ const OwnedNFTList = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
+          {userInfo.address === userAddress ? (
+            <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
+          ) : null}
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
