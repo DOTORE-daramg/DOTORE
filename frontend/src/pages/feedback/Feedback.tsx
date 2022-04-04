@@ -63,7 +63,7 @@ const Feedback = () => {
   });
   const [questions, setQuestions] = useState<questions>();
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   // questioner도 아니고 author도 아니라면 textEditor 없애기
   const [isMine, setIsMine] = useState<boolean>(true);
   const { itemTitle, itemHash, authorAddress } = item;
@@ -71,72 +71,78 @@ const Feedback = () => {
   useEffect(() => {
     getItem(tokenId).then((res) => {
       setItem(res.data);
+      console.log(item);
+      setIsLoading(true);
     });
-
-    getFeedBack(articleNo)
-      .then((res) => {
-        return res;
-      })
-      .then((res) => {
-        const answers = res.data.answers;
-        const newAnswers: answer[] = [];
-        const question = res.data.question;
-        console.log(res);
-        getUserInfo(question.questioner)
-          .then((nick) => {
-            const nickname = nick.data.nickname;
-            const question = {
-              ...res.data.question,
-              nickname,
-            };
-            return question;
-          })
-          .then((question) => {
-            // console.log(question.questioner, userInfo.address);
-            // questioner나 답변자가 아닌 경우
-            if (
-              answers.length !== 0 &&
-              question.questioner !== userInfo.address &&
-              answers[0].writer !== userInfo.address
-            ) {
-              console.log(
-                question.questioner,
-                answers[0].writer,
-                userInfo.address
-              );
-              setIsMine(false);
-            } else if (
-              answers.length == 0 &&
-              question.questioner !== userInfo.address &&
-              authorAddress != userInfo.address
-            ) {
-              setIsMine(false);
-            }
-
-            if (answers.length !== 0) {
-              console.log(answers);
-              answers.map((answer: answer) => {
-                getUserInfo(answer.writer).then((nick) => {
-                  const nickname = nick.data.nickname;
-                  newAnswers.push({ ...answer, nickname });
-                  const questions = {
-                    question,
-                    answers: newAnswers,
-                  };
-                  setQuestions(questions);
-                });
-              });
-            } else {
-              setQuestions({
-                question,
-              });
-            }
-          });
-      });
   }, []);
+
+  useEffect(() => {
+    if (isLoading) {
+      getFeedBack(articleNo)
+        .then((res) => {
+          return res;
+        })
+        .then((res) => {
+          const answers = res.data.answers;
+          const newAnswers: answer[] = [];
+          const question = res.data.question;
+
+          getUserInfo(question.questioner)
+            .then((nick) => {
+              const nickname = nick.data.nickname;
+              const question = {
+                ...res.data.question,
+                nickname,
+              };
+              return question;
+            })
+            .then((question) => {
+              // questioner나 답변자가 아닌 경우
+              if (
+                answers.length !== 0 &&
+                question.questioner !== userInfo.address &&
+                answers[0].writer !== userInfo.address
+              ) {
+                console.log(
+                  question.questioner,
+                  answers[0].writer,
+                  userInfo.address
+                );
+                setIsMine(false);
+              } else if (
+                answers.length == 0 &&
+                question.questioner !== userInfo.address &&
+                authorAddress !== userInfo.address
+              ) {
+                console.log(item);
+                setIsMine(false);
+              }
+
+              if (answers.length !== 0) {
+                console.log(answers);
+                answers.map((answer: answer) => {
+                  getUserInfo(answer.writer).then((nick) => {
+                    const nickname = nick.data.nickname;
+                    newAnswers.push({ ...answer, nickname });
+                    const questions = {
+                      question,
+                      answers: newAnswers,
+                    };
+                    setQuestions(questions);
+                  });
+                });
+              } else {
+                setQuestions({
+                  question,
+                });
+              }
+            });
+        });
+    }
+  }, [isLoading]);
   return (
     <>
-      <FeedbackBanner></FeedbackBanner>
+      <FeedbackBanner />
       {questions && (
         <Container>
           <FeedbackTitle
@@ -151,6 +157,7 @@ const Feedback = () => {
             content={questions.question.description}
             createdAt={questions.question.createdAt.slice(0, 10)}
             imageUrl={questions.question.imgUrl}
+            address={questions.question.questioner}
             commentType="MainQuestion"
           ></FeedbackComment>
           {questions.answers &&
