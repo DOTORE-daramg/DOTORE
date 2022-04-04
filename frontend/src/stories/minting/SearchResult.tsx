@@ -7,8 +7,13 @@ const Container = styled.div`
   width: 100%;
   height: 20px;
   display: flex;
+  gap: 0.5rem;
   align-items: center;
-  margin: 20px;
+  padding: 1.5rem;
+  cursor: pointer;
+  :hover {
+    background-color: #ccc;
+  }
 `;
 const SearchResult = ({ item, onClick }: any) => {
   return (
