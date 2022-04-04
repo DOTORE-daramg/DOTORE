@@ -8,7 +8,7 @@ import { Button } from "../Button";
 import { Icon } from "../common/Icon";
 import { updateDesc, updateImage, updateNickname } from "../../api/user";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { FileDropBox } from "../minting/FileDropBox";
+import { getUserInfo } from "../../api/user";
 
 const Section = styled.div`
   width: 100%;
@@ -202,29 +202,64 @@ export const ProfileUpdateModal = ({
   const [desc, setDesc] = useState<string>(userInfo.description);
   const [itemFile, setItemFile] = useState<Blob>();
 
-  const onClickSaveButton = () => {
-    console.log("save!");
+  const validateNickname = () => {
+    const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
+    if (nickname.length < 2 || nickname.length > 10) {
+      return 1;
+    } else if (special_pattern.test(nickname)) {
+      return 2;
+    }
+    return true;
+  };
 
-    updateNickname(userInfo.address, nickname)
-      .then(() => {
-        console.log("하이");
-        return nickname;
-      })
-      .then((nickname) => {
-        updateDesc(userInfo.address, desc).then(() => {
-          setUserInfo({ ...userInfo, nickname, description: desc });
-        });
-      })
-      .then(() => {
-        if (itemFile) {
-          const data = new FormData();
-          data.append("data", itemFile);
-          console.log(data);
-          updateImage(userInfo.address, data).then(() => {
-            console.log("성공!");
-          });
-        }
-      });
+  const onClickSaveButton = async () => {
+    if (validateNickname() === 1) {
+      alert("닉네임은 2자 이상 10자 이하여야 합니다.");
+      return;
+    } else if (validateNickname() === 2) {
+      alert("닉네임에 특수 문자가 포함될 수 없습니다.");
+      return;
+    }
+
+    let flag = false;
+    if (userInfo.nickname !== nickname) {
+      await updateNickname(userInfo.address, nickname);
+      flag = true;
+    }
+    if (userInfo.description !== desc) {
+      await updateDesc(userInfo.address, desc);
+      flag = true;
+    }
+    if (itemFile) {
+      const data = new FormData();
+      data.append("data", itemFile);
+      await updateImage(userInfo.address, data);
+      flag = true;
+    }
+    if (flag) {
+      const newUserInfo = await getUserInfo(userInfo.address);
+      setUserInfo(newUserInfo.data);
+    }
+
+    // updateNickname(userInfo.address, nickname)
+    //   .then(() => {
+    //     console.log("하이");
+    //     return nickname;
+    //   })
+    //   .then((nickname) => {
+    //     updateDesc(userInfo.address, desc).then(() => {});
+    //   })
+    //   .then(() => {
+    //     if (itemFile) {
+    //       const data = new FormData();
+    //       data.append("data", itemFile);
+    //       console.log(data);
+    //       updateImage(userInfo.address, data).then(() => {
+    //         console.log("성공!");
+    //         getUserInfo(userInfo.address);
+    //       });
+    //     }
+    // });
     // console.log(itemFile);
     onClickToggleModal();
   };
@@ -243,7 +278,7 @@ export const ProfileUpdateModal = ({
     const file_type = file_name.toLowerCase();
     const check_file_type = ["jpg", "gif", "png", "jpeg"];
     console.log(check_file_type.indexOf("jpg"));
-    if (check_file_type.indexOf(file_type) == -1) {
+    if (check_file_type.indexOf(file_type) === -1) {
       alert("이미지 파일만 선택할 수 있습니다.");
       // return false;
     }
@@ -263,7 +298,11 @@ export const ProfileUpdateModal = ({
           <ProfileImgContainer>
             <label htmlFor="file-input">
               <ProfileImg
-                profileImgUrl={userInfo.profileImgUrl}
+                profileImgUrl={
+                  itemFile
+                    ? URL.createObjectURL(itemFile)
+                    : userInfo.profileImgUrl
+                }
                 size={imageSize}
               ></ProfileImg>
             </label>
