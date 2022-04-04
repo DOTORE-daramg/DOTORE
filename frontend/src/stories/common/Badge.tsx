@@ -35,9 +35,15 @@ interface BadgeProps {
   label: string;
   deleteBadge?: (i: number) => void;
   index?: number;
+  deletable?: boolean;
 }
 
-export const Badge = ({ label, deleteBadge, index }: BadgeProps) => {
+export const Badge = ({
+  label,
+  deleteBadge,
+  index,
+  deletable = true,
+}: BadgeProps) => {
   const onClickDeleteMark = (e: any) => {
     if (deleteBadge && index !== undefined) {
       deleteBadge(index);
@@ -47,7 +53,9 @@ export const Badge = ({ label, deleteBadge, index }: BadgeProps) => {
     <BadgeContainer>
       <HashMark>#</HashMark>
       {label}
-      <DeleteMark onClick={onClickDeleteMark}>X</DeleteMark>
+      {deletable ? (
+        <DeleteMark onClick={onClickDeleteMark}>X</DeleteMark>
+      ) : null}
     </BadgeContainer>
   );
 };
