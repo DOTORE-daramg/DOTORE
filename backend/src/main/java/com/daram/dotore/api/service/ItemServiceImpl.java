@@ -235,7 +235,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getAll() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByStatusOrderByTokenId("Success");
+        List<Items> items = itemRepository.findByStatusOrderByTokenIdDesc("Success");
         if (items == null) {
             return null;
         }
@@ -256,7 +256,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getFirst() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenId(true, "Success");
+        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success");
         if (items.isEmpty()) {
             return null;
         }
@@ -277,7 +277,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getSecond() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenId(false, "Success");
+        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success");
         if (items.isEmpty()) {
             return null;
         }
@@ -298,7 +298,7 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getSale() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByOnSaleYnOrderByTokenId(true);
+        List<Items> items = itemRepository.findByOnSaleYnOrderByTokenIdDesc(true);
 
         if (items.isEmpty()) {
             return null;
