@@ -34,6 +34,7 @@ import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
 import { getLevel } from "../utils/Level";
+import { checkSaleDoneTx } from "../contracts/api/mypage";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -210,7 +211,7 @@ type Iitem = {
 };
 
 type Isale = {
-  saleTrxHash: string | undefined;
+  saleTrxHash: string;
   cashContractAddress: string;
   completedAt: string;
   price: string;
@@ -219,6 +220,7 @@ type Isale = {
   saleYn: boolean;
   sellerAddress: string;
   tokenId: number;
+  status: string;
 };
 
 const Detail = () => {
@@ -253,7 +255,7 @@ const Detail = () => {
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(false);
   const [saleStatus, setSaleStatus] = useState<Isale>({
-    saleTrxHash: undefined,
+    saleTrxHash: "",
     cashContractAddress: "",
     completedAt: "",
     price: "",
@@ -262,6 +264,7 @@ const Detail = () => {
     saleYn: false,
     sellerAddress: "",
     tokenId: 0,
+    status: "",
   });
   const [item, setItem] = useState<Iitem>({
     acorn: 0,
@@ -347,6 +350,7 @@ const Detail = () => {
       getSale(tokenId)
         .then((res) => {
           setSaleStatus(res.data);
+          console.log(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -410,7 +414,7 @@ const Detail = () => {
   const onClickDownload = () => {
     if (userInfo.address) {
       window.open(itemHash);
-      putDownload(userInfo.address, tokenId).then((res) => {
+      putDownload(userInfo.address, tokenId).then((res: any) => {
         setItem({ ...item, download: res.data.count });
       });
     } else {
@@ -542,7 +546,7 @@ const Detail = () => {
             </DescContainer>
           </MainContainer>
 
-          {isOwner && !isFirst && !isSale && (
+          {isOwner && !isFirst && !isSale && saleStatus?.status !== "Pending" && (
             <>
               <SaleContainer>
                 <Icon mode="fas" icon="circle-exclamation" />
@@ -551,6 +555,23 @@ const Detail = () => {
                 </div>
                 <div id="link" onClick={onClickToggleModal}>
                   <Icon mode="fas" icon="right-long" />
+                </div>
+              </SaleContainer>
+            </>
+          )}
+
+          {!isFirst && !isSale && saleStatus?.status === "Pending" && (
+            <>
+              <SaleContainer>
+                <Icon mode="fas" icon="circle-exclamation" />
+                <div>
+                  해당 작품이 판매 등록 요청 중입니다. 정보를 갱신 할까요?
+                </div>
+                <div
+                  id="link"
+                  onClick={() => checkSaleDoneTx(saleStatus.saleTrxHash)}
+                >
+                  <Icon mode="fas" icon="arrows-rotate" />
                 </div>
               </SaleContainer>
             </>
