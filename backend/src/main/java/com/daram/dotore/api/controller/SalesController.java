@@ -64,6 +64,7 @@ public class SalesController {
             }
             return ResponseEntity.status(200).body(SaleListRes.of("Success", list));
         } catch (Exception e) {
+        	e.printStackTrace();
             return ResponseEntity.status(404).body(SaleListRes.of("존재하지 않는 address"));
         }
     }
