@@ -38,7 +38,6 @@ const Artist = () => {
   //     setUserInfo(artistInfo);
   //   }
   // }, [artistInfo]);
-
   return (
     <>
       {isModalShow && (
@@ -60,6 +59,10 @@ const Artist = () => {
         ></ProfileBanner>
       )}
       <ArtistNav></ArtistNav>
+      {/* { transactionRecord && 
+        transactionRecord.map((data, index) =>
+          <div key={index}> {data.from} {data.to} {data.timeStamp.getFullYear()}-{data.timeStamp.getMonth()+1}-{data.timeStamp.getDate()} </div>
+        )} */}
       <Container>
         <Outlet />
       </Container>
