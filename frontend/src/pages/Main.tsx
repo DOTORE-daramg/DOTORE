@@ -83,7 +83,8 @@ const Main = () => {
   const [itemList, setItemList] = useState<ThumbnailProps[]>([]);
   const [profileList, setProfileList] = useState<Iuser[]>([]);
   const isPc = useMediaQuery({ minWidth: 768 });
-  const navigete = useNavigate();
+  const isTablet = useMediaQuery({ minWidth: 500 });
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (isNFTLoading) {
@@ -91,13 +92,13 @@ const Main = () => {
         const {
           data: { data: data },
         } = res;
+        let newItemList: ThumbnailProps[] = [];
         data.map((res: Iitem) => {
           const { itemHash, nickname, itemTitle, tokenId, like } = res;
           const onClick = () => {
-            navigete(`/detail/${tokenId}`);
+            navigate(`/detail/${tokenId}`);
           };
-
-          itemList.push({
+          newItemList.push({
             itemHash,
             itemTitle,
             nickname,
@@ -105,10 +106,21 @@ const Main = () => {
             tokenId,
             onClick,
           });
+
+          // itemList.push({
+          //   itemHash,
+          //   itemTitle,
+          //   nickname,
+          //   like,
+          //   tokenId,
+          //   onClick,
+          // });
         });
-        itemList.sort((a, b) => {
-          return b.like - a.like;
-        });
+        // itemList.sort((a, b) => {
+        //   return b.like - a.like;
+        // });
+        newItemList.sort((a, b) => b.like - a.like);
+        setItemList(newItemList);
         setIsNFTLoading(false);
       });
     }
@@ -125,7 +137,7 @@ const Main = () => {
           const { acorn, address, nickname, profileImgUrl } = res;
           console.log(res);
           const onClick = () => {
-            navigete(`/artist/${address}`);
+            navigate(`/artist/${address}`);
           };
           const profileLevel =
             acorn > 10 ? "Lv2. 꼬맹이 도토리" : "Lv1. 새싹 도토리";
@@ -154,7 +166,7 @@ const Main = () => {
         <SubTitle label="지금 이 시각 가장 활발한 창작물" />
         {!isNFTLoading ? (
           <ThumbnailGrid
-            itemList={itemList}
+            itemList={isPc ? itemList.slice(0, 9) : itemList.slice(0, 6)}
             size={isPc ? `48rem` : `20rem`}
             columnCount={isPc ? 3 : 2}
           />
