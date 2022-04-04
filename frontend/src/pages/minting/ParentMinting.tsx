@@ -9,9 +9,24 @@ import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
 import { createToken } from "../../contracts/api/first";
 import { postFile, modifyTokenId } from "../../api/item";
+import { useLocation, useNavigate } from "react-router-dom";
+import LoadingSpinner from "../../stories/common/LoadingSpinner";
+import {
+  errorAlert,
+  successAlert,
+  warnAlert,
+} from "../../stories/common/alert";
 
 const Container = styled.div`
   padding: 8rem 0;
+`;
+
+const LoadingContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
 `;
 
 const MintingContainer = styled.div`
@@ -83,6 +98,8 @@ const ParentMinting = () => {
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
+  const [ispending, setisPending] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const handleTitleChanged = (e: any) => {
     console.log("Title blurred!");
@@ -108,19 +125,20 @@ const ParentMinting = () => {
 
   const onClickCreateToken = async () => {
     if (!validateTitle()) {
-      console.log("Bad title");
+      errorAlert("제목을 입력해주세요");
       return;
     } else if (itemFile.size === 0) {
-      console.log("Upload File!");
+      errorAlert("파일을 등록해주세요");
       return;
     } else if (!itemDesc) {
-      console.log("Write desc!");
+      errorAlert("내용을 입력해주세요");
       return;
     }
     try {
       if (!isLoggedIn) {
         return;
       }
+      setisPending(true);
       const format = itemFile.type.split("/")[0]; // 파일 포맷
 
       // 백엔드에 파일 업로드
@@ -141,9 +159,15 @@ const ParentMinting = () => {
       console.log(tokenId);
 
       modifyTokenId({ itemTrxHash: txHash, tokenId: tokenId });
-    } catch (err) {
-      console.error(err);
+      successAlert("민팅에 성공하였습니다!!");
+    } catch (err: any) {
+      if (err.code === 4001) {
+        errorAlert("민팅을 취소하였습니다!!");
+      } else {
+        warnAlert("트랜잭션은 요청하였으나 처리가 지연되고 있습니다.");
+      }
     }
+    navigate(`/artist/${userInfo.address}`, { replace: true });
   };
 
   const validateTitle = () => {
@@ -166,57 +190,67 @@ const ParentMinting = () => {
 
   return (
     <Container>
-      <MintingContainer>
-        <TitleContainer>
-          <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
-        </TitleContainer>
-        <InputContainer>
-          <div>
-            <SubTitleContainer isRequired={true}>
-              이미지, 비디오, 오디오
-            </SubTitleContainer>
-            <FormatInfo>
-              JPEG, PNG, GIF, SVG, MP4, MP3, WAV Max Size: 10MB
-            </FormatInfo>
-            <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
-          </div>
-          <InputTextContainer>
+      {ispending && (
+        <>
+          <LoadingContainer>
+            <div> 민팅 중입니다. 잠시만 기다려주세요</div>
+            <LoadingSpinner />
+          </LoadingContainer>
+        </>
+      )}
+      {!ispending && (
+        <MintingContainer>
+          <TitleContainer>
+            <Title label={"1차 NFT 등록"} size={"1.5rem"}></Title>
+          </TitleContainer>
+          <InputContainer>
             <div>
-              <SubTitleContainer isRequired={true}>제목</SubTitleContainer>
-              <SmallMutedText>특수 문자 포함 불가</SmallMutedText>
-              <InputBox
-                placeholder="작품 제목"
-                width="23rem"
-                onBlur={handleTitleChanged}
-              ></InputBox>
+              <SubTitleContainer isRequired={true}>
+                이미지, 비디오, 오디오
+              </SubTitleContainer>
+              <FormatInfo>
+                JPEG, PNG, GIF, SVG, MP4, MP3, WAV Max Size: 10MB
+              </FormatInfo>
+              <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
             </div>
-            <div>
-              <SubTitleContainer isRequired={true}>설명</SubTitleContainer>
-              <TextAreaBox
-                placeholder="작품 설명"
-                width="23rem"
-                rows={6}
-                onBlur={handleDescChanged}
-                maxLength={500}
-              ></TextAreaBox>
-            </div>
-            <div>
-              <SubTitleContainer isRequired={false}>태그</SubTitleContainer>
-              <SmallMutedText>공백, 특수 문자 포함 불가</SmallMutedText>
-              <TagInputBox
-                handleTagChanged={handleTagChanged}
-                onDeleteTag={onDeleteTag}
-              ></TagInputBox>
-            </div>
-            <Button
-              label={"작품 등록"}
-              width="7rem"
-              backgroundColor="#6667ab"
-              onClick={onClickCreateToken}
-            ></Button>
-          </InputTextContainer>
-        </InputContainer>
-      </MintingContainer>
+            <InputTextContainer>
+              <div>
+                <SubTitleContainer isRequired={true}>제목</SubTitleContainer>
+                <SmallMutedText>특수 문자 포함 불가</SmallMutedText>
+                <InputBox
+                  placeholder="작품 제목"
+                  width="23rem"
+                  onBlur={handleTitleChanged}
+                ></InputBox>
+              </div>
+              <div>
+                <SubTitleContainer isRequired={true}>설명</SubTitleContainer>
+                <TextAreaBox
+                  placeholder="작품 설명"
+                  width="23rem"
+                  rows={6}
+                  onBlur={handleDescChanged}
+                  maxLength={500}
+                ></TextAreaBox>
+              </div>
+              <div>
+                <SubTitleContainer isRequired={false}>태그</SubTitleContainer>
+                <SmallMutedText>공백, 특수 문자 포함 불가</SmallMutedText>
+                <TagInputBox
+                  handleTagChanged={handleTagChanged}
+                  onDeleteTag={onDeleteTag}
+                ></TagInputBox>
+              </div>
+              <Button
+                label={"작품 등록"}
+                width="7rem"
+                backgroundColor="#6667ab"
+                onClick={onClickCreateToken}
+              ></Button>
+            </InputTextContainer>
+          </InputContainer>
+        </MintingContainer>
+      )}
     </Container>
   );
 };
