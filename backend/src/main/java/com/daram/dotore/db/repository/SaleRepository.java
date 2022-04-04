@@ -39,5 +39,5 @@ public interface SaleRepository extends JpaRepository<Sales, Integer> {
         + "FROM sales "
         + "WHERE seller_address = :address and sale_id = 0 "
         + "ORDER BY token_id Desc", nativeQuery = true)
-    List<Sales> getPendingItemList(String address);
+    List<Sales> getPendingItemList(@Param("address") String address);
 }
