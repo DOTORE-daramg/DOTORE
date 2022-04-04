@@ -176,6 +176,7 @@ const Feedback = () => {
                     ? "Question"
                     : "Answer"
                 }
+                address={answer.writer}
               ></FeedbackComment>
             ))}
           {isMine && (
