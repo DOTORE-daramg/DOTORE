@@ -7,6 +7,7 @@ import {
   getFeedbacks,
   getFeedbacksFromMe,
   getIsLike,
+  putDownload,
 } from "../api/item";
 import { getItem, getRelatedItem, putLike } from "../api/item";
 import { Button } from "../stories/Button";
@@ -401,6 +402,17 @@ const Detail = () => {
     }
   };
 
+  const onClickDownload = () => {
+    if (userInfo.address) {
+      window.open(itemHash);
+      putDownload(userInfo.address, tokenId).then((res) => {
+        setItem({ ...item, download: res.data.count });
+      });
+    } else {
+      alert("로그인 후 가능합니다!");
+    }
+  };
+
   useEffect(() => {
     if (isFirst) {
       getFeedbacks(tokenId)
@@ -494,17 +506,17 @@ const Detail = () => {
                       width="6rem"
                       label="다운로드"
                       backgroundColor="#6667ab"
+                      onClick={onClickDownload}
                     />
                   </ButtonContainer>
                 )}
                 {isFirst && isOwner && (
-                  <ButtonContainer>
-                    <Button
-                      width="6rem"
-                      label="다운로드"
-                      backgroundColor="#6667ab"
-                    />
-                  </ButtonContainer>
+                  <Button
+                    width="6rem"
+                    label="다운로드"
+                    backgroundColor="#6667ab"
+                    onClick={onClickDownload}
+                  />
                 )}
                 {!isFirst && isSale && (
                   <Button
