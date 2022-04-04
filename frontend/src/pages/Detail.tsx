@@ -7,6 +7,7 @@ import {
   getFeedbacks,
   getFeedbacksFromMe,
   getIsLike,
+  putDownload,
 } from "../api/item";
 import { getItem, getRelatedItem, putLike } from "../api/item";
 import { Button } from "../stories/Button";
@@ -32,6 +33,7 @@ import { getSale, completeSale } from "../api/sale";
 import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
+import { getLevel } from "../utils/Level";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -194,6 +196,7 @@ const SaleContainer = styled.div`
   }
 `;
 type Iitem = {
+  acorn: number;
   authorAddress: string;
   profileImgUrl: string;
   itemTitle: string;
@@ -261,6 +264,7 @@ const Detail = () => {
     tokenId: 0,
   });
   const [item, setItem] = useState<Iitem>({
+    acorn: 0,
     authorAddress: "",
     profileImgUrl: "",
     itemTitle: "",
@@ -273,6 +277,7 @@ const Detail = () => {
     tags: [],
   });
   const {
+    acorn,
     authorAddress,
     profileImgUrl,
     itemTitle,
@@ -402,6 +407,17 @@ const Detail = () => {
     }
   };
 
+  const onClickDownload = () => {
+    if (userInfo.address) {
+      window.open(itemHash);
+      putDownload(userInfo.address, tokenId).then((res) => {
+        setItem({ ...item, download: res.data.count });
+      });
+    } else {
+      alert("로그인 후 가능합니다!");
+    }
+  };
+
   useEffect(() => {
     if (isFirst) {
       getFeedbacks(tokenId)
@@ -436,7 +452,7 @@ const Detail = () => {
                 descrition={itemDescription}
                 profileImgUrl={profileImgUrl}
                 profileNickname={nickname}
-                profileLevel="Lv.2 꼬맹이도토리"
+                profileLevel={getLevel(acorn)}
                 size="fit-content"
               />
               <BadgeContainer>
@@ -495,17 +511,17 @@ const Detail = () => {
                       width="6rem"
                       label="다운로드"
                       backgroundColor="#6667ab"
+                      onClick={onClickDownload}
                     />
                   </ButtonContainer>
                 )}
                 {isFirst && isOwner && (
-                  <ButtonContainer>
-                    <Button
-                      width="6rem"
-                      label="다운로드"
-                      backgroundColor="#6667ab"
-                    />
-                  </ButtonContainer>
+                  <Button
+                    width="6rem"
+                    label="다운로드"
+                    backgroundColor="#6667ab"
+                    onClick={onClickDownload}
+                  />
                 )}
                 {!isFirst && isSale && (
                   <Button

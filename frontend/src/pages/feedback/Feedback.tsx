@@ -11,6 +11,7 @@ import { getFeedBack } from "../../api/feedback";
 import { getUserInfo } from "../../api/user";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
+import { getLevel } from "../../utils/Level";
 
 const Container = styled.div`
   width: 64rem;
@@ -39,6 +40,7 @@ type question = {
   profileImgUrl?: string;
   questioner: string;
   nickname: string;
+  acorn: number;
 };
 
 type answer = {
@@ -49,6 +51,7 @@ type answer = {
   imgUrl?: string;
   profileImgUrl?: string;
   nickname: string;
+  acorn: number;
 };
 
 const Feedback = () => {
@@ -89,10 +92,13 @@ const Feedback = () => {
 
           getUserInfo(question.questioner)
             .then((nick) => {
-              const nickname = nick.data.nickname;
+              const {
+                data: { nickname, acorn },
+              } = nick;
               const question = {
                 ...res.data.question,
                 nickname,
+                acorn,
               };
               return question;
             })
@@ -122,8 +128,10 @@ const Feedback = () => {
                 console.log(answers);
                 answers.map((answer: answer) => {
                   getUserInfo(answer.writer).then((nick) => {
-                    const nickname = nick.data.nickname;
-                    newAnswers.push({ ...answer, nickname });
+                    const {
+                      data: { nickname, acorn },
+                    } = nick;
+                    newAnswers.push({ ...answer, nickname, acorn });
                     const questions = {
                       question,
                       answers: newAnswers,
@@ -167,7 +175,7 @@ const Feedback = () => {
                 answerNo={answer.answerNo}
                 profileImgUrl={answer.profileImgUrl}
                 profileNickname={answer.nickname}
-                profileLevel="Lv2. 청소년 도토리"
+                profileLevel={getLevel(answer.acorn)}
                 content={answer.description}
                 createdAt={answer.createdAt.slice(0, 10)}
                 imageUrl={answer.imgUrl}
