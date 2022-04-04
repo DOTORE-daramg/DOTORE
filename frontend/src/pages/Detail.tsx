@@ -479,14 +479,23 @@ const Detail = () => {
                     />
                   )}
                 </AmountContainer>
-                {isFirst && (
+                {isFirst && !isOwner && (
                   <ButtonContainer>
                     <Button
                       width="6.3rem"
-                      label="질문 등록"
+                      label="질문 확인"
                       backgroundColor="#6667ab"
                       onClick={() => navigate(`/feedbackcreate/${tokenId}`)}
                     />
+                    <Button
+                      width="6rem"
+                      label="다운로드"
+                      backgroundColor="#6667ab"
+                    />
+                  </ButtonContainer>
+                )}
+                {isFirst && isOwner && (
+                  <ButtonContainer>
                     <Button
                       width="6rem"
                       label="다운로드"
@@ -547,29 +556,36 @@ const Detail = () => {
             {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
             {isFirst ? (
               <QuestionContainer>
-                {isAllQuestions ? (
-                  <QuestionTitleContainer>
-                    <SubTitle title="등록된 질문들" />
-                    <SubTitle title="|" color="#999999" />
-                    <div
-                      style={{ cursor: "pointer" }}
-                      onClick={onClickQuestionCategory}
-                    >
-                      <SubTitle title="내 질문" color="#999999" />
-                    </div>
-                  </QuestionTitleContainer>
+                {!isOwner ? (
+                  isAllQuestions ? (
+                    <QuestionTitleContainer>
+                      <SubTitle title="등록된 질문들" />
+                      <SubTitle title="|" color="#999999" />
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={onClickQuestionCategory}
+                      >
+                        <SubTitle title="내 질문" color="#999999" />
+                      </div>
+                    </QuestionTitleContainer>
+                  ) : (
+                    <QuestionTitleContainer>
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={onClickQuestionCategory}
+                      >
+                        <SubTitle title="등록된 질문들" color="#999999" />
+                      </div>
+                      <SubTitle title="|" color="#999999" />
+                      <SubTitle title="내 질문" />
+                    </QuestionTitleContainer>
+                  )
                 ) : (
                   <QuestionTitleContainer>
-                    <div
-                      style={{ cursor: "pointer" }}
-                      onClick={onClickQuestionCategory}
-                    >
-                      <SubTitle title="등록된 질문들" color="#999999" />
-                    </div>
-                    <SubTitle title="|" color="#999999" />
-                    <SubTitle title="내 질문" />
+                    <SubTitle title="등록된 질문들" />
                   </QuestionTitleContainer>
                 )}
+
                 {questions ? (
                   <Questions tokenId={tokenId} questions={questions} />
                 ) : (
