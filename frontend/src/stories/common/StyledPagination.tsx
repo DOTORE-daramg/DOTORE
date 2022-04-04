@@ -39,17 +39,28 @@ const Container = styled.div`
   }
 `;
 
-const StyledPagination = ({}) => {
+interface IPaginationProps {
+  activePage: number,
+  totalCount: number,
+  handlePageChange: () => void,
+  displayCount?: number,
+}
+
+const StyledPagination = ({ activePage, totalCount, handlePageChange, displayCount }: IPaginationProps) => {
+  // const [page, setPage] = useState(1);
+  // const pages = [...Array(totalPages).keys()].map((num) => num + 1);
   return (
     <Container>
       <Pagination
-        activePage={1}
-        itemsCountPerPage={10}
-        totalItemsCount={450}
+        // activePage={1}
+        activePage={activePage}
+        itemsCountPerPage={displayCount}
+        totalItemsCount={totalCount}
         pageRangeDisplayed={5}
         prevPageText={"‹"}
         nextPageText={"›"}
-        onChange={() => console.log("onChange")}
+        // onChange={() => console.log("onChange")}
+        onChange={handlePageChange}
       />
     </Container>
   );
