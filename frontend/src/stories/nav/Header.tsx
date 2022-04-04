@@ -114,7 +114,6 @@ export const Header = ({
                 dropdown={["view all", "1차 NFT 보기", "2차 NFT 보기"]}
                 link={["/list", "/prlist", "/cdlist"]}
               />
-              <NavMenu label="NFT 구매" onClick={() => navigate("/sell")} />
               {isLoggedIn && (
                 <NavMenu
                   label="마이페이지"

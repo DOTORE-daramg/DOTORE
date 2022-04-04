@@ -30,8 +30,8 @@ import {
 } from ".";
 import List from "./pages/list/List";
 import { web3 } from "./contracts";
-import ScrollToTop from './utils/ScrollToTop';
-
+import ScrollToTop from "./utils/ScrollToTop";
+import { errorAlert, successAlert } from "./stories/common/alert";
 const Container = styled.div`
   min-height: 100vh;
   padding-bottom: 200px;
@@ -129,6 +129,7 @@ const AppRouter = () => {
       nickname: "",
       profileImgUrl: "",
     });
+    errorAlert("로그아웃 하였습니다.");
   };
 
   return (
