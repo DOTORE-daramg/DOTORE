@@ -13,6 +13,7 @@ import {
   userToTx,
 } from "../../contracts/api/transactionRecord";
 import { useParams } from "react-router-dom";
+import LoadingSpinner from "../../stories/common/LoadingSpinner";
 
 const transactionHistoryList: ITransactionHistory[] = [
   {
@@ -122,7 +123,7 @@ const TxHistory = () => {
       setTimeout(() => {
         setRes5(temp.sort((a, b) => b.timeStamp - a.timeStamp));
         setIsMakeTimeStamp(true);
-      }, 100);
+      }, 500);
     }
   }, [isTxLoading]);
 
@@ -141,6 +142,7 @@ const TxHistory = () => {
   // }, [isLoading]);
   return (
     <Container>
+      {!isSort && <LoadingSpinner />}
       {isSort && res5.length > 0 && (
         <TransactionHistoryList
           txHistoryList={res5}

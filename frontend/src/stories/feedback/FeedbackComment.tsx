@@ -8,6 +8,8 @@ import { TextEditor } from "../common/TextEditor";
 import { convertFromRaw, EditorState } from "draft-js";
 import Editor from "@draft-js-plugins/editor";
 import createImagePlugin from "@draft-js-plugins/image";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 type CommentType = "MainQuestion" | "Question" | "Answer";
 
@@ -95,6 +97,7 @@ export interface FeedbackArticleProps {
   commentType: CommentType;
   imageUrl?: string;
   imgSize?: string;
+  address?: string;
 }
 
 export const FeedbackComment = ({
@@ -107,6 +110,7 @@ export const FeedbackComment = ({
   createdAt,
   imageUrl,
   commentType,
+  address,
 }: FeedbackArticleProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -114,16 +118,19 @@ export const FeedbackComment = ({
   const convertedContent = convertFromRaw(JSON.parse(content));
   const initialEditorState = EditorState.createWithContent(convertedContent);
   const [isEditorShow, setIsEditorShow] = useState(false);
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
   const imagePlugin = createImagePlugin();
   const plugins = [imagePlugin];
+
   const handleToggleEditor = () => {
     setIsEditorShow((prev) => !prev);
     console.log(answerNo);
   };
+
   return (
     <CommentContainer commentType={commentType}>
       <StyledHeader>
-        {!isEditorShow && (
+        {!isEditorShow && address === userInfo.address && (
           <PencilIconContainer onClick={handleToggleEditor}>
             <Icon mode="fas" icon="pencil" color="#959595"></Icon>
           </PencilIconContainer>

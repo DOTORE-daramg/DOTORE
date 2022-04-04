@@ -7,6 +7,7 @@ import {
   getFeedbacks,
   getFeedbacksFromMe,
   getIsLike,
+  putDownload,
 } from "../api/item";
 import { getItem, getRelatedItem, putLike } from "../api/item";
 import { Button } from "../stories/Button";
@@ -32,6 +33,7 @@ import { getSale, completeSale } from "../api/sale";
 import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
+import { getLevel } from "../utils/Level";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -95,6 +97,7 @@ const DescContainer = styled.div`
 const BadgeContainer = styled.div`
   width: 70%;
   display: flex;
+  flex-wrap: wrap;
   gap: 0.5rem;
   /* justify-content: ; */
   margin-top: 20px;
@@ -193,6 +196,7 @@ const SaleContainer = styled.div`
   }
 `;
 type Iitem = {
+  acorn: number;
   authorAddress: string;
   profileImgUrl: string;
   itemTitle: string;
@@ -260,6 +264,7 @@ const Detail = () => {
     tokenId: 0,
   });
   const [item, setItem] = useState<Iitem>({
+    acorn: 0,
     authorAddress: "",
     profileImgUrl: "",
     itemTitle: "",
@@ -272,6 +277,7 @@ const Detail = () => {
     tags: [],
   });
   const {
+    acorn,
     authorAddress,
     profileImgUrl,
     itemTitle,
@@ -401,6 +407,17 @@ const Detail = () => {
     }
   };
 
+  const onClickDownload = () => {
+    if (userInfo.address) {
+      window.open(itemHash);
+      putDownload(userInfo.address, tokenId).then((res) => {
+        setItem({ ...item, download: res.data.count });
+      });
+    } else {
+      alert("로그인 후 가능합니다!");
+    }
+  };
+
   useEffect(() => {
     if (isFirst) {
       getFeedbacks(tokenId)
@@ -435,7 +452,7 @@ const Detail = () => {
                 descrition={itemDescription}
                 profileImgUrl={profileImgUrl}
                 profileNickname={nickname}
-                profileLevel="Lv.2 꼬맹이도토리"
+                profileLevel={getLevel(acorn)}
                 size="fit-content"
               />
               <BadgeContainer>
@@ -482,7 +499,7 @@ const Detail = () => {
                     />
                   )}
                 </AmountContainer>
-                {isFirst && (
+                {isFirst && !isOwner && (
                   <ButtonContainer>
                     <Button
                       width="6.3rem"
@@ -494,8 +511,17 @@ const Detail = () => {
                       width="6rem"
                       label="다운로드"
                       backgroundColor="#6667ab"
+                      onClick={onClickDownload}
                     />
                   </ButtonContainer>
+                )}
+                {isFirst && isOwner && (
+                  <Button
+                    width="6rem"
+                    label="다운로드"
+                    backgroundColor="#6667ab"
+                    onClick={onClickDownload}
+                  />
                 )}
                 {!isFirst && isSale && (
                   <Button
@@ -550,29 +576,36 @@ const Detail = () => {
             {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
             {isFirst ? (
               <QuestionContainer>
-                {isAllQuestions ? (
-                  <QuestionTitleContainer>
-                    <SubTitle title="등록된 질문들" />
-                    <SubTitle title="|" color="#999999" />
-                    <div
-                      style={{ cursor: "pointer" }}
-                      onClick={onClickQuestionCategory}
-                    >
-                      <SubTitle title="내 질문" color="#999999" />
-                    </div>
-                  </QuestionTitleContainer>
+                {!isOwner ? (
+                  isAllQuestions ? (
+                    <QuestionTitleContainer>
+                      <SubTitle title="등록된 질문들" />
+                      <SubTitle title="|" color="#999999" />
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={onClickQuestionCategory}
+                      >
+                        <SubTitle title="내 질문" color="#999999" />
+                      </div>
+                    </QuestionTitleContainer>
+                  ) : (
+                    <QuestionTitleContainer>
+                      <div
+                        style={{ cursor: "pointer" }}
+                        onClick={onClickQuestionCategory}
+                      >
+                        <SubTitle title="등록된 질문들" color="#999999" />
+                      </div>
+                      <SubTitle title="|" color="#999999" />
+                      <SubTitle title="내 질문" />
+                    </QuestionTitleContainer>
+                  )
                 ) : (
                   <QuestionTitleContainer>
-                    <div
-                      style={{ cursor: "pointer" }}
-                      onClick={onClickQuestionCategory}
-                    >
-                      <SubTitle title="등록된 질문들" color="#999999" />
-                    </div>
-                    <SubTitle title="|" color="#999999" />
-                    <SubTitle title="내 질문" />
+                    <SubTitle title="등록된 질문들" />
                   </QuestionTitleContainer>
                 )}
+
                 {questions ? (
                   <Questions tokenId={tokenId} questions={questions} />
                 ) : (

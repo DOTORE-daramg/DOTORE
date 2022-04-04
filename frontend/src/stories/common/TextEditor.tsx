@@ -8,6 +8,7 @@ import {
   SelectionState,
   convertToRaw,
   ContentState,
+  convertFromRaw,
 } from "draft-js";
 import { mediaBlockRenderer } from "./MediaBlock";
 import { Button } from "../Button";
@@ -250,7 +251,7 @@ export const TextEditor = ({
         };
         createAnswer(params).then((res) => {
           console.log("성공");
-          // window.location.reload();
+          window.location.reload();
         });
       } else {
         const rawContentState = convertToRaw(editorState.getCurrentContent());
@@ -258,7 +259,6 @@ export const TextEditor = ({
         const params = {
           description: markup,
           questioner: userInfo.address,
-          // questioner: "11",
           respondent: item.authorAddress,
           tokenId: Number(item.tokenId),
         };
@@ -273,20 +273,22 @@ export const TextEditor = ({
       }
     } else {
       if (answerNo) {
+        const rawContentState = convertToRaw(editorState.getCurrentContent());
+        const markup = JSON.stringify(rawContentState);
         const params = {
           no: answerNo,
-          description: editorState.getCurrentContent().getPlainText("\u000A"),
-          // imgUrl
+          description: markup,
         };
         updateAnswer(params).then((res) => {
           console.log("성공");
           window.location.reload();
         });
       } else if (articleNo) {
+        const rawContentState = convertToRaw(editorState.getCurrentContent());
+        const markup = JSON.stringify(rawContentState);
         const params = {
           no: Number(articleNo),
-          description: editorState.getCurrentContent().getPlainText("\u000A"),
-          // imgUrl
+          description: markup,
         };
         updateFeedback(params).then((res) => {
           console.log("성공");
@@ -296,16 +298,10 @@ export const TextEditor = ({
     }
   };
 
-  // useEffect(() => {
-  //   // if (content) {
-  //   //   // setEditorState(EditorState.create(content));
-  //   // }
-  //   console.log(editorState);
-  // }, [editorState]);
   useEffect(() => {
     if (content) {
       setEditorState(
-        EditorState.createWithContent(ContentState.createFromText(content))
+        EditorState.createWithContent(convertFromRaw(JSON.parse(content)))
       );
     }
   }, []);
