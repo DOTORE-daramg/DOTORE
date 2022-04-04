@@ -95,7 +95,8 @@ const DescContainer = styled.div`
 const BadgeContainer = styled.div`
   width: 70%;
   display: flex;
-  justify-content: space-between;
+  gap: 0.5rem;
+  /* justify-content: ; */
   margin-top: 20px;
   @media screen and (max-width: 768px) {
     width: 80%;
@@ -439,7 +440,9 @@ const Detail = () => {
               />
               <BadgeContainer>
                 {tags &&
-                  tags.map((tag, index) => <Badge label={tag} key={index} />)}
+                  tags.map((tag, index) => (
+                    <Badge label={tag} key={index} deletable={false} />
+                  ))}
               </BadgeContainer>
               <BuyContainer>
                 <AmountContainer>

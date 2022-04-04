@@ -23,9 +23,28 @@ const SearchResults = styled.div`
   z-index: 10;
   /* box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1),
     0px 20px 50px rgba(32, 37, 38, 0.1); */
+  max-height: 9rem;
   border: 1px solid lightgray;
   border-top: 0;
   border-radius: 0 0 10px 10px;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    /* 스크롤바 전체 영역 */
+    width: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    /* 스크롤이 움직이는 영역  */
+    background-color: rgba(0, 0, 0, 0);
+  }
+  ::-webkit-scrollbar-thumb {
+    /*  스크롤  */
+    background-color: rgba(102, 103, 171, 0.7);
+    border-radius: 30px;
+  }
+  ::-webkit-scrollbar-button:end:increment {
+    /*  스크롤의 화살표가 포함된 영역   */
+    display: none;
+  }
 `;
 
 const StyledInput = styled.input`
@@ -47,7 +66,7 @@ const StyledInput = styled.input`
 
 interface SearchBarProps {
   items: ItemProps[];
-  onClickItem: (tokenId: number) => void;
+  onClickItem: (item: ItemProps) => void;
 }
 
 export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
@@ -56,10 +75,10 @@ export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputKeyword(e.target.value);
   };
-  const onClick = (tokenId: number) => {
-    onClickItem(tokenId);
+  const onClick = (item: ItemProps) => {
     setInputKeyword("");
     setResults([]);
+    onClickItem(item);
   };
 
   useEffect(() => {
@@ -92,7 +111,7 @@ export const SearchBar = ({ items, onClickItem }: SearchBarProps) => {
               <SearchResult
                 key={result.tokenId}
                 item={result}
-                onClick={() => onClick(+result.tokenId)}
+                onClick={() => onClick(result)}
               ></SearchResult>
             ))
           : null}
