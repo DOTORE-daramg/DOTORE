@@ -121,11 +121,11 @@ const List = () => {
 
   // const [activePage, setActivePage] = useState<number||null>(1);
   const [pages, setPages] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [activePage, setActivePage] = useState<number>(1);
-  const handlePageChange = (page: number) => {
-    setActivePage(page);
+  const handlePageChange = (activePage: number) => {
+    setActivePage(activePage);
   }
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
@@ -220,6 +220,7 @@ const List = () => {
             totalCount={filteredItems.length}
             handlePageChange={handlePageChange}
             displayCount={itemsPerPage}
+            pageRangeCount={5}
           />
           {/* <Pagination
             itemsPerPage={itemsPerPage}
