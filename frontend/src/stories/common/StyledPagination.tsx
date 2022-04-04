@@ -45,26 +45,30 @@ interface IPaginationProps {
   handlePageChange: (n: number) => void,
   // handlePageChange: (selected: number) => void,
   displayCount: number,
-  onClickPrev: () => void,
+  // onClickPrev: () => void,
 }
 
 const StyledPagination = ({ activePage, totalCount, handlePageChange, displayCount }: IPaginationProps) => {
-  const [page, setPage] = useState(1);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(totalCount / displayCount); i++) {
+    pageNumbers.push(i);
+  }
+  // const [page, setPage] = useState(1);
   // const pages = [...Array(totalPages).keys()].map((num) => num + 1);
   // const handlePageChange = (activePage) => {
 
   // }
 
-  const onClickPrev = () => {
-    if (page >= 2) {
-      handlePageChange(page - 1)
-    }
-  }
-  const onClickNext = () => {
-    if (page <= totalCount / displayCount + 1) {
-      handlePageChange(page + 1)
-    }
-  }
+  // const onClickPrev = () => {
+  //   if (page >= 2) {
+  //     handlePageChange(page - 1)
+  //   }
+  // }
+  // const onClickNext = () => {
+  //   if (page <= totalCount / displayCount + 1) {
+  //     handlePageChange(page + 1)
+  //   }
+  // }
 
   return (
     <Container>

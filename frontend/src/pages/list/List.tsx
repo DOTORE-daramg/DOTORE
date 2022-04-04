@@ -120,10 +120,26 @@ const List = () => {
   const categories = ["최신순", "인기순"];
 
   // const [activePage, setActivePage] = useState<number||null>(1);
-  const [activePage, setActivePage] = useState(1);
+  const [pages, setPages] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [activePage, setActivePage] = useState<number>(1);
   const handlePageChange = (page: number) => {
     setActivePage(page);
   }
+  const indexOfLast = currentPage * itemsPerPage;
+  const indexOfFirst = indexOfLast - itemsPerPage;
+  function currentPages(tmp: any) {
+    let currentPages = 0;
+    currentPages = tmp.slice(indexOfFirst, indexOfLast);
+    return currentPages;
+  }
+  // useEffect(() => { }, [currentPage]);
+  // const onClinkPageChange = (page: number) => {
+  //   setCurrentPage(page);
+  //   //onClick={(e) => setCurrentPage(currentPage - 1)
+  //   //onClick={(e) => setCurrentPage(currentPage + 1)
+  // }
 
   useEffect(() => {
     viewAll().then((res) => {
@@ -203,8 +219,14 @@ const List = () => {
             activePage={activePage || 1}
             totalCount={filteredItems.length}
             handlePageChange={handlePageChange}
-            displayCount={12}
+            displayCount={itemsPerPage}
           />
+          {/* <Pagination
+            postsPerPage={itemsPerPage}
+            totalPosts={items.length}
+            paginate={setCurrentPage}>
+            
+            </Pagination> */}
         </MainContainer>
       </InnerContainer>
     </Container>
