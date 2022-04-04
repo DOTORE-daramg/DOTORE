@@ -124,21 +124,21 @@ const ParentMinting = () => {
   };
 
   const onClickCreateToken = async () => {
-    setisPending(true);
     if (!validateTitle()) {
-      console.log("Bad title");
+      errorAlert("제목을 입력해주세요");
       return;
     } else if (itemFile.size === 0) {
-      console.log("Upload File!");
+      errorAlert("파일을 등록해주세요");
       return;
     } else if (!itemDesc) {
-      console.log("Write desc!");
+      errorAlert("내용을 입력해주세요");
       return;
     }
     try {
       if (!isLoggedIn) {
         return;
       }
+      setisPending(true);
       const format = itemFile.type.split("/")[0]; // 파일 포맷
 
       // 백엔드에 파일 업로드
@@ -161,7 +161,6 @@ const ParentMinting = () => {
       modifyTokenId({ itemTrxHash: txHash, tokenId: tokenId });
       successAlert("민팅에 성공하였습니다!!");
     } catch (err: any) {
-      console.error(">>>>>>>>>>>>>>", err.code);
       if (err.code === 4001) {
         errorAlert("민팅을 취소하였습니다!!");
       } else {
