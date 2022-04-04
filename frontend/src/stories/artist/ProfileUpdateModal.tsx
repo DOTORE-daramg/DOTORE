@@ -132,6 +132,9 @@ const ProfileImgContainer = styled.div`
   input {
     display: none;
   }
+  img {
+    cursor: pointer;
+  }
 `;
 
 const ModalInputBoxContainer = styled.div`
@@ -240,27 +243,6 @@ export const ProfileUpdateModal = ({
       const newUserInfo = await getUserInfo(userInfo.address);
       setUserInfo(newUserInfo.data);
     }
-
-    // updateNickname(userInfo.address, nickname)
-    //   .then(() => {
-    //     console.log("하이");
-    //     return nickname;
-    //   })
-    //   .then((nickname) => {
-    //     updateDesc(userInfo.address, desc).then(() => {});
-    //   })
-    //   .then(() => {
-    //     if (itemFile) {
-    //       const data = new FormData();
-    //       data.append("data", itemFile);
-    //       console.log(data);
-    //       updateImage(userInfo.address, data).then(() => {
-    //         console.log("성공!");
-    //         getUserInfo(userInfo.address);
-    //       });
-    //     }
-    // });
-    // console.log(itemFile);
     onClickToggleModal();
   };
 
@@ -284,6 +266,7 @@ export const ProfileUpdateModal = ({
     }
     setItemFile(e.target.files[0]);
   };
+
   return (
     <Section>
       <ModalContainer>
@@ -299,7 +282,7 @@ export const ProfileUpdateModal = ({
             <label htmlFor="file-input">
               <ProfileImg
                 profileImgUrl={
-                  itemFile
+                  itemFile && itemFile.size > 0
                     ? URL.createObjectURL(itemFile)
                     : userInfo.profileImgUrl
                 }
