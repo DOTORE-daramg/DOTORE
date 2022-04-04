@@ -119,6 +119,12 @@ const List = () => {
   // const [keyword, setKeyword] = useState<string>("");
   const categories = ["최신순", "인기순"];
 
+  // const [activePage, setActivePage] = useState<number||null>(1);
+  const [activePage, setActivePage] = useState(1);
+  const handlePageChange = (page: number) => {
+    setActivePage(page);
+  }
+
   useEffect(() => {
     viewAll().then((res) => {
       console.log(res.data.data);
@@ -193,7 +199,12 @@ const List = () => {
               <Message>등록된 작품이 없습니다.</Message>
             </>
           )}
-          <StyledPagination />
+          <StyledPagination
+            activePage={activePage || 1}
+            totalCount={filteredItems.length}
+            handlePageChange={handlePageChange}
+            displayCount={12}
+          />
         </MainContainer>
       </InnerContainer>
     </Container>
