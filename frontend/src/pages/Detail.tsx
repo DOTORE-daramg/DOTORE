@@ -483,7 +483,7 @@ const Detail = () => {
                   <ButtonContainer>
                     <Button
                       width="6.3rem"
-                      label="질문 확인"
+                      label="질문 등록"
                       backgroundColor="#6667ab"
                       onClick={() => navigate(`/feedbackcreate/${tokenId}`)}
                     />
