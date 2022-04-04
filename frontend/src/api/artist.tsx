@@ -19,3 +19,7 @@ export const getReqFeedbacks = async (address: string) => {
 export const getLikedNFTList = async (address: string) => {
   return await api.get(`/api/mypage/like/${address}`);
 };
+
+export const getDownloadNFTList = async (address: string) => {
+  return await api.get(`/api/mypage/download/${address}`);
+};
