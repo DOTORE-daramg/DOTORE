@@ -8,6 +8,7 @@ import { userInfoState } from "../..";
 import { useParams } from "react-router-dom";
 import { getItem } from "../../api/item";
 import { cancleSale } from "../../contracts/api/second";
+import { cancelSale } from "../../api/sale";
 
 const Section = styled.div`
   position: absolute;
@@ -178,6 +179,7 @@ export const SaleDeleteModal = ({
     // 판매 등록 취소
     onClose();
     try {
+      await cancelSale(userInfo.address, parseInt(tokenId));
       await cancleSale({
         tokenId: parseInt(tokenId),
         userAddress: userInfo.address,
@@ -217,7 +219,7 @@ export const SaleDeleteModal = ({
               onClick={onClose}
             />
             <Button
-              width="6rem"
+              width="7rem"
               label="판매 취소"
               backgroundColor="#6667AB"
               onClick={onClickDeleteSale}
