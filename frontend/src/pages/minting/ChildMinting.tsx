@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { Title } from "../../stories/Title";
@@ -15,6 +15,9 @@ import {
 } from "../../contracts/api/second";
 import { Iitem } from "../feedback/FeedbackCreate";
 import SearchResult from "../../stories/minting/SearchResult";
+import { SearchBar } from "../../stories/common/SearchBar";
+import { ItemProps } from "../../stories/list/Item";
+import { viewAll } from "../../api/item";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -100,26 +103,11 @@ const ChildMinting = () => {
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
-  const [titleValidation, setTitleValidation] = useState<boolean>(true);
   const [originalTokenId, setOriginalTokenId] = useState<number[]>([]);
-  const [keyword, setKeyword] = useState<string>();
-  const [results, setResults] = useState<Iitem[]>([]);
+  const [items, setItems] = useState<ItemProps[]>([]);
 
-  const handleChangeSearchInput = (e: any) => {
-    setKeyword(e.target.value);
-    viewFirst().then((res) => {
-      res.data.data.map((item: any) => {
-        if (item.itemTitle.includes(keyword)) {
-          console.log(item);
-          setResults([...results, item]);
-        }
-      });
-      // setResults(res.data.data);
-    });
-  };
   const handleTitleChanged = (e: any) => {
     setItemTitle(e.target.value);
-    validateTitle();
   };
   const handleDescChanged = (e: any) => {
     setitemDesc(e.target.value);
@@ -139,13 +127,12 @@ const ChildMinting = () => {
   };
 
   const onClickCreateToken = async () => {
-    validateTitle();
-    if (!titleValidation) {
+    if (!validateTitle()) {
       console.log("Bad title");
       return;
-      // } else if (originalTokenId.length === 0) {
-      //   console.log("Select Originals");
-      //   return;
+    } else if (originalTokenId.length === 0) {
+      console.log("Select Originals");
+      return;
     } else if (itemFile.size === 0) {
       console.log("Upload File!");
       return;
@@ -185,21 +172,25 @@ const ChildMinting = () => {
 
   const validateTitle = () => {
     const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    if (itemTitle.length < 1 || itemTitle.length > 100) {
-      setTitleValidation(false);
-    } else if (special_pattern.test(itemTitle)) {
-      setTitleValidation(false);
-    } else {
-      setTitleValidation(true);
+    if (
+      itemTitle.length < 1 ||
+      itemTitle.length > 100 ||
+      special_pattern.test(itemTitle)
+    ) {
+      return false;
     }
+    return true;
   };
 
-  const onItemClick = (e: any) => {
+  const onClickItem = (tokenId: number) => {
     /// 구현해야 할 부분
-    console.log(e);
-
-    console.log(e.target.id);
+    console.log(tokenId);
+    setOriginalTokenId((prev) => [...prev, tokenId]);
   };
+
+  useEffect(() => {
+    viewAll().then((res) => setItems(res.data.data));
+  }, []);
 
   return (
     <Container>
@@ -223,30 +214,8 @@ const ChildMinting = () => {
             <div>
               <SubTitleContainer isRequired={true}>원작 작품</SubTitleContainer>
               <SmallMutedText>특수 문자 포함 불가</SmallMutedText>
-              <InputBox
-                placeholder="영감받은 원작 작품을 검색해 주세요."
-                width="23rem"
-                icon="magnifying-glass"
-                onBlur={handleChangeSearchInput}
-              ></InputBox>
-              {results.length > 0 && (
-                <SearchResults>
-                  {results.map((result: any) => (
-                    <SearchResult
-                      onClick={() => {
-                        setOriginalTokenId([
-                          ...originalTokenId,
-                          result.tokenId,
-                        ]);
-                        setResults([]);
-                      }}
-                      id={result.tokenId}
-                      key={result.tokenId}
-                      item={result}
-                    />
-                  ))}
-                </SearchResults>
-              )}
+              <SearchBar items={items} onClickItem={onClickItem}></SearchBar>
+
               {originalTokenId.length > 0 &&
                 originalTokenId.map((original) => <div>{original}</div>)}
             </div>

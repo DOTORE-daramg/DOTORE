@@ -83,9 +83,9 @@ const ParentMinting = () => {
   const [itemDesc, setitemDesc] = useState<string>("");
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
-  const [titleValidation, setTitleValidation] = useState<boolean>(true);
 
   const handleTitleChanged = (e: any) => {
+    console.log("Title blurred!");
     setItemTitle(e.target.value);
     validateTitle();
   };
@@ -107,8 +107,7 @@ const ParentMinting = () => {
   };
 
   const onClickCreateToken = async () => {
-    validateTitle();
-    if (!titleValidation) {
+    if (!validateTitle()) {
       console.log("Bad title");
       return;
     } else if (itemFile.size === 0) {
@@ -149,16 +148,15 @@ const ParentMinting = () => {
 
   const validateTitle = () => {
     const special_pattern = /[`~!@#$%^&*|\\\'\";:\/?]/gi;
-    if (itemTitle.length < 1 || itemTitle.length > 100) {
-      setTitleValidation(false);
-    } else if (special_pattern.test(itemTitle)) {
-      setTitleValidation(false);
-    } else {
-      setTitleValidation(true);
+    if (
+      itemTitle.length < 1 ||
+      itemTitle.length > 100 ||
+      special_pattern.test(itemTitle)
+    ) {
+      return false;
     }
+    return true;
   };
-
-  useEffect(() => console.log(itemTitle), [itemTitle]);
 
   return (
     <Container>

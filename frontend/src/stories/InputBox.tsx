@@ -95,7 +95,7 @@ export const InputBox = ({
             return item;
           }
           return (
-            item.itemTitle.includes(keyword) || item.nickname.includes(keyword)
+            item.itemTitle.includes(keyword) || item.nickname?.includes(keyword)
           );
         })
       );

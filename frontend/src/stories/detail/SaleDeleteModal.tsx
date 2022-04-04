@@ -176,12 +176,12 @@ export const SaleDeleteModal = ({
       return;
     }
     // 판매 등록 취소
-    cancleSale({
-      tokenId: parseInt(tokenId),
-      userAddress: userInfo.address,
-    });
     onClose();
     try {
+      await cancleSale({
+        tokenId: parseInt(tokenId),
+        userAddress: userInfo.address,
+      });
       // 상세 페이지 정보 갱신
       await getItem(tokenId);
     } catch (err) {

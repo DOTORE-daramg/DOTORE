@@ -84,7 +84,7 @@ export const createMarketItem = async ({
 
 interface purchaseProps {
   tokenId: number;
-  price: number;
+  price: string;
   userAddress: string;
 }
 
@@ -125,6 +125,15 @@ export const cancleSale = async ({ tokenId, userAddress }: cancleSaleProps) => {
       gasPrice: "10000000000",
     });
     await cancelSale(userAddress, tokenId);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getSaleId = async (tokenId: number) => {
+  try {
+    const saleId = await dTTMarketContract.methods.saleMap(tokenId).call();
+    return saleId;
   } catch (err) {
     console.error(err);
   }
