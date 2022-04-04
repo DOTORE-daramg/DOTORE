@@ -157,6 +157,12 @@ const ParentMinting = () => {
     }
     return true;
   };
+  const onDeleteTag = (itemTag: string) => {
+    const idx = itemTags.findIndex(
+      (currentItemTag) => currentItemTag === itemTag
+    );
+    setitemTags((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
+  };
 
   return (
     <Container>
@@ -197,7 +203,10 @@ const ParentMinting = () => {
             <div>
               <SubTitleContainer isRequired={false}>태그</SubTitleContainer>
               <SmallMutedText>공백, 특수 문자 포함 불가</SmallMutedText>
-              <TagInputBox handleTagChanged={handleTagChanged}></TagInputBox>
+              <TagInputBox
+                handleTagChanged={handleTagChanged}
+                onDeleteTag={onDeleteTag}
+              ></TagInputBox>
             </div>
             <Button
               label={"작품 등록"}

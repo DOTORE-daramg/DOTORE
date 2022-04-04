@@ -112,8 +112,6 @@ const ChildMinting = () => {
   const [itemTags, setitemTags] = useState<string[]>([]);
   const [itemFile, setitemFile] = useState<Blob>(new Blob());
   const [originalItem, setOriginalItem] = useState<ItemProps[]>([]);
-  const [originalTokenId, setOriginalTokenId] = useState<number[]>([]);
-  const [originalItemHash, setOriginalItemHash] = useState<string[]>([]);
   const [items, setItems] = useState<ItemProps[]>([]);
 
   const handleTitleChanged = (e: any) => {
@@ -203,6 +201,13 @@ const ChildMinting = () => {
     setOriginalItem((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
   };
 
+  const onDeleteTag = (itemTag: string) => {
+    const idx = itemTags.findIndex(
+      (currentItemTag) => currentItemTag === itemTag
+    );
+    setitemTags((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
+  };
+
   useEffect(() => {
     viewAll().then((res) => setItems(res.data.data));
   }, []);
@@ -238,9 +243,6 @@ const ChildMinting = () => {
                 ))}
               </OriginalItems>
               <SearchBar items={items} onClickItem={onClickItem}></SearchBar>
-
-              {originalTokenId.length > 0 &&
-                originalTokenId.map((original) => <div>{original}</div>)}
             </div>
             <div>
               <SubTitleContainer isRequired={true}>제목</SubTitleContainer>
@@ -263,7 +265,10 @@ const ChildMinting = () => {
             <div>
               <SubTitleContainer isRequired={false}>태그</SubTitleContainer>
               <SmallMutedText>공백, 특수 문자 포함 불가</SmallMutedText>
-              <TagInputBox handleTagChanged={handleTagChanged}></TagInputBox>
+              <TagInputBox
+                handleTagChanged={handleTagChanged}
+                onDeleteTag={onDeleteTag}
+              ></TagInputBox>
             </div>
             <Button
               label={"작품 등록"}

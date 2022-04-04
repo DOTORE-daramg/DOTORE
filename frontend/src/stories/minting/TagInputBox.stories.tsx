@@ -15,7 +15,10 @@ export default {
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template: ComponentStory<typeof TagInputBox> = (args) => (
-  <TagInputBox handleTagChanged={() => console.log} />
+  <TagInputBox
+    onDeleteTag={() => console.log()}
+    handleTagChanged={() => console.log}
+  />
 );
 
 export const Primary = Template.bind({});

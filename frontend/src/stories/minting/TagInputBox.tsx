@@ -46,9 +46,13 @@ const StyledInput = styled.input<{ isPaddingStart: boolean }>`
 
 interface TagInputBoxProps {
   handleTagChanged: (label: string) => void;
+  onDeleteTag: (itemTag: string) => void;
 }
 
-export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
+export const TagInputBox = ({
+  handleTagChanged,
+  onDeleteTag,
+}: TagInputBoxProps) => {
   const [badgeLabelList, setBadgeLabelList] = useState<string[]>([]);
   const handleSubmit = (e: any) => {
     if (badgeLabelList.length >= 5) {
@@ -65,17 +69,22 @@ export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
         e.target.value = "";
         return;
       }
+      if (badgeLabelList.find((currentLabel) => currentLabel === label)) {
+        e.target.value = "";
+        return;
+      }
       setBadgeLabelList((prev) => [...prev, label]);
       e.target.value = "";
       console.log(e.target.value);
       handleTagChanged(label);
     }
   };
-  const deleteBadge = (i: number) => {
+  const deleteBadge = (tag: string, i: number) => {
     setBadgeLabelList((prev) => [
       ...prev.slice(0, i),
       ...prev.slice(i + 1, prev.length),
     ]);
+    onDeleteTag(tag);
   };
 
   return (
@@ -86,7 +95,7 @@ export const TagInputBox = ({ handleTagChanged }: TagInputBoxProps) => {
             key={index}
             label={label}
             index={index}
-            deleteBadge={deleteBadge}
+            deleteBadge={() => deleteBadge(label, index)}
           ></Badge>
         ))}
       </TagContainer>
