@@ -42,12 +42,30 @@ const StyledCoverItem = styled.div`
   }
 `;
 
+const PendingCoverItem = styled.div`
+  position: absolute;
+  top: 0%;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  display: flex;
+  gap: 1rem;
+  flex-flow: column;
+  text-align: center;
+  justify-content: center;
+  .pending {
+    font-weight: 600;
+  }
+`;
+
 const StyledText = styled.p`
   color: #fff;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
   padding: 0 0.5rem;
+  user-select: none;
 `;
 
 export interface ThumbnailProps {
@@ -56,6 +74,7 @@ export interface ThumbnailProps {
   nickname: string;
   tokenId?: number;
   like: number;
+  isPending?: boolean;
   onClick?: () => void;
 }
 
@@ -63,15 +82,22 @@ export const Thumbnail = ({
   itemHash,
   itemTitle,
   nickname,
+  isPending = false,
   onClick,
 }: ThumbnailProps) => {
   return (
     <Container onClick={onClick}>
       <StyledImageItem src={itemHash} alt="thumbnail"></StyledImageItem>
-      <StyledCoverItem>
-        <StyledText className="author-name">{nickname}</StyledText>
-        <StyledText className="item-title">{itemTitle}</StyledText>
-      </StyledCoverItem>
+      {isPending ? (
+        <PendingCoverItem>
+          <StyledText className="pending">등록 중...</StyledText>
+        </PendingCoverItem>
+      ) : (
+        <StyledCoverItem>
+          <StyledText className="author-name">{nickname}</StyledText>
+          <StyledText className="item-title">{itemTitle}</StyledText>
+        </StyledCoverItem>
+      )}
     </Container>
   );
 };
