@@ -54,7 +54,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
   - IntelliJ IDEA Community Edition 2021.3.1
   - Visual Studio Code 1.64.2
 - Frontend
-  - HTML5, CSS, JavaScript (ES6)
+  - HTML5, CSS, TyleScript, JavaScript (ES6)
   - React 17.0.2
 - Backend
   - Java OpenJDK 1.8.0 

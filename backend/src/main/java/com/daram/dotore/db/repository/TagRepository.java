@@ -11,6 +11,8 @@ import org.springframework.data.repository.query.Param;
 public interface TagRepository extends JpaRepository<Taglist, Integer> {
     List<Taglist> findByTokenId(BigInteger tokenId);
 
+    List<Taglist> findByItemTrxHash(String itemTrxHash);
+
     @Modifying
     @Query(value = "UPDATE taglist "
         + "SET token_id = :tokenId "

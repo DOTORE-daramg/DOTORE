@@ -10,6 +10,7 @@ import java.math.BigInteger;
 @Setter
 @ApiModel("SalesCancelRequest")
 public class SalesCancelReq {
+
     BigInteger tokenId;
     String address;
 }
