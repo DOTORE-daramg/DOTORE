@@ -164,7 +164,7 @@ const InfoContainer = styled.div`
   height: 500px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-left: 5rem;
   padding-bottom: 6rem;
   @media screen and (max-width: 768px) {
@@ -324,7 +324,6 @@ const Detail = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     getItem(tokenId).then((res) => {
       const { data } = res;
       const {
@@ -364,6 +363,12 @@ const Detail = () => {
         });
     }
   }, [tokenId]);
+
+  useEffect(() => {
+    if (!!isFirst) {
+      console.log(isFirst);
+    }
+  }, [isFirst]);
 
   const onClickQuestionCategory = () => {
     if (isAllQuestions) {
@@ -651,7 +656,7 @@ const Detail = () => {
               </QuestionContainer>
             ) : (
               <InfoContainer>
-                <Transaction transactions={transactions} />
+                <Transaction tokenId={tokenId} />
                 <Info
                   address={dTTAddress.slice(0, 30) + "..."}
                   tokenId={tokenId ? tokenId : ""}
