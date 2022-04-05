@@ -1,4 +1,3 @@
-
 # DOTORE
 > **우리의 재능이 모여 새로운 가치가 되는 곳, 도토리**
 
@@ -54,14 +53,46 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ## 💻 개발 환경
 
+|  |  |
+| --- | --- |
+| 이슈 관리 | Jira |
+| 형상 관리 | Gitlab |
+| 커뮤니케이션 | Mattermost, Notion, Webex |
 
-### 기술 스택
----
-
+### 기술 스택 
 <img alt="TypeScript" src ="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>
 <img alt="React" src ="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
 <img alt="Spring" src ="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"/>
 <img alt="AWS" src ="https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white"/>
+
+|  |  | 프로그램 | 버전 |
+| --- | --- | --- | --- |
+|  |  |  |  |
+| IDE |  | Visual Studio Code | 1.64.2 |
+|  |  | IntelliJ IDEA Community Edition | 2021.3.1 |
+|  |  | Spring Tool Suite | 3.9.14 |
+|  | UI/UX | Figma |  |
+| Database  |  | MySQL Workbench  | 8.0.26 |
+| Server |  | AWS EC2 (MobaXterm) |  |
+|  | 저장소 | AWS S3 |  |
+|  |  | Ubuntu  | 20.04.2 LTS |
+|  |  | Jenkins  | 2.303.2 |
+|  |  | nginx  | 1.18.0 |
+|  |  | Certbot |  |
+|  |  | Docker  | 20.10.7 |
+| Smart Contract |  | Solidity |  0.8.4+ |
+|  | 배포 환경 | Remix |  |
+|  |  | hardhat typescript |  |
+|  | 테스트 환경 | Truffle  | 5.4.24 |
+| Blockchain Environment | 테스트 네트워크 | Ropsten network |  |
+| Frontend |  | HTML5, CSS3, TypeScript(ES6)  |  |
+|  | 라이브러리 | React 17.0.2 |  |
+|  |  | Recoil 3.4.0 |  |
+|  |  | Lib : 라이브러리 쓴 거 적기 |  |
+| Backend |  | Java (Open-JDK zulu 8.33.0.1) |  |
+|  |  | Spring Boot Gradle 7.4.1 |  |
+|  |  | Lombok 1.18.20, Swagger 2 3.0.0 |  |
+|  |  | JPA |  |
 
 - IDE
   - IntelliJ IDEA Community Edition 2021.3.1
