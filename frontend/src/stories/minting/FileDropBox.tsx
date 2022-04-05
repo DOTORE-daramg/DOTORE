@@ -12,7 +12,9 @@ const Container = styled.div<{ width?: string; imageUrl: string }>`
   padding: 0.05rem;
   background-clip: content-box;
   background-image: url(${(props) => (props.imageUrl ? props.imageUrl : "")});
-  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
   svg {
     color: #9d9d9d;
     text-align: end;

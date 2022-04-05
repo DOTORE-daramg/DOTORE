@@ -32,10 +32,10 @@ const TransactionItem = ({ data }: DetailProps) => {
   const [to, setTo] = useState<string>();
   const navigate = useNavigate();
   useEffect(() => {
-    getUserInfo(data.returnValues.from || data.returnValues.owner).then((res) =>
-      setFrom(res.data.nickname)
+    getUserInfo(data.returnValues.from || data.returnValues.seller).then(
+      (res) => setFrom(res.data.nickname)
     );
-    getUserInfo(data.returnValues.to || data.returnValues.seller).then((res) =>
+    getUserInfo(data.returnValues.to || data.returnValues.owner).then((res) =>
       setTo(res.data.nickname)
     );
   }, []);
