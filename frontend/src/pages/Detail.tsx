@@ -302,7 +302,7 @@ const Detail = () => {
   const [isDeleteModalShow, setIsDeleteModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
-  const { tokenId } = useParams();
+  const { tokenId } = useParams<string>();
   const navigate = useNavigate();
 
   const onClickToggleModal = () => {
@@ -442,7 +442,9 @@ const Detail = () => {
         <Container>
           <TitleContainer>
             {isFirst ? (
-              <Title label="1차 NFT" size="2rem" />
+              <>
+                <Title label="1차 NFT" size="2rem" />
+              </>
             ) : (
               <Title label="2차 NFT" size="2rem" />
             )}
@@ -569,7 +571,13 @@ const Detail = () => {
                 </div>
                 <div
                   id="link"
-                  onClick={() => checkSaleDoneTx(saleStatus.saleTrxHash)}
+                  onClick={() =>
+                    checkSaleDoneTx(
+                      saleStatus.saleTrxHash,
+                      userInfo.address,
+                      tokenId ? +tokenId : 0
+                    )
+                  }
                 >
                   <Icon mode="fas" icon="arrows-rotate" />
                 </div>

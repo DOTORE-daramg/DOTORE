@@ -35,7 +35,9 @@ export const RefreshTx = ({ gridSize, setIsLoading }: RefreshTxProps) => {
       console.log(res.data.data);
       const txList = res.data.data;
       if (txList.length === 0) return;
-      txList.map((txhash: any) => checkSaleDoneTx(txhash.saleTrxHash));
+      txList.map((txhash: any) =>
+        checkSaleDoneTx(txhash.saleTrxHash, userInfo.address, txhash.tokenId)
+      );
     });
     setIsLoading(true);
   };
