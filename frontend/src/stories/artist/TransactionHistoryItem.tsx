@@ -59,11 +59,11 @@ const TransactionHistoryItem = ({ data }: any) => {
   useEffect(() => {
     if (!isLoading) {
       setTimeStamp(new Date(parseInt(data.timeStamp + "000")));
-      getUserInfo(data.returnValues.from || data.returnValues.owner).then(
+      getUserInfo(data.returnValues.from || data.returnValues.seller).then(
         (res) => setFrom(res.data.nickname)
       );
-      getUserInfo(data.returnValues.to || data.returnValues.seller).then(
-        (res) => setTo(res.data.nickname)
+      getUserInfo(data.returnValues.to || data.returnValues.owner).then((res) =>
+        setTo(res.data.nickname)
       );
       getItem(data.returnValues.tokenId).then((res) => {
         setItemInfo(res.data);
