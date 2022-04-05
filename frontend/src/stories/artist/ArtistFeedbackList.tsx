@@ -34,7 +34,7 @@ const TableHeader = styled.div`
 
 const TableRow = styled.div`
   display: flex;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 500;
   height: 5rem;
   align-items: center;
@@ -61,7 +61,7 @@ const TableCell = styled.span`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  padding: 0 0.5rem;
+
   @media screen and (max-width: 500px) {
     font-size: 0.9rem;
   }
