@@ -20,6 +20,7 @@ public class SalesInfoRes extends BaseRes {
     private String sellerAddress;
     private BigInteger tokenId;
     private String price;
+    private String status;
 
     LocalDateTime completedAt;
 
@@ -40,6 +41,7 @@ public class SalesInfoRes extends BaseRes {
         res.setSellerAddress(item.getSellerAddress());
         res.setTokenId(item.getTokenId());
         res.setPrice(item.getPrice());
+        res.setStatus(item.getStatus());
         return res;
     }
 }

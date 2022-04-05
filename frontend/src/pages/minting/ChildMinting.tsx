@@ -260,9 +260,7 @@ const ChildMinting = () => {
               <SubTitleContainer isRequired={true}>
                 이미지, 비디오, 오디오
               </SubTitleContainer>
-              <FormatInfo>
-                JPEG, PNG, GIF, SVG, MP4, MP3, WAV Max Size: 10MB
-              </FormatInfo>
+              <FormatInfo>Max Size: 10MB</FormatInfo>
               <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
             </div>
 

@@ -18,6 +18,9 @@ const ItemContainer = styled.div`
   :hover {
     cursor: pointer;
   }
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 interface DetailProps {

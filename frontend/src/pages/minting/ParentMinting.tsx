@@ -67,7 +67,7 @@ const SmallMutedText = styled.span`
 
 const FormatInfo = styled.p`
   font-size: 0.9rem;
-  padding: 0 0 0.8rem 0;
+  margin: 0.8rem 0;
   color: rgb(112, 122, 131);
 `;
 
@@ -209,8 +209,9 @@ const ParentMinting = () => {
                 이미지, 비디오, 오디오
               </SubTitleContainer>
               <FormatInfo>
-                JPEG, PNG, GIF, SVG, MP4, MP3, WAV Max Size: 10MB
+                해당 저작물에 대한 자유로운 2차 저작과 상업적 이용을 허용합니다
               </FormatInfo>
+              <FormatInfo>Max Size: 10MB</FormatInfo>
               <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
             </div>
             <InputTextContainer>

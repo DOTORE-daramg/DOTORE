@@ -34,6 +34,7 @@ import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
 import { getLevel } from "../utils/Level";
+import { checkSaleDoneTx } from "../contracts/api/mypage";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -150,7 +151,7 @@ const DetailContainer = styled.div`
 
 const QuestionContainer = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   margin-left: 5rem;
   @media screen and (max-width: 768px) {
     /* justify-content: space-around; */
@@ -160,11 +161,12 @@ const QuestionContainer = styled.div`
 
 const InfoContainer = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   margin-left: 5rem;
+  padding-bottom: 6rem;
   @media screen and (max-width: 768px) {
     justify-content: space-around;
     margin-left: 0;
@@ -182,6 +184,7 @@ const SaleContainer = styled.div`
   border-radius: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px;
   margin-top: 20px;
   div {
@@ -193,6 +196,11 @@ const SaleContainer = styled.div`
   }
   #link :hover {
     color: rgba(102, 103, 171, 1);
+  }
+  @media screen and (max-width: 768px) {
+    width: 28rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 `;
 type Iitem = {
@@ -210,7 +218,7 @@ type Iitem = {
 };
 
 type Isale = {
-  saleTrxHash: string | undefined;
+  saleTrxHash: string;
   cashContractAddress: string;
   completedAt: string;
   price: string;
@@ -219,6 +227,7 @@ type Isale = {
   saleYn: boolean;
   sellerAddress: string;
   tokenId: number;
+  status: string;
 };
 
 const Detail = () => {
@@ -253,7 +262,7 @@ const Detail = () => {
   // 2차 NFT의 경우 해당 NFT의 소유자일 때 판매 등록, 취소 할 수 있게
   const [isOwner, setIsOwner] = useState(false);
   const [saleStatus, setSaleStatus] = useState<Isale>({
-    saleTrxHash: undefined,
+    saleTrxHash: "",
     cashContractAddress: "",
     completedAt: "",
     price: "",
@@ -262,6 +271,7 @@ const Detail = () => {
     saleYn: false,
     sellerAddress: "",
     tokenId: 0,
+    status: "",
   });
   const [item, setItem] = useState<Iitem>({
     acorn: 0,
@@ -298,7 +308,8 @@ const Detail = () => {
   const [isModalShow, setIsModalShow] = useState(false);
   const [isDeleteModalShow, setIsDeleteModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
-  const { tokenId } = useParams();
+
+  const { tokenId } = useParams<string>();
   const navigate = useNavigate();
 
   const onClickToggleModal = () => {
@@ -341,10 +352,11 @@ const Detail = () => {
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });
-    if (tokenId) {
+    if (tokenId && !isFirst) {
       getSale(tokenId)
         .then((res) => {
           setSaleStatus(res.data);
+          console.log(res.data);
         })
         .catch((err) => {
           console.error(err);
@@ -414,7 +426,7 @@ const Detail = () => {
   const onClickDownload = () => {
     if (userInfo.address) {
       window.open(itemHash);
-      putDownload(userInfo.address, tokenId).then((res) => {
+      putDownload(userInfo.address, tokenId).then((res: any) => {
         setItem({ ...item, download: res.data.count });
       });
     } else {
@@ -431,6 +443,7 @@ const Detail = () => {
         .catch(() => {});
     }
   }, [isFirst]);
+
   return (
     <>
       {isLoading && (
@@ -442,7 +455,9 @@ const Detail = () => {
         <Container>
           <TitleContainer>
             {isFirst ? (
-              <Title label="1차 NFT" size="2rem" />
+              <>
+                <Title label="1차 NFT" size="2rem" />
+              </>
             ) : (
               <Title label="2차 NFT" size="2rem" />
             )}
@@ -546,7 +561,7 @@ const Detail = () => {
             </DescContainer>
           </MainContainer>
 
-          {isOwner && !isFirst && !isSale && (
+          {isOwner && !isFirst && !isSale && saleStatus?.status !== "Pending" && (
             <>
               <SaleContainer>
                 <Icon mode="fas" icon="circle-exclamation" />
@@ -555,6 +570,29 @@ const Detail = () => {
                 </div>
                 <div id="link" onClick={onClickToggleModal}>
                   <Icon mode="fas" icon="right-long" />
+                </div>
+              </SaleContainer>
+            </>
+          )}
+
+          {!isFirst && !isSale && saleStatus?.status === "Pending" && (
+            <>
+              <SaleContainer>
+                <Icon mode="fas" icon="circle-exclamation" />
+                <div>
+                  해당 작품이 판매 등록 요청 중입니다. 정보를 갱신 할까요?
+                </div>
+                <div
+                  id="link"
+                  onClick={() =>
+                    checkSaleDoneTx(
+                      saleStatus.saleTrxHash,
+                      userInfo.address,
+                      tokenId ? +tokenId : 0
+                    )
+                  }
+                >
+                  <Icon mode="fas" icon="arrows-rotate" />
                 </div>
               </SaleContainer>
             </>
@@ -620,7 +658,7 @@ const Detail = () => {
               <InfoContainer>
                 <Transaction tokenId={tokenId} />
                 <Info
-                  address={dTTAddress}
+                  address={dTTAddress.slice(0, 30) + "..."}
                   tokenId={tokenId ? tokenId : ""}
                   standard="ERC-721"
                 />

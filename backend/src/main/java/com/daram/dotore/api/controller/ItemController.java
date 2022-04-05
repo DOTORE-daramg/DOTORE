@@ -4,6 +4,7 @@ import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
+import com.daram.dotore.api.request.SalesCancelReq;
 import com.daram.dotore.api.response.BaseRes;
 import com.daram.dotore.api.response.ItemButtonRes;
 import com.daram.dotore.api.response.ItemDetailRes;
@@ -106,6 +107,21 @@ public class ItemController {
         }
         itemService.updateMint(itemTrxReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
+    }
+
+    @DeleteMapping("/cancel/{itemTrxHash}")
+    @ApiOperation(value = "민팅 취소", notes = "민팅 취소")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 402, message = "민팅취소 실패", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> mintCancel(@PathVariable String itemTrxHash) {
+        try {
+            itemService.deleteItem(itemTrxHash);
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
+        } catch (Exception e) {
+            return ResponseEntity.status(402).body(BaseRes.of("민팅취소 실패"));
+        }
     }
 
     @PatchMapping

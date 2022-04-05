@@ -7,7 +7,6 @@ import {
   AtomicBlockUtils,
   SelectionState,
   convertToRaw,
-  ContentState,
   convertFromRaw,
 } from "draft-js";
 import { mediaBlockRenderer } from "./MediaBlock";
@@ -20,11 +19,15 @@ import {
   updateAnswer,
   updateFeedback,
 } from "../../api/feedback";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { useNavigate } from "react-router-dom";
-import Editor from "@draft-js-plugins/editor";
+import Editor, { composeDecorators } from "@draft-js-plugins/editor";
+import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import createImagePlugin from "@draft-js-plugins/image";
+import createAlignmentPlugin from "@draft-js-plugins/alignment";
+
+import createFocusPlugin from "@draft-js-plugins/focus";
 
 const Container = styled.div`
   width: 100%;
@@ -127,8 +130,16 @@ export const TextEditor = ({
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
-  const imagePlugin = createImagePlugin();
-  const plugins = [imagePlugin];
+  const focusPlugin = createFocusPlugin();
+  const resizeablePlugin = createResizeablePlugin();
+
+  const decorator = composeDecorators(
+    resizeablePlugin.decorator,
+    focusPlugin.decorator
+  );
+  const imagePlugin = createImagePlugin({ decorator });
+  const plugins = [focusPlugin, resizeablePlugin, imagePlugin];
+
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
   const navigate = useNavigate();
 
@@ -353,13 +364,7 @@ export const TextEditor = ({
         <Button
           label="작성하기"
           backgroundColor="#6667AB"
-          onClick={
-            //   () => {
-            //   console.log(editorState.getCurrentContent().getPlainText("\u000A"));
-            //   console.log(convertToRaw(editorState.getCurrentContent()));
-            // }
-            onClick
-          }
+          onClick={onClick}
         ></Button>
       </TextEditorFooter>
     </Container>
