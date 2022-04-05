@@ -183,6 +183,7 @@ const SaleContainer = styled.div`
   border-radius: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px;
   margin-top: 20px;
   div {
@@ -194,6 +195,11 @@ const SaleContainer = styled.div`
   }
   #link :hover {
     color: rgba(102, 103, 171, 1);
+  }
+  @media screen and (max-width: 768px) {
+    width: 28rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 `;
 type Iitem = {
@@ -618,7 +624,7 @@ const Detail = () => {
               <InfoContainer>
                 <Transaction transactions={transactions} />
                 <Info
-                  address={dTTAddress}
+                  address={dTTAddress.slice(0, 30) + "..."}
                   tokenId={tokenId ? tokenId : ""}
                   standard="ERC-721"
                 />
