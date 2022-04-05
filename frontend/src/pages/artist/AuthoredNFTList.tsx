@@ -8,6 +8,8 @@ import { getAuthoredNFTList } from "../../api/artist";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 const dummyItemList = [
   {
@@ -90,6 +92,7 @@ const AuthoredNFTList = () => {
   const { userAddress } = useParams();
   const [itemList, setItemList] = useState<ThumbnailProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   useEffect(() => {
     if (isLoading) {
@@ -112,7 +115,9 @@ const AuthoredNFTList = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
+          {userInfo.address === userAddress ? (
+            <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
+          ) : null}
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}
