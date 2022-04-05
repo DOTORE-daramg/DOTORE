@@ -19,7 +19,8 @@ const Container = styled.div`
 const StyledImageItem = styled.img`
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
   border-radius: 8px;
 `;
 
