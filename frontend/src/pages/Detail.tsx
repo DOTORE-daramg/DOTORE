@@ -163,7 +163,7 @@ const InfoContainer = styled.div`
   height: 400px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-left: 5rem;
   @media screen and (max-width: 768px) {
     justify-content: space-around;
@@ -298,7 +298,6 @@ const Detail = () => {
   const [isModalShow, setIsModalShow] = useState(false);
   const [isDeleteModalShow, setIsDeleteModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
-
   const { tokenId } = useParams();
   const navigate = useNavigate();
 
@@ -314,7 +313,6 @@ const Detail = () => {
 
   useEffect(() => {
     setIsLoading(true);
-
     getItem(tokenId).then((res) => {
       const { data } = res;
       const {
@@ -353,6 +351,12 @@ const Detail = () => {
         });
     }
   }, [tokenId]);
+
+  useEffect(() => {
+    if (!!isFirst) {
+      console.log(isFirst);
+    }
+  }, [isFirst]);
 
   const onClickQuestionCategory = () => {
     if (isAllQuestions) {
@@ -614,7 +618,7 @@ const Detail = () => {
               </QuestionContainer>
             ) : (
               <InfoContainer>
-                <Transaction transactions={transactions} />
+                <Transaction tokenId={tokenId} />
                 <Info
                   address={dTTAddress}
                   tokenId={tokenId ? tokenId : ""}

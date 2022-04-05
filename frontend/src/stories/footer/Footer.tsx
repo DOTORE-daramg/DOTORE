@@ -85,7 +85,7 @@ export const Footer = () => (
     <InfoContainer>
       <LogoContainer>
         <Logo color="#ffffff" size="36px" />
-        <div className="name">DOTORI</div>
+        <div className="name">DOTORE</div>
       </LogoContainer>
       <Description>
         <Icon mode="fas" icon="phone" />

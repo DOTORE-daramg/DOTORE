@@ -63,34 +63,20 @@ export const TransactionHistoryList = ({
   txHistoryList,
   width,
 }: TransactionHistoryListProps) => {
-  const isPc = useMediaQuery({ minWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 500 });
-  const viewMode = isPc ? "trade" : isTablet ? "trade" : "tradeM";
-  console.log(txHistoryList);
-  // return (
-  //   <Container width={width}>
-  //     {txHistoryList.map((data) =>
-  //       <div key={data.transactionHash}>{data.transactionHash}</div>
-  //     )}
-  //   </Container>
-  // );
   return (
     <Container width={width}>
       <TableHeader>
-        <TableBlock width="10%">거래 종류</TableBlock>
-        <TableBlock width="10%">tokenId</TableBlock>
+        <TableBlock width="15%">거래 종류</TableBlock>
+        <TableBlock width="25%">작품</TableBlock>
         <TableBlock width="10%">거래 일시</TableBlock>
-        <TableBlock width="30%">보낸 사람</TableBlock>
-        <TableBlock width="30%">받은 사람</TableBlock>
+        <TableBlock width="20%">보낸 사람</TableBlock>
+        <TableBlock width="20%">받은 사람</TableBlock>
         <TableBlock width="10%">가격</TableBlock>
       </TableHeader>
 
-      {txHistoryList.map(
-      // (data,index) => <div key={index}> {data.blockHash}</div>
-      (data, index) => (
+      {txHistoryList.map((data, index) => (
         <TransactionHistoryItem key={index} data={data} />
-      )
-      )}
+      ))}
     </Container>
   );
 };
