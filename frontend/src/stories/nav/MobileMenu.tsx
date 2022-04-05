@@ -5,7 +5,7 @@ import { userInfoTypes } from "../..";
 
 const Wrapper = styled.div`
   display: none;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: block;
   }
 `;
@@ -121,11 +121,15 @@ export const MobileMenu = ({
                   2차 NFT 보기
                 </div>
               </li>
-              <li>
-                <div onClick={() => onMenuClick(`/artist/${userInfo.address}`)}>
-                  마이페이지
-                </div>
-              </li>
+              {isLoggedIn && (
+                <li>
+                  <div
+                    onClick={() => onMenuClick(`/artist/${userInfo.address}`)}
+                  >
+                    마이페이지
+                  </div>
+                </li>
+              )}
             </Links>
             <Links>
               <li>
