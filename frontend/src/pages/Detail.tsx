@@ -150,7 +150,7 @@ const DetailContainer = styled.div`
 
 const QuestionContainer = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   margin-left: 5rem;
   @media screen and (max-width: 768px) {
     /* justify-content: space-around; */
@@ -160,11 +160,12 @@ const QuestionContainer = styled.div`
 
 const InfoContainer = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-left: 5rem;
+  padding-bottom: 6rem;
   @media screen and (max-width: 768px) {
     justify-content: space-around;
     margin-left: 0;
@@ -427,6 +428,7 @@ const Detail = () => {
         .catch(() => {});
     }
   }, [isFirst]);
+
   return (
     <>
       {isLoading && (
