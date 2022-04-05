@@ -124,7 +124,6 @@ export const FeedbackComment = ({
 
   const handleToggleEditor = () => {
     setIsEditorShow((prev) => !prev);
-    console.log(answerNo);
   };
 
   return (

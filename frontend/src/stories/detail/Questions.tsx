@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import QuestionItem, { QuestionProps } from "./QuestionItem";
-import { Title } from "./Title";
-
 const Container = styled.div`
   width: 350px;
   height: fit-content;
@@ -10,12 +8,6 @@ const Container = styled.div`
     justify-content: space-around;
     margin-left: 0;
   } */
-`;
-
-const TitleContainer = styled.div`
-  display: flex;
-  width: 70%;
-  justify-content: space-between;
 `;
 
 const InnerContainer = styled.div`
@@ -45,11 +37,6 @@ interface QuestionsProps {
 const Questions = ({ tokenId, questions }: QuestionsProps) => {
   return (
     <Container>
-      {/* <TitleContainer>
-        <Title title="등록된 질문들" />
-        <Title title="|" color="#999999" />
-        <Title title="내 질문" color="#999999" />
-      </TitleContainer> */}
       <InnerContainer>
         <CategoryContainer>
           <Category>답변 여부</Category>

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { saleTx, tokenTx } from "../../contracts/api/ItemTxRecord";
+import { saleTx } from "../../contracts/api/ItemTxRecord";
 import { getTimeStamp } from "../../contracts/api/transactionRecord";
-import LoadingSpinner from "../common/LoadingSpinner";
 import { Title } from "./Title";
 import TransactionItem from "./TransactionItem";
 
@@ -64,7 +63,7 @@ const Transaction = ({ tokenId }: TransactionProps) => {
           <Category width="25%">받은사람</Category>
           <Category width="20%">가격</Category>
         </Container>
-        {!isSetTimeStamp && <LoadingSpinner />}
+        {/* {!isSetTimeStamp && <LoadingSpinner />} */}
         {isSetTimeStamp &&
           transactions.length > 0 &&
           transactions.map((transactions, index) => (

@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import { Image } from "../detail/Image";
-import { useMediaQuery } from "react-responsive";
 import TransactionHistoryItem from "./TransactionHistoryItem";
 
 interface IItem {

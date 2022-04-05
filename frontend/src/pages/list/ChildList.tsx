@@ -118,8 +118,6 @@ const SecondList = () => {
   useEffect(() => {
     viewSecond()
       .then((res) => {
-        console.log(res.data.data);
-
         if (isSelected === 0) {
           // 최신순
           setItems(res.data.data);

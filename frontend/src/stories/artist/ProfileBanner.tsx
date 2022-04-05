@@ -131,7 +131,6 @@ export const ProfileBanner = ({
   profileDescription,
   profileDotoriAmount,
   onClickToggleModal,
-  ...props
 }: ProfileBannerProps) => {
   const isMobile = useMediaQuery({ maxWidth: 500 });
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);

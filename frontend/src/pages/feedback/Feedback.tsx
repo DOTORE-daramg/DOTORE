@@ -6,12 +6,13 @@ import { FeedbackInputBox } from "../../stories/feedback/FeedbackInputBox";
 import styled from "styled-components";
 import { getItem } from "../../api/item";
 import { Iitem } from "./FeedbackCreate";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getFeedBack } from "../../api/feedback";
 import { getUserInfo } from "../../api/user";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { getLevel } from "../../utils/Level";
+import { errorAlert } from "../../stories/common/alert";
 
 const Container = styled.div`
   width: 64rem;
@@ -69,14 +70,19 @@ const Feedback = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // questioner도 아니고 author도 아니라면 textEditor 없애기
   const [isMine, setIsMine] = useState<boolean>(true);
+  const navigate = useNavigate();
   const { itemTitle, itemHash, authorAddress } = item;
 
   useEffect(() => {
-    getItem(tokenId).then((res) => {
-      setItem(res.data);
-      console.log(item);
-      setIsLoading(true);
-    });
+    getItem(tokenId)
+      .then((res) => {
+        setItem(res.data);
+        setIsLoading(true);
+      })
+      .catch(() => {
+        errorAlert("잘못된 접근입니다.");
+        navigate("/");
+      });
   }, []);
 
   useEffect(() => {
@@ -109,24 +115,17 @@ const Feedback = () => {
                 question.questioner !== userInfo.address &&
                 answers[0].writer !== userInfo.address
               ) {
-                console.log(
-                  question.questioner,
-                  answers[0].writer,
-                  userInfo.address
-                );
                 setIsMine(false);
               } else if (
-                answers.length == 0 &&
+                answers.length === 0 &&
                 question.questioner !== userInfo.address &&
                 authorAddress !== userInfo.address
               ) {
-                console.log(item);
                 setIsMine(false);
               }
 
               if (answers.length !== 0) {
-                console.log(answers);
-                answers.map((answer: answer) => {
+                answers.map((answer: answer) =>
                   getUserInfo(answer.writer).then((nick) => {
                     const {
                       data: { nickname, acorn },
@@ -137,14 +136,18 @@ const Feedback = () => {
                       answers: newAnswers,
                     };
                     setQuestions(questions);
-                  });
-                });
+                  })
+                );
               } else {
                 setQuestions({
                   question,
                 });
               }
             });
+        })
+        .catch(() => {
+          errorAlert("잘못된 접근입니다.");
+          navigate("/");
         });
     }
   }, [isLoading]);
