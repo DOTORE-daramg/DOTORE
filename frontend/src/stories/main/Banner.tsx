@@ -105,7 +105,6 @@ const Banner = () => {
           );
         })}
         {line2.split("").map((char, index) => {
-          console.log(char);
           return (
             <Name key={char + "-" + index} variants={letter}>
               {char}

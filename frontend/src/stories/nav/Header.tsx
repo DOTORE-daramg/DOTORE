@@ -75,7 +75,6 @@ interface HeaderProps {
   isLoggedIn: boolean;
   onLogin: () => void;
   onLogout: () => void;
-  onCreateAccount: () => void;
 }
 
 export const Header = ({
@@ -89,7 +88,6 @@ export const Header = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const onClickHamburger = () => {
     setIsOpen((prev) => !prev);
-    console.log("click");
   };
   return (
     <>

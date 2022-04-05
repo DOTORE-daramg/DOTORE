@@ -11,7 +11,6 @@ export const checkMintDoneTx = async (txHash: string) => {
     return;
   }
   await web3.eth.getTransactionReceipt(txHash).then((res) => {
-    console.log(res);
     if (res === null) {
       return;
     } else if (res.logs.length === 0) {
@@ -34,8 +33,6 @@ export const checkSaleDoneTx = async (
     return;
   }
   await web3.eth.getTransactionReceipt(txHash).then(async (res) => {
-    console.log(res);
-
     if (res === null) {
       return;
     } else if (res.logs.length === 0) {

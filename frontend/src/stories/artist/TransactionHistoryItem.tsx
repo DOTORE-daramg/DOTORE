@@ -65,12 +65,9 @@ const TransactionHistoryItem = ({ data }: any) => {
       getUserInfo(data.returnValues.to || data.returnValues.seller).then(
         (res) => setTo(res.data.nickname)
       );
-      getItem(data.returnValues.tokenId)
-        .then((res) => {
-          setItemInfo(res.data);
-          console.log(res.data);
-        })
-        .catch(console.log);
+      getItem(data.returnValues.tokenId).then((res) => {
+        setItemInfo(res.data);
+      });
       setIsLoading(true);
     }
   }, [isLoading]);

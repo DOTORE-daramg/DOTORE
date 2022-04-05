@@ -71,7 +71,6 @@ export const ArtistFeedbackList = ({
   feedbackList,
   width,
 }: ArtistFeedbackListProps) => {
-  console.log(feedbackList);
   const navigate = useNavigate();
   return (
     <Container width={width}>

@@ -29,7 +29,6 @@ const Like = () => {
     if (isLoading) {
       if (userAddress) {
         getLikedNFTList(userAddress).then((res) => {
-          console.log(res);
           if (res.data.result !== "작품 목록이 없습니다.") {
             setItemList(res.data.data);
           }

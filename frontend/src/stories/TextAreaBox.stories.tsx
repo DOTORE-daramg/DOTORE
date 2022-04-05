@@ -20,7 +20,5 @@ ItemDescTextAreaBox.args = {
   placeholder: "작품 설명",
   width: "19rem",
   rows: 5,
-  onBlur: (e) => {
-    console.log(e.target.value);
-  },
+  onBlur: (e) => {},
 };

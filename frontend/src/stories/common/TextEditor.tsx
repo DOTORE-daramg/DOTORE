@@ -25,8 +25,6 @@ import { useNavigate } from "react-router-dom";
 import Editor, { composeDecorators } from "@draft-js-plugins/editor";
 import createResizeablePlugin from "@draft-js-plugins/resizeable";
 import createImagePlugin from "@draft-js-plugins/image";
-import createAlignmentPlugin from "@draft-js-plugins/alignment";
-
 import createFocusPlugin from "@draft-js-plugins/focus";
 
 const Container = styled.div`
@@ -178,10 +176,8 @@ export const TextEditor = ({
     }
     if (file.size >= 5 * 1048576) {
       // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
-      console.log("사진 크기 5MB 이상임!");
       return "not-handled";
     }
-    console.log(file);
     const reader = new FileReader();
     reader.addEventListener(
       "load",
@@ -220,10 +216,8 @@ export const TextEditor = ({
     }
     if (file.size >= 5 * 1048576) {
       // 일단 5MB 이상 사진 못넣게, 사이즈 추후 의논
-      console.log("사진 크기 5MB 이상임!");
       return "not-handled";
     }
-    console.log(file);
     const reader = new FileReader();
     reader.addEventListener(
       "load",
@@ -249,19 +243,16 @@ export const TextEditor = ({
   };
 
   const onClick = () => {
-    // console.log(editorState.getCurrentContent().get);
     if (item) {
       if (articleNo) {
         const rawContentState = convertToRaw(editorState.getCurrentContent());
         const markup = JSON.stringify(rawContentState);
-        console.log(markup);
         const params = {
           articleNo: Number(articleNo),
           description: markup,
           writer: userInfo.address,
         };
         createAnswer(params).then((res) => {
-          console.log("성공");
           window.location.reload();
         });
       } else {
@@ -275,12 +266,9 @@ export const TextEditor = ({
         };
         createFeedback(params)
           .then((res) => {
-            console.log("성공");
             navigate(`/artist/${userInfo.address}/feedback`);
           })
-          .catch((error) => {
-            console.log(error);
-          });
+          .catch((error) => {});
       }
     } else {
       if (answerNo) {
@@ -291,7 +279,6 @@ export const TextEditor = ({
           description: markup,
         };
         updateAnswer(params).then((res) => {
-          console.log("성공");
           window.location.reload();
         });
       } else if (articleNo) {
@@ -302,7 +289,6 @@ export const TextEditor = ({
           description: markup,
         };
         updateFeedback(params).then((res) => {
-          console.log("성공");
           window.location.reload();
         });
       }

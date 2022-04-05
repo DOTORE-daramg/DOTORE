@@ -1,4 +1,4 @@
-import React, { ReactEventHandler, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { TEProps, TextEditor } from "../common/TextEditor";
 
