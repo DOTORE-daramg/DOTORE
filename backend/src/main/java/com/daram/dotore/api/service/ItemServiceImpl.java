@@ -353,9 +353,19 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public Items updateImageUrl(BigInteger tokenId, String imageUrl) {
-        Items item = getItemByTokenId(tokenId);
-        item.setItemHash(imageUrl);
-        return itemRepository.save(item);
+    public void deleteItem(String itemTrxHash) {
+        Optional<Items> item=itemRepository.findByItemTrxHash(itemTrxHash);
+        if(!item.isPresent()){
+            return;
+        }
+        List<Taglist> tags=tagRepository.findByItemTrxHash(itemTrxHash);
+        for(Taglist tag: tags){
+            tagRepository.delete(tag);
+        }
+        List<Secondary> secondaryList=secondaryRepository.findByItemTrxHash(itemTrxHash);
+        for(Secondary secondary: secondaryList){
+            secondaryRepository.delete(secondary);
+        }
+        itemRepository.delete(item.get());
     }
 }
