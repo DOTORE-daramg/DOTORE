@@ -66,5 +66,5 @@ public interface ItemService {
 
     Items updateCancelOnSaleYn(BigInteger tokenId);
 
-    Items updateImageUrl(BigInteger tokenId, String imageUrl);
+    void deleteItem(String itemTrxHash);
 }
