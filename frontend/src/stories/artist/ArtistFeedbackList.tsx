@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FeedbackToggleButtons } from "./FeedbackToggleButtons";
 
 export interface IFeedback {
-  articleno: number;
+  articleNo: number;
   yn: boolean;
   itemTitle: string;
   description: string;
@@ -34,7 +34,7 @@ const TableHeader = styled.div`
 
 const TableRow = styled.div`
   display: flex;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 500;
   height: 5rem;
   align-items: center;
@@ -61,7 +61,7 @@ const TableCell = styled.span`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  padding: 0 0.5rem;
+
   @media screen and (max-width: 500px) {
     font-size: 0.9rem;
   }
@@ -71,6 +71,7 @@ export const ArtistFeedbackList = ({
   feedbackList,
   width,
 }: ArtistFeedbackListProps) => {
+  console.log(feedbackList);
   const navigate = useNavigate();
   return (
     <Container width={width}>
@@ -90,7 +91,7 @@ export const ArtistFeedbackList = ({
           </TableBlock>
         </TableHeader>
         {feedbackList.map((feedback) => (
-          <TableRow key={feedback.articleno}>
+          <TableRow key={feedback.articleNo}>
             <TableBlock width="15%">
               <TableCell>{feedback.yn ? "해결" : "미해결"}</TableCell>
             </TableBlock>
@@ -103,7 +104,7 @@ export const ArtistFeedbackList = ({
             </TableBlock>
             <TableBlock
               onClick={() =>
-                navigate(`/feedback/${feedback.tokenId}/${feedback.articleno}`)
+                navigate(`/feedback/${feedback.tokenId}/${feedback.articleNo}`)
               }
               id="link"
               width="33%"
