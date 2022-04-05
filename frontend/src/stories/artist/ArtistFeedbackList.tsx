@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { FeedbackToggleButtons } from "./FeedbackToggleButtons";
 
 export interface IFeedback {
-  articleno: number;
+  articleNo: number;
   yn: boolean;
   itemTitle: string;
   description: string;
@@ -71,6 +71,7 @@ export const ArtistFeedbackList = ({
   feedbackList,
   width,
 }: ArtistFeedbackListProps) => {
+  console.log(feedbackList);
   const navigate = useNavigate();
   return (
     <Container width={width}>
@@ -90,7 +91,7 @@ export const ArtistFeedbackList = ({
           </TableBlock>
         </TableHeader>
         {feedbackList.map((feedback) => (
-          <TableRow key={feedback.articleno}>
+          <TableRow key={feedback.articleNo}>
             <TableBlock width="15%">
               <TableCell>{feedback.yn ? "해결" : "미해결"}</TableCell>
             </TableBlock>
@@ -103,7 +104,7 @@ export const ArtistFeedbackList = ({
             </TableBlock>
             <TableBlock
               onClick={() =>
-                navigate(`/feedback/${feedback.tokenId}/${feedback.articleno}`)
+                navigate(`/feedback/${feedback.tokenId}/${feedback.articleNo}`)
               }
               id="link"
               width="33%"
