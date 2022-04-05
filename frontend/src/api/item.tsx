@@ -64,3 +64,7 @@ export const postMintBefore = async (data: Object) => {
 export const putDownload = async (address: string, tokenId?: string) => {
   return await api.post(`/api/items/download`, { address, tokenId });
 };
+
+export const cancelItem = async (itemTrxHash: string) => {
+  return await api.delete(`/api/items/cancel${itemTrxHash}`);
+}

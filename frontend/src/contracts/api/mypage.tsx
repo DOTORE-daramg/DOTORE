@@ -1,5 +1,5 @@
 import { web3 } from "..";
-import { modifyTokenId } from "../../api/item";
+import { modifyTokenId, cancelItem } from "../../api/item";
 import { updateSaleStatus, cancelSale } from "../../api/sale";
 import { getSaleId } from "./second";
 
@@ -7,7 +7,7 @@ export const checkMintDoneTx = async (txHash: string) => {
   const tx = await web3.eth.getTransaction(txHash);
   if (tx === null) {
     // transcation이 null이면 유저가 취소된 트랜잭션
-    console.log("canceled");
+    cancelItem(txHash);
     return;
   }
   await web3.eth.getTransactionReceipt(txHash).then((res) => {
