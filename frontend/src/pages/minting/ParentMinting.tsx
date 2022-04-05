@@ -102,7 +102,6 @@ const ParentMinting = () => {
   const navigate = useNavigate();
 
   const handleTitleChanged = (e: any) => {
-    console.log("Title blurred!");
     setItemTitle(e.target.value);
     validateTitle();
   };
@@ -156,7 +155,6 @@ const ParentMinting = () => {
 
       // 토큰 아이디까지 받아왔다면 백엔드에 토큰 아이디 전달
       const tokenId = tx.events.Transfer.returnValues.tokenId;
-      console.log(tokenId);
 
       modifyTokenId({ itemTrxHash: txHash, tokenId: tokenId });
       successAlert("민팅에 성공하였습니다!!");

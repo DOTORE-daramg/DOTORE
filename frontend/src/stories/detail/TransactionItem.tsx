@@ -58,7 +58,7 @@ const TransactionItem = ({ data }: DetailProps) => {
         <ItemContainer onClick={onClickFromUser}>{from}</ItemContainer>
       </Category>
       <Category width="25%">
-        <ItemContainer onClick={onClickFromUser}>{to}</ItemContainer>
+        <ItemContainer onClick={onClickToUser}>{to}</ItemContainer>
       </Category>
       <Category width="20%">
         {web3.utils.fromWei(data.returnValues.price)}ETH

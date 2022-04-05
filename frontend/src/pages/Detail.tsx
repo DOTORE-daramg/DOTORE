@@ -35,6 +35,7 @@ import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
 import { getLevel } from "../utils/Level";
 import { checkSaleDoneTx } from "../contracts/api/mypage";
+import { errorAlert, warnAlert } from "../stories/common/alert";
 
 const LoadContainer = styled.div`
   width: 100%;
@@ -231,26 +232,6 @@ type Isale = {
 };
 
 const Detail = () => {
-  const transactions = [
-    {
-      date: "거래 일시",
-      seller: "판매자",
-      buyer: "소유자",
-      price: "가격",
-    },
-    {
-      date: "2022-03-12",
-      seller: "제진명",
-      buyer: "인주비",
-      price: "1,000,000 KRW",
-    },
-    {
-      date: "2022-03-12",
-      seller: "인주비",
-      buyer: "한지희",
-      price: "1,500,000 KRW",
-    },
-  ];
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
@@ -314,33 +295,36 @@ const Detail = () => {
 
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
-    console.log("toggle!");
   };
 
   const onClickToggleDeleteModal = () => {
     setIsDeleteModalShow((prev) => !prev);
-    console.log("toggle!");
   };
 
   useEffect(() => {
     setIsLoading(true);
-    getItem(tokenId).then((res) => {
-      const { data } = res;
-      const {
-        data: { isFirst, onSaleYn, authorAddress, ownerAddress },
-      } = res;
-      setItem(data);
-      setIsFirst(isFirst);
-      setIsSale(onSaleYn);
-      if (ownerAddress === userInfo.address) {
-        setIsOwner(true);
-      } else {
-        setIsOwner(false);
-      }
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 600);
-    });
+    getItem(tokenId)
+      .then((res) => {
+        const { data } = res;
+        const {
+          data: { isFirst, onSaleYn, authorAddress, ownerAddress },
+        } = res;
+        setItem(data);
+        setIsFirst(isFirst);
+        setIsSale(onSaleYn);
+        if (ownerAddress === userInfo.address) {
+          setIsOwner(true);
+        } else {
+          setIsOwner(false);
+        }
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 600);
+      })
+      .catch(() => {
+        errorAlert("존재하지 않는 게시물입니다.");
+        navigate("/");
+      });
     if (userInfo.address) {
       getIsLike(tokenId, userInfo.address).then((res) => {
         const {
@@ -353,22 +337,11 @@ const Detail = () => {
       setRelatedNFTs(res.data.data);
     });
     if (tokenId && !isFirst) {
-      getSale(tokenId)
-        .then((res) => {
-          setSaleStatus(res.data);
-          console.log(res.data);
-        })
-        .catch((err) => {
-          console.error(err);
-        });
+      getSale(tokenId).then((res) => {
+        setSaleStatus(res.data);
+      });
     }
   }, [tokenId]);
-
-  useEffect(() => {
-    if (!!isFirst) {
-      console.log(isFirst);
-    }
-  }, [isFirst]);
 
   const onClickQuestionCategory = () => {
     if (isAllQuestions) {
@@ -403,7 +376,7 @@ const Detail = () => {
         });
       }
     } else {
-      alert("로그인 후 가능합니다!");
+      warnAlert("로그인 후 가능합니다!");
     }
   };
 
@@ -430,7 +403,7 @@ const Detail = () => {
         setItem({ ...item, download: res.data.count });
       });
     } else {
-      alert("로그인 후 가능합니다!");
+      warnAlert("로그인 후 가능합니다!");
     }
   };
 

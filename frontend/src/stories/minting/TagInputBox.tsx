@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { InputBox } from "../InputBox";
 import { Badge } from "../common/Badge";
 import { Icon } from "../common/Icon";
 
@@ -75,7 +74,6 @@ export const TagInputBox = ({
       }
       setBadgeLabelList((prev) => [...prev, label]);
       e.target.value = "";
-      console.log(e.target.value);
       handleTagChanged(label);
     }
   };

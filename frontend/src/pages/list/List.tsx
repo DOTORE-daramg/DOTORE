@@ -121,7 +121,6 @@ const List = () => {
 
   useEffect(() => {
     viewAll().then((res) => {
-      console.log(res.data.data);
       setItems(res.data.data);
 
       if (isSelected === 0) {

@@ -1,5 +1,10 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Navigate,
+  Route,
+  Routes,
+} from "react-router-dom";
 import Feedback from "./pages/feedback/Feedback";
 import ChildList from "./pages/list/ChildList";
 import ParentList from "./pages/list/ParentList";
@@ -74,7 +79,6 @@ const AppRouter = () => {
   useEffect(() => {
     if (account)
       getAccount().then((response) => {
-        console.log(response[0]);
         setAddress(response[0]);
         login(response[0])
           .then(() => {
@@ -92,8 +96,8 @@ const AppRouter = () => {
               });
             });
           })
-          .catch((e) => {
-            console.log("로그인 실패>>>>>>");
+          .catch(() => {
+            errorAlert("로그인에 실패하였습니다.");
           });
       });
   }, [account]);
@@ -135,12 +139,11 @@ const AppRouter = () => {
   return (
     <Container>
       <Router>
-        <ScrollToTop />
+        {/* <ScrollToTop /> */}
         <Header
           isLoggedIn={isLoggedIn.isLoggedIn}
           onLogin={onLogin}
           onLogout={onLogout}
-          onCreateAccount={() => console.log("login")}
         />
         <Routes>
           <Route path="/" element={<Main />} />
@@ -163,9 +166,12 @@ const AppRouter = () => {
             <Route path="history" element={<TxHistory />} />
             <Route path="download" element={<Download />} />
             <Route path="like" element={<Like />} />
+            <Route path="*" element={<Navigate replace to="/" />} />
           </Route>
 
           <Route path="feedback/:tokenId/:articleNo" element={<Feedback />} />
+
+          <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>
         <Footer />
       </Router>

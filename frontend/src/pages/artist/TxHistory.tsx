@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
-import {
-  ITransactionHistory,
-  TransactionHistoryList,
-} from "../../stories/artist/TransactionHistoryList";
+import { TransactionHistoryList } from "../../stories/artist/TransactionHistoryList";
 import {
   getTimeStamp,
   saleFromTx,
@@ -38,7 +35,6 @@ const TxHistory = () => {
   const [res4, setRes4] = useState<any[]>([]);
   const [res5, setRes5] = useState<any[]>([]);
   const { userAddress } = useParams();
-  // const userAddress = "0x46CCa77125508995b14cD6355e994Ac2949E8B47";
 
   // 블록체인에서 데이터 불러옴
   useEffect(() => {
@@ -85,7 +81,6 @@ const TxHistory = () => {
 
   useEffect(() => {
     if (isMakeTimeStamp) {
-      console.log(res5);
       setIsSort(true);
     }
   }, [isMakeTimeStamp]);

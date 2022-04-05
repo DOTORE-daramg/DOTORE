@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 import { useMediaQuery } from "react-responsive";
 import { RefreshTx } from "../../stories/artist/RefreshTx";
@@ -24,7 +23,6 @@ const OwnedNFTList = () => {
     if (isLoading) {
       if (userAddress) {
         getNFTList(userAddress).then((res) => {
-          console.log(res);
           if (res.data.result !== "작품 목록이 없습니다.") {
             setItemList(res.data.data);
           }
