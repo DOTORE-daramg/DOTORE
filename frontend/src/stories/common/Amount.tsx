@@ -6,6 +6,8 @@ import { Icon } from "./Icon";
 const AmountContainer = styled.div`
   display: flex;
   gap: 10px;
+
+  align-items: center;
 `;
 
 const Count = styled.div<{ fontSize?: string }>`

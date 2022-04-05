@@ -8,6 +8,9 @@ const Container = styled.div`
 `;
 const Category = styled.div<{ width: string }>`
   width: ${(props) => props.width};
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 
 interface DetailProps {

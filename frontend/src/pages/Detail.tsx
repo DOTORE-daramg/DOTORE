@@ -151,7 +151,7 @@ const DetailContainer = styled.div`
 
 const QuestionContainer = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   margin-left: 5rem;
   @media screen and (max-width: 768px) {
     /* justify-content: space-around; */
@@ -161,11 +161,12 @@ const QuestionContainer = styled.div`
 
 const InfoContainer = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin-left: 5rem;
+  padding-bottom: 6rem;
   @media screen and (max-width: 768px) {
     justify-content: space-around;
     margin-left: 0;
@@ -183,6 +184,7 @@ const SaleContainer = styled.div`
   border-radius: 20px;
   display: flex;
   justify-content: center;
+  align-items: center;
   padding: 20px;
   margin-top: 20px;
   div {
@@ -194,6 +196,11 @@ const SaleContainer = styled.div`
   }
   #link :hover {
     color: rgba(102, 103, 171, 1);
+  }
+  @media screen and (max-width: 768px) {
+    width: 28rem;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 `;
 type Iitem = {
@@ -431,6 +438,7 @@ const Detail = () => {
         .catch(() => {});
     }
   }, [isFirst]);
+
   return (
     <>
       {isLoading && (
@@ -645,7 +653,7 @@ const Detail = () => {
               <InfoContainer>
                 <Transaction transactions={transactions} />
                 <Info
-                  address={dTTAddress}
+                  address={dTTAddress.slice(0, 30) + "..."}
                   tokenId={tokenId ? tokenId : ""}
                   standard="ERC-721"
                 />
