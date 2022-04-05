@@ -346,7 +346,7 @@ const Detail = () => {
     getRelatedItem(tokenId).then((res) => {
       setRelatedNFTs(res.data.data);
     });
-    if (tokenId) {
+    if (tokenId && !isFirst) {
       getSale(tokenId)
         .then((res) => {
           setSaleStatus(res.data);
