@@ -1,4 +1,4 @@
-- Quich start
+- Quick start
     
     Smart Contract
     
