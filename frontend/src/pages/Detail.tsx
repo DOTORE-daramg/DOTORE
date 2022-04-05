@@ -82,7 +82,6 @@ const MainContainer = styled.div`
 
 const DescContainer = styled.div`
   width: 28rem;
-  padding: 10px 0;
   padding-left: 5rem;
   display: flex;
   flex-direction: column;
