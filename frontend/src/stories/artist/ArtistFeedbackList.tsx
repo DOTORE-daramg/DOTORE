@@ -1,3 +1,4 @@
+import { useEffect } from "@storybook/addons";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -72,6 +73,19 @@ export const ArtistFeedbackList = ({
   width,
 }: ArtistFeedbackListProps) => {
   const navigate = useNavigate();
+  feedbackList.map((feedback) => {
+    JSON.parse(feedback.description).blocks.filter((block: any) => {
+      if (block.text.length > 2) return block;
+    });
+    return feedback;
+  });
+
+  console.log(feedbackList);
+  // useEffect(() => {
+  //   feedbackList.map((feedback) => {
+
+  //   })
+  // }, [])
   return (
     <Container width={width}>
       <TableContainer>
@@ -109,12 +123,17 @@ export const ArtistFeedbackList = ({
               width="33%"
             >
               <TableCell>
-                {JSON.parse(feedback.description).blocks[0].text.length >= 15
+                {JSON.parse(feedback.description).blocks.map((block: any) =>
+                  block.text.length >= 15
+                    ? block.text.slice(0, 15) + "..."
+                    : block.text.length > 1 && block.text
+                )}
+                {/* {JSON.parse(feedback.description).blocks[0].text.length >= 15
                   ? JSON.parse(feedback.description).blocks[0].text.slice(
                       0,
                       15
                     ) + "..."
-                  : JSON.parse(feedback.description).blocks[0].text}
+                  : JSON.parse(feedback.description).blocks[0].text} */}
               </TableCell>
             </TableBlock>
             <TableBlock width="19%">
