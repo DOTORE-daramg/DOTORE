@@ -191,7 +191,7 @@ export const TextEditor = ({
         );
         const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
         setEditorState(
-          AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, " ")
+          AtomicBlockUtils.insertAtomicBlock(editorState, entityKey, "")
         );
       },
       false
@@ -343,7 +343,7 @@ export const TextEditor = ({
           placeholder="Write something!"
           handlePastedFiles={handlePastedFile}
           handleDroppedFiles={handleDroppedFile}
-          plugins={plugins}
+          // plugins={plugins}
         />
       </EditorContainer>
       <TextEditorFooter>
