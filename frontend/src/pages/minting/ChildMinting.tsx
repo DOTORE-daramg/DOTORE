@@ -153,7 +153,7 @@ const ChildMinting = () => {
 
   const onClickCreateToken = async () => {
     if (!validateTitle()) {
-      errorAlert("제목을 입력해주세요");
+      errorAlert("올바른 제목을 입력해주세요");
       return;
     } else if (originalItem.length === 0) {
       errorAlert("원작 작품을 한개 이상 등록해주세요");
@@ -239,7 +239,8 @@ const ChildMinting = () => {
 
   useEffect(() => {
     if (!isLoggedIn.isLoggedIn) {
-      navigate("/");
+      navigate(-1);
+      errorAlert("로그인이 필요한 페이지입니다.");
     }
   }, [isLoggedIn]);
 

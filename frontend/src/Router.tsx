@@ -134,6 +134,7 @@ const AppRouter = () => {
       profileImgUrl: "",
     });
     errorAlert("로그아웃 하였습니다.");
+    window.location.replace("https://j6a407.p.ssafy.io");
   };
 
   return (

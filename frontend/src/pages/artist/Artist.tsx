@@ -44,7 +44,8 @@ const Artist = () => {
 
   useEffect(() => {
     if (!isLoggedIn.isLoggedIn) {
-      navigate("/");
+      errorAlert("로그인이 필요한 페이지입니다.");
+      navigate(-1)
     }
   }, [isLoggedIn]);
 

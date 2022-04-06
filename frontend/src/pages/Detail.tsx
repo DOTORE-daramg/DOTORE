@@ -28,7 +28,7 @@ import Transaction from "../stories/detail/Transaction";
 import { Title } from "../stories/Title";
 import { Title as SubTitle } from "../stories/detail/Title";
 import { useRecoilValue } from "recoil";
-import { userInfoState, userInfoTypes } from "..";
+import { isLoggedInState, userInfoState, userInfoTypes } from "..";
 import { getSale, completeSale } from "../api/sale";
 import { web3 } from "../contracts";
 import { dTTAddress } from "../contracts/";
@@ -288,6 +288,7 @@ const Detail = () => {
   const [isModalShow, setIsModalShow] = useState(false);
   const [isDeleteModalShow, setIsDeleteModalShow] = useState(false);
   const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
 
   const { tokenId } = useParams<string>();
   const navigate = useNavigate();
@@ -383,6 +384,9 @@ const Detail = () => {
     if (!tokenId || isOwner) {
       return;
     }
+    if (!isLoggedIn.isLoggedIn) {
+      warnAlert("로그인 후 가능합니다!");
+    }
     try {
       await purchase({
         tokenId: +tokenId,
@@ -404,6 +408,14 @@ const Detail = () => {
     } else {
       warnAlert("로그인 후 가능합니다!");
     }
+  };
+
+  const onClickQuestion = () => {
+    if (!isLoggedIn.isLoggedIn) {
+      warnAlert("로그인 후 가능합니다!");
+      return;
+    }
+    navigate(`/feedbackcreate/${tokenId}`);
   };
 
   useEffect(() => {
@@ -496,7 +508,7 @@ const Detail = () => {
                       width="6.3rem"
                       label="질문 등록"
                       backgroundColor="#6667ab"
-                      onClick={() => navigate(`/feedbackcreate/${tokenId}`)}
+                      onClick={onClickQuestion}
                     />
                     <Button
                       width="6rem"
