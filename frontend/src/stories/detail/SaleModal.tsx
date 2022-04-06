@@ -223,6 +223,7 @@ export const SaleModal = ({
         errorAlert("판매등록을 취소하였습니다.");
       } else {
         errorAlert("판매등록에 실패하였습니다.");
+        setIsLoading(true);
       }
       setIsPending(false);
       setPendingMsg("");
