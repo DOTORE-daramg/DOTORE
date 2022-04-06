@@ -453,6 +453,43 @@ const dTTMarketABI: AbiItem[] = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "cancelSale",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+    ],
+    name: "createMarketItem",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "address",
         name: "_dTTAddress",
         type: "address",
@@ -500,6 +537,12 @@ const dTTMarketABI: AbiItem[] = [
         name: "sold",
         type: "bool",
       },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "status",
+        type: "string",
+      },
     ],
     name: "MarketItemEvent",
     type: "event",
@@ -512,33 +555,9 @@ const dTTMarketABI: AbiItem[] = [
         type: "uint256",
       },
     ],
-    name: "cancelSale",
+    name: "purchase",
     outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-    ],
-    name: "createMarketItem",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "nonpayable",
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -594,21 +613,13 @@ const dTTMarketABI: AbiItem[] = [
         name: "sold",
         type: "bool",
       },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
       {
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
+        internalType: "string",
+        name: "status",
+        type: "string",
       },
     ],
-    name: "purchase",
-    outputs: [],
-    stateMutability: "payable",
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -634,10 +645,10 @@ const dTTMarketABI: AbiItem[] = [
 
 export const web3 = new Web3(window.ethereum);
 
-export const dTTAddress = "0xE4C0Dc5d15E82Ae75608B9A572Add9bD8De52006";
+export const dTTAddress = "0x51428a9Ca07D5391f8058845E39C9B1CbC932dC6";
 export const dTT = new web3.eth.Contract(dTTABI, dTTAddress);
 
-export const dTTMarketAddress = "0xab2fa44327a1c6d2a07b4a51e9d8b063e45e0d84";
+export const dTTMarketAddress = "0xE4bee7618c8906639018b2901706F2fDde0DeA6A";
 export const dTTMarketContract = new web3.eth.Contract(
   dTTMarketABI,
   dTTMarketAddress
