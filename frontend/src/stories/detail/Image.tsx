@@ -19,7 +19,6 @@ type MODE =
 
 const StyledImage = styled.img<{ mode?: MODE }>`
   border-radius: 10px;
-  border: 1px solid rgb(229, 232, 235);
   object-fit: contain;
   object-position: center;
   width: ${(props) =>

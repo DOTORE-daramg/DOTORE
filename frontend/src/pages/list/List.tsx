@@ -9,11 +9,12 @@ import Checkbox from "../../stories/list/Checkbox";
 import Item, { ItemProps } from "../../stories/list/Item";
 import ItemSkeleton from "../../stories/list/ItemSkeleton";
 import { Title } from "../../stories/Title";
-import { SearchBar } from "../../stories/common/SearchBar";
 
 export const Container = styled.div`
   height: fit-content;
-  margin: 150px 200px;
+  margin: 150px;
+  display: flex;
+  justify-content: center;
 
   @media screen and (max-width: 768px) {
     margin: 100px 0;
@@ -26,11 +27,10 @@ export const SideContainer = styled.div`
   width: 15rem;
   margin-right: 6rem;
   height: 100%;
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
   @media screen and (max-width: 768px) {
-    width: 80%;
+    width: 100%;
     align-items: center;
     margin-right: 0;
   }
@@ -63,14 +63,13 @@ export const CheckboxContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   @media screen and (max-width: 768px) {
-    width: 50%;
+    width: 100%;
     flex-direction: row;
     align-items: center;
     justify-content: space-around;
   }
 `;
 export const InnerContainer = styled.div`
-  width: 100%;
   display: flex;
   @media screen and (max-width: 768px) {
     flex-direction: column;
@@ -79,13 +78,13 @@ export const InnerContainer = styled.div`
 `;
 
 export const MainContainer = styled.div`
-  width: calc(100% - 20rem);
+  width: calc(100% - 40rem);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   @media screen and (max-width: 768px) {
-    width: 90%;
+    width: 100%;
   }
 `;
 export const ItemContainer = styled.div`
@@ -94,8 +93,12 @@ export const ItemContainer = styled.div`
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 20px;
   place-items: center;
-  @media screen and (max-width: 768px) {
-    width: 90%;
+  @media screen and (max-width: 1300px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 15px;
+  }
+  @media screen and (max-width: 1000px) {
+    /* width: 90%; */
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 15px;
   }
@@ -109,9 +112,9 @@ export const Message = styled.div`
 `;
 const List = () => {
   // 반응형
-  const isPc = useMediaQuery({ minWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 500 });
-  const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
+  const isPc = useMediaQuery({ minWidth: 1300 });
+  const isTablet = useMediaQuery({ minWidth: 1000 });
+  const viewMode = isPc ? "15rem" : isTablet ? "10rem" : "155px";
 
   const [filteredItems, setFilteredItems] = useState<ItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -146,63 +149,64 @@ const List = () => {
   //   });
   // }, [isSelected]);
 
-
   // 페이지네이션
   // 들고있어야할 state : 면에 렌더링할 item List랑 pageNum, sort, type
-  const [itemList, setItemList] = useState<ItemProps[]>([]);  // 보여질 아이템들.
-  const [pages, setPages] = useState([]);
+  const [itemList, setItemList] = useState<ItemProps[]>([]); // 보여질 아이템들.
   const [itemsPerPage, setItemsPerPage] = useState(12);
   const [activePage, setActivePage] = useState<number>(1);
   const handlePageChange = (activePage: number) => {
     setActivePage(activePage);
-  }
-  const [keyword, setKeyword] = useState<string>('');
+  };
+  const [keyword, setKeyword] = useState<string>("");
   const [sortType, setSortType] = useState<0 | 1>(0); // 정렬
   const [artType, setArtType] = useState<"all" | "first" | "second">("all");
   const [itemTotal, setItemTotal] = useState<number>(0);
+  const [skeletonCnt, setSkeletonCnt] = useState<number>(0);
 
   // const indexOfLast = currentPage * itemsPerPage;
   // const indexOfFirst = indexOfLast - itemsPerPage;
 
   const onSearch = (searchInput: string) => {
     setKeyword(searchInput);
-  }
+  };
 
   const onKeyUpEnter = (e: any) => {
-    if (e.key !== 'Enter') {
+    if (e.key !== "Enter") {
       return;
     }
     onSearch(e.target.value);
-  }
+  };
 
   const handleSortType = (category: string) => {
-    if (category === '최신순') {
+    if (category === "최신순") {
       setSortType(0);
-    } else if (category === '인기순') {
+    } else if (category === "인기순") {
       setSortType(1);
     }
-  }
+  };
 
   useEffect(() => {
     setIsLoading(true);
-    console.log(`검색은 ${keyword}, 정렬은 ${sortType}, 분류는 ${artType}`)
-    viewList(activePage, keyword, sortType, artType).then((res) => {
-      console.log(res.data);
-      setItemList(res.data.data);
-      setItemTotal(res.data.total);
-      setIsLoading(false);
-      // console.log(res.data.total);
-    })
-      .catch(err => console.error(err));
-  }, [activePage, sortType, artType, keyword])
-
+    console.log(`검색은 ${keyword}, 정렬은 ${sortType}, 분류는 ${artType}`);
+    viewList(activePage, keyword, sortType, artType)
+      .then((res) => {
+        console.log(res.data);
+        setItemList(res.data.data);
+        setItemTotal(res.data.total);
+        setIsLoading(false);
+        // console.log(res.data.total);
+      })
+      .catch((err) => console.error(err));
+  }, [activePage, sortType, artType, keyword]);
 
   return (
     <Container>
       {/* <SearchBar items={items}></SearchBar> */}
-      <Title label="NFT 보기" size="2rem"></Title>
       <InnerContainer>
         <SideContainer>
+          <div style={{ marginBottom: "20px" }}>
+            <Title label="NFT 보기" size="2rem"></Title>
+          </div>
           <InputBox
             icon={"magnifying-glass"}
             items={itemList}
@@ -224,23 +228,33 @@ const List = () => {
               ))}
             </CategoryContainer>
             <CheckboxContainer>
-              <Checkbox id="all" label="View All" artType={artType} onChangeArtType={setArtType} />
-              <Checkbox id="first" label="1차 NFT" artType={artType} onChangeArtType={setArtType} />
-              <Checkbox id="second" label="2차 NFT" artType={artType} onChangeArtType={setArtType} />
+              <Checkbox
+                id="all"
+                label="View All"
+                artType={artType}
+                onChangeArtType={setArtType}
+              />
+              <Checkbox
+                id="first"
+                label="1차 NFT"
+                artType={artType}
+                onChangeArtType={setArtType}
+              />
+              <Checkbox
+                id="second"
+                label="2차 NFT"
+                artType={artType}
+                onChangeArtType={setArtType}
+              />
             </CheckboxContainer>
           </FilterContainer>
         </SideContainer>
         <MainContainer>
           {isLoading ? (
             <ItemContainer>
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
-              <ItemSkeleton width={viewMode} />
+              {[...Array(12)].map((n, index) => (
+                <ItemSkeleton width={viewMode} key={index} />
+              ))}
             </ItemContainer>
           ) : itemList && itemList.length > 0 ? (
             <ItemContainer>

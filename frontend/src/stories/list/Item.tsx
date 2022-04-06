@@ -7,12 +7,14 @@ import { Icon } from "../common/Icon";
 import { Image } from "../detail/Image";
 
 const Container = styled(motion.div)`
-  height: 20rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
   cursor: pointer;
+  padding: 25px 25px;
+  border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
 
 const TextContainer = styled.div`
@@ -62,8 +64,8 @@ const Item = ({
   like,
   tokenId,
 }: ItemProps) => {
-  const isPc = useMediaQuery({ minWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 500 });
+  const isPc = useMediaQuery({ minWidth: 1300 });
+  const isTablet = useMediaQuery({ minWidth: 1000 });
   const viewMode = isPc ? "list" : isTablet ? "listM" : "listM";
   const navigate = useNavigate();
 

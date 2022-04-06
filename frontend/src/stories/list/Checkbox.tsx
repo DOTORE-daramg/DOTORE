@@ -42,13 +42,26 @@ interface CheckboxProps {
 const Name = styled.div`
   margin-left: 5px;
 `;
-const Checkbox = ({ id, label, width = "9rem", artType, onChangeArtType }: CheckboxProps) => {
+const Checkbox = ({
+  id,
+  label,
+  width = "9rem",
+  artType,
+  onChangeArtType,
+}: CheckboxProps) => {
   const onChange = (e: any) => {
     onChangeArtType(e.target.value);
-  }
+  };
   return (
     <Container width={width}>
-      <NoneCheckbox id={id} value={id} checked={artType === id} type="radio" name="artType" onChange={onChange} />
+      <NoneCheckbox
+        id={id}
+        value={id}
+        checked={artType === id}
+        type="radio"
+        name="artType"
+        onChange={onChange}
+      />
       <StyledCheckbox htmlFor={id}></StyledCheckbox>
       <Name>{label}</Name>
     </Container>
