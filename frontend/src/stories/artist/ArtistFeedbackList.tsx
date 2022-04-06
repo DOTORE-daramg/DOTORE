@@ -128,12 +128,6 @@ export const ArtistFeedbackList = ({
                     ? block.text.slice(0, 15) + "..."
                     : block.text.length > 1 && block.text
                 )}
-                {/* {JSON.parse(feedback.description).blocks[0].text.length >= 15
-                  ? JSON.parse(feedback.description).blocks[0].text.slice(
-                      0,
-                      15
-                    ) + "..."
-                  : JSON.parse(feedback.description).blocks[0].text} */}
               </TableCell>
             </TableBlock>
             <TableBlock width="19%">
