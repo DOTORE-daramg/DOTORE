@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class requestFeedbackVO {
 
-    int articleNo; //feed
+    int articleno; //feed
     BigInteger tokenId; //feed
     String itemTitle; //items
     String questioner; //본인의 주소 feed
