@@ -339,7 +339,11 @@ const Detail = () => {
         });
       }
       getRelatedItem(tokenId).then((res) => {
-        setRelatedNFTs(res.data.data);
+        if (res.data.data.length > 4) {
+          setRelatedNFTs(res.data.data.slice(0, 4));
+        } else {
+          setRelatedNFTs(res.data.data);
+        }
       });
       if (tokenId && !isFirst) {
         getSale(tokenId).then((res) => {
