@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
@@ -233,6 +234,53 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    public ItemsRes getItemsByPage(ItemPageReq itemPageReq) {
+        List<ItemDetailRes> list = new ArrayList<>();
+        List<Items> items;
+        int pageNum = (itemPageReq.getPageNum() - 1) * 12;
+
+        if (itemPageReq.getSort() == 0) {   // 최신순
+            if ("all".equals(itemPageReq.getType())) {
+                items = itemRepository.getRecentItemList(pageNum);
+            } else if ("first".equals(itemPageReq.getType())) {
+                items = itemRepository.getRecentItemListByIsFirst(true, pageNum);
+            } else if ("second".equals(itemPageReq.getType())) {
+                items = itemRepository.getRecentItemListByIsFirst(false, pageNum);
+            } else {
+                return null;
+            }
+        } else if (itemPageReq.getSort() == 1) {  // 인기순
+            if ("all".equals(itemPageReq.getType())) {
+                items = itemRepository.getFavoriteItemList(pageNum);
+            } else if ("first".equals(itemPageReq.getType())) {
+                items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
+            } else if ("second".equals(itemPageReq.getType())) {
+                items = itemRepository.getFavoriteItemListByIsFirst(false, pageNum);
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+        if (items == null) {
+            return null;
+        }
+
+        Users user;
+        int download = 0;
+        int like = 0;
+        String[] tags;
+        for (Items item : items) {
+            user = userService.getUserByAddress(item.getOwnerAddress());
+            download = downloadRepository.countByTokenId(item.getTokenId());
+            like = likeRepository.countByTokenId(item.getTokenId());
+            tags = getTags(item.getTokenId());
+            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
+        }
+        return ItemsRes.of("작품 조회 성공", list);
+    }
+
+    @Override
     public ItemsRes getAll() {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items = itemRepository.findByStatusOrderByTokenIdDesc("Success");
@@ -256,7 +304,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getFirst() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success");
+        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true,
+            "Success");
         if (items.isEmpty()) {
             return null;
         }
@@ -277,7 +326,8 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public ItemsRes getSecond() {
         List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success");
+        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false,
+            "Success");
         if (items.isEmpty()) {
             return null;
         }
@@ -354,16 +404,16 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public void deleteItem(String itemTrxHash) {
-        Optional<Items> item=itemRepository.findByItemTrxHash(itemTrxHash);
-        if(!item.isPresent()){
+        Optional<Items> item = itemRepository.findByItemTrxHash(itemTrxHash);
+        if (!item.isPresent()) {
             return;
         }
-        List<Taglist> tags=tagRepository.findByItemTrxHash(itemTrxHash);
-        for(Taglist tag: tags){
+        List<Taglist> tags = tagRepository.findByItemTrxHash(itemTrxHash);
+        for (Taglist tag : tags) {
             tagRepository.delete(tag);
         }
-        List<Secondary> secondaryList=secondaryRepository.findByItemTrxHash(itemTrxHash);
-        for(Secondary secondary: secondaryList){
+        List<Secondary> secondaryList = secondaryRepository.findByItemTrxHash(itemTrxHash);
+        for (Secondary secondary : secondaryList) {
             secondaryRepository.delete(secondary);
         }
         itemRepository.delete(item.get());
