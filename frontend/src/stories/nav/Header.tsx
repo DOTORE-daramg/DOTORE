@@ -20,7 +20,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   color: #6667ab;
   background-color: #f6f6fa;
-  z-index: 10;
+  z-index: 11;
   @media screen and (max-width: 768px) {
     padding: 2vh;
     justify-content: center;
@@ -34,6 +34,7 @@ const Hamburger = styled.div`
     position: absolute;
     left: 1.5rem;
   }
+  cursor: pointer;
 `;
 const LogoWrapper = styled.div`
   display: flex;
@@ -109,8 +110,7 @@ export const Header = ({
               />
               <NavMenu
                 label="NFT 보기"
-                dropdown={["view all", "1차 NFT 보기", "2차 NFT 보기"]}
-                link={["/list", "/prlist", "/cdlist"]}
+                onClick={() => navigate(`/list`)}
               />
               {isLoggedIn && (
                 <NavMenu

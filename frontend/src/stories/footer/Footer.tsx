@@ -124,16 +124,7 @@ export const Footer = () => {
           </div>
         </Item>
         <Item>
-          <div className="title">NFT 보기</div>
-          <div className="item" onClick={() => navigate("/list")}>
-            View All
-          </div>
-          <div className="item" onClick={() => navigate("/prlist")}>
-            1차 NFT 보기
-          </div>
-          <div className="item" onClick={() => navigate("/cdlist")}>
-            2차 NFT 보기
-          </div>
+          <div className="title" onClick={() => navigate("/list")}>NFT 보기</div>
         </Item>
       </Menu>
     </FooterContainer>

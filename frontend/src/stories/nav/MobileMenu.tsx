@@ -54,6 +54,9 @@ const Links = styled.ul`
     display: flex;
     flex-direction: column;
     margin-top: 10px;
+    div {
+      cursor: pointer;
+    }
   }
 
   a {
@@ -110,16 +113,7 @@ export const MobileMenu = ({
                 </div>
               </li>
               <li>
-                <div>NFT 보기</div>
-                <div onClick={() => onMenuClick("/list")} id="sub">
-                  view all
-                </div>
-                <div onClick={() => onMenuClick("/prlist")} id="sub">
-                  1차 NFT 보기
-                </div>
-                <div onClick={() => onMenuClick("/cdlist")} id="sub">
-                  2차 NFT 보기
-                </div>
+                <div onClick={() => onMenuClick("/list")}>NFT 보기</div>
               </li>
               {isLoggedIn && (
                 <li>
