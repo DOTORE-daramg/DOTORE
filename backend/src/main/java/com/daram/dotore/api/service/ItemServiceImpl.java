@@ -237,15 +237,19 @@ public class ItemServiceImpl implements ItemService {
     public ItemsRes getItemsByPage(ItemPageReq itemPageReq) {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items;
+        int total = 0;
         int pageNum = (itemPageReq.getPageNum() - 1) * 12;
 
         if (itemPageReq.getSort() == 0) {   // 최신순
             if ("all".equals(itemPageReq.getType())) {
                 items = itemRepository.getRecentItemList(pageNum);
+                total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getRecentItemListByIsFirst(true, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
             } else if ("second".equals(itemPageReq.getType())) {
                 items = itemRepository.getRecentItemListByIsFirst(false, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
             } else {
                 return null;
             }
@@ -254,8 +258,10 @@ public class ItemServiceImpl implements ItemService {
                 items = itemRepository.getFavoriteItemList(pageNum);
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
             } else if ("second".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(false, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
             } else {
                 return null;
             }
@@ -277,7 +283,8 @@ public class ItemServiceImpl implements ItemService {
             tags = getTags(item.getTokenId());
             list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
         }
-        return ItemsRes.of("작품 조회 성공", list);
+
+        return ItemsRes.of("작품 조회 성공", total, list);
     }
 
     @Override
