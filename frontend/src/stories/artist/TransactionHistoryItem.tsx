@@ -77,11 +77,11 @@ const TransactionHistoryItem = ({ data }: any) => {
   };
 
   const onClickFromUser = () => {
-    navigate(`/artist/${data.returnValues.from || data.returnValues.owner}`);
+    navigate(`/artist/${data.returnValues.from || data.returnValues.seller}`);
   };
 
   const onClickToUser = () => {
-    navigate(`/artist/${data.returnValues.to || data.returnValues.seller}`);
+    navigate(`/artist/${data.returnValues.to || data.returnValues.owner}`);
   };
 
   return (
