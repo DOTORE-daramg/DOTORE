@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { viewAll } from "../../api/item";
+import { viewAll, viewList } from "../../api/item";
 import StyledPagination from "../../stories/common/StyledPagination";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
@@ -108,32 +108,19 @@ export const Message = styled.div`
   justify-content: center;
 `;
 const List = () => {
+  // 반응형
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "15rem" : isTablet ? "15rem" : "13rem";
 
-  const [items, setItems] = useState<ItemProps[]>([]);
   const [filteredItems, setFilteredItems] = useState<ItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSelected, setIsSelected] = useState<number>(0);
-  // const [keyword, setKeyword] = useState<string>("");
+  const [isSelectedSortType, setIsSelectedSortType] = useState<number>(0);
   const categories = ["최신순", "인기순"];
 
   // const [activePage, setActivePage] = useState<number||null>(1);
-  const [pages, setPages] = useState([]);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
-  const [currentPage, setCurrentPage] = useState<number>(1);
-  const [activePage, setActivePage] = useState<number>(1);
-  const handlePageChange = (activePage: number) => {
-    setActivePage(activePage);
-  }
-  const indexOfLast = currentPage * itemsPerPage;
-  const indexOfFirst = indexOfLast - itemsPerPage;
-  function currentPages(tmp: any) {
-    let currentPages = 0;
-    currentPages = tmp.slice(indexOfFirst, indexOfLast);
-    return currentPages;
-  }
+
+
   // useEffect(() => { }, [currentPage]);
   // const onClinkPageChange = (page: number) => {
   //   setCurrentPage(page);
@@ -141,24 +128,60 @@ const List = () => {
   //   //onClick={(e) => setCurrentPage(currentPage + 1)
   // }
 
-  useEffect(() => {
-    viewAll().then((res) => {
-      setItems(res.data.data);
+  // useEffect(() => {
+  //   viewAll().then((res) => {
+  //     setItems(res.data.data);
 
-      if (isSelected === 0) {
-        // 최신순
-        setFilteredItems(res.data.data);
-      } else if (isSelected === 1) {
-        // 인기순
-        setFilteredItems(
-          res.data.data.sort((a: ItemProps, b: ItemProps) => {
-            return b.like - a.like;
-          })
-        );
-      }
+  //     if (isSelected === 0) {
+  //       // 최신순
+  //       setFilteredItems(res.data.data);
+  //     } else if (isSelected === 1) {
+  //       // 인기순
+  //       setFilteredItems(
+  //         res.data.data.sort((a: ItemProps, b: ItemProps) => {
+  //           return b.like - a.like;
+  //         })
+  //       );
+  //     }
+  //     setIsLoading(false);
+  //   });
+  // }, [isSelected]);
+
+
+
+  // 페이지네이션
+  // 들고있어야할 state : 면에 렌더링할 item List랑 pageNum, sort, type
+  const [itemList, setItemList] = useState<ItemProps[]>([]);  // 보여질 아이템들.
+  const [pages, setPages] = useState([]);
+  const [itemsPerPage, setItemsPerPage] = useState(12);
+  const [activePage, setActivePage] = useState<number>(1);
+  const handlePageChange = (activePage: number) => {
+    setActivePage(activePage);
+  }
+  const [sortType, setSortType] = useState<0 | 1>(0); // 정렬
+  const [artType, setArtType] = useState<"all" | "first" | "second">("all");
+  const [itemTotal, setItemTotal] = useState<number>(0);
+  // const indexOfLast = currentPage * itemsPerPage;
+  // const indexOfFirst = indexOfLast - itemsPerPage;
+
+  const handleSortType = (category: string) => {
+    if (category === '최신순') {
+      setSortType(0);
+    } else if (category === '인기순') {
+      setSortType(1);
+    }
+  }
+
+  useEffect(() => {
+    setIsLoading(true);
+    viewList(activePage, sortType, artType).then((res) => {
+      setItemList(res.data.data);
+      setItemTotal(res.data.total);
       setIsLoading(false);
-    });
-  }, [isSelected]);
+      // console.log(res.data.total);
+    })
+  }, [activePage, sortType, artType])
+
 
   return (
     <Container>
@@ -167,7 +190,7 @@ const List = () => {
       <InnerContainer>
         <SideContainer>
           <InputBox
-            items={items}
+            items={itemList}
             filteredItems={filteredItems}
             setFilteredItems={setFilteredItems}
             width="100%"
@@ -179,8 +202,8 @@ const List = () => {
                 <Category
                   key={index}
                   label={category}
-                  onClick={() => setIsSelected(index)}
-                  isSelected={isSelected === index ? true : false}
+                  onClick={() => handleSortType(category)}
+                  isSelected={sortType === index}
                 />
               ))}
             </CategoryContainer>
@@ -203,9 +226,9 @@ const List = () => {
               <ItemSkeleton width={viewMode} />
               <ItemSkeleton width={viewMode} />
             </ItemContainer>
-          ) : items && items.length > 0 ? (
+          ) : itemList && itemList.length > 0 ? (
             <ItemContainer>
-              {filteredItems.map((item, index) => (
+              {itemList.map((item, index) => (
                 <Item key={index + String(item.tokenId)} {...item} />
               ))}
             </ItemContainer>
@@ -216,7 +239,7 @@ const List = () => {
           )}
           <StyledPagination
             activePage={activePage || 1}
-            totalCount={filteredItems.length}
+            totalCount={itemTotal}
             handlePageChange={handlePageChange}
             displayCount={itemsPerPage}
             pageRangeCount={5}
