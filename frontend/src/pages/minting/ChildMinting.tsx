@@ -237,6 +237,12 @@ const ChildMinting = () => {
     viewAll().then((res) => setItems(res.data.data));
   }, []);
 
+  useEffect(() => {
+    if (!isLoggedIn.isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
+
   return (
     <Container>
       {ispending && (

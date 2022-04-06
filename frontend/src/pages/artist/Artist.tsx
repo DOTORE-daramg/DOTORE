@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { getUserInfo } from "../../api/user";
 import { getLevel } from "../../utils/Level";
 import { errorAlert } from "../../stories/common/alert";
+import { isLoggedInState } from "../..";
 
 const Container = styled.div`
   padding: 30px 0px 70px 0px;
@@ -21,6 +22,8 @@ const Artist = () => {
   const [isModalShow, setIsModalShow] = useState(false);
   const { userAddress } = useParams();
   const [artistInfo, setArtistInfo] = useState<userInfoTypes>();
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   const navigate = useNavigate();
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
@@ -38,6 +41,12 @@ const Artist = () => {
         });
     }
   }, [userAddress, userInfo]);
+
+  useEffect(() => {
+    if (!isLoggedIn.isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
 
   return (
     <>

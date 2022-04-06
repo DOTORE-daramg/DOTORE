@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
 import { createToken } from "../../contracts/api/first";
 import { postFile, modifyTokenId } from "../../api/item";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import {
   errorAlert,
@@ -185,6 +185,12 @@ const ParentMinting = () => {
     );
     setitemTags((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
   };
+
+  useEffect(() => {
+    if (!isLoggedIn.isLoggedIn) {
+      navigate("/");
+    }
+  }, [isLoggedIn]);
 
   return (
     <Container>
