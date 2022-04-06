@@ -47,6 +47,13 @@ const Amount = styled.div`
   font-size: 1rem;
 `;
 
+const OnSale = styled.div`
+  position: absolute;
+  font-size: 0.8rem;
+  border-radius: 10px;
+  padding: 5px 10px;
+  background-color: #d1d1e6;
+`;
 export interface ItemProps {
   itemHash: string;
   itemTitle: string;
@@ -54,6 +61,7 @@ export interface ItemProps {
   download: number;
   like: number;
   tokenId: string;
+  onSaleYn: boolean;
 }
 
 const Item = ({
@@ -63,6 +71,7 @@ const Item = ({
   download,
   like,
   tokenId,
+  onSaleYn,
 }: ItemProps) => {
   const isPc = useMediaQuery({ minWidth: 1300 });
   const isTablet = useMediaQuery({ minWidth: 1000 });
@@ -76,12 +85,8 @@ const Item = ({
       }}
       onClick={() => navigate(`/detail/${tokenId}`)}
     >
-      <Image
-        mode={viewMode}
-        // imageUrl="https://m.secondmorning.co.kr/file_data/secondmorning/2020/11/11/e712578d88cb3d9ca67bfe33405aee6c.jpg"
-        imageUrl={itemHash}
-        name={itemTitle}
-      />
+      {onSaleYn && <OnSale>구매 가능</OnSale>}
+      <Image mode={viewMode} imageUrl={itemHash} name={itemTitle} />
       <TextContainer>
         <Title>{itemTitle}</Title>
         <Amount>{nickname}</Amount>
