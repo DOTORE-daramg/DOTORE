@@ -121,34 +121,6 @@ const List = () => {
   const [isSelectedSortType, setIsSelectedSortType] = useState<number>(0);
   const categories = ["최신순", "인기순"];
 
-  // const [activePage, setActivePage] = useState<number||null>(1);
-
-  // useEffect(() => { }, [currentPage]);
-  // const onClinkPageChange = (page: number) => {
-  //   setCurrentPage(page);
-  //   //onClick={(e) => setCurrentPage(currentPage - 1)
-  //   //onClick={(e) => setCurrentPage(currentPage + 1)
-  // }
-
-  // useEffect(() => {
-  //   viewAll().then((res) => {
-  //     setItems(res.data.data);
-
-  //     if (isSelected === 0) {
-  //       // 최신순
-  //       setFilteredItems(res.data.data);
-  //     } else if (isSelected === 1) {
-  //       // 인기순
-  //       setFilteredItems(
-  //         res.data.data.sort((a: ItemProps, b: ItemProps) => {
-  //           return b.like - a.like;
-  //         })
-  //       );
-  //     }
-  //     setIsLoading(false);
-  //   });
-  // }, [isSelected]);
-
   // 페이지네이션
   // 들고있어야할 state : 면에 렌더링할 item List랑 pageNum, sort, type
   const [itemList, setItemList] = useState<ItemProps[]>([]); // 보여질 아이템들.
@@ -162,9 +134,6 @@ const List = () => {
   const [artType, setArtType] = useState<"all" | "first" | "second">("all");
   const [itemTotal, setItemTotal] = useState<number>(0);
   const [skeletonCnt, setSkeletonCnt] = useState<number>(0);
-
-  // const indexOfLast = currentPage * itemsPerPage;
-  // const indexOfFirst = indexOfLast - itemsPerPage;
 
   const onSearch = (searchInput: string) => {
     setKeyword(searchInput);
