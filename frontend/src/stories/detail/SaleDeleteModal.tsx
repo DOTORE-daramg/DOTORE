@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { Button } from "../Button";
@@ -6,9 +6,9 @@ import { Icon } from "../common/Icon";
 import { Image } from "./Image";
 import { userInfoState } from "../..";
 import { useParams } from "react-router-dom";
-import { getItem } from "../../api/item";
 import { cancleSale } from "../../contracts/api/second";
 import { cancelSale } from "../../api/sale";
+import { errorAlert, successAlert } from "../common/alert";
 
 const Section = styled.div`
   position: absolute;
@@ -161,13 +161,18 @@ export interface ModalProps {
   imageUrl: string;
   onClose: () => void;
   onValidate?: () => void;
+  setIsPending: Dispatch<SetStateAction<boolean>>;
+  setPendingMsg: Dispatch<SetStateAction<string>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SaleDeleteModal = ({
   title,
   imageUrl,
   onClose,
-  ...props
+  setIsLoading,
+  setIsPending,
+  setPendingMsg,
 }: ModalProps) => {
   const userInfo = useRecoilValue(userInfoState);
   const { tokenId } = useParams();
@@ -176,19 +181,34 @@ export const SaleDeleteModal = ({
     if (!tokenId || tokenId === "0" || !userInfo.address) {
       return;
     }
-    // 판매 등록 취소
-    onClose();
-    try {
-      await cancelSale(userInfo.address, parseInt(tokenId));
-      await cancleSale({
-        tokenId: parseInt(tokenId),
-        userAddress: userInfo.address,
+
+    setIsPending(true);
+    setPendingMsg("판매 취소 중 입니다. 잠시만 기다려주세요...");
+
+    cancleSale({
+      tokenId: parseInt(tokenId),
+      userAddress: userInfo.address,
+    })
+      .then(() => {
+        successAlert("판매가 취소되었습니다.");
+        cancelSale(userInfo.address, parseInt(tokenId))
+        .then(() => {
+          setIsLoading(true);
+          setIsPending(false);
+          setPendingMsg("");
+        });
+      })
+      .catch((e) => {
+        if (e.code === 4001) {
+          errorAlert("판매취소를 취소하였습니다.");
+        } else {
+          errorAlert("판매취소에 실패하였습니다. 다시 시도 해주세요.");
+          setIsLoading(true);
+        }
+        setIsPending(false);
+        setPendingMsg("");
       });
-      // 상세 페이지 정보 갱신
-      await getItem(tokenId);
-    } catch (err) {
-      console.error(err);
-    }
+    onClose();
   };
 
   return (

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { web3 } from "../../contracts";
@@ -9,6 +9,8 @@ import { Image } from "./Image";
 import { createMarketItem } from "../../contracts/api/second";
 import { userInfoState } from "../..";
 import { useParams } from "react-router-dom";
+import { errorAlert, successAlert } from '../common/alert';
+import { updateSaleStatus } from '../../api/sale';
 
 const Section = styled.div`
   position: absolute;
@@ -181,6 +183,9 @@ export interface ModalProps {
   imageUrl: string;
   onClose: () => void;
   onValidate?: () => void;
+  setIsPending: Dispatch<SetStateAction<boolean>>;
+  setPendingMsg: Dispatch<SetStateAction<string>>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 export const SaleModal = ({
@@ -188,7 +193,9 @@ export const SaleModal = ({
   imageUrl,
   onClose,
   onValidate,
-  ...props
+  setIsPending,
+  setPendingMsg,
+  setIsLoading
 }: ModalProps) => {
   const userInfo = useRecoilValue(userInfoState);
   const { tokenId } = useParams();
@@ -199,10 +206,29 @@ export const SaleModal = ({
       return;
     }
     const wei = web3.utils.toWei(price);
+    setIsPending(true);
+    setPendingMsg("판매 등록 중 입니다. 잠시만 기다려주세요...")
     createMarketItem({
       tokenId: tokenId ? parseInt(tokenId) : 0,
       price: wei,
       userAddress: userInfo.address,
+    }).then((res) => {
+      updateSaleStatus(res.events.MarketItemEvent.returnValues.saleId, res.transactionHash)
+      .then(() => {
+        successAlert("판매등록에 성공하였습니다.")
+        setIsPending(false);
+        setPendingMsg("");
+        setIsLoading(true);
+      });
+    }).catch((e:any) => {
+      if(e.code === 4001) {
+        errorAlert("판매등록을 취소하였습니다.");
+      } else {
+        errorAlert("판매등록에 실패하였습니다. 다시 시도 해주세요.");
+        setIsLoading(true);
+      }
+      setIsPending(false);
+      setPendingMsg("");
     });
     onClose();
   };

@@ -35,14 +35,16 @@ import { dTTAddress } from "../contracts/";
 import { purchase } from "../contracts/api/second";
 import { getLevel } from "../utils/Level";
 import { checkSaleDoneTx } from "../contracts/api/mypage";
-import { errorAlert, warnAlert } from "../stories/common/alert";
+import { errorAlert, successAlert, warnAlert } from "../stories/common/alert";
 
-const LoadContainer = styled.div`
+export const LoadContainer = styled.div`
   width: 100%;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 `;
 const Container = styled.div`
   width: 100%;
@@ -235,6 +237,8 @@ const Detail = () => {
   const isTablet = useMediaQuery({ minWidth: 500 });
   const viewMode = isPc ? "detail" : isTablet ? "detail" : "detailM";
   const [isLoading, setIsLoading] = useState(true);
+  const [isPending, setIsPending] = useState(false);
+  const [pendingMsg, setPendingMsg] = useState("");
   // 처음 렌더링 할 때 isFirst값 가져와서 저장해 줘야 함
   const [isFirst, setIsFirst] = useState(false);
   // 2차 NFT의 경우 구매 가능, 불가능으로 나뉜다
@@ -301,46 +305,50 @@ const Detail = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
-    getItem(tokenId)
-      .then((res) => {
-        const { data } = res;
-        const {
-          data: { isFirst, onSaleYn, authorAddress, ownerAddress },
-        } = res;
-        setItem(data);
-        setIsFirst(isFirst);
-        setIsSale(onSaleYn);
-        if (ownerAddress === userInfo.address) {
-          setIsOwner(true);
-        } else {
-          setIsOwner(false);
-        }
-        setTimeout(() => {
-          setIsLoading(false);
-        }, 600);
-      })
-      .catch(() => {
-        errorAlert("존재하지 않는 게시물입니다.");
-        navigate("/");
+    if (isLoading) {
+      getItem(tokenId)
+        .then((res) => {
+          const { data } = res;
+          const {
+            data: { isFirst, onSaleYn, authorAddress, ownerAddress },
+          } = res;
+          setItem(data);
+          setIsFirst(isFirst);
+          setIsSale(onSaleYn);
+          if (ownerAddress === userInfo.address) {
+            setIsOwner(true);
+          } else {
+            setIsOwner(false);
+          }
+          // setTimeout(() => {
+          //   setIsLoading(false);
+          // }, 600);
+        }).then(() => setIsLoading(false))
+        .catch(() => {
+          errorAlert("존재하지 않는 게시물입니다.");
+          navigate("/");
+        });
+      if (userInfo.address) {
+        getIsLike(tokenId, userInfo.address).then((res) => {
+          const {
+            data: { isLike },
+          } = res;
+          setIsLike(isLike);
+        });
+      }
+      getRelatedItem(tokenId).then((res) => {
+        setRelatedNFTs(res.data.data);
       });
-    if (userInfo.address) {
-      getIsLike(tokenId, userInfo.address).then((res) => {
-        const {
-          data: { isLike },
-        } = res;
-        setIsLike(isLike);
-      });
+      if (tokenId && !isFirst) {
+        getSale(tokenId).then((res) => {
+          setSaleStatus(res.data);
+        });
+      }
+      // setTimeout(() => {
+      //   setIsLoading(true);
+      // }, 600)
     }
-    getRelatedItem(tokenId).then((res) => {
-      setRelatedNFTs(res.data.data);
-    });
-    if (tokenId && !isFirst) {
-      getSale(tokenId).then((res) => {
-        setSaleStatus(res.data);
-      });
-    }
-  }, [tokenId]);
+  }, [tokenId, isLoading]);
 
   const onClickQuestionCategory = () => {
     if (isAllQuestions) {
@@ -383,16 +391,27 @@ const Detail = () => {
     if (!tokenId || isOwner) {
       return;
     }
-    try {
-      await purchase({
-        tokenId: +tokenId,
-        price: saleStatus.price,
-        userAddress: userInfo.address,
+    setPendingMsg("구매 중 입니다. 잠시만 기다려주세요.....");
+    setIsPending(true);
+    purchase({
+      tokenId: +tokenId,
+      price: saleStatus.price,
+      userAddress: userInfo.address,
+    })
+      .then(() => {
+        successAlert("구매에 성공하였습니다!!");
+        completeSale(userInfo.address, +tokenId);
+        navigate(`/artist/${userInfo.address}`);
+      })
+      .catch((e) => {
+        if (e.code === 4001) {
+          errorAlert("구매를 취소하였습니다.");
+        } else {
+          errorAlert("구매에 실패하였습니다.");
+        }
+        setIsPending(false);
+        setPendingMsg("");
       });
-      await completeSale(userInfo.address, +tokenId);
-    } catch (err) {
-      console.error(err);
-    }
   };
 
   const onClickDownload = () => {
@@ -418,12 +437,16 @@ const Detail = () => {
 
   return (
     <>
-      {isLoading && (
+      {isPending ? (
+        <LoadContainer>
+          <div>{pendingMsg}</div>
+          <LoadingSpinner />
+        </LoadContainer>
+      ) : isLoading ? (
         <LoadContainer>
           <LoadingSpinner />
         </LoadContainer>
-      )}
-      {!isLoading && (
+      ) : (
         <Container>
           <TitleContainer>
             {isFirst ? (
@@ -638,12 +661,21 @@ const Detail = () => {
             )}
           </DetailContainer>
           {isModalShow && (
-            <SaleModal imageUrl={itemHash} onClose={onClickToggleModal} />
+            <SaleModal
+              imageUrl={itemHash}
+              setIsPending={setIsPending}
+              setPendingMsg={setPendingMsg}
+              setIsLoading={setIsLoading}
+              onClose={onClickToggleModal}
+            />
           )}
           {isDeleteModalShow && (
             <SaleDeleteModal
               imageUrl={itemHash}
               onClose={onClickToggleDeleteModal}
+              setIsLoading={setIsLoading}
+              setIsPending={setIsPending}
+              setPendingMsg={setPendingMsg}
             />
           )}
         </Container>

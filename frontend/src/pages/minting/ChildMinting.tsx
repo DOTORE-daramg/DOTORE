@@ -19,6 +19,7 @@ import {
 } from "../../stories/common/alert";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
+import { LoadContainer } from '../Detail';
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -221,10 +222,10 @@ const ChildMinting = () => {
     <Container>
       {ispending && (
         <>
-          <LoadingContainer>
-            <div> 민팅 중입니다. 잠시만 기다려주세요</div>
+          <LoadContainer>
+            <div> 민팅 중입니다. 잠시만 기다려주세요...</div>
             <LoadingSpinner />
-          </LoadingContainer>
+          </LoadContainer>
         </>
       )}
       {!ispending && (
