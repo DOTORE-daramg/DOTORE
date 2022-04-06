@@ -69,6 +69,9 @@ export const cancelItem = async (itemTrxHash: string) => {
   return await api.delete(`/api/items/cancel${itemTrxHash}`);
 };
 
-export const viewList = async (pageNum: number, sort: number, type: string) => {
-  return await api.post(`/api/items/view`, { pageNum, sort, type });
+export const viewList = async (pageNum: number, search: string, sort: number, type: string) => {
+  return await api.post(`/api/items/view`, { pageNum, search, sort, type });
 };
+// export const viewList = async (pageNum: number, sort: number, type: string) => {
+//   return await api.post(`/api/items/view`, { pageNum, sort, type });
+// };

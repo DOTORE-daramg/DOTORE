@@ -6,8 +6,6 @@ import {
   Routes,
 } from "react-router-dom";
 import Feedback from "./pages/feedback/Feedback";
-import ChildList from "./pages/list/ChildList";
-import ParentList from "./pages/list/ParentList";
 import Main from "./pages/Main";
 import ChildMinting from "./pages/minting/ChildMinting";
 import ParentMinting from "./pages/minting/ParentMinting";
@@ -140,7 +138,7 @@ const AppRouter = () => {
   return (
     <Container>
       <Router>
-        {/* <ScrollToTop /> */}
+        <ScrollToTop />
         <Header
           isLoggedIn={isLoggedIn.isLoggedIn}
           onLogin={onLogin}
@@ -153,8 +151,6 @@ const AppRouter = () => {
           <Route path="cdminting" element={<ChildMinting />} />
 
           <Route path="list" element={<List />} />
-          <Route path="prlist" element={<ParentList />} />
-          <Route path="cdlist" element={<ChildList />} />
 
           <Route path="detail/:tokenId" element={<Detail />} />
 

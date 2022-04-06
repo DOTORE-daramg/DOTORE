@@ -120,7 +120,6 @@ const List = () => {
 
   // const [activePage, setActivePage] = useState<number||null>(1);
 
-
   // useEffect(() => { }, [currentPage]);
   // const onClinkPageChange = (page: number) => {
   //   setCurrentPage(page);
@@ -148,7 +147,6 @@ const List = () => {
   // }, [isSelected]);
 
 
-
   // 페이지네이션
   // 들고있어야할 state : 면에 렌더링할 item List랑 pageNum, sort, type
   const [itemList, setItemList] = useState<ItemProps[]>([]);  // 보여질 아이템들.
@@ -158,9 +156,11 @@ const List = () => {
   const handlePageChange = (activePage: number) => {
     setActivePage(activePage);
   }
+  const [keyword, setKeyword] = useState<string>('');
   const [sortType, setSortType] = useState<0 | 1>(0); // 정렬
   const [artType, setArtType] = useState<"all" | "first" | "second">("all");
   const [itemTotal, setItemTotal] = useState<number>(0);
+
   // const indexOfLast = currentPage * itemsPerPage;
   // const indexOfFirst = indexOfLast - itemsPerPage;
 
@@ -174,9 +174,10 @@ const List = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    viewList(activePage, sortType, artType).then((res) => {
+    viewList(activePage, keyword, sortType, artType).then((res) => {
       setItemList(res.data.data);
       setItemTotal(res.data.total);
+
       setIsLoading(false);
       // console.log(res.data.total);
     })
