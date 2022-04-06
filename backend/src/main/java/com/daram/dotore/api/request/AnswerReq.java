@@ -9,7 +9,7 @@ import lombok.Setter;
 @ApiModel("AnswerRequest")
 public class AnswerReq {
 
-    private int articleNo;
+    private int articleno;
     private String writer;
     private String description;
 }
