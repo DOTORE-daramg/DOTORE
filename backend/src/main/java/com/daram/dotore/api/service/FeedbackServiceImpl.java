@@ -132,7 +132,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     @Override
     public Answer saveNewAnswer(AnswerReq answerReq) throws Exception {
         return answerRepository.save(Answer.builder()
-            .articleno(answerReq.getArticleNo())
+            .articleno(answerReq.getArticleno())
             .writer(answerReq.getWriter())
             .description(answerReq.getDescription())
             .createdAt(LocalDateTime.now())

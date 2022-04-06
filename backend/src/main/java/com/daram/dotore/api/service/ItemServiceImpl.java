@@ -245,7 +245,6 @@ public class ItemServiceImpl implements ItemService {
             return null;
         }
         String search = itemPageReq.getSearch();
-        System.err.println(search);
 
         if (itemPageReq.getSort() == 0) {   // 최신순
             if ("all".equals(itemPageReq.getType())) {
@@ -265,6 +264,7 @@ public class ItemServiceImpl implements ItemService {
         } else if (itemPageReq.getSort() == 1) {  // 인기순
             if ("all".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemList(pageNum);
+                total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
                 total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
