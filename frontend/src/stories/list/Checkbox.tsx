@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div<{ width: string }>`
@@ -29,19 +29,28 @@ const StyledCheckbox = styled.label`
     height: 12px;
   }
 `;
+
+type artType = "all" | "first" | "second";
 interface CheckboxProps {
+  id: string;
   label: string;
   width?: string;
+  onChangeArtType: (selectedArtType: artType) => void;
 }
 
 const Name = styled.div`
   margin-left: 5px;
 `;
-const Checkbox = ({ label, width = "9rem" }: CheckboxProps) => {
+const Checkbox = ({ id, label, width = "9rem", onChangeArtType }: CheckboxProps) => {
+  const [selectedArtType, setSelectedArtType] = useState<"all" | "first" | "second">("all");
+  const onChange = (e: any) => {
+    setSelectedArtType(e.target.value);
+    onChangeArtType(e.target.value);
+  }
   return (
     <Container width={width}>
-      <NoneCheckbox id={label} type="checkbox" />
-      <StyledCheckbox htmlFor={label}></StyledCheckbox>
+      <NoneCheckbox id={id} value={id} checked={selectedArtType === id} type="radio" name="artType" onChange={onChange} />
+      <StyledCheckbox htmlFor={id}></StyledCheckbox>
       <Name>{label}</Name>
     </Container>
   );

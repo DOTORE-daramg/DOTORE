@@ -15,8 +15,8 @@ const Template: ComponentStory<typeof StyledPagination> = (args) => (
   <StyledPagination {...args} />
 );
 
-export const Primary = Template.bind({});
-Primary.args = {
-  primary: true,
-  label: "StyledPagination",
-};
+// export const Primary = Template.bind({});
+// Primary.args = {
+//   primary: true,
+//   label: "StyledPagination",
+// };
