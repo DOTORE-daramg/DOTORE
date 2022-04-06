@@ -30,26 +30,25 @@ const StyledCheckbox = styled.label`
   }
 `;
 
-type artType = "all" | "first" | "second";
+type ArtType = "all" | "first" | "second";
 interface CheckboxProps {
   id: string;
   label: string;
   width?: string;
-  onChangeArtType: (selectedArtType: artType) => void;
+  artType: ArtType;
+  onChangeArtType: (selectedArtType: ArtType) => void;
 }
 
 const Name = styled.div`
   margin-left: 5px;
 `;
-const Checkbox = ({ id, label, width = "9rem", onChangeArtType }: CheckboxProps) => {
-  const [selectedArtType, setSelectedArtType] = useState<"all" | "first" | "second">("all");
+const Checkbox = ({ id, label, width = "9rem", artType, onChangeArtType }: CheckboxProps) => {
   const onChange = (e: any) => {
-    setSelectedArtType(e.target.value);
     onChangeArtType(e.target.value);
   }
   return (
     <Container width={width}>
-      <NoneCheckbox id={id} value={id} checked={selectedArtType === id} type="radio" name="artType" onChange={onChange} />
+      <NoneCheckbox id={id} value={id} checked={artType === id} type="radio" name="artType" onChange={onChange} />
       <StyledCheckbox htmlFor={id}></StyledCheckbox>
       <Name>{label}</Name>
     </Container>
