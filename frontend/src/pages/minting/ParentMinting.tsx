@@ -9,7 +9,7 @@ import { useRecoilValue } from "recoil";
 import { isLoggedInState, userInfoState } from "../..";
 import { createToken } from "../../contracts/api/first";
 import { postFile, modifyTokenId } from "../../api/item";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import {
   errorAlert,
@@ -117,7 +117,7 @@ const ParentMinting = () => {
 
   const onClickCreateToken = async () => {
     if (!validateTitle()) {
-      errorAlert("제목을 입력해주세요");
+      errorAlert("올바른 제목을 입력해주세요");
       return;
     } else if (itemFile.size === 0) {
       errorAlert("파일을 등록해주세요");
@@ -178,6 +178,13 @@ const ParentMinting = () => {
     );
     setitemTags((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
   };
+
+  useEffect(() => {
+    if (!isLoggedIn.isLoggedIn) {
+      navigate(-1);
+      errorAlert("로그인이 필요한 페이지입니다.");
+    }
+  }, [isLoggedIn]);
 
   return (
     <Container>

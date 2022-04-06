@@ -8,6 +8,10 @@ import { TextEditor } from "../../stories/common/TextEditor";
 import { useParams } from "react-router-dom";
 import { getItem } from "../../api/item";
 import { createParams } from "../../api/feedback";
+import { isLoggedInState } from "../..";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { errorAlert } from "../../stories/common/alert";
 
 const Container = styled.div`
   width: 100%;
@@ -80,6 +84,9 @@ const FeedbackCreate = () => {
     : isTablet
     ? "feedbackCreate"
     : "feedbackCreateM";
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
+  const navigate = useNavigate();
 
   const { tokenId } = useParams();
   const [item, setItem] = useState<Iitem>({
@@ -98,6 +105,14 @@ const FeedbackCreate = () => {
       setItem(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    if (!isLoggedIn.isLoggedIn) {
+      errorAlert("로그인이 필요한 페이지입니다.");
+      navigate(-1);
+    }
+  }, [isLoggedIn]);
+
   return (
     <Container>
       <TitleContainer>

@@ -13,6 +13,7 @@ import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { getLevel } from "../../utils/Level";
 import { errorAlert } from "../../stories/common/alert";
+import { isLoggedInState } from "../..";
 
 const Container = styled.div`
   width: 64rem;
@@ -70,6 +71,8 @@ const Feedback = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   // questioner도 아니고 author도 아니라면 textEditor 없애기
   const [isMine, setIsMine] = useState<boolean>(true);
+  const isLoggedIn = useRecoilValue(isLoggedInState);
+
   const navigate = useNavigate();
   const { itemTitle, itemHash, authorAddress } = item;
 
@@ -151,6 +154,14 @@ const Feedback = () => {
         });
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    if (!isLoggedIn.isLoggedIn) {
+      errorAlert("로그인이 필요한 페이지입니다.");
+      navigate(-1);
+    }
+  }, [isLoggedIn]);
+
   return (
     <>
       <FeedbackBanner />
