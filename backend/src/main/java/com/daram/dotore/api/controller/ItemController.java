@@ -256,7 +256,7 @@ public class ItemController {
     }
 
     @PostMapping("/view")
-    @ApiOperation(value = "작품 목록 조회(Page)", notes = "해당 페이지 번호의 작품, 1차, 2차 작품들을 조회한다")
+    @ApiOperation(value = "작품 목록 조회(Page)", notes = "해당 페이지 번호의 작품, 1차, 2차 작품들을 조회한다. 검색어가 있으면 해당 검색어가 포함된 작품안 조회")
     @ApiResponses({
         @ApiResponse(code = 200, message = "작품 조회 성공", response = ItemsRes.class),
         @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
@@ -269,19 +269,19 @@ public class ItemController {
         return ResponseEntity.status(200).body(itemsRes);
     }
 
-    @PostMapping("/search")
-    @ApiOperation(value = "작품 검색", notes = "작품명, 작가명으로 작품 검색")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "작품 조회 성공", response = ItemsRes.class),
-        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
-    })
-    public ResponseEntity<ItemsRes> searchItems(@RequestBody ItemSearchReq itemSearchReq) {
-        ItemsRes itemsRes = itemService.getItemsBySearch(itemSearchReq);
-        if (itemsRes == null) {
-            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
-        }
-        return ResponseEntity.status(200).body(itemsRes);
-    }
+//    @PostMapping("/search")
+//    @ApiOperation(value = "작품 검색", notes = "작품명, 작가명으로 작품 검색")
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "작품 조회 성공", response = ItemsRes.class),
+//        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
+//    })
+//    public ResponseEntity<ItemsRes> searchItems(@RequestBody ItemSearchReq itemSearchReq) {
+//        ItemsRes itemsRes = itemService.getItemsBySearch(itemSearchReq);
+//        if (itemsRes == null) {
+//            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+//        }
+//        return ResponseEntity.status(200).body(itemsRes);
+//    }
 
     /*
     @GetMapping("/all")

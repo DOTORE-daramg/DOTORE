@@ -241,16 +241,24 @@ public class ItemServiceImpl implements ItemService {
         int total = 0;
         int pageNum = (itemPageReq.getPageNum() - 1) * 12;
 
+        if(itemPageReq.getSearch() == null){
+            return null;
+        }
+        String search = itemPageReq.getSearch();
+        System.err.println(search);
+
         if (itemPageReq.getSort() == 0) {   // 최신순
             if ("all".equals(itemPageReq.getType())) {
-                items = itemRepository.getRecentItemList(pageNum);
+                items = itemRepository.getRecentItemList(search, pageNum);
                 total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
             } else if ("first".equals(itemPageReq.getType())) {
-                items = itemRepository.getRecentItemListByIsFirst(true, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
+                items = itemRepository.getRecentItemListByIsFirst(search, true, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
+                    .size();
             } else if ("second".equals(itemPageReq.getType())) {
-                items = itemRepository.getRecentItemListByIsFirst(false, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
+                items = itemRepository.getRecentItemListByIsFirst(search, false, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success")
+                    .size();
             } else {
                 return null;
             }
@@ -259,64 +267,12 @@ public class ItemServiceImpl implements ItemService {
                 items = itemRepository.getFavoriteItemList(pageNum);
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
+                    .size();
             } else if ("second".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(false, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
-            } else {
-                return null;
-            }
-        } else {
-            return null;
-        }
-        if (items == null) {
-            return null;
-        }
-
-        Users user;
-        int download = 0;
-        int like = 0;
-        String[] tags;
-        for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwnerAddress());
-            download = downloadRepository.countByTokenId(item.getTokenId());
-            like = likeRepository.countByTokenId(item.getTokenId());
-            tags = getTags(item.getTokenId());
-            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
-        }
-
-        return ItemsRes.of("작품 조회 성공", total, list);
-    }
-
-    @Override
-    public ItemsRes getItemsBySearch(ItemSearchReq itemSearchReq) {
-        List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items;
-        int total = 0;
-        int pageNum = (itemSearchReq.getPageNum() - 1) * 12;
-
-        if (itemSearchReq.getSort() == 0) {   // 최신순
-            if ("all".equals(itemSearchReq.getType())) {
-                items = itemRepository.getRecentItemList(pageNum);
-                total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
-            } else if ("first".equals(itemSearchReq.getType())) {
-                items = itemRepository.getRecentItemListByIsFirst(true, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
-            } else if ("second".equals(itemSearchReq.getType())) {
-                items = itemRepository.getRecentItemListByIsFirst(false, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
-            } else {
-                return null;
-            }
-        } else if (itemSearchReq.getSort() == 1) {  // 인기순
-            if ("all".equals(itemSearchReq.getType())) {
-                items = itemRepository.getFavoriteItemList(pageNum);
-            } else if ("first".equals(itemSearchReq.getType())) {
-                items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
-            } else if ("second".equals(itemSearchReq.getType())) {
-                items = itemRepository.getFavoriteItemListByIsFirst(false, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success")
+                    .size();
             } else {
                 return null;
             }

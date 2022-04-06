@@ -12,4 +12,5 @@ public class ItemPageReq {
     int pageNum;
     int sort;
     String type;
+    String search;
 }

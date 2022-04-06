@@ -56,8 +56,6 @@ public interface ItemService {
 
     ItemsRes getItemsByPage(ItemPageReq itemPageReq);
 
-    ItemsRes getItemsBySearch(ItemSearchReq itemSearchReq);
-
     ItemsRes getAll();
 
     ItemsRes getFirst();
