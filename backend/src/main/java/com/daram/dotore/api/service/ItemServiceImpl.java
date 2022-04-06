@@ -2,6 +2,7 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemSearchReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
@@ -240,16 +241,24 @@ public class ItemServiceImpl implements ItemService {
         int total = 0;
         int pageNum = (itemPageReq.getPageNum() - 1) * 12;
 
+        if(itemPageReq.getSearch() == null){
+            return null;
+        }
+        String search = itemPageReq.getSearch();
+        System.err.println(search);
+
         if (itemPageReq.getSort() == 0) {   // 최신순
             if ("all".equals(itemPageReq.getType())) {
-                items = itemRepository.getRecentItemList(pageNum);
+                items = itemRepository.getRecentItemList(search, pageNum);
                 total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
             } else if ("first".equals(itemPageReq.getType())) {
-                items = itemRepository.getRecentItemListByIsFirst(true, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
+                items = itemRepository.getRecentItemListByIsFirst(search, true, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
+                    .size();
             } else if ("second".equals(itemPageReq.getType())) {
-                items = itemRepository.getRecentItemListByIsFirst(false, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
+                items = itemRepository.getRecentItemListByIsFirst(search, false, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success")
+                    .size();
             } else {
                 return null;
             }
@@ -258,10 +267,12 @@ public class ItemServiceImpl implements ItemService {
                 items = itemRepository.getFavoriteItemList(pageNum);
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success").size();
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
+                    .size();
             } else if ("second".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(false, pageNum);
-                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success").size();
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success")
+                    .size();
             } else {
                 return null;
             }

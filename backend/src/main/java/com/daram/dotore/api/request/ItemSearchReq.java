@@ -6,11 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("ItemPageRequest")
-public class ItemPageReq {
+@ApiModel("ItemSearchRequest")
+public class ItemSearchReq {
 
-    int pageNum;
-    int sort;
-    String type;
-    String search;
+    private String word;
+    private String type;
 }
