@@ -75,7 +75,7 @@ export const createMarketItem = async ({
         saleTrxHash: hash,
         sellerAddress: userAddress,
         tokenId,
-      });
+      })
     });
 };
 
@@ -110,16 +110,11 @@ interface cancleSaleProps {
 }
 
 export const cancleSale = async ({ tokenId, userAddress }: cancleSaleProps) => {
-  try {
-    await dTTMarketContract.methods.cancelSale(tokenId).send({
-      from: userAddress,
-      gas: 3000000,
-      gasPrice: "10000000000",
-    });
-    await cancelSale(userAddress, tokenId);
-  } catch (err) {
-    console.error(err);
-  }
+  return await dTTMarketContract.methods.cancelSale(tokenId).send({
+    from: userAddress,
+    gas: 3000000,
+    gasPrice: "10000000000",
+  });
 };
 
 export const getSaleId = async (tokenId: number) => {

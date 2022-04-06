@@ -213,16 +213,18 @@ export const SaleModal = ({
       price: wei,
       userAddress: userInfo.address,
     }).then((res) => {
-      updateSaleStatus(res.events.MarketItemEvent.returnValues.saleId, res.transactionHash);
-      successAlert("판매등록에 성공하였습니다.")
-      setIsPending(false);
-      setPendingMsg("");
-      setIsLoading(true);
+      updateSaleStatus(res.events.MarketItemEvent.returnValues.saleId, res.transactionHash)
+      .then(() => {
+        successAlert("판매등록에 성공하였습니다.")
+        setIsPending(false);
+        setPendingMsg("");
+        setIsLoading(true);
+      });
     }).catch((e:any) => {
       if(e.code === 4001) {
         errorAlert("판매등록을 취소하였습니다.");
       } else {
-        errorAlert("판매등록에 실패하였습니다.");
+        errorAlert("판매등록에 실패하였습니다. 다시 시도 해주세요.");
         setIsLoading(true);
       }
       setIsPending(false);

@@ -315,7 +315,6 @@ const Detail = () => {
           setItem(data);
           setIsFirst(isFirst);
           setIsSale(onSaleYn);
-          console.log(onSaleYn);
           if (ownerAddress === userInfo.address) {
             setIsOwner(true);
           } else {
@@ -674,6 +673,9 @@ const Detail = () => {
             <SaleDeleteModal
               imageUrl={itemHash}
               onClose={onClickToggleDeleteModal}
+              setIsLoading={setIsLoading}
+              setIsPending={setIsPending}
+              setPendingMsg={setPendingMsg}
             />
           )}
         </Container>
