@@ -38,11 +38,15 @@ public class SalesController {
     @ApiResponses({
         @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
         @ApiResponse(code = 400, message = "Fail", response = BaseRes.class),
+        @ApiResponse(code = 409, message = "이미 판매등록 중입니다", response = BaseRes.class),
     })
     public ResponseEntity<BaseRes> beforeSale(@RequestBody SalesReq salesReq)
         throws Exception {
         try {
-            saleService.saveNewSales(salesReq);
+            Sales sale = saleService.saveNewSales(salesReq);
+            if (sale == null) {
+                return ResponseEntity.status(409).body(BaseRes.of("이미 판매등록 중입니다"));
+            }
             return ResponseEntity.status(200).body(BaseRes.of("Success"));
         } catch (Exception e) {
             return ResponseEntity.status(400).body(BaseRes.of("Fail"));
@@ -64,7 +68,7 @@ public class SalesController {
             }
             return ResponseEntity.status(200).body(SaleListRes.of("Success", list));
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
             return ResponseEntity.status(404).body(SaleListRes.of("존재하지 않는 address"));
         }
     }
