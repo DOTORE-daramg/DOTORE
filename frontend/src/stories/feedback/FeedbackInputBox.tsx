@@ -6,12 +6,12 @@ const Container = styled.div`
   width: 100%;
 `;
 
-export const FeedbackInputBox = ({ articleNo, item }: TEProps) => {
+export const FeedbackInputBox = ({ articleno, item }: TEProps) => {
   const [] = useState();
 
   return (
     <Container>
-      <TextEditor articleNo={articleNo} item={item}></TextEditor>
+      <TextEditor articleno={articleno} item={item}></TextEditor>
     </Container>
   );
 };

@@ -46,7 +46,7 @@ type question = {
 };
 
 type answer = {
-  answerNo: number;
+  answerno: number;
   writer: string;
   description: string;
   createdAt: string;
@@ -57,7 +57,7 @@ type answer = {
 };
 
 const Feedback = () => {
-  const { tokenId, articleNo } = useParams();
+  const { tokenId, articleno } = useParams();
   const [item, setItem] = useState<Iitem>({
     authorAddress: "",
     itemTitle: "",
@@ -90,7 +90,7 @@ const Feedback = () => {
 
   useEffect(() => {
     if (isLoading) {
-      getFeedBack(articleNo)
+      getFeedBack(articleno)
         .then((res) => {
           return res;
         })
@@ -172,7 +172,7 @@ const Feedback = () => {
             imageUrl={itemHash}
           ></FeedbackTitle>
           <FeedbackComment
-            articleNo={articleNo}
+            articleno={articleno}
             profileImgUrl={questions.question.profileImgUrl}
             profileNickname={questions.question.nickname}
             profileLevel="Lv2. 청소년 도토리"
@@ -185,8 +185,8 @@ const Feedback = () => {
           {questions.answers &&
             questions.answers.map((answer) => (
               <FeedbackComment
-                key={answer.answerNo}
-                answerNo={answer.answerNo}
+                key={answer.answerno}
+                answerno={answer.answerno}
                 profileImgUrl={answer.profileImgUrl}
                 profileNickname={answer.nickname}
                 profileLevel={getLevel(answer.acorn)}
@@ -203,7 +203,7 @@ const Feedback = () => {
             ))}
           {isMine && (
             <FeedbackInputBox
-              articleNo={articleNo}
+              articleno={articleno}
               item={item}
             ></FeedbackInputBox>
           )}
