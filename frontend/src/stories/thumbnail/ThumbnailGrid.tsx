@@ -51,7 +51,7 @@ export const ThumbnailGrid = ({
               navigate(`/detail/${item.tokenId}`);
             }
           }}
-          key={index + String(item.tokenId)}
+          key={index}
         >
           <Thumbnail isPending={item.tokenId === null} {...item}></Thumbnail>
         </GridItem>
