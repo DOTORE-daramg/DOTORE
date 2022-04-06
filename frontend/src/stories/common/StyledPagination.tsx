@@ -40,7 +40,7 @@ const Container = styled.div`
 `;
 
 interface IPaginationProps {
-  activePage?: number,  // 현재 페이지 번호
+  activePage: number,  // 현재 페이지 번호
   totalCount: number, // 전체 페이지 수
   handlePageChange: (n: number) => void,
   // handlePageChange: (selected: number) => void,
@@ -50,10 +50,10 @@ interface IPaginationProps {
 }
 
 const StyledPagination = ({ activePage, totalCount, handlePageChange, displayCount, pageRangeCount }: IPaginationProps) => {
-  const pageNumbers = []; // 페이지 수 배열
-  for (let i = 1; i <= Math.ceil(totalCount / displayCount); i++) {
-    pageNumbers.push(i);
-  }
+  // const pageNumbers = []; // 페이지 수 배열
+  // for (let i = 1; i <= Math.ceil(totalCount / displayCount); i++) {
+  //   pageNumbers.push(i);
+  // }
   // const [page, setPage] = useState(1);
   // const pages = [...Array(totalPages).keys()].map((num) => num + 1);
   // const handlePageChange = (activePage) => {
@@ -61,13 +61,13 @@ const StyledPagination = ({ activePage, totalCount, handlePageChange, displayCou
   // }
 
   // const onClickPrev = () => {
-  //   if (page >= 2) {
-  //     handlePageChange(page - 1)
+  //   if (activePage >= 2) {
+  //     handlePageChange(activePage - 1)
   //   }
   // }
   // const onClickNext = () => {
-  //   if (page <= totalCount / displayCount + 1) {
-  //     handlePageChange(page + 1)
+  //   if (activePage <= totalCount / displayCount + 1) {
+  //     handlePageChange(activePage + 1)
   //   }
   // }
 
