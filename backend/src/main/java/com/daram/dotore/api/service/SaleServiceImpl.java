@@ -22,6 +22,10 @@ public class SaleServiceImpl implements SaleService {
 
     @Override
     public Sales saveNewSales(SalesReq salesReq) {
+        Optional<Sales> sale = saleRepository.findByTokenIdAndStatus(salesReq.getTokenId(), "Pending");
+        if(sale.isPresent()){
+            return null;
+        }
         return saleRepository.save(Sales.builder()
             .saleTrxHash(salesReq.getSaleTrxHash())
             .tokenId(salesReq.getTokenId())
@@ -56,14 +60,14 @@ public class SaleServiceImpl implements SaleService {
     @Override
     public Sales updateSaleYnAndBuyerAddressAndCompletedAt(SaleCompleteReq saleCompleteReq) {
         BigInteger tokenId = saleCompleteReq.getTokenId();
-        Optional<Sales> item = saleRepository.findByTokenId(tokenId);
-        if (!item.isPresent()) {
+        Optional<Sales> sale = saleRepository.findByTokenIdAndStatus(tokenId, "Pending");
+        if (!sale.isPresent()) {
             return null;
         }
-        item.get().setOnSaleYn(false);
-        item.get().setBuyerAddress(saleCompleteReq.getBuyerAddress());
-        item.get().setCompletedAt(LocalDateTime.now());
-        return saleRepository.save(item.get());
+        sale.get().setOnSaleYn(false);
+        sale.get().setBuyerAddress(saleCompleteReq.getBuyerAddress());
+        sale.get().setCompletedAt(LocalDateTime.now());
+        return saleRepository.save(sale.get());
     }
 
     @Override
