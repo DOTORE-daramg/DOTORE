@@ -1,6 +1,7 @@
 package com.daram.dotore.api.controller;
 
 import com.daram.dotore.api.request.ItemButtonReq;
+import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
@@ -106,6 +107,21 @@ public class ItemController {
         }
         itemService.updateMint(itemTrxReq);
         return ResponseEntity.status(200).body(BaseRes.of("Success"));
+    }
+
+    @DeleteMapping("/cancel/{itemTrxHash}")
+    @ApiOperation(value = "민팅 취소", notes = "민팅 취소")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "Success", response = BaseRes.class),
+        @ApiResponse(code = 402, message = "민팅취소 실패", response = BaseRes.class),
+    })
+    public ResponseEntity<BaseRes> mintCancel(@PathVariable String itemTrxHash) {
+        try {
+            itemService.deleteItem(itemTrxHash);
+            return ResponseEntity.status(200).body(BaseRes.of("Success"));
+        } catch (Exception e) {
+            return ResponseEntity.status(402).body(BaseRes.of("민팅취소 실패"));
+        }
     }
 
     @PatchMapping
@@ -238,6 +254,21 @@ public class ItemController {
         return ResponseEntity.status(200).body(ItemButtonRes.of("Success", count));
     }
 
+    @PostMapping("/view")
+    @ApiOperation(value = "작품 목록 조회(Page)", notes = "해당 페이지 번호의 작품, 1차, 2차 작품들을 조회한다")
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "작품 조회 성공", response = ItemsRes.class),
+        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
+    })
+    public ResponseEntity<ItemsRes> getItemsByPage(@RequestBody ItemPageReq itemPageReq) {
+        ItemsRes itemsRes = itemService.getItemsByPage(itemPageReq);
+        if (itemsRes == null) {
+            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
+        }
+        return ResponseEntity.status(200).body(itemsRes);
+    }
+
+    /*
     @GetMapping("/all")
     @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
     @ApiResponses({
@@ -277,6 +308,7 @@ public class ItemController {
         }
         return ResponseEntity.status(200).body(itemsRes);
     }
+    */
 
     @GetMapping("/sale")
     @ApiOperation(value = "판매중인 작품 조회", notes = "판매중인 모든 작품들 조회")

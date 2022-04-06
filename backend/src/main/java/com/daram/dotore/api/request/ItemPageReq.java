@@ -4,13 +4,12 @@ import io.swagger.annotations.ApiModel;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigInteger;
-
 @Getter
 @Setter
-@ApiModel("SalesCancelRequest")
-public class SalesCancelReq {
+@ApiModel("ItemPageRequest")
+public class ItemPageReq {
 
-    BigInteger tokenId;
-    String address;
+    int pageNum;
+    int sort;
+    String type;
 }

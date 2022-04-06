@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 interface FeedbackToggleButtonsProps {
   leftLabel: string;
@@ -11,7 +11,7 @@ interface FeedbackToggleButtonsProps {
 const ToggleButtonSpanContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 15rem;
+  width: 12rem;
   @media screen and (max-width: 768px) {
     font-size: 10rem;
     width: 13rem;
@@ -19,13 +19,13 @@ const ToggleButtonSpanContainer = styled.div`
 `;
 
 const ToggleButtonSpan = styled.span<{ isSelected: boolean }>`
-  font-size: 1.5rem;
-  font-weight: ${props => props.isSelected ? '800' : '500'};
-  color: ${props => props.isSelected ? '#6667AB' : '#626262'};
+  font-size: 1.2rem;
+  font-weight: ${(props) => (props.isSelected ? "800" : "500")};
+  color: ${(props) => (props.isSelected ? "#6667AB" : "#626262")};
   cursor: pointer;
   user-select: none;
   @media screen and (max-width: 768px) {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
   }
 `;
 
@@ -39,15 +39,16 @@ export const FeedbackToggleButtons = ({
     <ToggleButtonSpanContainer>
       <ToggleButtonSpan
         onClick={selected === 0 ? undefined : handleToggleSelectedIndex}
-        isSelected={selected === 0}>
+        isSelected={selected === 0}
+      >
         {leftLabel}
       </ToggleButtonSpan>
       <ToggleButtonSpan
         onClick={selected === 1 ? undefined : handleToggleSelectedIndex}
-        isSelected={selected === 1}>
+        isSelected={selected === 1}
+      >
         {rightLabel}
       </ToggleButtonSpan>
     </ToggleButtonSpanContainer>
   );
 };
-

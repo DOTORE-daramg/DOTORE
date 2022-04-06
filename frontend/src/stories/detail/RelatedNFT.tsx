@@ -6,7 +6,7 @@ import { Title } from "./Title";
 
 const Container = styled.div`
   width: 350px;
-  height: 400px;
+  height: 500px;
   cursor: pointer;
   @media screen and (max-width: 768px) {
     height: fit-content;

@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Icon } from "../common/Icon";
 import { Logo } from "../common/Logo";
+import { useNavigate } from "react-router-dom";
 
 const FooterContainer = styled.footer`
   background-color: #6667ab;
@@ -20,12 +21,17 @@ const LogoContainer = styled.div`
   width: 40vw;
   margin-bottom: 14px;
   display: flex;
-  cursor: default;
   align-items: center;
   .name {
     font-size: 28px;
     color: white;
     font-weight: 600;
+  }
+  div {
+    cursor: pointer;
+  }
+  svg {
+    cursor: pointer;
   }
 
   @media screen and (max-width: 768px) {
@@ -80,44 +86,56 @@ const Item = styled.div`
   }
 `;
 
-export const Footer = () => (
-  <FooterContainer>
-    <InfoContainer>
-      <LogoContainer>
-        <Logo color="#ffffff" size="36px" />
-        <div className="name">DOTORI</div>
-      </LogoContainer>
-      <Description>
-        <Icon mode="fas" icon="phone" />
-        <div className="title">고객센터</div>
-        <div className="desc">02-1544-9001</div>
-      </Description>
-      <Description>
-        <Icon mode="fas" icon="envelope" />
-        <div className="title">문의사항</div>
-        <div className="desc">dotore@dotore.com</div>
-      </Description>
-      <Description>
-        <Icon mode="fas" icon="laptop-code" />
-        <div className="title">TEAM</div>
-        <div className="desc">한지희 이성재 이호진 인주비 조영운 제진명</div>
-      </Description>
-    </InfoContainer>
-    <Menu>
-      <Item>
-        <div className="title">NFT 등록</div>
-        <div className="item">1차 NFT 등록</div>
-        <div className="item">2차 NFT 등록</div>
-      </Item>
-      <Item>
-        <div className="title">NFT 보기</div>
-        <div className="item">View All</div>
-        <div className="item">1차 NFT 보기</div>
-        <div className="item">2차 NFT 보기</div>
-      </Item>
-      <Item>
-        <div className="title">NFT 구매</div>
-      </Item>
-    </Menu>
-  </FooterContainer>
-);
+export const Footer = () => {
+  const navigate = useNavigate();
+  return (
+    <FooterContainer>
+      <InfoContainer>
+        <LogoContainer>
+          <Logo color="#ffffff" size="36px" />
+          <div className="name" onClick={() => navigate("")}>
+            DOTORE
+          </div>
+        </LogoContainer>
+        <Description>
+          <Icon mode="fas" icon="phone" />
+          <div className="title">고객센터</div>
+          <div className="desc">02-1544-9001</div>
+        </Description>
+        <Description>
+          <Icon mode="fas" icon="envelope" />
+          <div className="title">문의사항</div>
+          <div className="desc">dotore@dotore.com</div>
+        </Description>
+        <Description>
+          <Icon mode="fas" icon="laptop-code" />
+          <div className="title">TEAM</div>
+          <div className="desc">한지희 이성재 이호진 인주비 조영운 제진명</div>
+        </Description>
+      </InfoContainer>
+      <Menu>
+        <Item>
+          <div className="title">NFT 등록</div>
+          <div className="item" onClick={() => navigate("/prminting")}>
+            1차 NFT 등록
+          </div>
+          <div className="item" onClick={() => navigate("/cdminting")}>
+            2차 NFT 등록
+          </div>
+        </Item>
+        <Item>
+          <div className="title">NFT 보기</div>
+          <div className="item" onClick={() => navigate("/list")}>
+            View All
+          </div>
+          <div className="item" onClick={() => navigate("/prlist")}>
+            1차 NFT 보기
+          </div>
+          <div className="item" onClick={() => navigate("/cdlist")}>
+            2차 NFT 보기
+          </div>
+        </Item>
+      </Menu>
+    </FooterContainer>
+  );
+};

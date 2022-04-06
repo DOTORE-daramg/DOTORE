@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useMediaQuery } from "react-responsive";
-import {
-  ITransactionHistory,
-  TransactionHistoryList,
-} from "../../stories/artist/TransactionHistoryList";
+import { TransactionHistoryList } from "../../stories/artist/TransactionHistoryList";
 import {
   getTimeStamp,
   saleFromTx,
@@ -15,64 +12,21 @@ import {
 import { useParams } from "react-router-dom";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 
-const transactionHistoryList: ITransactionHistory[] = [
-  {
-    transactionHash: "0x1245",
-    transactionType: "minting",
-    item: {
-      itemImgUrl:
-        "https://yt3.ggpht.com/ytc/AKedOLTT6MEPkgOn6WLc_ibsb4hrq-qTVi5DFk_kD5DL=s900-c-k-c0x00ffffff-no-rj",
-      itemTitle:
-        "보석을 훔친 펭귄xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    },
-    transactionTime: "2022-03-21",
-    from: "",
-    to: "주비스",
-  },
-  {
-    transactionHash: "0x1ab3",
-    transactionType: "transfer",
-    item: {
-      itemImgUrl:
-        "https://yt3.ggpht.com/ytc/AKedOLTT6MEPkgOn6WLc_ibsb4hrq-qTVi5DFk_kD5DL=s900-c-k-c0x00ffffff-no-rj",
-      itemTitle: "보석을 훔친 펭귄",
-    },
-    transactionTime: "2022-03-21",
-    from: "주비스",
-    to: "한지희",
-  },
-  {
-    transactionHash: "0x284b",
-    transactionType: "sale",
-    item: {
-      itemImgUrl:
-        "https://yt3.ggpht.com/ytc/AKedOLTT6MEPkgOn6WLc_ibsb4hrq-qTVi5DFk_kD5DL=s900-c-k-c0x00ffffff-no-rj",
-      itemTitle: "보석을 훔친 펭귄",
-    },
-    transactionTime: "2022-03-21",
-    from: "주비스",
-    to: "한지희xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-    price: 0.4,
-  },
-];
-
 const Container = styled.div`
   width: 100%;
   display: flex;
-  margin: auto;
-  padding: 5rem 0;
+  padding: 2rem 0;
   justify-content: center;
   @media screen and (max-width: 768px) {
-    padding: 3rem 0;
+    padding: 1rem 0;
   }
 `;
 
 const TxHistory = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
-  const width = isPc ? "80rem" : isTablet ? "32rem" : "24rem";
+  const width = isPc ? "60rem" : isTablet ? "28rem" : "60rem";
   const [isTxLoading, setIsTxLoading] = useState<boolean>(false);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isSort, setIsSort] = useState<boolean>(false);
   const [isMakeTimeStamp, setIsMakeTimeStamp] = useState<boolean>(false);
   const [res1, setRes1] = useState<any[]>([]);
@@ -81,7 +35,6 @@ const TxHistory = () => {
   const [res4, setRes4] = useState<any[]>([]);
   const [res5, setRes5] = useState<any[]>([]);
   const { userAddress } = useParams();
-  // const userAddress = "0x46CCa77125508995b14cD6355e994Ac2949E8B47";
 
   // 블록체인에서 데이터 불러옴
   useEffect(() => {
@@ -113,7 +66,6 @@ const TxHistory = () => {
   useEffect(() => {
     if (isTxLoading) {
       let temp: any[] = [];
-      console.log(">>>>>>>>>>>>>>>>>>>>>>", res1, res2, res3, res4);
       [...res1, ...res2, ...res3, ...res4].map(async (data) => {
         temp.push({
           ...data,
@@ -129,17 +81,10 @@ const TxHistory = () => {
 
   useEffect(() => {
     if (isMakeTimeStamp) {
-      console.log(res5);
       setIsSort(true);
     }
   }, [isMakeTimeStamp]);
 
-  // useEffect(() => {
-  //   console.log("isLoading", isLoading);
-  //   if (isLoading) {
-  //     setIsSort(true);
-  //   }
-  // }, [isLoading]);
   return (
     <Container>
       {!isSort && <LoadingSpinner />}

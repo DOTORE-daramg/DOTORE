@@ -188,7 +188,6 @@ const ChildMinting = () => {
 
       // 토큰 아이디까지 받아왔다면 백엔드에 토큰 아이디 전달
       const tokenId = tx.events.Transfer.returnValues.tokenId;
-      console.log(tokenId);
 
       modifyTokenId({ itemTrxHash: txHash, tokenId: tokenId });
       successAlert("민팅에 성공하였습니다!!");
@@ -223,7 +222,6 @@ const ChildMinting = () => {
   };
 
   const onDeleteItem = (item: ItemProps) => {
-    console.log(item);
     const idx = originalItem.findIndex((originalItem) => originalItem === item);
     setOriginalItem((prev) => [...prev.slice(0, idx), ...prev.slice(idx + 1)]);
   };
@@ -260,9 +258,7 @@ const ChildMinting = () => {
               <SubTitleContainer isRequired={true}>
                 이미지, 비디오, 오디오
               </SubTitleContainer>
-              <FormatInfo>
-                JPEG, PNG, GIF, SVG, MP4, MP3, WAV Max Size: 10MB
-              </FormatInfo>
+              <FormatInfo>Max Size: 10MB</FormatInfo>
               <FileDropBox handleFileChanged={handleFileChanged}></FileDropBox>
             </div>
 

@@ -7,79 +7,6 @@ import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
 
-const dummyItemList = [
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-];
-
 const Container = styled.div`
   display: flex;
   margin: auto;
@@ -99,7 +26,6 @@ const Download = () => {
     if (isLoading) {
       if (userAddress) {
         getDownloadNFTList(userAddress).then((res) => {
-          console.log(res);
           if (res.data.result !== "작품 목록이 없습니다.") {
             setItemList(res.data.data);
           }

@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { viewAll } from "../api/item";
 import { getUsers } from "../api/user";
-import banner1 from "../assets/banner1.png";
 import Skeleton from "../stories/list/Skeleton";
 import Banner from "../stories/main/Banner";
 import Profile from "../stories/profile/Profile";
@@ -130,7 +129,6 @@ const Main = () => {
 
         data.map((res: Iuser) => {
           const { acorn, address, nickname, profileImgUrl } = res;
-          console.log(res);
           const onClick = () => {
             navigate(`/artist/${address}`);
           };

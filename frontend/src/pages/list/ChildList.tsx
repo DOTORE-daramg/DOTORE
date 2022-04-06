@@ -9,102 +9,18 @@ import Checkbox from "../../stories/list/Checkbox";
 import Item, { ItemProps } from "../../stories/list/Item";
 import ItemSkeleton from "../../stories/list/ItemSkeleton";
 import { Title } from "../../stories/Title";
+import {
+  CategoryContainer,
+  CheckboxContainer,
+  Container,
+  FilterContainer,
+  InnerContainer,
+  ItemContainer,
+  MainContainer,
+  Message,
+  SideContainer,
+} from "./List";
 
-const Container = styled.div`
-  height: fit-content;
-  margin: 150px 200px;
-
-  @media screen and (max-width: 768px) {
-    margin: 100px 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-const SideContainer = styled.div`
-  width: 15rem;
-  margin-right: 6rem;
-  height: 100%;
-  margin-top: 30px;
-  display: flex;
-  flex-direction: column;
-  @media screen and (max-width: 768px) {
-    width: 80%;
-    align-items: center;
-    margin-right: 0;
-  }
-`;
-const FilterContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  @media screen and (max-width: 768px) {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-`;
-const CategoryContainer = styled.div`
-  display: flex;
-  width: 10rem;
-  justify-content: space-around;
-  margin: 30px 0;
-  @media screen and (max-width: 768px) {
-    width: 45%;
-  }
-`;
-
-const CheckboxContainer = styled.div`
-  width: 10rem;
-  height: 5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  @media screen and (max-width: 768px) {
-    width: 50%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-  }
-`;
-const InnerContainer = styled.div`
-  width: 100%;
-  display: flex;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-  }
-`;
-
-const MainContainer = styled.div`
-  width: calc(100% - 20rem);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  @media screen and (max-width: 768px) {
-    width: 90%;
-  }
-`;
-const ItemContainer = styled.div`
-  width: 100%;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 20px;
-  place-items: center;
-  @media screen and (max-width: 768px) {
-    width: 90%;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 15px;
-  }
-`;
-
-const Message = styled.div`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-`;
 const SecondList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -118,8 +34,6 @@ const SecondList = () => {
   useEffect(() => {
     viewSecond()
       .then((res) => {
-        console.log(res.data.data);
-
         if (isSelected === 0) {
           // 최신순
           setItems(res.data.data);

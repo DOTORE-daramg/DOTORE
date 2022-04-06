@@ -4,12 +4,18 @@ import { HorizonProfile } from "../profile/HorizonProfile";
 import { Title } from "./Title";
 
 const ProfileContainer = styled.div`
-  margin: 0 0 20px 0;
+  margin: 20px 0 20px 0;
+  @media screen and (max-width: 768px) {
+    margin: 20px 0 20px 0;
+  }
 `;
 
 const StyledDescription = styled.div`
   height: 30%;
   line-height: 30px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 `;
 
 interface DescriptionProps {

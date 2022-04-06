@@ -57,10 +57,13 @@ export const postFile = async (data: any) => {
 };
 
 export const postMintBefore = async (data: Object) => {
-  console.log(data);
   return await api.post(`/api/items/mint/before`, data);
 };
 
 export const putDownload = async (address: string, tokenId?: string) => {
   return await api.post(`/api/items/download`, { address, tokenId });
+};
+
+export const cancelItem = async (itemTrxHash: string) => {
+  return await api.delete(`/api/items/cancel${itemTrxHash}`);
 };

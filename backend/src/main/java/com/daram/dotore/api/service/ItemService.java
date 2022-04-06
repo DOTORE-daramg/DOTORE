@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
@@ -52,6 +53,8 @@ public interface ItemService {
 
     List<Items> getAuthorItemList(String address);
 
+    ItemsRes getItemsByPage(ItemPageReq itemPageReq);
+
     ItemsRes getAll();
 
     ItemsRes getFirst();
@@ -66,5 +69,5 @@ public interface ItemService {
 
     Items updateCancelOnSaleYn(BigInteger tokenId);
 
-    Items updateImageUrl(BigInteger tokenId, String imageUrl);
+    void deleteItem(String itemTrxHash);
 }

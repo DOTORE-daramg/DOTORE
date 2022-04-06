@@ -1,86 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
 import { RefreshTx } from "../../stories/artist/RefreshTx";
-import { Icon } from "../../stories/common/Icon";
 import { getAuthoredNFTList } from "../../api/artist";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import { ThumbnailProps } from "../../stories/thumbnail/Thumbnail";
 import { ThumbnailGrid } from "../../stories/thumbnail/ThumbnailGrid";
-
-const dummyItemList = [
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-  {
-    nickname: "",
-    itemTitle: "",
-    owner_address: "",
-    like: 0,
-    itemHash: "",
-  },
-];
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
 
 const AuthoredNFTList = () => {
   const isPc = useMediaQuery({ minWidth: 768 });
@@ -90,6 +17,7 @@ const AuthoredNFTList = () => {
   const { userAddress } = useParams();
   const [itemList, setItemList] = useState<ThumbnailProps[]>();
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
 
   useEffect(() => {
     if (isLoading) {
@@ -112,7 +40,9 @@ const AuthoredNFTList = () => {
         <LoadingSpinner />
       ) : (
         <>
-          <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
+          {userInfo.address === userAddress ? (
+            <RefreshTx gridSize={gridSize} setIsLoading={setIsLoading} />
+          ) : null}
           {itemList && itemList.length > 0 ? (
             <ThumbnailGrid
               itemList={itemList}

@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Iitem } from "../../pages/feedback/FeedbackCreate";
 import { Image } from "../detail/Image";
 
 const Container = styled.div`

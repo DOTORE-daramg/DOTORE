@@ -7,7 +7,7 @@ import { InputBox, TextAreaBox } from "../InputBox";
 import { Button } from "../Button";
 import { Icon } from "../common/Icon";
 import { updateDesc, updateImage, updateNickname } from "../../api/user";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { getUserInfo } from "../../api/user";
 
 const Section = styled.div`
@@ -259,7 +259,6 @@ export const ProfileUpdateModal = ({
     const file_name = e.target.value.substring(file_kind + 1, e.length);
     const file_type = file_name.toLowerCase();
     const check_file_type = ["jpg", "gif", "png", "jpeg"];
-    console.log(check_file_type.indexOf("jpg"));
     if (check_file_type.indexOf(file_type) === -1) {
       alert("이미지 파일만 선택할 수 있습니다.");
       // return false;

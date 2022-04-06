@@ -32,10 +32,11 @@ export const RefreshTx = ({ gridSize, setIsLoading }: RefreshTxProps) => {
     });
     // 유저가 판매 등록 pending중인 판매 트랜잭션 목록 갱신
     getPendingSale(userInfo.address).then((res) => {
-      console.log(res.data.data);
       const txList = res.data.data;
       if (txList.length === 0) return;
-      txList.map((txhash: any) => checkSaleDoneTx(txhash.saleTrxHash));
+      txList.map((txhash: any) =>
+        checkSaleDoneTx(txhash.saleTrxHash, userInfo.address, txhash.tokenId)
+      );
     });
     setIsLoading(true);
   };

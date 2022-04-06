@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
+import { useMediaQuery } from "react-responsive";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { web3 } from '../../contracts';
-import { getTimeStamp } from "../../contracts/api/transactionRecord";
-import { transactionRecordTypes } from "./TransactionHistoryList";
+import { getItem } from "../../api/item";
+import { getUserInfo } from "../../api/user";
+import { web3 } from "../../contracts";
+import { Image } from "../detail/Image";
 
 const TableRow = styled.div`
   display: flex;
@@ -30,49 +33,95 @@ const TableCell = styled.span`
   /* margin: auto; */
 `;
 
+const ItemContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  :hover {
+    cursor: pointer;
+  }
+`;
 
-const TransactionHistoryItem = ({data}:any) => {
+const TransactionHistoryItem = ({ data }: any) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [timeStamp, setTimeStamp] = useState<Date>(new Date());
-  console.log(data);
+  const [from, setFrom] = useState<string>();
+  const [to, setTo] = useState<string>();
+  const [itemInfo, setItemInfo] = useState<any>({
+    itemHash: "",
+    itemTitle: "",
+  });
+  const isPc = useMediaQuery({ minWidth: 768 });
+  const isTablet = useMediaQuery({ minWidth: 500 });
+  const viewMode = isPc ? "trade" : isTablet ? "trade" : "tradeM";
+  const navigate = useNavigate();
+
   useEffect(() => {
     if (!isLoading) {
-      setTimeStamp(new Date(parseInt(data.timeStamp+"000")))
+      setTimeStamp(new Date(parseInt(data.timeStamp + "000")));
+      getUserInfo(data.returnValues.from || data.returnValues.seller).then(
+        (res) => setFrom(res.data.nickname)
+      );
+      getUserInfo(data.returnValues.to || data.returnValues.owner).then((res) =>
+        setTo(res.data.nickname)
+      );
+      getItem(data.returnValues.tokenId).then((res) => {
+        setItemInfo(res.data);
+      });
       setIsLoading(true);
     }
   }, [isLoading]);
 
+  const onClickItem = () => {
+    navigate(`/detail/${data.returnValues.tokenId}`);
+  };
+
+  const onClickFromUser = () => {
+    navigate(`/artist/${data.returnValues.from || data.returnValues.owner}`);
+  };
+
+  const onClickToUser = () => {
+    navigate(`/artist/${data.returnValues.to || data.returnValues.seller}`);
+  };
+
   return (
     <TableRow>
-      <TableBlock width="10%">
+      <TableBlock width="15%">
         <TableCell>{data.event}</TableCell>
       </TableBlock>
-      {/* <TableBlock width="25%">
+      <TableBlock width="25%">
+        <ItemContainer onClick={onClickItem}>
+          {isLoading && itemInfo && (
             <Image
-              imageUrl={txHistory.item.itemImgUrl}
-              name={txHistory.item.itemTitle}
+              imageUrl={itemInfo.itemHash}
+              name={itemInfo.itemTitle}
               mode={viewMode}
             ></Image>
-            <TableCell>{txHistory.item.itemTitle}</TableCell>
-          </TableBlock> */}
-      <TableBlock width="10%">{data.returnValues.tokenId}</TableBlock>
+          )}
+          <TableCell>{itemInfo.itemTitle}</TableCell>
+        </ItemContainer>
+      </TableBlock>
       <TableBlock width="10%">
-        {isLoading &&
+        {isLoading && (
+          <TableCell>
+            {timeStamp.getFullYear()}-{timeStamp.getMonth() + 1}-
+            {timeStamp.getDate()}
+          </TableCell>
+        )}
+      </TableBlock>
+      <TableBlock width="20%">
         <TableCell>
-          {timeStamp.getFullYear()}-{timeStamp.getMonth() + 1}-
-          {timeStamp.getDate()}
+          <ItemContainer onClick={onClickFromUser}>{from}</ItemContainer>
         </TableCell>
-        }
       </TableBlock>
-      <TableBlock width="30%">
-        <TableCell>{data.returnValues.from}</TableCell>
-      </TableBlock>
-      <TableBlock width="30%">
-        <TableCell>{data.returnValues.to}</TableCell>
+      <TableBlock width="20%">
+        <ItemContainer onClick={onClickToUser}>{to}</ItemContainer>
       </TableBlock>
       <TableBlock width="10%">
         <TableCell>
-          {data.returnValues.price ? `${web3.utils.fromWei(data.returnValues.price)} ETH` : ""}
+          {data.returnValues.price
+            ? `${web3.utils.fromWei(data.returnValues.price)} ETH`
+            : ""}
         </TableCell>
       </TableBlock>
     </TableRow>

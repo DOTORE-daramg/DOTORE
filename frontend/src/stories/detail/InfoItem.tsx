@@ -5,10 +5,16 @@ const Container = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-start;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 `;
 const Title = styled.div`
   width: 6rem;
   margin-right: 20px;
+  display: flex;
+  align-items: center;
 `;
 
 interface InfoItemProps {
@@ -19,7 +25,7 @@ const InfoItem = ({ title, content }: InfoItemProps) => {
   return (
     <Container>
       <Title>{title}</Title>
-      <Title>{content}</Title>
+      <Title id="content">{content}</Title>
     </Container>
   );
 };

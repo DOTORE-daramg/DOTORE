@@ -1,12 +1,11 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { userInfoTypes } from "../..";
 
 const Wrapper = styled.div`
   display: none;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: block;
   }
 `;
@@ -14,10 +13,6 @@ const Overlay = styled.div`
   position: fixed;
   width: 100%;
   height: 100vh;
-  /* top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0; */
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 2;
   cursor: pointer;
@@ -89,7 +84,11 @@ export const MobileMenu = ({
     open: { opacity: 1, x: 0 },
     closed: { opacity: 0, x: "-100%" },
   };
-
+  const navigate = useNavigate();
+  const onMenuClick = (link: string) => {
+    navigate(link);
+    onClick();
+  };
   return (
     <>
       {/* {isOpen && ( */}
@@ -102,32 +101,35 @@ export const MobileMenu = ({
           >
             <Links>
               <li>
-                <a>NFT 등록</a>
-                <a href="/prminting" id="sub">
+                <div>NFT 등록</div>
+                <div onClick={() => onMenuClick("/prminting")} id="sub">
                   1차 NFT 등록
-                </a>
-                <a href="/cdminting" id="sub">
+                </div>
+                <div onClick={() => onMenuClick("/cdminting")} id="sub">
                   2차 NFT 등록
-                </a>
+                </div>
               </li>
               <li>
-                <a>NFT 보기</a>
-                <a href="/list" id="sub">
+                <div>NFT 보기</div>
+                <div onClick={() => onMenuClick("/list")} id="sub">
                   view all
-                </a>
-                <a href="/prlist" id="sub">
+                </div>
+                <div onClick={() => onMenuClick("/prlist")} id="sub">
                   1차 NFT 보기
-                </a>
-                <a href="/cdlist" id="sub">
+                </div>
+                <div onClick={() => onMenuClick("/cdlist")} id="sub">
                   2차 NFT 보기
-                </a>
+                </div>
               </li>
-              <li>
-                <a href="/sell">NFT 구매</a>
-              </li>
-              <li>
-                <a href={`/artist/${userInfo.address}`}>마이페이지</a>
-              </li>
+              {isLoggedIn && (
+                <li>
+                  <div
+                    onClick={() => onMenuClick(`/artist/${userInfo.address}`)}
+                  >
+                    마이페이지
+                  </div>
+                </li>
+              )}
             </Links>
             <Links>
               <li>

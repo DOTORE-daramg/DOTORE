@@ -1,10 +1,11 @@
+import { useEffect } from "@storybook/addons";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { FeedbackToggleButtons } from "./FeedbackToggleButtons";
 
 export interface IFeedback {
-  articleno: number;
+  articleNo: number;
   yn: boolean;
   itemTitle: string;
   description: string;
@@ -34,7 +35,7 @@ const TableHeader = styled.div`
 
 const TableRow = styled.div`
   display: flex;
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 500;
   height: 5rem;
   align-items: center;
@@ -61,7 +62,7 @@ const TableCell = styled.span`
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  padding: 0 0.5rem;
+
   @media screen and (max-width: 500px) {
     font-size: 0.9rem;
   }
@@ -72,6 +73,19 @@ export const ArtistFeedbackList = ({
   width,
 }: ArtistFeedbackListProps) => {
   const navigate = useNavigate();
+  feedbackList.map((feedback) => {
+    JSON.parse(feedback.description).blocks.filter((block: any) => {
+      if (block.text.length > 2) return block;
+    });
+    return feedback;
+  });
+
+  console.log(feedbackList);
+  // useEffect(() => {
+  //   feedbackList.map((feedback) => {
+
+  //   })
+  // }, [])
   return (
     <Container width={width}>
       <TableContainer>
@@ -90,7 +104,7 @@ export const ArtistFeedbackList = ({
           </TableBlock>
         </TableHeader>
         {feedbackList.map((feedback) => (
-          <TableRow key={feedback.articleno}>
+          <TableRow key={feedback.articleNo}>
             <TableBlock width="15%">
               <TableCell>{feedback.yn ? "해결" : "미해결"}</TableCell>
             </TableBlock>
@@ -103,18 +117,23 @@ export const ArtistFeedbackList = ({
             </TableBlock>
             <TableBlock
               onClick={() =>
-                navigate(`/feedback/${feedback.tokenId}/${feedback.articleno}`)
+                navigate(`/feedback/${feedback.tokenId}/${feedback.articleNo}`)
               }
               id="link"
               width="33%"
             >
               <TableCell>
-                {JSON.parse(feedback.description).blocks[0].text.length >= 15
+                {JSON.parse(feedback.description).blocks.map((block: any) =>
+                  block.text.length >= 15
+                    ? block.text.slice(0, 15) + "..."
+                    : block.text.length > 1 && block.text
+                )}
+                {/* {JSON.parse(feedback.description).blocks[0].text.length >= 15
                   ? JSON.parse(feedback.description).blocks[0].text.slice(
                       0,
                       15
                     ) + "..."
-                  : JSON.parse(feedback.description).blocks[0].text}
+                  : JSON.parse(feedback.description).blocks[0].text} */}
               </TableCell>
             </TableBlock>
             <TableBlock width="19%">

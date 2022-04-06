@@ -11,7 +11,7 @@ import ItemSkeleton from "../../stories/list/ItemSkeleton";
 import { Title } from "../../stories/Title";
 import { SearchBar } from "../../stories/common/SearchBar";
 
-const Container = styled.div`
+export const Container = styled.div`
   height: fit-content;
   margin: 150px 200px;
 
@@ -22,7 +22,7 @@ const Container = styled.div`
     align-items: center;
   }
 `;
-const SideContainer = styled.div`
+export const SideContainer = styled.div`
   width: 15rem;
   margin-right: 6rem;
   height: 100%;
@@ -35,7 +35,7 @@ const SideContainer = styled.div`
     margin-right: 0;
   }
 `;
-const FilterContainer = styled.div`
+export const FilterContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -45,7 +45,7 @@ const FilterContainer = styled.div`
     justify-content: space-between;
   }
 `;
-const CategoryContainer = styled.div`
+export const CategoryContainer = styled.div`
   display: flex;
   width: 10rem;
   justify-content: flex-start;
@@ -56,7 +56,7 @@ const CategoryContainer = styled.div`
   }
 `;
 
-const CheckboxContainer = styled.div`
+export const CheckboxContainer = styled.div`
   width: 10rem;
   height: 5rem;
   display: flex;
@@ -69,7 +69,7 @@ const CheckboxContainer = styled.div`
     justify-content: space-around;
   }
 `;
-const InnerContainer = styled.div`
+export const InnerContainer = styled.div`
   width: 100%;
   display: flex;
   @media screen and (max-width: 768px) {
@@ -78,7 +78,7 @@ const InnerContainer = styled.div`
   }
 `;
 
-const MainContainer = styled.div`
+export const MainContainer = styled.div`
   width: calc(100% - 20rem);
   display: flex;
   flex-direction: column;
@@ -88,7 +88,7 @@ const MainContainer = styled.div`
     width: 90%;
   }
 `;
-const ItemContainer = styled.div`
+export const ItemContainer = styled.div`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -101,7 +101,7 @@ const ItemContainer = styled.div`
   }
 `;
 
-const Message = styled.div`
+export const Message = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -143,7 +143,6 @@ const List = () => {
 
   useEffect(() => {
     viewAll().then((res) => {
-      console.log(res.data.data);
       setItems(res.data.data);
 
       if (isSelected === 0) {

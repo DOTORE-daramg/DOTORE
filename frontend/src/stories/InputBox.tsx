@@ -84,7 +84,6 @@ export const InputBox = ({
 
   const onKeywordChange = (e: any) => {
     setKeyword(e.target.value);
-    console.log(keyword);
   };
 
   useEffect(() => {

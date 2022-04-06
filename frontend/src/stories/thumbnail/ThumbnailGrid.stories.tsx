@@ -23,9 +23,7 @@ const itemList = [
     nickname: "이성재",
     size: "14rem",
     like: 2,
-    onClick: () => {
-      console.log("clicked!");
-    },
+    onClick: () => {},
   },
   {
     itemHash:
@@ -34,9 +32,7 @@ const itemList = [
     nickname: "주비스",
     size: "14rem",
     like: 10,
-    onClick: () => {
-      console.log("clicked!");
-    },
+    onClick: () => {},
   },
   {
     itemHash:
@@ -45,9 +41,7 @@ const itemList = [
     nickname: "이성재이성재이성재이성재이성재이성재이성재",
     size: "14rem",
     like: 6,
-    onClick: () => {
-      console.log("clicked!");
-    },
+    onClick: () => {},
   },
   {
     itemHash:
@@ -56,9 +50,7 @@ const itemList = [
     nickname: "이성재이성재이성재이성재이성재이성재이성재",
     size: "14rem",
     like: 7,
-    onClick: () => {
-      console.log("clicked!");
-    },
+    onClick: () => {},
   },
   {
     itemHash:
@@ -67,9 +59,7 @@ const itemList = [
     nickname: "이성재이성재이성재이성재이성재이성재이성재",
     size: "14rem",
     like: 5,
-    onClick: () => {
-      console.log("clicked!");
-    },
+    onClick: () => {},
   },
   {
     itemHash:
@@ -78,9 +68,7 @@ const itemList = [
     nickname: "John Doe",
     size: "14rem",
     like: 3,
-    onClick: () => {
-      console.log("clicked!");
-    },
+    onClick: () => {},
   },
 ];
 

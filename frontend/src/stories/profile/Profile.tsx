@@ -17,11 +17,11 @@ const ProfileContainer = styled(motion.div)`
   height: 104px;
   padding-left: 0px;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 
   @media screen and (max-width: 768px) {
+    width: 19rem;
     justify-content: left;
-    padding-left: 3vw;
-    font-size: 0.8rem;
   }
 `;
 const StyledProfileImgContainer = styled.div`
@@ -38,17 +38,11 @@ const ProfileDescriptionContainer = styled.div`
 `;
 
 interface ProfileProps {
-  // children?: React.ReactElement | string;
   profileImgUrl: string;
   profileNickname: string;
   profileLevel: string;
   size: string;
   onClick?: () => void;
-}
-
-interface ProfileImgProps {
-  size: string;
-  profileImgUrl: string;
 }
 
 function Profile({
@@ -57,7 +51,6 @@ function Profile({
   profileLevel,
   size,
   onClick,
-  ...props
 }: ProfileProps) {
   return (
     <ProfileContainer
