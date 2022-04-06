@@ -25,6 +25,7 @@ contract DTTMarket is ReentrancyGuard {
         address owner; // nft 소유주
         uint256 price;
         bool sold;
+        string status;
     }
 
     // tokenId => saleId
@@ -39,7 +40,8 @@ contract DTTMarket is ReentrancyGuard {
         address indexed seller,
         address indexed owner,
         uint256 price,
-        bool sold
+        bool sold,
+        string status
     );
 
     function createMarketItem(
@@ -62,7 +64,8 @@ contract DTTMarket is ReentrancyGuard {
             msg.sender, //판매자의 주소
             address(0), //아직 소유주 없으니까 0으로 둠
             price,
-            false
+            false,
+            "CreateSaleItem"
         );
 
         // 컨트랙트에 nft의 소유권 전송
@@ -73,9 +76,10 @@ contract DTTMarket is ReentrancyGuard {
             saleId,
             tokenId,
             msg.sender,
-            msg.sender,
+            address(0),
             price,
-            false
+            false,
+            "CreateSaleItem"
         );
 
         return saleId;
@@ -120,7 +124,8 @@ contract DTTMarket is ReentrancyGuard {
             seller,
             msg.sender,
             price,
-            true
+            true,
+            "Purchase"
         );
     }
 
@@ -128,6 +133,20 @@ contract DTTMarket is ReentrancyGuard {
     function cancelSale(uint256 tokenId) public checkExistence(tokenId) checkSale(tokenId) checkOwner(tokenId) {
         // NFT 돌려주기
         dTT.transferFrom(address(this), msg.sender, tokenId);
+        
+        uint256 _saleId = saleMap[tokenId];
+        address seller = idMarketItem[_saleId].seller;
+
+        emit MarketItemEvent(
+            _saleId,
+            tokenId,
+            seller,
+            address(0),
+            0,
+            true,
+            "Cancel"
+        );
+        
         saleMap[tokenId] = 0;
     }
 
