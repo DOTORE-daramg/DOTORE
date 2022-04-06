@@ -627,7 +627,12 @@ const Detail = () => {
 
           {/* 하단 정보 컨테이너 시작 */}
           <DetailContainer>
-            {relatedNFTs && <RelatedNFT relatedNFTs={relatedNFTs} />}
+            {relatedNFTs && (
+              <RelatedNFT
+                setIsLoading={setIsLoading}
+                relatedNFTs={relatedNFTs}
+              />
+            )}
             {isFirst ? (
               <QuestionContainer>
                 {!isOwner ? (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -10,12 +10,14 @@ export interface RealtedNFTItemProps {
   itemHash: string;
   itemTitle?: string;
   tokenId: string;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const RealtedNFTItem = ({
   itemHash,
   itemTitle = "NFT",
   tokenId,
+  setIsLoading,
 }: RealtedNFTItemProps) => {
   const isPc = useMediaQuery({ minWidth: 768 });
   const isTablet = useMediaQuery({ minWidth: 500 });
@@ -26,8 +28,13 @@ const RealtedNFTItem = ({
     : "detailListM";
   const navigate = useNavigate();
 
+  const onClick = () => {
+    navigate(`/detail/${tokenId}`);
+    setIsLoading(true);
+  };
+
   return (
-    <Container onClick={() => navigate(`/detail/${tokenId}`)}>
+    <Container onClick={onClick}>
       <Image imageUrl={itemHash} name={itemTitle} mode={viewMode} />
     </Container>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import styled from "styled-components";
 import { Icon } from "../common/Icon";
 import RealtedNFTItem, { RealtedNFTItemProps } from "./RealtedNFTItem";
@@ -51,9 +51,10 @@ const ContentContainer = styled.div`
 
 interface RelatedNFTProps {
   relatedNFTs: Array<RealtedNFTItemProps>;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
-const RelatedNFT = ({ relatedNFTs }: RelatedNFTProps) => {
+const RelatedNFT = ({ relatedNFTs, setIsLoading }: RelatedNFTProps) => {
   return (
     <Container>
       <TitleContainer>
@@ -73,6 +74,7 @@ const RelatedNFT = ({ relatedNFTs }: RelatedNFTProps) => {
             key={nft.tokenId}
             itemHash={nft.itemHash}
             tokenId={nft.tokenId}
+            setIsLoading={setIsLoading}
           />
         ))}
       </ContentContainer>
