@@ -9,7 +9,7 @@ export type createParams = {
 };
 
 export type createAnswer = {
-  articleNo: number | undefined;
+  articleno: number | undefined;
   description: string;
   imgUrl?: string;
   writer: string;
@@ -24,8 +24,8 @@ export const createFeedback = async (params: createParams) => {
   return await api.post("/api/feedbacks", params);
 };
 
-export const getFeedBack = async (articleNo?: string) => {
-  return await api.get(`/api/feedbacks/detail/${articleNo}`);
+export const getFeedBack = async (articleno?: string) => {
+  return await api.get(`/api/feedbacks/detail/${articleno}`);
 };
 
 export const createAnswer = async (params: createAnswer) => {

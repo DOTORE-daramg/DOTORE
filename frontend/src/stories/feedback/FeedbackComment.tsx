@@ -87,8 +87,8 @@ const CreatedAt = styled.div`
 `;
 
 export interface FeedbackArticleProps {
-  answerNo?: number;
-  articleNo?: string;
+  answerno?: number;
+  articleno?: string;
   profileImgUrl?: string;
   profileNickname: string;
   profileLevel: string;
@@ -101,8 +101,8 @@ export interface FeedbackArticleProps {
 }
 
 export const FeedbackComment = ({
-  answerNo,
-  articleNo,
+  answerno,
+  articleno,
   profileImgUrl,
   profileNickname,
   profileLevel,
@@ -151,8 +151,8 @@ export const FeedbackComment = ({
           </CloseIconContainer>
           <TextEditor
             isUpdate={true}
-            articleNo={articleNo}
-            answerNo={answerNo}
+            articleno={articleno}
+            answerno={answerno}
             content={content}
           ></TextEditor>
         </FeedbackUpdateContainer>

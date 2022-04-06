@@ -166,7 +166,7 @@ const AppRouter = () => {
             <Route path="*" element={<Navigate replace to="/" />} />
           </Route>
 
-          <Route path="feedback/:tokenId/:articleNo" element={<Feedback />} />
+          <Route path="feedback/:tokenId/:articleno" element={<Feedback />} />
 
           <Route path="*" element={<Navigate replace to="/" />} />
         </Routes>

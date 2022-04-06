@@ -112,16 +112,16 @@ const TextEditorFooter = styled.div`
 
 export interface TEProps {
   item?: Iitem;
-  articleNo?: string;
-  answerNo?: number;
+  articleno?: string;
+  answerno?: number;
   isUpdate?: boolean;
   content?: string;
 }
 // 텍스트 에디터
 export const TextEditor = ({
   // isUpdate,
-  answerNo,
-  articleNo,
+  answerno,
+  articleno,
   item,
   content,
 }: TEProps) => {
@@ -244,11 +244,11 @@ export const TextEditor = ({
 
   const onClick = () => {
     if (item) {
-      if (articleNo) {
+      if (articleno) {
         const rawContentState = convertToRaw(editorState.getCurrentContent());
         const markup = JSON.stringify(rawContentState);
         const params = {
-          articleNo: Number(articleNo),
+          articleno: Number(articleno),
           description: markup,
           writer: userInfo.address,
         };
@@ -271,21 +271,21 @@ export const TextEditor = ({
           .catch((error) => {});
       }
     } else {
-      if (answerNo) {
+      if (answerno) {
         const rawContentState = convertToRaw(editorState.getCurrentContent());
         const markup = JSON.stringify(rawContentState);
         const params = {
-          no: answerNo,
+          no: answerno,
           description: markup,
         };
         updateAnswer(params).then((res) => {
           window.location.reload();
         });
-      } else if (articleNo) {
+      } else if (articleno) {
         const rawContentState = convertToRaw(editorState.getCurrentContent());
         const markup = JSON.stringify(rawContentState);
         const params = {
-          no: Number(articleNo),
+          no: Number(articleno),
           description: markup,
         };
         updateFeedback(params).then((res) => {
