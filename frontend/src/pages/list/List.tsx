@@ -208,9 +208,9 @@ const List = () => {
               ))}
             </CategoryContainer>
             <CheckboxContainer>
-              <Checkbox label="이미지" />
-              <Checkbox label="영상" />
-              <Checkbox label="음성" />
+              <Checkbox id="all" label="View All" onChangeArtType={setArtType} />
+              <Checkbox id="first" label="1차 NFT" onChangeArtType={setArtType} />
+              <Checkbox id="second" label="2차 NFT" onChangeArtType={setArtType} />
             </CheckboxContainer>
           </FilterContainer>
         </SideContainer>

@@ -69,11 +69,11 @@ const SecondList = () => {
                 />
               ))}
             </CategoryContainer>
-            <CheckboxContainer>
+            {/* <CheckboxContainer>
               <Checkbox label="이미지" />
               <Checkbox label="영상" />
               <Checkbox label="음성" />
-            </CheckboxContainer>
+            </CheckboxContainer> */}
           </FilterContainer>
         </SideContainer>
         <MainContainer>
