@@ -62,8 +62,7 @@ export const createMarketItem = async ({
   price,
   userAddress,
 }: createMarketItemProps) => {
-  let txHash = "";
-  const tx = await dTTMarketContract.methods
+  return await dTTMarketContract.methods
     .createMarketItem(tokenId, price)
     .send({
       from: userAddress,
@@ -71,7 +70,6 @@ export const createMarketItem = async ({
       gasPrice: "10000000000",
     })
     .on("transactionHash", (hash: string) => {
-      txHash = hash;
       createSale({
         price,
         saleTrxHash: hash,
@@ -79,7 +77,6 @@ export const createMarketItem = async ({
         tokenId,
       });
     });
-  return { tx, txHash };
 };
 
 interface purchaseProps {
@@ -94,22 +91,17 @@ export const purchase = async ({
   price,
   userAddress,
 }: purchaseProps) => {
-  try {
-    await dTTMarketContract.methods
-      .purchase(
-        tokenId
-        // userAddress
-      )
-      .send({
-        from: userAddress,
-        gas: 3000000,
-        value: price,
-        gasPrice: "10000000000",
-      });
-    await completeSale(userAddress, tokenId);
-  } catch (err) {
-    console.error(err);
-  }
+  return await dTTMarketContract.methods
+    .purchase(
+      tokenId
+      // userAddress
+    )
+    .send({
+      from: userAddress,
+      gas: 3000000,
+      value: price,
+      gasPrice: "10000000000",
+    });
 };
 
 interface cancleSaleProps {

@@ -16,17 +16,10 @@ import {
   successAlert,
   warnAlert,
 } from "../../stories/common/alert";
+import { LoadContainer } from '../Detail';
 
 const Container = styled.div`
   padding: 8rem 0;
-`;
-
-const LoadingContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 30px;
 `;
 
 const MintingContainer = styled.div`
@@ -190,10 +183,10 @@ const ParentMinting = () => {
     <Container>
       {ispending && (
         <>
-          <LoadingContainer>
-            <div> 민팅 중입니다. 잠시만 기다려주세요</div>
+          <LoadContainer>
+            <div> 민팅 중입니다. 잠시만 기다려주세요...</div>
             <LoadingSpinner />
-          </LoadingContainer>
+          </LoadContainer>
         </>
       )}
       {!ispending && (
