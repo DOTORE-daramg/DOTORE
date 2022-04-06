@@ -62,7 +62,9 @@ interface InputProps {
   type?: string;
   onBlur?: (event: any) => void;
   onKeyDown?: (event: any) => void;
+  onKeyUp?: (event: any) => void;
   onChange?: (event: any) => void;
+  onSearch?: (searchInput: string) => void;
 }
 
 export const InputBox = ({
@@ -78,6 +80,7 @@ export const InputBox = ({
   setFilteredItems,
   onKeyDown,
   onChange,
+  onKeyUp,
   ...props
 }: InputProps) => {
   const [keyword, setKeyword] = useState<string>("");
@@ -85,21 +88,6 @@ export const InputBox = ({
   const onKeywordChange = (e: any) => {
     setKeyword(e.target.value);
   };
-
-  useEffect(() => {
-    if (items && setFilteredItems) {
-      setFilteredItems(
-        items.filter((item) => {
-          if (keyword === "") {
-            return item;
-          }
-          return (
-            item.itemTitle.includes(keyword) || item.nickname?.includes(keyword)
-          );
-        })
-      );
-    }
-  }, [keyword]);
 
   return (
     <InputDiv width={width}>
@@ -112,6 +100,7 @@ export const InputBox = ({
         type={type}
         onBlur={onBlur}
         onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
         maxLength={maxLength}
         onChange={onChange ? onChange : onKeywordChange}
       ></StyledInput>

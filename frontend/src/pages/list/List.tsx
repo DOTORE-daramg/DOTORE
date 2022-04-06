@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
-import { viewAll, viewList } from "../../api/item";
+import { viewList } from "../../api/item";
 import StyledPagination from "../../stories/common/StyledPagination";
 import { InputBox } from "../../stories/InputBox";
 import Category from "../../stories/list/Category";
@@ -164,6 +164,17 @@ const List = () => {
   // const indexOfLast = currentPage * itemsPerPage;
   // const indexOfFirst = indexOfLast - itemsPerPage;
 
+  const onSearch = (searchInput: string) => {
+    setKeyword(searchInput);
+  }
+
+  const onKeyUpEnter = (e: any) => {
+    if (e.key !== 'Enter') {
+      return;
+    }
+    onSearch(e.target.value);
+  }
+
   const handleSortType = (category: string) => {
     if (category === '최신순') {
       setSortType(0);
@@ -177,11 +188,10 @@ const List = () => {
     viewList(activePage, keyword, sortType, artType).then((res) => {
       setItemList(res.data.data);
       setItemTotal(res.data.total);
-
       setIsLoading(false);
       // console.log(res.data.total);
     })
-  }, [activePage, sortType, artType])
+  }, [activePage, sortType, artType, keyword])
 
 
   return (
@@ -191,11 +201,13 @@ const List = () => {
       <InnerContainer>
         <SideContainer>
           <InputBox
+            icon={"magnifying-glass"}
             items={itemList}
             filteredItems={filteredItems}
             setFilteredItems={setFilteredItems}
             width="100%"
             placeholder="작품명 / 작가명 검색"
+            onKeyUp={onKeyUpEnter}
           />
           <FilterContainer>
             <CategoryContainer>
