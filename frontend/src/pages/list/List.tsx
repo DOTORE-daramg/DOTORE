@@ -227,8 +227,8 @@ const List = () => {
             </ItemContainer>
           ) : itemList && itemList.length > 0 ? (
             <ItemContainer>
-              {itemList.map((item, index) => (
-                <Item key={index + String(item.tokenId)} {...item} />
+              {itemList.map((item) => (
+                <Item key={item.tokenId} {...item} />
               ))}
             </ItemContainer>
           ) : (
