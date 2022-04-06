@@ -69,11 +69,11 @@ const SecondList = () => {
                 />
               ))}
             </CategoryContainer>
-            <CheckboxContainer>
+            {/* <CheckboxContainer>
               <Checkbox label="이미지" />
               <Checkbox label="영상" />
               <Checkbox label="음성" />
-            </CheckboxContainer>
+            </CheckboxContainer> */}
           </FilterContainer>
         </SideContainer>
         <MainContainer>
@@ -99,7 +99,7 @@ const SecondList = () => {
               <Message>등록된 작품이 없습니다.</Message>
             </>
           )}
-          <StyledPagination />
+          {/* <StyledPagination /> */}
         </MainContainer>
       </InnerContainer>
     </Container>

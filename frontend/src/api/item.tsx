@@ -1,3 +1,4 @@
+import internal from "stream";
 import AppRouter from "../Router";
 import { api } from "./api";
 
@@ -66,4 +67,8 @@ export const putDownload = async (address: string, tokenId?: string) => {
 
 export const cancelItem = async (itemTrxHash: string) => {
   return await api.delete(`/api/items/cancel${itemTrxHash}`);
+};
+
+export const viewList = async (pageNum: number, sort: number, type: string) => {
+  return await api.post(`/api/items/view`, { pageNum, sort, type });
 };

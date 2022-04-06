@@ -13,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface SaleRepository extends JpaRepository<Sales, Integer> {
 
-    Optional<Sales> findByTokenIdAndSaleYn(BigInteger tokenId, boolean saleYn);
+    Optional<Sales> findByTokenIdAndStatus(BigInteger tokenId, String status);
 
-    Optional<Sales> findByTokenId(BigInteger tokenId);
+    Optional<Sales> findByTokenIdAndSaleYn(BigInteger tokenId, boolean saleYn);
 
     Optional<Sales> findBySaleTrxHash(String saleTrxHash);
 

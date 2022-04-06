@@ -1,5 +1,6 @@
 package com.daram.dotore.api.service;
 
+import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
@@ -51,6 +52,8 @@ public interface ItemService {
     List<Items> getPendingItemList(String address);
 
     List<Items> getAuthorItemList(String address);
+
+    ItemsRes getItemsByPage(ItemPageReq itemPageReq);
 
     ItemsRes getAll();
 

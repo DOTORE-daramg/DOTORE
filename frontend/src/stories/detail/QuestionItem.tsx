@@ -35,13 +35,18 @@ const QuestionItem = ({
   description,
 }: QuestionProps) => {
   const navigate = useNavigate();
-  const desc = JSON.parse(description).blocks[0].text;
+  const blocks = JSON.parse(description).blocks;
   return (
     <Container onClick={() => navigate(`/feedback/${tokenId}/${articleNo}`)}>
       <div>{yn ? "해결" : "미해결"}</div>
       <div>{nickname}</div>
       <Category>
-        {desc.length >= 15 ? desc.slice(0, 15) + "..." : desc}
+        {/* {desc.length >= 15 ? desc.slice(0, 15) + "..." : desc} */}
+        {blocks.map((block: any) =>
+          block.text.length >= 13
+            ? block.text.slice(0, 13) + "..."
+            : block.text.length > 1 && block.text
+        )}
       </Category>
     </Container>
   );
