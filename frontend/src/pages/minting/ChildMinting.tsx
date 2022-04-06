@@ -8,17 +8,9 @@ import { Button } from "../../stories/Button";
 import { isLoggedInState, userInfoState } from "../..";
 import { TagInputBox } from "../../stories/minting/TagInputBox";
 import { postFile, modifyTokenId, viewFirst } from "../../api/item";
-import {
-  createToken,
-  createMarketItem,
-  purchase,
-} from "../../contracts/api/second";
-import { Iitem } from "../feedback/FeedbackCreate";
-import SearchResult from "../../stories/minting/SearchResult";
+import { createToken } from "../../contracts/api/second";
 import { SearchBar } from "../../stories/common/SearchBar";
 import { ItemProps } from "../../stories/list/Item";
-import { viewAll } from "../../api/item";
-import { Image } from "../../stories/detail/Image";
 import { OriginalItemImage } from "../../stories/minting/OriginalItemImage";
 import {
   errorAlert,
@@ -99,18 +91,6 @@ const InputTextContainer = styled.div`
   @media screen and (max-width: 768px) {
     gap: 1rem;
   }
-`;
-
-const SearchResults = styled.div`
-  width: 23rem;
-  background-color: white;
-  height: 300px;
-  position: absolute;
-  z-index: 10;
-  /* box-shadow: 0px 10px 20px rgba(32, 37, 38, 0.1),
-    0px 20px 50px rgba(32, 37, 38, 0.1); */
-  border: 1px solid lightgray;
-  border-radius: 20px;
 `;
 
 const OriginalItems = styled.div`
@@ -234,7 +214,7 @@ const ChildMinting = () => {
   };
 
   useEffect(() => {
-    viewAll().then((res) => setItems(res.data.data));
+    viewFirst().then((res) => setItems(res.data.data));
   }, []);
 
   return (
