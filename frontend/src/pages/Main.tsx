@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { viewAll } from "../api/item";
+import { viewList } from "../api/item";
 import { getUsers } from "../api/user";
 import Skeleton from "../stories/list/Skeleton";
 import Banner from "../stories/main/Banner";
@@ -82,7 +82,7 @@ const Main = () => {
 
   useEffect(() => {
     if (isNFTLoading) {
-      viewAll().then((res) => {
+      viewList(1, "", 1, 'all').then((res) => { // 인기순이 1이었쬬?
         const {
           data: { data: data },
         } = res;
