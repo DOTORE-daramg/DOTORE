@@ -21,7 +21,7 @@ const Category = styled.div`
 
 export interface QuestionProps {
   tokenId?: string;
-  articleNo: number;
+  articleno: number;
   yn: boolean;
   nickname: string;
   description: string;
@@ -29,7 +29,7 @@ export interface QuestionProps {
 
 const QuestionItem = ({
   tokenId,
-  articleNo,
+  articleno,
   yn,
   nickname,
   description,
@@ -37,7 +37,7 @@ const QuestionItem = ({
   const navigate = useNavigate();
   const blocks = JSON.parse(description).blocks;
   return (
-    <Container onClick={() => navigate(`/feedback/${tokenId}/${articleNo}`)}>
+    <Container onClick={() => navigate(`/feedback/${tokenId}/${articleno}`)}>
       <div>{yn ? "해결" : "미해결"}</div>
       <div>{nickname}</div>
       <Category>

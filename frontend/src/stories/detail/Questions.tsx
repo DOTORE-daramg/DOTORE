@@ -45,7 +45,7 @@ const Questions = ({ tokenId, questions }: QuestionsProps) => {
         </CategoryContainer>
         {questions.map((question) => (
           <QuestionItem
-            key={question.articleNo}
+            key={question.articleno}
             tokenId={tokenId}
             {...question}
           />
