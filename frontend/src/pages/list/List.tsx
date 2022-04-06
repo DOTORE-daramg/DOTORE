@@ -185,12 +185,15 @@ const List = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    console.log(`검색은 ${keyword}, 정렬은 ${sortType}, 분류는 ${artType}`)
     viewList(activePage, keyword, sortType, artType).then((res) => {
+      console.log(res.data);
       setItemList(res.data.data);
       setItemTotal(res.data.total);
       setIsLoading(false);
       // console.log(res.data.total);
     })
+      .catch(err => console.error(err));
   }, [activePage, sortType, artType, keyword])
 
 
@@ -221,9 +224,9 @@ const List = () => {
               ))}
             </CategoryContainer>
             <CheckboxContainer>
-              <Checkbox id="all" label="View All" onChangeArtType={setArtType} />
-              <Checkbox id="first" label="1차 NFT" onChangeArtType={setArtType} />
-              <Checkbox id="second" label="2차 NFT" onChangeArtType={setArtType} />
+              <Checkbox id="all" label="View All" artType={artType} onChangeArtType={setArtType} />
+              <Checkbox id="first" label="1차 NFT" artType={artType} onChangeArtType={setArtType} />
+              <Checkbox id="second" label="2차 NFT" artType={artType} onChangeArtType={setArtType} />
             </CheckboxContainer>
           </FilterContainer>
         </SideContainer>
