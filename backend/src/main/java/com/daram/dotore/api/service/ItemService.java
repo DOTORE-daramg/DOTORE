@@ -2,6 +2,7 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemSearchReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
@@ -54,6 +55,8 @@ public interface ItemService {
     List<Items> getAuthorItemList(String address);
 
     ItemsRes getItemsByPage(ItemPageReq itemPageReq);
+
+    ItemsRes getItemsBySearch(ItemSearchReq itemSearchReq);
 
     ItemsRes getAll();
 

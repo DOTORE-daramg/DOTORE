@@ -6,9 +6,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@ApiModel("NicknameUpdateRequest")
-public class NicknameUpdateReq {
+@ApiModel("ItemSearchRequest")
+public class ItemSearchReq {
 
-    String address;
-    String nickname;
+    private String word;
+    private String type;
 }
