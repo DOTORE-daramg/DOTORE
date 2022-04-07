@@ -3,7 +3,6 @@ package com.daram.dotore.api.controller;
 import com.daram.dotore.api.request.ItemButtonReq;
 import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
-import com.daram.dotore.api.request.ItemSearchReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.response.BaseRes;
@@ -281,35 +280,6 @@ public class ItemController {
         }
         return ResponseEntity.status(200).body(itemsRes);
     }
-
-    /*
-    @GetMapping("/all")
-    @ApiOperation(value = "모든 작품 목록 조회(view all)", notes = "모든 작품을 조회")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "작품 전체 조회 성공", response = ItemsRes.class),
-        @ApiResponse(code = 404, message = "아무 작품도 존재하지 않음", response = ItemsRes.class),
-    })
-    public ResponseEntity<ItemsRes> getAllItems() {
-        ItemsRes itemsRes = itemService.getAll();
-        if (itemsRes == null) {
-            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
-        }
-        return ResponseEntity.status(200).body(itemsRes);
-    }
-
-    @GetMapping("/second")
-    @ApiOperation(value = "2차 창작물 조회", notes = "모든 2차 창작물 조회")
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "Success", response = ItemsRes.class),
-    })
-    public ResponseEntity<ItemsRes> getSecondItems() {
-        ItemsRes itemsRes = itemService.getSecond();
-        if (itemsRes == null) {
-            return ResponseEntity.status(404).body(ItemsRes.of("아무 작품도 존재하지 않음"));
-        }
-        return ResponseEntity.status(200).body(itemsRes);
-    }
-    */
 
     @GetMapping("/sale")
     @ApiOperation(value = "판매중인 작품 조회", notes = "판매중인 모든 작품들 조회")
