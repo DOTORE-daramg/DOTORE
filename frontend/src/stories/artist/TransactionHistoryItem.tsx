@@ -87,7 +87,7 @@ const TransactionHistoryItem = ({ data }: any) => {
   return (
     <TableRow>
       <TableBlock width="15%">
-        <TableCell>{data.event}</TableCell>
+        <TableCell>{data.returnValues.status || data.event}</TableCell>
       </TableBlock>
       <TableBlock width="25%">
         <ItemContainer onClick={onClickItem}>

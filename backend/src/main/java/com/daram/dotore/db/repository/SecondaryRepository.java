@@ -16,5 +16,6 @@ public interface SecondaryRepository extends JpaRepository<Secondary, Integer> {
     @Query(value = "UPDATE secondary "
         + "SET token_id = :tokenId "
         + "WHERE item_trx_hash = :itemTrxHash", nativeQuery = true)
-    int updateTokenId(@Param("itemTrxHash") String itemTrxHash, @Param("tokenId") BigInteger tokenId);
+    int updateTokenId(@Param("itemTrxHash") String itemTrxHash,
+        @Param("tokenId") BigInteger tokenId);
 }

@@ -53,20 +53,22 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
         + "ORDER BY token_id Desc", nativeQuery = true)
     List<Items> getAuthorItemList(@Param("address") String address);
 
-    @Query(value = "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
-        + "FROM users u JOIN items i "
-        + "ON u.address = i.owner_address "
-        + "WHERE u.nickname LIKE %:search% OR i.item_title LIKE %:search% "
-        + "ORDER BY token_id desc "
-        + "LIMIT :pageNum, 12", nativeQuery = true)
+    @Query(value =
+        "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
+            + "FROM users u JOIN items i "
+            + "ON u.address = i.owner_address "
+            + "WHERE i.status = \"Success\" AND (u.nickname LIKE %:search% OR i.item_title LIKE %:search%) "
+            + "ORDER BY token_id desc "
+            + "LIMIT :pageNum, 12", nativeQuery = true)
     List<Items> getRecentItemList(@Param("search") String search, @Param("pageNum") int pageNum);
 
-    @Query(value = "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
-        + "FROM users u JOIN items i "
-        + "ON u.address = i.owner_address "
-        + "WHERE is_first = :isFirst AND (u.nickname LIKE %:search% OR i.item_title LIKE %:search%) "
-        + "ORDER BY token_id desc "
-        + "LIMIT :pageNum, 12", nativeQuery = true)
+    @Query(value =
+        "SELECT i.item_trx_hash, i.token_id, i.item_hash, i.item_title, i.item_description, i.created_at, i.author_address, i.owner_address, i.on_sale_yn, i.is_first, i.format, i.status "
+            + "FROM users u JOIN items i "
+            + "ON u.address = i.owner_address "
+            + "WHERE i.status = \"Success\" AND is_first = :isFirst AND (u.nickname LIKE %:search% OR i.item_title LIKE %:search%) "
+            + "ORDER BY token_id desc "
+            + "LIMIT :pageNum, 12", nativeQuery = true)
     List<Items> getRecentItemListByIsFirst(@Param("search") String search,
         @Param("isFirst") boolean isFirst,
         @Param("pageNum") int pageNum);
@@ -78,7 +80,7 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
             + "FROM likes "
             + "GROUP BY token_id) s "
             + "ON i.token_id = s.token_id "
-            + "WHERE status = \"Success\" "
+            + "WHERE i.status = \"Success\" "
             + "ORDER BY like_cnt DESC, i.token_id "
             + "LIMIT :pageNum, 12", nativeQuery = true)
     List<Items> getFavoriteItemList(@Param("pageNum") int pageNum);
@@ -90,7 +92,7 @@ public interface ItemRepository extends JpaRepository<Items, BigInteger> {
             + "FROM likes "
             + "GROUP BY token_id) s "
             + "ON i.token_id = s.token_id "
-            + "WHERE status = \"Success\" AND is_first = :isFirst "
+            + "WHERE i.status = \"Success\" AND is_first = :isFirst "
             + "ORDER BY like_cnt DESC, i.token_id "
             + "LIMIT :pageNum, 12", nativeQuery = true)
     List<Items> getFavoriteItemListByIsFirst(@Param("isFirst") boolean isFirst,
