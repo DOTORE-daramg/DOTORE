@@ -2,6 +2,7 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
+import com.daram.dotore.api.request.ItemSearchReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
@@ -237,9 +238,10 @@ public class ItemServiceImpl implements ItemService {
     public ItemsRes getItemsByPage(ItemPageReq itemPageReq) {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items;
+        int total = 0;
         int pageNum = (itemPageReq.getPageNum() - 1) * 12;
 
-        if (itemPageReq.getSearch() == null) {
+        if(itemPageReq.getSearch() == null){
             return null;
         }
         String search = itemPageReq.getSearch();
@@ -247,20 +249,30 @@ public class ItemServiceImpl implements ItemService {
         if (itemPageReq.getSort() == 0) {   // 최신순
             if ("all".equals(itemPageReq.getType())) {
                 items = itemRepository.getRecentItemList(search, pageNum);
+                total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getRecentItemListByIsFirst(search, true, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
+                    .size();
             } else if ("second".equals(itemPageReq.getType())) {
                 items = itemRepository.getRecentItemListByIsFirst(search, false, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success")
+                    .size();
             } else {
                 return null;
             }
         } else if (itemPageReq.getSort() == 1) {  // 인기순
             if ("all".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemList(pageNum);
+                total = itemRepository.findByStatusOrderByTokenIdDesc("Success").size();
             } else if ("first".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(true, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true, "Success")
+                    .size();
             } else if ("second".equals(itemPageReq.getType())) {
                 items = itemRepository.getFavoriteItemListByIsFirst(false, pageNum);
+                total = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false, "Success")
+                    .size();
             } else {
                 return null;
             }
@@ -282,7 +294,7 @@ public class ItemServiceImpl implements ItemService {
             tags = getTags(item.getTokenId());
             list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
         }
-        int total = items.size();
+
         return ItemsRes.of("작품 조회 성공", total, list);
     }
 
