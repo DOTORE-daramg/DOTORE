@@ -144,14 +144,23 @@ const List = () => {
       return;
     }
     onSearch(e.target.value);
+    setActivePage(1);
   };
 
   const handleSortType = (category: string) => {
     if (category === "최신순") {
       setSortType(0);
+      setActivePage(1);
     } else if (category === "인기순") {
       setSortType(1);
+      setActivePage(1);
     }
+  };
+
+  type ArtType = "all" | "first" | "second";
+  const handleArtType = (selectedArtType: ArtType) => {
+    setArtType(selectedArtType);
+    setActivePage(1);
   };
 
   useEffect(() => {
@@ -201,19 +210,19 @@ const List = () => {
                 id="all"
                 label="View All"
                 artType={artType}
-                onChangeArtType={setArtType}
+                onChangeArtType={handleArtType}
               />
               <Checkbox
                 id="first"
                 label="1차 NFT"
                 artType={artType}
-                onChangeArtType={setArtType}
+                onChangeArtType={handleArtType}
               />
               <Checkbox
                 id="second"
                 label="2차 NFT"
                 artType={artType}
-                onChangeArtType={setArtType}
+                onChangeArtType={handleArtType}
               />
             </CheckboxContainer>
           </FilterContainer>
