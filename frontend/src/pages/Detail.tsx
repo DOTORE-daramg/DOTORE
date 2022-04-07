@@ -565,7 +565,7 @@ const Detail = () => {
                 {!isFirst && !isSale && (
                   <Button
                     width="8rem"
-                    label="구매 불가능"
+                    label="미판매 상품"
                     backgroundColor="#a09fae"
                   />
                 )}
