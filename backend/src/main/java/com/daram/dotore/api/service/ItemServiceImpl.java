@@ -241,7 +241,7 @@ public class ItemServiceImpl implements ItemService {
         int total = 0;
         int pageNum = (itemPageReq.getPageNum() - 1) * 12;
 
-        if(itemPageReq.getSearch() == null){
+        if (itemPageReq.getSearch() == null) {
             return null;
         }
         String search = itemPageReq.getSearch();
