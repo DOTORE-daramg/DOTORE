@@ -124,6 +124,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 ### **Smart Contract**
 
 <details><summary>Smart Contract</summary>
+
 ```
 📦smart-contracts
   ┣ 📂contracts
@@ -150,6 +151,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 ### **Frontend**
 
 <details><summary>Frontend</summary>
+
 ```
 📦frontend
   ┣ 📂.storybook
@@ -364,6 +366,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ### **Backend**
 <details><summary>Backend</summary>
+
 ```
 📦backend
   ┣ 📂gradle
