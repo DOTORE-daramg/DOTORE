@@ -9,7 +9,7 @@
 
 NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 창작물을 만들어 거래를 할 수 있는 서비스를 제공합니다.
 
-기존의 NFT 거래 플랫폼에 본인의 재능을 NFT로 공유하여 재능 기부자는 창작 활동 기회를 증진하며 피기부자는 기부자의 피드백을 통해 충분한 동기를 부여받게 됩니다.
+재능 기부자는 본인의 재능을 NFT로 공유하여 창작 활동 기회를 증진하며 피기부자는 기부자의 피드백을 통해 충분한 동기를 부여받게 됩니다.
 
 ### 프로젝트 목표
 
@@ -35,23 +35,16 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 ### WE ARE, 다람쥐
 |  팀원 | 역할 |
 | --- | --- |
-| 한지희 | 💪😎🎺 팀장! Frontend, Blockchain  |
+| 한지희 | 💪😎🎺 팀장! Frontend, Blockchain, Infra |
 | 이성재 | 🐭 Frontend, Blockchain |
-| 이호진 | 🐯 Frontend, Blockchain  |
-| 인주비 | 🐱 Frontend, Blockchain |
-| 조영운 | 🐹 Backend, Blockchain |
-| 제진명 | 🐨 Backend, Blockchain |
-
-- **한지희**: 팀장! Frontend, Blockchain
-- **이성재**: Frontend, Blockchain
-- **인주비**: Frontend, Blockchain
-- **제진명**: Frontend, Blockchain
-- **이호진**: Backend, Blockchain
-- **조영운**: Backend, Blockchain
+| 이호진 | 🐯 Backend, Infra |
+| 인주비 | 🐱 Frontend |
+| 조영운 | 🐹 Backend, Blockchain, Infra |
+| 제진명 | 🐨 Frontend, Blockchain |
 
 <br>
 
-## 💻 개발 환경
+## **:two: 개발 환경**
 
 |  |  |
 | --- | --- |
@@ -67,7 +60,6 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 |  |  | 프로그램 | 버전 |
 | --- | --- | --- | --- |
-|  |  |  |  |
 | IDE |  | Visual Studio Code | 1.64.2 |
 |  |  | IntelliJ IDEA Community Edition | 2021.3.1 |
 |  |  | Spring Tool Suite | 3.9.14 |
@@ -86,57 +78,36 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 |  | 테스트 환경 | Truffle  | 5.4.24 |
 | Blockchain Environment | 테스트 네트워크 | Ropsten network |  |
 | Frontend |  | HTML5, CSS3, TypeScript(ES6)  |  |
-|  | 라이브러리 | React 17.0.2 |  |
-|  |  | Recoil 3.4.0 |  |
-|  |  | Lib : 라이브러리 쓴 거 적기 |  |
+|  | 라이브러리 | React | 17.0.2 |
+|  |  | Recoil | 0.5.1 |
+|  |  | styled-componenents | 5.3.3 |
+| | | framer-motion | 4.1.17 |
+| | | draft-js | 0.11.7 |
+| | | axios | 0.26.1 |
+| | | web3 | 1.7.1 |
 | Backend |  | Java (Open-JDK zulu 8.33.0.1) |  |
 |  |  | Spring Boot Gradle 7.4.1 |  |
 |  |  | Lombok 1.18.20, Swagger 2 3.0.0 |  |
 |  |  | JPA |  |
-
-- IDE
-  - IntelliJ IDEA Community Edition 2021.3.1
-  - Visual Studio Code 1.64.2
-- Frontend
-  - HTML5, CSS, TyleScript, JavaScript (ES6)
-  - React 17.0.2
-- Backend
-  - Java OpenJDK 1.8.0 
-  - Spring Boot 2.4.5
-  - Spring Data JPA
-  - Hibernate 5.4.30
-  - Lombok
-- Blockchain Environment
-  - Besu 21.10.2
-- Smart Contract
-  - Solidity 0.8.4+
-  - Truffle 5.4.24
-- DB
-  - MySQL 8.0.28-0ubuntu0.20.04.3
-- Server
-  - AWS EC2 (Ubuntu 20.04 LTS)
-- 형상관리
-  - GitLab
-- 이슈 관리
-  - Jira
-- Tools
-  - Mattermost 4.7.0
-  - Sourcetree 3.4.7
+| 형상 관리 | | Gitlab | |
+| 이슈 관리 | | Jira | |
+| 커뮤니케이션 | | Mattermost, Notion, Webex | |
 
 <br>
 
-## **2️⃣ 프로젝트 산출물**
+## **:three: 프로젝트 산출물**
 
 - 프로젝트 메모 및 공유 : Notion
 - 프로젝트 회의록
 - 프로젝트 컨벤션 목록
 - 프로젝트 스토리보드 및 디자인
 - 기획서
-- API Docs
+- [API Docs](./docs/API설계서.pdf)
 - 와이어 프레임
 - 서비스 아키텍처
-- 요구사항 명세서
-- 데이터베이스:ERD
+- [기능 정의서](./docs/기능명세서.pdf)
+- [요구사항 명세서](./docs/요구사항명세서.pdf)
+- [ERD]((./docs/DOTORE_ERD설계.PNG))
 - 시퀀스 다이어그램
 - Git 협업
 - Jira 이슈 관리
@@ -144,17 +115,15 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 <br>
 
-## 💡 프로젝트 Wiki
 
-- [요구사항 명세서](./docs/요구사항명세서.pdf)
-- [기능정의서](./docs/기능명세서.pdf)
-- [ERD](./docs/DOTORE_ERD설계.PNG)
-- [API Docs](./docs/API설계서.pdf)
+
 <br>
 
 ## **4️⃣ 프로젝트 파일 구조**
 
 ### Smart Contract
+
+<div markdown="1">
 
 ```bash
 📦smart-contracts
@@ -177,6 +146,8 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜package.json
  ┗ 📜README.md
 ```
+
+</div>
 
 ### **Frontend**
 
@@ -511,8 +482,12 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ## **5️⃣ 프로젝트 결과물**
 
-- 포팅매뉴얼
-- 시연시나리오
+- 포팅메뉴얼
+  - [Quick start](./exec/Quick-start.md)
+  - [빌드 및 배포](./exec/빌드_및_배포.pdf)
+  - [외부 서비스](./exec/외부_서비스.pdf)
+
+- [시연 시나리오](./exec/시연_시나리오.pdf)
 - 중간발표자료
 - 최종발표자료
 
