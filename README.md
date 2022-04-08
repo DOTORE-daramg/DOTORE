@@ -154,8 +154,8 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ## **4️⃣ 프로젝트 파일 구조**
 
-### Smart Contract
-
+### **Smart Contract**
+<details><summary>Smart Contract</summary>
 ```bash
 📦smart-contracts
  ┣ 📂contracts
@@ -177,9 +177,11 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜package.json
  ┗ 📜README.md
 ```
+</details>
 
 ### **Frontend**
 
+<details><summary>Frontend</summary>
 ```bash
 📦frontend
  ┣ 📂.storybook
@@ -390,9 +392,11 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜README.md
  ┗ 📜tsconfig.json
 ```
+</details>
 
 ### **Backend**
 
+<details><summary>Backend</summary>
 ```bash
 📦backend
  ┣ 📂gradle
@@ -507,6 +511,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜gradlew.bat
  ┗ 📜settings.gradle
 ```
+</details>
 <br>
 
 ## **5️⃣ 프로젝트 결과물**
