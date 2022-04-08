@@ -10,8 +10,8 @@ const ProfileContainer = styled.div`
   gap: 7px;
 `;
 
-interface HorizonProfileProps {
-  profileImgUrl: string;
+export interface HorizonProfileProps {
+  profileImgUrl?: string;
   profileNickname: string;
   profileLevel: string;
   imgSize: string;

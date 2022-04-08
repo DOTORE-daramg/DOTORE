@@ -1,70 +1,79 @@
-import React from 'react';
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ArtistNavMenu } from "./ArtistNavMenu";
 
 const Nav = styled.div`
-    width: 100vw;
-    height: 50px;
-    display: flex;
-    align-items: center;
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  background: rgba(102, 103, 171, 0.1);
+  @media screen and (max-width: 500px) {
     justify-content: center;
-    flex-wrap: nowrap;
-    background: rgba(102, 103, 171, 0.1);
-    @media screen and (max-width: 500px) {
-        /* padding: 2vh; */
-        justify-content: center;
-    }
+    height: 2.6rem;
+  }
 `;
 
-
-export interface ArtistNavProps {
-    isSelected: boolean;
-    background: string;
-    onClickMenu: () => void;
-}
-
-export const ArtistNav = ({
-    isSelected,
-    onClickMenu,
-}: ArtistNavProps) => {
-    return (
-        <Nav>
-            <ArtistNavMenu
-                label='나의 NFT'
-                isSelected={true}
-                background='white'
-                color='#6667AB'
-            />
-            <ArtistNavMenu
-                label='창작물'
-                isSelected={false}
-                background='none'
-                color='black'
-            />
-            <ArtistNavMenu
-                label='거래 내역'
-                isSelected={false}
-                background='none'
-                color='black'
-            />
-            <ArtistNavMenu
-                label='피드백'
-                isSelected={false}
-                background='none'
-                color='black'
-            />
-            <ArtistNavMenu
-                label='다운로드'
-                isSelected={false}
-                background='none'
-                color='black'
-            />
-            <ArtistNavMenu
-                label='좋아요'
-                isSelected={false}
-                background='none'
-                color='black'
-            />
-        </Nav>
-    );
+export const ArtistNav = () => {
+  const [selectedTab, setSelectedTab] = useState("ownednft");
+  const navigate = useNavigate();
+  useEffect(() => {
+    navigate(selectedTab);
+  }, [selectedTab, navigate]);
+  return (
+    <Nav>
+      <ArtistNavMenu
+        id="ownednft"
+        label="소유한 NFT"
+        isSelected={selectedTab === "ownednft"}
+        onClick={() => {
+          setSelectedTab("ownednft");
+        }}
+      />
+      <ArtistNavMenu
+        id="authorednft"
+        label="창작물"
+        isSelected={selectedTab === "authorednft"}
+        onClick={() => {
+          setSelectedTab("authorednft");
+        }}
+      />
+      <ArtistNavMenu
+        id="history"
+        label="거래 내역"
+        isSelected={selectedTab === "history"}
+        onClick={() => {
+          setSelectedTab("history");
+        }}
+      />
+      <ArtistNavMenu
+        id="feedback"
+        label="피드백"
+        isSelected={selectedTab === "feedback"}
+        onClick={() => {
+          setSelectedTab("feedback");
+        }}
+      />
+      <ArtistNavMenu
+        id="download"
+        label="다운로드"
+        isSelected={selectedTab === "download"}
+        onClick={() => {
+          setSelectedTab("download");
+        }}
+      />
+      <ArtistNavMenu
+        id="like"
+        label="좋아요"
+        isSelected={selectedTab === "like"}
+        onClick={() => {
+          setSelectedTab("like");
+        }}
+      />
+    </Nav>
+  );
 };

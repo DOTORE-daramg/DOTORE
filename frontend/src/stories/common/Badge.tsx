@@ -33,14 +33,29 @@ const HashMark = styled.span`
 
 interface BadgeProps {
   label: string;
+  deleteBadge?: (i: number) => void;
+  index?: number;
+  deletable?: boolean;
 }
 
-export const Badge = ({ label }: BadgeProps) => {
+export const Badge = ({
+  label,
+  deleteBadge,
+  index,
+  deletable = true,
+}: BadgeProps) => {
+  const onClickDeleteMark = (e: any) => {
+    if (deleteBadge && index !== undefined) {
+      deleteBadge(index);
+    }
+  };
   return (
     <BadgeContainer>
       <HashMark>#</HashMark>
       {label}
-      <DeleteMark>X</DeleteMark>
+      {deletable ? (
+        <DeleteMark onClick={onClickDeleteMark}>X</DeleteMark>
+      ) : null}
     </BadgeContainer>
   );
 };

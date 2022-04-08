@@ -7,17 +7,25 @@ const Container = styled.div<{ isSelected: boolean }>`
     props.isSelected ? "2px solid #6667ab" : "none"};
   width: fit-content;
   font-weight: ${(props) => (props.isSelected ? "600" : "400")};
+  margin-right: 20px;
+  cursor: pointer;
   @media screen and (max-width: 768px) {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    margin: 0;
   }
 `;
 
 interface CatetgoryProps {
   label: string;
   isSelected: boolean;
+  onClick: () => void;
 }
-const Category = ({ label, isSelected }: CatetgoryProps) => {
-  return <Container isSelected={isSelected}>{label}</Container>;
+const Category = ({ label, isSelected, onClick }: CatetgoryProps) => {
+  return (
+    <Container onClick={onClick} isSelected={isSelected}>
+      {label}
+    </Container>
+  );
 };
 
 export default Category;

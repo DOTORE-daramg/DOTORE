@@ -10,6 +10,8 @@ type MODE =
   | "listM"
   | "feedback"
   | "feedbackM"
+  | "feedbackCreate"
+  | "feedbackCreateM"
   | "feedbackTitle"
   | "feedbackTitleM"
   | "trade"
@@ -17,6 +19,8 @@ type MODE =
 
 const StyledImage = styled.img<{ mode?: MODE }>`
   border-radius: 10px;
+  object-fit: contain;
+  object-position: center;
   width: ${(props) =>
     props.mode === "detail"
       ? "350px"
@@ -36,6 +40,10 @@ const StyledImage = styled.img<{ mode?: MODE }>`
       ? "75px"
       : props.mode === "feedbackTitleM"
       ? "60px"
+      : props.mode === "feedbackCreate"
+      ? "280px"
+      : props.mode === "feedbackCreateM"
+      ? "200px"
       : props.mode === "trade"
       ? "42px"
       : props.mode === "tradeM"
@@ -61,6 +69,10 @@ const StyledImage = styled.img<{ mode?: MODE }>`
       ? "75px"
       : props.mode === "feedbackTitleM"
       ? "60px"
+      : props.mode === "feedbackCreate"
+      ? "280px"
+      : props.mode === "feedbackCreateM"
+      ? "200px"
       : props.mode === "trade"
       ? "42px"
       : props.mode === "tradeM"

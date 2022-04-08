@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/fontawesome-svg-core";
 
 interface IconProps {
-  style: IconPrefix;
+  mode: IconPrefix;
   icon: IconName;
   color?: string;
   size?: string;
@@ -25,10 +25,10 @@ const StyledIcon = styled.div<{ size?: string; color?: string }>`
   }
 `;
 
-export const Icon = ({ style, icon, color, size }: IconProps) => {
+export const Icon = ({ mode, icon, color, size }: IconProps) => {
   library.add(fas, fab);
 
-  const iconLookup: IconLookup = { prefix: style, iconName: icon };
+  const iconLookup: IconLookup = { prefix: mode, iconName: icon };
   const iconDefiniton: IconDefinition = findIconDefinition(iconLookup);
 
   return (

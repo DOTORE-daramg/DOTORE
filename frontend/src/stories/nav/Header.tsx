@@ -1,20 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "../Button";
 import { Logo } from "../common/Logo";
 import { NavMenu } from "./NavMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userInfoState, userInfoTypes } from "../..";
+import { MobileMenu } from "./MobileMenu";
 
 const Wrapper = styled.div`
-  padding: 15px 10vh;
-  width: 100vw;
+  padding: 15px 10vw;
+  position: fixed;
+  width: 100%;
+  top: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #6667ab;
-  background-color: rgba(102, 103, 171, 0.06);
-  @media screen and (max-width: 500px) {
+  background-color: #f6f6fa;
+  z-index: 11;
+  @media screen and (max-width: 768px) {
     padding: 2vh;
     justify-content: center;
   }
@@ -22,16 +29,18 @@ const Wrapper = styled.div`
 
 const Hamburger = styled.div`
   display: none;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: block;
     position: absolute;
-    left: 1rem;
+    left: 1.5rem;
   }
+  cursor: pointer;
 `;
 const LogoWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const Title = styled.h1`
@@ -41,14 +50,14 @@ const Title = styled.h1`
   margin: 6px 0 6px 10px;
   display: inline-block;
   vertical-align: top;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
 
 const RightWrapper = styled.div`
   display: flex;
-  @media screen and (max-width: 500px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 `;
@@ -67,7 +76,6 @@ interface HeaderProps {
   isLoggedIn: boolean;
   onLogin: () => void;
   onLogout: () => void;
-  onCreateAccount: () => void;
 }
 
 export const Header = ({
@@ -75,40 +83,72 @@ export const Header = ({
   isLoggedIn,
   onLogin,
   onLogout,
-  onCreateAccount,
-}: HeaderProps) => (
-  <header>
-    <Wrapper>
-      <Hamburger>
-        <FontAwesomeIcon icon={faBars} />
-      </Hamburger>
-      <LogoWrapper>
-        <Logo color="#6667ab" size="2rem" />
-        <Title>DOTORI</Title>
-      </LogoWrapper>
-      <RightWrapper>
-        <MenuWrapper>
-          <NavMenu
-            label="NFT 등록"
-            dropdown={["1차 NFT 등록", "2차 NFT 등록"]}
-          />
-          <NavMenu
-            label="NFT 보기"
-            dropdown={["view all", "1차 NFT 보기", "2차 NFT 보기"]}
-          />
-          <NavMenu label="NFT 구매" />
-          {isLoggedIn && <NavMenu label="마이페이지" />}
-        </MenuWrapper>
-        {isLoggedIn ? (
-          <>
-            <Button width="6rem" onClick={onLogout} label="로그아웃" />
-          </>
-        ) : (
-          <>
-            <Button width="6rem" onClick={onLogin} label="로그인" />
-          </>
-        )}
-      </RightWrapper>
-    </Wrapper>
-  </header>
-);
+}: HeaderProps) => {
+  const navigate = useNavigate();
+  const userInfo = useRecoilValue<userInfoTypes>(userInfoState);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const onClickHamburger = () => {
+    setIsOpen((prev) => !prev);
+  };
+  return (
+    <>
+      <header>
+        <Wrapper>
+          <Hamburger onClick={onClickHamburger}>
+            <FontAwesomeIcon icon={faBars} size="lg" />
+          </Hamburger>
+          <LogoWrapper onClick={() => navigate("/")}>
+            <Logo color="#6667ab" size="2rem" />
+            <Title>DOTORE</Title>
+          </LogoWrapper>
+          <RightWrapper>
+            <MenuWrapper>
+              <NavMenu
+                label="NFT 등록"
+                dropdown={["1차 NFT 등록", "2차 NFT 등록"]}
+                link={["/prminting", "/cdminting"]}
+              />
+              <NavMenu
+                label="NFT 보기"
+                onClick={() => navigate(`/list`)}
+              />
+              {isLoggedIn && (
+                <NavMenu
+                  label="마이페이지"
+                  onClick={() => navigate(`/artist/${userInfo.address}`)}
+                />
+              )}
+            </MenuWrapper>
+            {isLoggedIn ? (
+              <>
+                <Button
+                  width="6rem"
+                  onClick={onLogout}
+                  label="로그아웃"
+                  backgroundColor="#6667ab"
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  width="6rem"
+                  onClick={onLogin}
+                  label="로그인"
+                  backgroundColor="#6667ab"
+                />
+              </>
+            )}
+          </RightWrapper>
+        </Wrapper>
+      </header>
+      <MobileMenu
+        userInfo={userInfo}
+        isLoggedIn={isLoggedIn}
+        isOpen={isOpen}
+        onClick={onClickHamburger}
+        onLogin={onLogin}
+        onLogout={onLogout}
+      />
+    </>
+  );
+};

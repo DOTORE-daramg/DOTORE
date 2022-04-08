@@ -10,19 +10,19 @@ import lombok.Setter;
 @ApiModel("BaseResponse")
 public class BaseRes {
 
-    @ApiModelProperty(name = "응답 메시지", example = "Success")
-    String message = null;
+    @ApiModelProperty(name = "응답 메시지")
+    private String result = null;
 
     public BaseRes() {
     }
 
-    public BaseRes(String message) {
-        this.message = message;
+    public BaseRes(String result) {
+        this.result = result;
     }
 
-    public static BaseRes of(String message) {
+    public static BaseRes of(String result) {
         BaseRes response = new BaseRes();
-        response.message = message;
+        response.result = result;
         return response;
     }
 }
