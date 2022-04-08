@@ -169,7 +169,6 @@ export const FeedbackComment = ({
           )}
           <Content>
             <Editor
-              onChange={() => console.log("hi")}
               editorState={initialEditorState}
               readOnly={true}
               plugins={plugins}

@@ -272,7 +272,6 @@ const Detail = () => {
   });
   const {
     acorn,
-    authorAddress,
     profileImgUrl,
     itemTitle,
     itemHash,
@@ -321,9 +320,6 @@ const Detail = () => {
           } else {
             setIsOwner(false);
           }
-          // setTimeout(() => {
-          //   setIsLoading(false);
-          // }, 600);
         })
         .then(() => setIsLoading(false))
         .catch(() => {

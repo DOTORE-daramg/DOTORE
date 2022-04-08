@@ -118,13 +118,7 @@ export interface TEProps {
   content?: string;
 }
 // 텍스트 에디터
-export const TextEditor = ({
-  // isUpdate,
-  answerno,
-  articleno,
-  item,
-  content,
-}: TEProps) => {
+export const TextEditor = ({ answerno, articleno, item, content }: TEProps) => {
   const [editorState, setEditorState] = React.useState<EditorState>(() =>
     EditorState.createEmpty()
   );
@@ -266,7 +260,7 @@ export const TextEditor = ({
         };
         createFeedback(params)
           .then((res) => {
-            navigate(`/artist/${userInfo.address}/feedback`);
+            navigate(`/detail/${item.tokenId}`);
           })
           .catch((error) => {});
       }
@@ -343,7 +337,6 @@ export const TextEditor = ({
           placeholder="Write something!"
           handlePastedFiles={handlePastedFile}
           handleDroppedFiles={handleDroppedFile}
-          // plugins={plugins}
         />
       </EditorContainer>
       <TextEditorFooter>

@@ -73,16 +73,14 @@ interface Iuser {
 const Main = () => {
   const [isNFTLoading, setIsNFTLoading] = useState(true);
   const [isProfileLoading, setIsProfileLoading] = useState(true);
-
   const [itemList, setItemList] = useState<ThumbnailProps[]>([]);
   const [profileList, setProfileList] = useState<Iuser[]>([]);
   const isPc = useMediaQuery({ minWidth: 768 });
-  const isTablet = useMediaQuery({ minWidth: 500 });
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isNFTLoading) {
-      viewList(1, "", 1, 'all').then((res) => { // 인기순이 1이었쬬?
+      viewList(1, "", 1, "all").then((res) => {
         const {
           data: { data: data },
         } = res;
@@ -100,19 +98,8 @@ const Main = () => {
             tokenId,
             onClick,
           });
-
-          // itemList.push({
-          //   itemHash,
-          //   itemTitle,
-          //   nickname,
-          //   like,
-          //   tokenId,
-          //   onClick,
-          // });
         });
-        // itemList.sort((a, b) => {
-        //   return b.like - a.like;
-        // });
+
         newItemList.sort((a, b) => b.like - a.like);
         setItemList(newItemList);
         setIsNFTLoading(false);

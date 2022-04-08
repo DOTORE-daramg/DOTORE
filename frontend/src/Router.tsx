@@ -34,7 +34,7 @@ import {
 import List from "./pages/list/List";
 import { web3 } from "./contracts";
 import ScrollToTop from "./utils/ScrollToTop";
-import { errorAlert, successAlert } from "./stories/common/alert";
+import { errorAlert } from "./stories/common/alert";
 const Container = styled.div`
   min-height: 100vh;
   padding-bottom: 200px;

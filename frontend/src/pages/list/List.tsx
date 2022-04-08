@@ -118,7 +118,6 @@ const List = () => {
 
   const [filteredItems, setFilteredItems] = useState<ItemProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isSelectedSortType, setIsSelectedSortType] = useState<number>(0);
   const categories = ["최신순", "인기순"];
 
   // 페이지네이션
@@ -133,7 +132,6 @@ const List = () => {
   const [sortType, setSortType] = useState<0 | 1>(0); // 정렬
   const [artType, setArtType] = useState<"all" | "first" | "second">("all");
   const [itemTotal, setItemTotal] = useState<number>(0);
-  const [skeletonCnt, setSkeletonCnt] = useState<number>(0);
 
   const onSearch = (searchInput: string) => {
     setKeyword(searchInput);
@@ -156,21 +154,17 @@ const List = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    console.log(`검색은 ${keyword}, 정렬은 ${sortType}, 분류는 ${artType}`);
     viewList(activePage, keyword, sortType, artType)
       .then((res) => {
-        console.log(res.data);
         setItemList(res.data.data);
         setItemTotal(res.data.total);
         setIsLoading(false);
-        // console.log(res.data.total);
       })
       .catch((err) => console.error(err));
   }, [activePage, sortType, artType, keyword]);
 
   return (
     <Container>
-      {/* <SearchBar items={items}></SearchBar> */}
       <InnerContainer>
         <SideContainer>
           <div style={{ marginBottom: "20px" }}>
@@ -243,12 +237,6 @@ const List = () => {
             displayCount={itemsPerPage}
             pageRangeCount={5}
           />
-          {/* <Pagination
-            itemsPerPage={itemsPerPage}
-            totalCount={items.length}
-            paginate={setCurrentPage}>
-            
-            </Pagination> */}
         </MainContainer>
       </InnerContainer>
     </Container>

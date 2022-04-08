@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { Icon } from "../common/Icon";

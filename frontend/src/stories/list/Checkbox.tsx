@@ -1,9 +1,7 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 
 const Container = styled.div<{ width: string }>`
   display: flex;
-  /* width: ${(props) => (props.width ? props.width : "7rem")}; */
   justify-content: flex-start;
   align-items: center;
   @media screen and (max-width: 768px) {

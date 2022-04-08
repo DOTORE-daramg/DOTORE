@@ -40,37 +40,20 @@ const Container = styled.div`
 `;
 
 interface IPaginationProps {
-  activePage: number,  // 현재 페이지 번호
-  totalCount: number, // 전체 페이지 수
-  handlePageChange: (n: number) => void,
-  // handlePageChange: (selected: number) => void,
-  // onClickPrev: () => void,
-  displayCount: number, // 한 페이지에 몇 개의 item 보여줄건지
-  pageRangeCount: number, // 페이지 번호 수 몇 개 보여줄건지. 5로 설정해놨는데 그럼 안될 듯. 하나도 없거나 페이지 수 5보다 작을때도 5가 나오는 기분입니다.
+  activePage: number; // 현재 페이지 번호
+  totalCount: number; // 전체 페이지 수
+  handlePageChange: (n: number) => void;
+  displayCount: number; // 한 페이지에 몇 개의 item 보여줄건지
+  pageRangeCount: number; // 페이지 번호 수 몇 개 보여줄건지. 5로 설정해놨는데 그럼 안될 듯. 하나도 없거나 페이지 수 5보다 작을때도 5가 나오는 기분입니다.
 }
 
-const StyledPagination = ({ activePage, totalCount, handlePageChange, displayCount, pageRangeCount }: IPaginationProps) => {
-  // const pageNumbers = []; // 페이지 수 배열
-  // for (let i = 1; i <= Math.ceil(totalCount / displayCount); i++) {
-  //   pageNumbers.push(i);
-  // }
-  // const [page, setPage] = useState(1);
-  // const pages = [...Array(totalPages).keys()].map((num) => num + 1);
-  // const handlePageChange = (activePage) => {
-
-  // }
-
-  // const onClickPrev = () => {
-  //   if (activePage >= 2) {
-  //     handlePageChange(activePage - 1)
-  //   }
-  // }
-  // const onClickNext = () => {
-  //   if (activePage <= totalCount / displayCount + 1) {
-  //     handlePageChange(activePage + 1)
-  //   }
-  // }
-
+const StyledPagination = ({
+  activePage,
+  totalCount,
+  handlePageChange,
+  displayCount,
+  pageRangeCount,
+}: IPaginationProps) => {
   return (
     <Container>
       <Pagination
@@ -81,7 +64,6 @@ const StyledPagination = ({ activePage, totalCount, handlePageChange, displayCou
         pageRangeDisplayed={pageRangeCount}
         prevPageText={"‹"}
         nextPageText={"›"}
-        // onChange={() => console.log("onChange")}
         onChange={handlePageChange}
       />
     </Container>
