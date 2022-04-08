@@ -123,8 +123,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ### **Smart Contract**
 
-Smart Contract
-
+<details><summary>Smart Contract</summary>
 ```
 📦smart-contracts
   ┣ 📂contracts
@@ -146,9 +145,11 @@ Smart Contract
   ┣ 📜package.json
   ┗ 📜README.md
 ```
+</details>
 
 ### **Frontend**
 
+<details><summary>Frontend</summary>
 ```
 📦frontend
   ┣ 📂.storybook
@@ -359,9 +360,10 @@ Smart Contract
   ┣ 📜README.md
   ┗ 📜tsconfig.json
 ```
+</details>
 
 ### **Backend**
-
+<details><summary>Backend</summary>
 ```
 📦backend
   ┣ 📂gradle
@@ -476,6 +478,7 @@ Smart Contract
   ┣ 📜gradlew.bat
   ┗ 📜settings.gradle
 ```
+</details>
 
 <br>
 
