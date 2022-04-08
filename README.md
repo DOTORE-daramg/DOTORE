@@ -123,363 +123,359 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ### **Smart Contract**
 
-<details><summary>Smart Contract</summary>
-  <code style="white-space: pre-wrap">
-    📦smart-contracts
-      ┣ 📂contracts
-      ┃ ┣ 📜DTT.sol
-      ┃ ┗ 📜DTTMarket.sol
-      ┣ 📂scripts
-      ┃ ┗ 📜deploy.js
-      ┣ 📂test
-      ┃ ┗ 📜market-test.js
-      ┣ 📜.eslintignore
-      ┣ 📜.eslintrc.js
-      ┣ 📜.gitignore
-      ┣ 📜.npmignore
-      ┣ 📜.prettierignore
-      ┣ 📜.prettierrc
-      ┣ 📜.solhint.json
-      ┣ 📜.solhintignore
-      ┣ 📜hardhat.config.js
-      ┣ 📜package.json
-      ┗ 📜README.md
-  </code>
-</details>
+Smart Contract
+
+```
+📦smart-contracts
+  ┣ 📂contracts
+  ┃ ┣ 📜DTT.sol
+  ┃ ┗ 📜DTTMarket.sol
+  ┣ 📂scripts
+  ┃ ┗ 📜deploy.js
+  ┣ 📂test
+  ┃ ┗ 📜market-test.js
+  ┣ 📜.eslintignore
+  ┣ 📜.eslintrc.js
+  ┣ 📜.gitignore
+  ┣ 📜.npmignore
+  ┣ 📜.prettierignore
+  ┣ 📜.prettierrc
+  ┣ 📜.solhint.json
+  ┣ 📜.solhintignore
+  ┣ 📜hardhat.config.js
+  ┣ 📜package.json
+  ┗ 📜README.md
+```
 
 ### **Frontend**
 
-<details><summary>Frontend</summary>
-  <code style="white-space: pre-wrap">
-    📦frontend
-      ┣ 📂.storybook
-      ┃ ┣ 📜main.js
-      ┃ ┗ 📜preview.js
-      ┣ 📂public
-      ┃ ┣ 📜favicon.ico
-      ┃ ┣ 📜index.html
-      ┃ ┣ 📜logo192.png
-      ┃ ┣ 📜logo512.png
-      ┃ ┣ 📜manifest.json
-      ┃ ┗ 📜robots.txt
-      ┣ 📂src
-      ┃ ┣ 📂api
-      ┃ ┃ ┣ 📜api.tsx
-      ┃ ┃ ┣ 📜artist.tsx
-      ┃ ┃ ┣ 📜feedback.tsx
-      ┃ ┃ ┣ 📜item.tsx
-      ┃ ┃ ┣ 📜sale.tsx
-      ┃ ┃ ┗ 📜user.tsx
-      ┃ ┣ 📂assets
-      ┃ ┃ ┣ 📂feedback
-      ┃ ┃ ┃ ┗ 📜sitting-dotori.png
-      ┃ ┃ ┣ 📂profile
-      ┃ ┃ ┃ ┗ 📜default_dotori.png
-      ┃ ┃ ┗ 📜banner1.png
-      ┃ ┣ 📂contracts
-      ┃ ┃ ┣ 📂api
-      ┃ ┃ ┃ ┣ 📜first.tsx
-      ┃ ┃ ┃ ┣ 📜ItemTxRecord.tsx
-      ┃ ┃ ┃ ┣ 📜mypage.tsx
-      ┃ ┃ ┃ ┣ 📜second.tsx
-      ┃ ┃ ┃ ┗ 📜transactionRecord.tsx
-      ┃ ┃ ┗ 📜index.ts
-      ┃ ┣ 📂lib
-      ┃ ┃ ┗ 📜connectors.tsx
-      ┃ ┣ 📂pages
-      ┃ ┃ ┣ 📂artist
-      ┃ ┃ ┃ ┣ 📜Artist.tsx
-      ┃ ┃ ┃ ┣ 📜AuthoredNFTList.tsx
-      ┃ ┃ ┃ ┣ 📜Download.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackList.tsx
-      ┃ ┃ ┃ ┣ 📜Like.tsx
-      ┃ ┃ ┃ ┣ 📜OwnedNFTList.tsx
-      ┃ ┃ ┃ ┗ 📜TxHistory.tsx
-      ┃ ┃ ┣ 📂feedback
-      ┃ ┃ ┃ ┣ 📜Feedback.tsx
-      ┃ ┃ ┃ ┗ 📜FeedbackCreate.tsx
-      ┃ ┃ ┣ 📂list
-      ┃ ┃ ┃ ┣ 📜ChildList.tsx
-      ┃ ┃ ┃ ┣ 📜List.tsx
-      ┃ ┃ ┃ ┗ 📜ParentList.tsx
-      ┃ ┃ ┣ 📂minting
-      ┃ ┃ ┃ ┣ 📜ChildMinting.tsx
-      ┃ ┃ ┃ ┗ 📜ParentMinting.tsx
-      ┃ ┃ ┣ 📜Detail.tsx
-      ┃ ┃ ┗ 📜Main.tsx
-      ┃ ┣ 📂shared
-      ┃ ┃ ┗ 📜GlobalStyles.tsx
-      ┃ ┣ 📂stories
-      ┃ ┃ ┣ 📂artist
-      ┃ ┃ ┃ ┣ 📜ArtistFeedbackList.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ArtistFeedbackList.tsx
-      ┃ ┃ ┃ ┣ 📜ArtistNav.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ArtistNav.tsx
-      ┃ ┃ ┃ ┣ 📜ArtistNavMenu.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ArtistNavMenu.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackToggleButtons.stories.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackToggleButtons.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileBanner.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileBanner.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileUpdateModal.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileUpdateModal.tsx
-      ┃ ┃ ┃ ┣ 📜RefreshTx.tsx
-      ┃ ┃ ┃ ┣ 📜TransactionHistoryItem.stories.tsx
-      ┃ ┃ ┃ ┣ 📜TransactionHistoryItem.tsx
-      ┃ ┃ ┃ ┣ 📜TransactionHistoryList.stories.tsx
-      ┃ ┃ ┃ ┗ 📜TransactionHistoryList.tsx
-      ┃ ┃ ┣ 📂assets
-      ┃ ┃ ┃ ┣ 📂mypage
-      ┃ ┃ ┃ ┃ ┣ 📜default-dotori-circle.svg
-      ┃ ┃ ┃ ┃ ┣ 📜default-dotori-icon.png
-      ┃ ┃ ┃ ┃ ┗ 📜default-dotori.svg
-      ┃ ┃ ┃ ┣ 📜code-brackets.svg
-      ┃ ┃ ┃ ┣ 📜colors.svg
-      ┃ ┃ ┃ ┣ 📜comments.svg
-      ┃ ┃ ┃ ┣ 📜direction.svg
-      ┃ ┃ ┃ ┣ 📜flow.svg
-      ┃ ┃ ┃ ┣ 📜plugin.svg
-      ┃ ┃ ┃ ┣ 📜repo.svg
-      ┃ ┃ ┃ ┗ 📜stackalt.svg
-      ┃ ┃ ┣ 📂common
-      ┃ ┃ ┃ ┣ 📜alert.tsx
-      ┃ ┃ ┃ ┣ 📜Amount.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Amount.tsx
-      ┃ ┃ ┃ ┣ 📜Badge.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Badge.tsx
-      ┃ ┃ ┃ ┣ 📜Icon.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Icon.tsx
-      ┃ ┃ ┃ ┣ 📜LoadingSpinner.tsx
-      ┃ ┃ ┃ ┣ 📜Logo.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Logo.tsx
-      ┃ ┃ ┃ ┣ 📜MediaBlock.tsx
-      ┃ ┃ ┃ ┣ 📜Modal.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Modal.tsx
-      ┃ ┃ ┃ ┣ 📜Pagination.stories.tsx
-      ┃ ┃ ┃ ┣ 📜SearchBar.tsx
-      ┃ ┃ ┃ ┣ 📜StyledPagination.tsx
-      ┃ ┃ ┃ ┣ 📜TextEditor.stories.tsx
-      ┃ ┃ ┃ ┗ 📜TextEditor.tsx
-      ┃ ┃ ┣ 📂detail
-      ┃ ┃ ┃ ┣ 📜Description.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Description.tsx
-      ┃ ┃ ┃ ┣ 📜Image.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Image.tsx
-      ┃ ┃ ┃ ┣ 📜Info.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Info.tsx
-      ┃ ┃ ┃ ┣ 📜InfoItem.tsx
-      ┃ ┃ ┃ ┣ 📜QuestionItem.tsx
-      ┃ ┃ ┃ ┣ 📜Questions.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Questions.tsx
-      ┃ ┃ ┃ ┣ 📜RealtedNFTItem.tsx
-      ┃ ┃ ┃ ┣ 📜RelatedNFT.stories.tsx
-      ┃ ┃ ┃ ┣ 📜RelatedNFT.tsx
-      ┃ ┃ ┃ ┣ 📜SaleDeleteModal.tsx
-      ┃ ┃ ┃ ┣ 📜SaleModal.stories.tsx
-      ┃ ┃ ┃ ┣ 📜SaleModal.tsx
-      ┃ ┃ ┃ ┣ 📜Title.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Title.tsx
-      ┃ ┃ ┃ ┣ 📜Transaction.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Transaction.tsx
-      ┃ ┃ ┃ ┗ 📜TransactionItem.tsx
-      ┃ ┃ ┣ 📂feedback
-      ┃ ┃ ┃ ┣ 📜FeedbackBanner.stories.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackBanner.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackComment.stories.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackComment.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackInputBox.stories.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackInputBox.tsx
-      ┃ ┃ ┃ ┣ 📜FeedbackTitle.stories.tsx
-      ┃ ┃ ┃ ┗ 📜FeedbackTitle.tsx
-      ┃ ┃ ┣ 📂footer
-      ┃ ┃ ┃ ┣ 📜Footer.stories.tsx
-      ┃ ┃ ┃ ┗ 📜Footer.tsx
-      ┃ ┃ ┣ 📂list
-      ┃ ┃ ┃ ┣ 📜Category.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Category.tsx
-      ┃ ┃ ┃ ┣ 📜Checkbox.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Checkbox.tsx
-      ┃ ┃ ┃ ┣ 📜Item.tsx
-      ┃ ┃ ┃ ┣ 📜ItemSkeleton.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ItemSkeleton.tsx
-      ┃ ┃ ┃ ┣ 📜Skeleton.stories.tsx
-      ┃ ┃ ┃ ┗ 📜Skeleton.tsx
-      ┃ ┃ ┣ 📂main
-      ┃ ┃ ┃ ┗ 📜Banner.tsx
-      ┃ ┃ ┣ 📂minting
-      ┃ ┃ ┃ ┣ 📜FileDropBox.stories.tsx
-      ┃ ┃ ┃ ┣ 📜FileDropBox.tsx
-      ┃ ┃ ┃ ┣ 📜OriginalItemImage.tsx
-      ┃ ┃ ┃ ┣ 📜SearchResult.tsx
-      ┃ ┃ ┃ ┣ 📜TagInputBox.stories.tsx
-      ┃ ┃ ┃ ┗ 📜TagInputBox.tsx
-      ┃ ┃ ┣ 📂nav
-      ┃ ┃ ┃ ┣ 📜Header.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Header.tsx
-      ┃ ┃ ┃ ┣ 📜MobileMenu.tsx
-      ┃ ┃ ┃ ┣ 📜NavMenu.stories.tsx
-      ┃ ┃ ┃ ┗ 📜NavMenu.tsx
-      ┃ ┃ ┣ 📂profile
-      ┃ ┃ ┃ ┣ 📜HorizonProfile.stories.tsx
-      ┃ ┃ ┃ ┣ 📜HorizonProfile.tsx
-      ┃ ┃ ┃ ┣ 📜Profile.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Profile.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileImg.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileImg.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileLevel.stories.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileLevel.tsx
-      ┃ ┃ ┃ ┣ 📜ProfileNickname.stories.tsx
-      ┃ ┃ ┃ ┗ 📜ProfileNickname.tsx
-      ┃ ┃ ┣ 📂thumbnail
-      ┃ ┃ ┃ ┣ 📜Thumbnail.stories.tsx
-      ┃ ┃ ┃ ┣ 📜Thumbnail.tsx
-      ┃ ┃ ┃ ┣ 📜ThumbnailGrid.stories.tsx
-      ┃ ┃ ┃ ┗ 📜ThumbnailGrid.tsx
-      ┃ ┃ ┣ 📜Button.stories.tsx
-      ┃ ┃ ┣ 📜Button.tsx
-      ┃ ┃ ┣ 📜InputBox.stories.tsx
-      ┃ ┃ ┣ 📜InputBox.tsx
-      ┃ ┃ ┣ 📜Introduction.stories.mdx
-      ┃ ┃ ┣ 📜SubTitle.stories.tsx
-      ┃ ┃ ┣ 📜SubTitle.tsx
-      ┃ ┃ ┣ 📜TextAreaBox.stories.tsx
-      ┃ ┃ ┣ 📜Title.stories.tsx
-      ┃ ┃ ┗ 📜Title.tsx
-      ┃ ┣ 📂utils
-      ┃ ┃ ┣ 📜Level.tsx
-      ┃ ┃ ┗ 📜ScrollToTop.tsx
-      ┃ ┣ 📜App.tsx
-      ┃ ┣ 📜index.tsx
-      ┃ ┣ 📜react-app-env.d.ts
-      ┃ ┗ 📜Router.tsx
-      ┣ 📜.env
-      ┣ 📜.gitignore
-      ┣ 📜image.d.ts
-      ┣ 📜package-lock.json
-      ┣ 📜package.json
-      ┣ 📜README.md
-      ┗ 📜tsconfig.json
-  </code>
-</details>
+```
+📦frontend
+  ┣ 📂.storybook
+  ┃ ┣ 📜main.js
+  ┃ ┗ 📜preview.js
+  ┣ 📂public
+  ┃ ┣ 📜favicon.ico
+  ┃ ┣ 📜index.html
+  ┃ ┣ 📜logo192.png
+  ┃ ┣ 📜logo512.png
+  ┃ ┣ 📜manifest.json
+  ┃ ┗ 📜robots.txt
+  ┣ 📂src
+  ┃ ┣ 📂api
+  ┃ ┃ ┣ 📜api.tsx
+  ┃ ┃ ┣ 📜artist.tsx
+  ┃ ┃ ┣ 📜feedback.tsx
+  ┃ ┃ ┣ 📜item.tsx
+  ┃ ┃ ┣ 📜sale.tsx
+  ┃ ┃ ┗ 📜user.tsx
+  ┃ ┣ 📂assets
+  ┃ ┃ ┣ 📂feedback
+  ┃ ┃ ┃ ┗ 📜sitting-dotori.png
+  ┃ ┃ ┣ 📂profile
+  ┃ ┃ ┃ ┗ 📜default_dotori.png
+  ┃ ┃ ┗ 📜banner1.png
+  ┃ ┣ 📂contracts
+  ┃ ┃ ┣ 📂api
+  ┃ ┃ ┃ ┣ 📜first.tsx
+  ┃ ┃ ┃ ┣ 📜ItemTxRecord.tsx
+  ┃ ┃ ┃ ┣ 📜mypage.tsx
+  ┃ ┃ ┃ ┣ 📜second.tsx
+  ┃ ┃ ┃ ┗ 📜transactionRecord.tsx
+  ┃ ┃ ┗ 📜index.ts
+  ┃ ┣ 📂lib
+  ┃ ┃ ┗ 📜connectors.tsx
+  ┃ ┣ 📂pages
+  ┃ ┃ ┣ 📂artist
+  ┃ ┃ ┃ ┣ 📜Artist.tsx
+  ┃ ┃ ┃ ┣ 📜AuthoredNFTList.tsx
+  ┃ ┃ ┃ ┣ 📜Download.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackList.tsx
+  ┃ ┃ ┃ ┣ 📜Like.tsx
+  ┃ ┃ ┃ ┣ 📜OwnedNFTList.tsx
+  ┃ ┃ ┃ ┗ 📜TxHistory.tsx
+  ┃ ┃ ┣ 📂feedback
+  ┃ ┃ ┃ ┣ 📜Feedback.tsx
+  ┃ ┃ ┃ ┗ 📜FeedbackCreate.tsx
+  ┃ ┃ ┣ 📂list
+  ┃ ┃ ┃ ┣ 📜ChildList.tsx
+  ┃ ┃ ┃ ┣ 📜List.tsx
+  ┃ ┃ ┃ ┗ 📜ParentList.tsx
+  ┃ ┃ ┣ 📂minting
+  ┃ ┃ ┃ ┣ 📜ChildMinting.tsx
+  ┃ ┃ ┃ ┗ 📜ParentMinting.tsx
+  ┃ ┃ ┣ 📜Detail.tsx
+  ┃ ┃ ┗ 📜Main.tsx
+  ┃ ┣ 📂shared
+  ┃ ┃ ┗ 📜GlobalStyles.tsx
+  ┃ ┣ 📂stories
+  ┃ ┃ ┣ 📂artist
+  ┃ ┃ ┃ ┣ 📜ArtistFeedbackList.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ArtistFeedbackList.tsx
+  ┃ ┃ ┃ ┣ 📜ArtistNav.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ArtistNav.tsx
+  ┃ ┃ ┃ ┣ 📜ArtistNavMenu.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ArtistNavMenu.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackToggleButtons.stories.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackToggleButtons.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileBanner.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileBanner.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileUpdateModal.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileUpdateModal.tsx
+  ┃ ┃ ┃ ┣ 📜RefreshTx.tsx
+  ┃ ┃ ┃ ┣ 📜TransactionHistoryItem.stories.tsx
+  ┃ ┃ ┃ ┣ 📜TransactionHistoryItem.tsx
+  ┃ ┃ ┃ ┣ 📜TransactionHistoryList.stories.tsx
+  ┃ ┃ ┃ ┗ 📜TransactionHistoryList.tsx
+  ┃ ┃ ┣ 📂assets
+  ┃ ┃ ┃ ┣ 📂mypage
+  ┃ ┃ ┃ ┃ ┣ 📜default-dotori-circle.svg
+  ┃ ┃ ┃ ┃ ┣ 📜default-dotori-icon.png
+  ┃ ┃ ┃ ┃ ┗ 📜default-dotori.svg
+  ┃ ┃ ┃ ┣ 📜code-brackets.svg
+  ┃ ┃ ┃ ┣ 📜colors.svg
+  ┃ ┃ ┃ ┣ 📜comments.svg
+  ┃ ┃ ┃ ┣ 📜direction.svg
+  ┃ ┃ ┃ ┣ 📜flow.svg
+  ┃ ┃ ┃ ┣ 📜plugin.svg
+  ┃ ┃ ┃ ┣ 📜repo.svg
+  ┃ ┃ ┃ ┗ 📜stackalt.svg
+  ┃ ┃ ┣ 📂common
+  ┃ ┃ ┃ ┣ 📜alert.tsx
+  ┃ ┃ ┃ ┣ 📜Amount.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Amount.tsx
+  ┃ ┃ ┃ ┣ 📜Badge.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Badge.tsx
+  ┃ ┃ ┃ ┣ 📜Icon.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Icon.tsx
+  ┃ ┃ ┃ ┣ 📜LoadingSpinner.tsx
+  ┃ ┃ ┃ ┣ 📜Logo.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Logo.tsx
+  ┃ ┃ ┃ ┣ 📜MediaBlock.tsx
+  ┃ ┃ ┃ ┣ 📜Modal.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Modal.tsx
+  ┃ ┃ ┃ ┣ 📜Pagination.stories.tsx
+  ┃ ┃ ┃ ┣ 📜SearchBar.tsx
+  ┃ ┃ ┃ ┣ 📜StyledPagination.tsx
+  ┃ ┃ ┃ ┣ 📜TextEditor.stories.tsx
+  ┃ ┃ ┃ ┗ 📜TextEditor.tsx
+  ┃ ┃ ┣ 📂detail
+  ┃ ┃ ┃ ┣ 📜Description.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Description.tsx
+  ┃ ┃ ┃ ┣ 📜Image.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Image.tsx
+  ┃ ┃ ┃ ┣ 📜Info.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Info.tsx
+  ┃ ┃ ┃ ┣ 📜InfoItem.tsx
+  ┃ ┃ ┃ ┣ 📜QuestionItem.tsx
+  ┃ ┃ ┃ ┣ 📜Questions.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Questions.tsx
+  ┃ ┃ ┃ ┣ 📜RealtedNFTItem.tsx
+  ┃ ┃ ┃ ┣ 📜RelatedNFT.stories.tsx
+  ┃ ┃ ┃ ┣ 📜RelatedNFT.tsx
+  ┃ ┃ ┃ ┣ 📜SaleDeleteModal.tsx
+  ┃ ┃ ┃ ┣ 📜SaleModal.stories.tsx
+  ┃ ┃ ┃ ┣ 📜SaleModal.tsx
+  ┃ ┃ ┃ ┣ 📜Title.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Title.tsx
+  ┃ ┃ ┃ ┣ 📜Transaction.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Transaction.tsx
+  ┃ ┃ ┃ ┗ 📜TransactionItem.tsx
+  ┃ ┃ ┣ 📂feedback
+  ┃ ┃ ┃ ┣ 📜FeedbackBanner.stories.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackBanner.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackComment.stories.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackComment.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackInputBox.stories.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackInputBox.tsx
+  ┃ ┃ ┃ ┣ 📜FeedbackTitle.stories.tsx
+  ┃ ┃ ┃ ┗ 📜FeedbackTitle.tsx
+  ┃ ┃ ┣ 📂footer
+  ┃ ┃ ┃ ┣ 📜Footer.stories.tsx
+  ┃ ┃ ┃ ┗ 📜Footer.tsx
+  ┃ ┃ ┣ 📂list
+  ┃ ┃ ┃ ┣ 📜Category.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Category.tsx
+  ┃ ┃ ┃ ┣ 📜Checkbox.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Checkbox.tsx
+  ┃ ┃ ┃ ┣ 📜Item.tsx
+  ┃ ┃ ┃ ┣ 📜ItemSkeleton.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ItemSkeleton.tsx
+  ┃ ┃ ┃ ┣ 📜Skeleton.stories.tsx
+  ┃ ┃ ┃ ┗ 📜Skeleton.tsx
+  ┃ ┃ ┣ 📂main
+  ┃ ┃ ┃ ┗ 📜Banner.tsx
+  ┃ ┃ ┣ 📂minting
+  ┃ ┃ ┃ ┣ 📜FileDropBox.stories.tsx
+  ┃ ┃ ┃ ┣ 📜FileDropBox.tsx
+  ┃ ┃ ┃ ┣ 📜OriginalItemImage.tsx
+  ┃ ┃ ┃ ┣ 📜SearchResult.tsx
+  ┃ ┃ ┃ ┣ 📜TagInputBox.stories.tsx
+  ┃ ┃ ┃ ┗ 📜TagInputBox.tsx
+  ┃ ┃ ┣ 📂nav
+  ┃ ┃ ┃ ┣ 📜Header.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Header.tsx
+  ┃ ┃ ┃ ┣ 📜MobileMenu.tsx
+  ┃ ┃ ┃ ┣ 📜NavMenu.stories.tsx
+  ┃ ┃ ┃ ┗ 📜NavMenu.tsx
+  ┃ ┃ ┣ 📂profile
+  ┃ ┃ ┃ ┣ 📜HorizonProfile.stories.tsx
+  ┃ ┃ ┃ ┣ 📜HorizonProfile.tsx
+  ┃ ┃ ┃ ┣ 📜Profile.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Profile.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileImg.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileImg.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileLevel.stories.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileLevel.tsx
+  ┃ ┃ ┃ ┣ 📜ProfileNickname.stories.tsx
+  ┃ ┃ ┃ ┗ 📜ProfileNickname.tsx
+  ┃ ┃ ┣ 📂thumbnail
+  ┃ ┃ ┃ ┣ 📜Thumbnail.stories.tsx
+  ┃ ┃ ┃ ┣ 📜Thumbnail.tsx
+  ┃ ┃ ┃ ┣ 📜ThumbnailGrid.stories.tsx
+  ┃ ┃ ┃ ┗ 📜ThumbnailGrid.tsx
+  ┃ ┃ ┣ 📜Button.stories.tsx
+  ┃ ┃ ┣ 📜Button.tsx
+  ┃ ┃ ┣ 📜InputBox.stories.tsx
+  ┃ ┃ ┣ 📜InputBox.tsx
+  ┃ ┃ ┣ 📜Introduction.stories.mdx
+  ┃ ┃ ┣ 📜SubTitle.stories.tsx
+  ┃ ┃ ┣ 📜SubTitle.tsx
+  ┃ ┃ ┣ 📜TextAreaBox.stories.tsx
+  ┃ ┃ ┣ 📜Title.stories.tsx
+  ┃ ┃ ┗ 📜Title.tsx
+  ┃ ┣ 📂utils
+  ┃ ┃ ┣ 📜Level.tsx
+  ┃ ┃ ┗ 📜ScrollToTop.tsx
+  ┃ ┣ 📜App.tsx
+  ┃ ┣ 📜index.tsx
+  ┃ ┣ 📜react-app-env.d.ts
+  ┃ ┗ 📜Router.tsx
+  ┣ 📜.env
+  ┣ 📜.gitignore
+  ┣ 📜image.d.ts
+  ┣ 📜package-lock.json
+  ┣ 📜package.json
+  ┣ 📜README.md
+  ┗ 📜tsconfig.json
+```
 
 ### **Backend**
 
-<details><summary>Backend</summary>
-	<code style="white-space: pre-wrap">
-    📦backend
-     ┣ 📂gradle
-     ┃ ┗ 📂wrapper
-     ┃ ┃ ┣ 📜gradle-wrapper.jar
-     ┃ ┃ ┗ 📜gradle-wrapper.properties
-     ┣ 📂src
-     ┃ ┣ 📂main
-     ┃ ┃ ┣ 📂java
-     ┃ ┃ ┃ ┗ 📂com
-     ┃ ┃ ┃ ┃ ┗ 📂daram
-     ┃ ┃ ┃ ┃ ┃ ┗ 📂dotore
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂api
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedBackController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MypageController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserController.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂request
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AnswerReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DescUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackMeReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemButtonReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemTrxReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NicknameUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ProfileUpdateReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleCompleteReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesCancelReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜SaleTrxReq.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂response
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BaseRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackAnswerVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackDetailRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackQuestionVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemAuthorListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemButtonRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemDetailRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemImageRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemLikeRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemListVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemRelationRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemRelationVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemsRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MyDownloadListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MyLikeListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜requestFeedbackRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜requestFeedbackVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜responseFeedbackRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜responseFeedbackVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleListVO.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesInfoRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserListRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserRes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AwsS3Service.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackServiceImpl.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemServiceImpl.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleServiceImpl.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserService.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserServiceImpl.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AmazonS3Config.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JpaConfig.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜SwaggerConfig.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂db
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Answer.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Download.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Feedback.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Items.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Likes.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Sales.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Secondary.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Taglist.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Users.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂repository
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AnswerRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DownloadRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LikeRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SecondaryRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜TagRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserRepository.java
-     ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DotoreApplication.java
-     ┃ ┃ ┗ 📂resources
-     ┃ ┃ ┃ ┗ 📜application.properties
-     ┃ ┗ 📂test
-     ┃ ┃ ┗ 📂java
-     ┃ ┃ ┃ ┗ 📂com
-     ┃ ┃ ┃ ┃ ┗ 📂daram
-     ┃ ┃ ┃ ┃ ┃ ┗ 📂dotore
-     ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DotoreApplicationTests.java
-     ┣ 📜.gitignore
-     ┣ 📜build.gradle
-     ┣ 📜gradlew
-     ┣ 📜gradlew.bat
-     ┗ 📜settings.gradle
-    </code>
-</details>
+```
+📦backend
+  ┣ 📂gradle
+  ┃ ┗ 📂wrapper
+  ┃ ┃ ┣ 📜gradle-wrapper.jar
+  ┃ ┃ ┗ 📜gradle-wrapper.properties
+  ┣ 📂src
+  ┃ ┣ 📂main
+  ┃ ┃ ┣ 📂java
+  ┃ ┃ ┃ ┗ 📂com
+  ┃ ┃ ┃ ┃ ┗ 📂daram
+  ┃ ┃ ┃ ┃ ┃ ┗ 📂dotore
+  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂api
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂controller
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedBackController.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemController.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MypageController.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesController.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserController.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂request
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AnswerReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DescUpdateReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackMeReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackUpdateReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemButtonReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemTrxReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemUpdateReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜NicknameUpdateReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ProfileUpdateReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleCompleteReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesCancelReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜SaleTrxReq.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂response
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BaseRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackAnswerVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackDetailRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackQuestionVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemAuthorListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemButtonRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemDetailRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemImageRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemLikeRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemListVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemRelationRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemRelationVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemsRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MyDownloadListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜MyLikeListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜requestFeedbackRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜requestFeedbackVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜responseFeedbackRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜responseFeedbackVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleListVO.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SalesInfoRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserListRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserRes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂service
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AwsS3Service.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackService.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackServiceImpl.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemService.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemServiceImpl.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleService.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleServiceImpl.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜UserService.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserServiceImpl.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂config
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AmazonS3Config.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜JpaConfig.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜SwaggerConfig.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂db
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📂entity
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Answer.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Download.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Feedback.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Items.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Likes.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Sales.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Secondary.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Taglist.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Users.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂repository
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜AnswerRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DownloadRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜FeedbackRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜ItemRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜LikeRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SaleRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SecondaryRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜TagRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜UserRepository.java
+  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DotoreApplication.java
+  ┃ ┃ ┗ 📂resources
+  ┃ ┃ ┃ ┗ 📜application.properties
+  ┃ ┗ 📂test
+  ┃ ┃ ┗ 📂java
+  ┃ ┃ ┃ ┗ 📂com
+  ┃ ┃ ┃ ┃ ┗ 📂daram
+  ┃ ┃ ┃ ┃ ┃ ┗ 📂dotore
+  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜DotoreApplicationTests.java
+  ┣ 📜.gitignore
+  ┣ 📜build.gradle
+  ┣ 📜gradlew
+  ┣ 📜gradlew.bat
+  ┗ 📜settings.gradle
+```
 
 <br>
 
