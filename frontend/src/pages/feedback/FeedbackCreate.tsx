@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { Description } from "../../stories/detail/Description";
@@ -6,8 +6,6 @@ import { Image } from "../../stories/detail/Image";
 import { Title } from "../../stories/Title";
 import { TextEditor } from "../../stories/common/TextEditor";
 import { useParams } from "react-router-dom";
-import { getItem } from "../../api/item";
-import { createParams } from "../../api/feedback";
 import { isLoggedInState } from "../..";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -97,14 +95,7 @@ const FeedbackCreate = () => {
     itemDescription: "",
     tokenId: Number(tokenId),
   });
-  const { authorAddress, itemTitle, itemHash, nickname, itemDescription } =
-    item;
-  const onClick = () => {};
-  useEffect(() => {
-    getItem(tokenId).then((res) => {
-      setItem(res.data);
-    });
-  }, []);
+  const { itemTitle, itemHash, nickname, itemDescription } = item;
 
   useEffect(() => {
     if (!isLoggedIn.isLoggedIn) {

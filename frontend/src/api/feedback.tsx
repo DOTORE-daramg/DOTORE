@@ -8,14 +8,14 @@ export type createParams = {
   tokenId: number | undefined;
 };
 
-export type createAnswer = {
+export type createAnswerType = {
   articleno: number | undefined;
   description: string;
   imgUrl?: string;
   writer: string;
 };
 
-export type updateAnswer = {
+export type updateAnswerType = {
   description: string;
   imgUrl?: string;
   no: number;
@@ -28,14 +28,14 @@ export const getFeedBack = async (articleno?: string) => {
   return await api.get(`/api/feedbacks/detail/${articleno}`);
 };
 
-export const createAnswer = async (params: createAnswer) => {
+export const createAnswer = async (params: createAnswerType) => {
   return await api.post("/api/feedbacks/answer", params);
 };
 
-export const updateAnswer = async (params: updateAnswer) => {
+export const updateAnswer = async (params: updateAnswerType) => {
   return await api.patch(`/api/feedbacks/modify/answer`, params);
 };
 
-export const updateFeedback = async (params: updateAnswer) => {
+export const updateFeedback = async (params: updateAnswerType) => {
   return await api.patch(`/api/feedbacks/modify/feedback`, params);
 };

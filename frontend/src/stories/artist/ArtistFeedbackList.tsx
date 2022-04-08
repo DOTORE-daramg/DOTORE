@@ -1,8 +1,5 @@
-import { useEffect } from "@storybook/addons";
-import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { FeedbackToggleButtons } from "./FeedbackToggleButtons";
 
 export interface IFeedback {
   articleno: number;
@@ -80,12 +77,6 @@ export const ArtistFeedbackList = ({
     return feedback;
   });
 
-  console.log(feedbackList);
-  // useEffect(() => {
-  //   feedbackList.map((feedback) => {
-
-  //   })
-  // }, [])
   return (
     <Container width={width}>
       <TableContainer>

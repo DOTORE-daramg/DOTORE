@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
 import { ProfileBanner } from "../../stories/artist/ProfileBanner";
 import { ArtistNav } from "../../stories/artist/ArtistNav";
-import StyledPagination from "../../stories/common/StyledPagination";
 import { useRecoilValue } from "recoil";
 import { userInfoState, userInfoTypes } from "../..";
 import { ProfileUpdateModal } from "../../stories/artist/ProfileUpdateModal";
@@ -29,10 +28,6 @@ const Artist = () => {
   const onClickToggleModal = () => {
     setIsModalShow((prev) => !prev);
   };
-  const [activePage, setActivePage] = useState<number>(1);
-  const handlePageChange = (page: number) => {
-    setActivePage(page);
-  }
 
   useEffect(() => {
     if (userAddress) {
@@ -50,7 +45,7 @@ const Artist = () => {
   useEffect(() => {
     if (!isLoggedIn.isLoggedIn) {
       errorAlert("로그인이 필요한 페이지입니다.");
-      navigate(-1)
+      navigate(-1);
     }
   }, [isLoggedIn]);
 

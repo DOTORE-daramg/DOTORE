@@ -1,4 +1,3 @@
-import { web3 } from "..";
 import { dTT, dTTMarketAddress } from "..";
 import { postMintBefore } from "../../api/item";
 

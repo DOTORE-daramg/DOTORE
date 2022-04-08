@@ -1,18 +1,8 @@
-import internal from "stream";
-import AppRouter from "../Router";
 import { api } from "./api";
-
-// export const viewAll = async () => {
-//   return await api.get(`/api/items/all`);
-// };
 
 export const viewFirst = async () => {
   return await api.get(`/api/items/first`);
 };
-
-// export const viewSecond = async () => {
-//   return await api.get(`/api/items/second`);
-// };
 
 export const getItem = async (tokenId?: string) => {
   return await api.get(`/api/items/${tokenId}`);

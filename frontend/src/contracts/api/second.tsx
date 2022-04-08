@@ -1,4 +1,3 @@
-import { web3 } from "..";
 import { dTT, dTTMarketAddress, dTTMarketContract } from "..";
 import { postMintBefore } from "../../api/item";
 import { createSale, cancelSale, completeSale } from "../../api/sale";
@@ -75,7 +74,7 @@ export const createMarketItem = async ({
         saleTrxHash: hash,
         sellerAddress: userAddress,
         tokenId,
-      })
+      });
     });
 };
 
