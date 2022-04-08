@@ -37,7 +37,8 @@ public class Users {
     String profileImgUrl;
 
     @Builder
-    private Users(String address, String nickname, String description, int acorn, String profile_img_url) {
+    private Users(String address, String nickname, String description, int acorn,
+        String profile_img_url) {
         this.address = address;
         this.nickname = nickname;
         this.description = description;
@@ -45,22 +46,22 @@ public class Users {
         this.profileImgUrl = profile_img_url;
     }
 
-    public Users setNickname(String nickname){
-        this.nickname=nickname;
+    public Users setNickname(String nickname) {
+        this.nickname = nickname;
         return this;
     }
 
-    public Users setDescription(String description){
-        this.description=description;
+    public Users setDescription(String description) {
+        this.description = description;
         return this;
     }
 
-    public Users setAcorn(int acorn){
-        this.acorn=acorn;
+    public Users setAcorn(int acorn) {
+        this.acorn = acorn;
         return this;
     }
 
-    public Users setProfileImgUrl(String profileImgUrl){
+    public Users setProfileImgUrl(String profileImgUrl) {
         this.profileImgUrl = profileImgUrl;
         return this;
     }

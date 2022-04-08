@@ -2,7 +2,6 @@ package com.daram.dotore.api.service;
 
 import com.daram.dotore.api.request.ItemPageReq;
 import com.daram.dotore.api.request.ItemReq;
-import com.daram.dotore.api.request.ItemSearchReq;
 import com.daram.dotore.api.request.ItemTrxReq;
 import com.daram.dotore.api.request.ItemUpdateReq;
 import com.daram.dotore.api.request.SaleCompleteReq;
@@ -299,27 +298,6 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemsRes getAll() {
-        List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByStatusOrderByTokenIdDesc("Success");
-        if (items == null) {
-            return null;
-        }
-        Users user;
-        int download = 0;
-        int like = 0;
-        String[] tags;
-        for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwnerAddress());
-            download = downloadRepository.countByTokenId(item.getTokenId());
-            like = likeRepository.countByTokenId(item.getTokenId());
-            tags = getTags(item.getTokenId());
-            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
-        }
-        return ItemsRes.of("작품 전체 조회 성공", list);
-    }
-
-    @Override
     public ItemsRes getFirst() {
         List<ItemDetailRes> list = new ArrayList<>();
         List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(true,
@@ -339,28 +317,6 @@ public class ItemServiceImpl implements ItemService {
             list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
         }
         return ItemsRes.of("1차 창작물 조회 성공", list);
-    }
-
-    @Override
-    public ItemsRes getSecond() {
-        List<ItemDetailRes> list = new ArrayList<>();
-        List<Items> items = itemRepository.findByIsFirstAndStatusOrderByTokenIdDesc(false,
-            "Success");
-        if (items.isEmpty()) {
-            return null;
-        }
-        Users user;
-        int download;
-        int like;
-        String[] tags;
-        for (Items item : items) {
-            user = userService.getUserByAddress(item.getOwnerAddress());
-            download = downloadRepository.countByTokenId(item.getTokenId());
-            like = likeRepository.countByTokenId(item.getTokenId());
-            tags = getTags(item.getTokenId());
-            list.add(ItemDetailRes.of("Item", item, user, download, like, tags));
-        }
-        return ItemsRes.of("2차 창작물 조회 성공", list);
     }
 
     @Override

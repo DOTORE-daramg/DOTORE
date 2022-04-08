@@ -39,7 +39,6 @@ public class AwsS3Service {
     }
 
     public String upload(File uploadFile, String filePath, String address) {
-        //String fileName = filePath + "/" + UUID.randomUUID() + uploadFile.getName();   // S3에 저장된 파일 이름
         String fileName = filePath + "/" + address + "&" + uploadFile.getName();   // S3에 저장된 파일 이름
         String uploadImageUrl = putS3(uploadFile, fileName); // s3로 업로드
         removeNewFile(uploadFile);
@@ -75,10 +74,8 @@ public class AwsS3Service {
     // 로컬에 저장된 이미지 지우기
     private void removeNewFile(File targetFile) {
         if (targetFile.delete()) {
-            System.out.println("File delete success");
             return;
         }
-        System.out.println("File delete fail");
     }
 
     // 로컬에 파일 업로드 하기
