@@ -103,7 +103,6 @@ public class MypageController {
             }
             return ResponseEntity.status(200).body(ItemListRes.of("Success", list));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(ItemListRes.of("존재하지 않는 token_id"));
         }
     }
@@ -116,11 +115,8 @@ public class MypageController {
     public ResponseEntity<ItemAuthorListRes> getAuthorItemList(@PathVariable String address) {
         try {
             List<Items> list = itemService.getAuthorItemList(address);
-            //Users user = userService.getUserByAddress(address);
-            //String nickname = user.getNickname();
             return ResponseEntity.status(200).body(ItemAuthorListRes.of("Success", list));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(ItemAuthorListRes.of("존재하지 않는 token_id"));
         }
     }
@@ -145,16 +141,15 @@ public class MypageController {
             for (int i = 0; i < list.size(); i++) {
                 int articleNo = list.get(i).getArticleno();
                 int temp = feedbackService.getCount(articleNo);
-                if (temp == 0) {//articleno가 0이면 해당 글에 대한 답변이 없는 상황
+                if (temp == 0) {    //articleno가 0이면 해당 글에 대한 답변이 없는 상황
                     booleanList.add(Boolean.FALSE);
-                } else {//articleno가 0이 아니라면 해당 글에 대한 답변이 하나라도 있는 상황
+                } else {    //articleno가 0이 아니라면 해당 글에 대한 답변이 하나라도 있는 상황
                     booleanList.add(Boolean.TRUE);
                 }
             }
             return ResponseEntity.status(200)
                 .body(responseFeedbackRes.of("Success", list, list2, booleanList));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(responseFeedbackRes.of("존재하지 않는 token_id"));
         }
     }
@@ -189,7 +184,6 @@ public class MypageController {
             return ResponseEntity.status(200)
                 .body(requestFeedbackRes.of("Success", list, list2, booleanList));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(requestFeedbackRes.of("존재하지 않는 token_id"));
         }
     }
@@ -210,7 +204,6 @@ public class MypageController {
             }
             return ResponseEntity.status(200).body(MyDownloadListRes.of("Success", list));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(MyDownloadListRes.of("존재하지 않는 token_id"));
         }
     }
@@ -231,7 +224,6 @@ public class MypageController {
             }
             return ResponseEntity.status(200).body(MyLikeListRes.of("Success", list));
         } catch (Exception e) {
-            e.printStackTrace();
             return ResponseEntity.status(404).body(MyLikeListRes.of("존재하지 않는 token_id"));
         }
     }
