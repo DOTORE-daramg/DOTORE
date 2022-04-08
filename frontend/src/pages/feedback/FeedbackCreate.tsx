@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 import styled from "styled-components";
 import { Description } from "../../stories/detail/Description";
@@ -6,6 +6,7 @@ import { Image } from "../../stories/detail/Image";
 import { Title } from "../../stories/Title";
 import { TextEditor } from "../../stories/common/TextEditor";
 import { useParams } from "react-router-dom";
+import { getItem } from "../../api/item";
 import { isLoggedInState } from "../..";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -96,6 +97,12 @@ const FeedbackCreate = () => {
     tokenId: Number(tokenId),
   });
   const { itemTitle, itemHash, nickname, itemDescription } = item;
+
+  useEffect(() => {
+    getItem(tokenId).then((res) => {
+      setItem(res.data);
+    });
+  }, []);
 
   useEffect(() => {
     if (!isLoggedIn.isLoggedIn) {
