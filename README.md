@@ -1,4 +1,5 @@
 # DOTORE
+
 > **우리의 재능이 모여 새로운 가치가 되는 곳, 도토리**
 
 [[_TOC_]]
@@ -15,83 +16,84 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 ---
 
-> ****“창작가와 기부자가 하나의 플랫폼에서 서로의 니즈를 공유할 수 있는 서비스를 제공하고자 합니다.”****
+> \***\*“창작가와 기부자가 하나의 플랫폼에서 서로의 니즈를 공유할 수 있는 서비스를 제공하고자 합니다.”\*\***
 
-창작에는 고통이 따릅니다. 많은 사람이 나만의 작품을 가지고 싶어 하지만, 혼자서 밑바닥부터 시작한다는 건 너무 어려운 일이죠. 그런 상황에서 ***누군가 소스를 제공하고 조언을 줄 수 있다면?***
-반대로 ***내가 가진 재능으로 누군가에게 도움이 되고, 또 그 작품을 NFT로 소유하고 거래할 수 있다면?***
+창작에는 고통이 따릅니다. 많은 사람이 나만의 작품을 가지고 싶어 하지만, 혼자서 밑바닥부터 시작한다는 건 너무 어려운 일이죠. 그런 상황에서 **_누군가 소스를 제공하고 조언을 줄 수 있다면?_**
+반대로 **_내가 가진 재능으로 누군가에게 도움이 되고, 또 그 작품을 NFT로 소유하고 거래할 수 있다면?_**
 
-이 수요를 연결할 수 있는 프로젝트로 도토리를 제공하고자 합니다. 
+이 수요를 연결할 수 있는 프로젝트로 도토리를 제공하고자 합니다.
 
 창작가는 아이디어를 얻고 도움을 받아 나만의 작품을 만들 수 있습니다. 기부자는 자신이 가진 재능을 기부하고, 2차 창작된 작품들의 원작자로 남아 자신만의 커리어를 쌓으며 본인의 원작에 가치를 부여할 수 있습니다.
 
-
 ### 일정
-- 개발 일정 : 2022-02-28 ~ 2022-04-08 (총 6주)
-    - Sub1 : 2022-02-28 ~ 2022-03-06 : 아이디어 구상, 기획, 설계, 필요 기술 학습을 통한 코드 이해
-    - Sub2 : 2022-03-07 ~ 2022-03-18 : 세부 기획, Frontend 컴포넌트 개발, Backend api 개발, 응용 코드 추가
-    - Sub3 : 2022-03-19 ~ 2022-04-08 : 프로젝트를 하면서 심화적으로 원하는 코드 추가
 
+- 개발 일정 : 2022-02-28 ~ 2022-04-08 (총 6주)
+  - Sub1 : 2022-02-28 ~ 2022-03-06 : 아이디어 구상, 기획, 설계, 필요 기술 학습을 통한 코드 이해
+  - Sub2 : 2022-03-07 ~ 2022-03-18 : 세부 기획, Frontend 컴포넌트 개발, Backend api 개발, 응용 코드 추가
+  - Sub3 : 2022-03-19 ~ 2022-04-08 : 프로젝트를 하면서 심화적으로 원하는 코드 추가
 
 ### WE ARE, 다람쥐
-|  팀원 | 역할 |
-| --- | --- |
+
+| 팀원   | 역할                                     |
+| ------ | ---------------------------------------- |
 | 한지희 | 💪😎🎺 팀장! Frontend, Blockchain, Infra |
-| 이성재 | 🐭 Frontend, Blockchain |
-| 이호진 | 🐯 Backend, Infra |
-| 인주비 | 🐱 Frontend |
-| 조영운 | 🐹 Backend, Blockchain, Infra |
-| 제진명 | 🐨 Frontend, Blockchain |
+| 이성재 | 🐭 Frontend, Blockchain                  |
+| 이호진 | 🐯 Backend, Infra                        |
+| 인주비 | 🐱 Frontend                              |
+| 조영운 | 🐹 Backend, Blockchain, Infra            |
+| 제진명 | 🐨 Frontend, Blockchain                  |
 
 <br>
 
 ## **:two: 개발 환경**
 
-|  |  |
-| --- | --- |
-| 이슈 관리 | Jira |
-| 형상 관리 | Gitlab |
+|              |                           |
+| ------------ | ------------------------- |
+| 이슈 관리    | Jira                      |
+| 형상 관리    | Gitlab                    |
 | 커뮤니케이션 | Mattermost, Notion, Webex |
 
-### 기술 스택 
+### 기술 스택
+
 <img alt="TypeScript" src ="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white"/>
 <img alt="React" src ="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB"/>
 <img alt="Spring" src ="https://img.shields.io/badge/Spring-6DB33F?style=for-the-badge&logo=spring&logoColor=white"/>
 <img alt="AWS" src ="https://img.shields.io/badge/Amazon_AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white"/>
 
-|  |  | 프로그램 | 버전 |
-| --- | --- | --- | --- |
-| IDE |  | Visual Studio Code | 1.64.2 |
-|  |  | IntelliJ IDEA Community Edition | 2021.3.1 |
-|  |  | Spring Tool Suite | 3.9.14 |
-|  | UI/UX | Figma |  |
-| Database  |  | MySQL Workbench  | 8.0.26 |
-| Server |  | AWS EC2 (MobaXterm) |  |
-|  | 저장소 | AWS S3 |  |
-|  |  | Ubuntu  | 20.04.2 LTS |
-|  |  | Jenkins  | 2.303.2 |
-|  |  | nginx  | 1.18.0 |
-|  |  | Certbot |  |
-|  |  | Docker  | 20.10.7 |
-| Smart Contract |  | Solidity |  0.8.4+ |
-|  | 배포 환경 | Remix |  |
-|  |  | hardhat typescript |  |
-|  | 테스트 환경 | Truffle  | 5.4.24 |
-| Blockchain Environment | 테스트 네트워크 | Ropsten network |  |
-| Frontend |  | HTML5, CSS3, TypeScript(ES6)  |  |
-|  | 라이브러리 | React | 17.0.2 |
-|  |  | Recoil | 0.5.1 |
-|  |  | styled-componenents | 5.3.3 |
-| | | framer-motion | 4.1.17 |
-| | | draft-js | 0.11.7 |
-| | | axios | 0.26.1 |
-| | | web3 | 1.7.1 |
-| Backend |  | Java (Open-JDK zulu 8.33.0.1) |  |
-|  |  | Spring Boot Gradle 7.4.1 |  |
-|  |  | Lombok 1.18.20, Swagger 2 3.0.0 |  |
-|  |  | JPA |  |
-| 형상 관리 | | Gitlab | |
-| 이슈 관리 | | Jira | |
-| 커뮤니케이션 | | Mattermost, Notion, Webex | |
+|                        |                 | 프로그램                        | 버전        |
+| ---------------------- | --------------- | ------------------------------- | ----------- |
+| IDE                    |                 | Visual Studio Code              | 1.64.2      |
+|                        |                 | IntelliJ IDEA Community Edition | 2021.3.1    |
+|                        |                 | Spring Tool Suite               | 3.9.14      |
+|                        | UI/UX           | Figma                           |             |
+| Database               |                 | MySQL Workbench                 | 8.0.26      |
+| Server                 |                 | AWS EC2 (MobaXterm)             |             |
+|                        | 저장소          | AWS S3                          |             |
+|                        |                 | Ubuntu                          | 20.04.2 LTS |
+|                        |                 | Jenkins                         | 2.303.2     |
+|                        |                 | nginx                           | 1.18.0      |
+|                        |                 | Certbot                         |             |
+|                        |                 | Docker                          | 20.10.7     |
+| Smart Contract         |                 | Solidity                        | 0.8.4+      |
+|                        | 배포 환경       | Remix                           |             |
+|                        |                 | hardhat typescript              |             |
+|                        | 테스트 환경     | Truffle                         | 5.4.24      |
+| Blockchain Environment | 테스트 네트워크 | Ropsten network                 |             |
+| Frontend               |                 | HTML5, CSS3, TypeScript(ES6)    |             |
+|                        | 라이브러리      | React                           | 17.0.2      |
+|                        |                 | Recoil                          | 0.5.1       |
+|                        |                 | styled-componenents             | 5.3.3       |
+|                        |                 | framer-motion                   | 4.1.17      |
+|                        |                 | draft-js                        | 0.11.7      |
+|                        |                 | axios                           | 0.26.1      |
+|                        |                 | web3                            | 1.7.1       |
+| Backend                |                 | Java (Open-JDK zulu 8.33.0.1)   |             |
+|                        |                 | Spring Boot Gradle 7.4.1        |             |
+|                        |                 | Lombok 1.18.20, Swagger 2 3.0.0 |             |
+|                        |                 | JPA                             |             |
+| 형상 관리              |                 | Gitlab                          |             |
+| 이슈 관리              |                 | Jira                            |             |
+| 커뮤니케이션           |                 | Mattermost, Notion, Webex       |             |
 
 <br>
 
@@ -107,7 +109,7 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 - 서비스 아키텍처
 - [기능 정의서](./docs/기능명세서.pdf)
 - [요구사항 명세서](./docs/요구사항명세서.pdf)
-- [ERD]((./docs/DOTORE_ERD설계.PNG))
+- [ERD](<(./docs/DOTORE_ERD설계.PNG)>)
 - 시퀀스 다이어그램
 - Git 협업
 - Jira 이슈 관리
@@ -115,16 +117,13 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 
 <br>
 
-
-
 <br>
 
 ## **4️⃣ 프로젝트 파일 구조**
 
-### Smart Contract
+### **Smart Contract**
 
-<div markdown="1">
-
+<details><summary>Smart Contract</summary>
 ```bash
 📦smart-contracts
  ┣ 📂contracts
@@ -146,11 +145,11 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜package.json
  ┗ 📜README.md
 ```
-
-</div>
+</details>
 
 ### **Frontend**
 
+<details><summary>Frontend</summary>
 ```bash
 📦frontend
  ┣ 📂.storybook
@@ -361,9 +360,11 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜README.md
  ┗ 📜tsconfig.json
 ```
+</details>
 
 ### **Backend**
 
+<details><summary>Backend</summary>
 ```bash
 📦backend
  ┣ 📂gradle
@@ -478,11 +479,13 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
  ┣ 📜gradlew.bat
  ┗ 📜settings.gradle
 ```
+</details>
 <br>
 
 ## **5️⃣ 프로젝트 결과물**
 
 - 포팅메뉴얼
+
   - [Quick start](./exec/Quick-start.md)
   - [빌드 및 배포](./exec/빌드_및_배포.pdf)
   - [외부 서비스](./exec/외부_서비스.pdf)
@@ -490,7 +493,6 @@ NFT를 통해 재능 기부를 하고 이를 바탕으로 수혜자들이 2차 �
 - [시연 시나리오](./exec/시연_시나리오.pdf)
 - 중간발표자료
 - 최종발표자료
-
 
 ## 📝 License
 
