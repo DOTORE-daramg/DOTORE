@@ -19,7 +19,7 @@ import {
 } from "../../stories/common/alert";
 import LoadingSpinner from "../../stories/common/LoadingSpinner";
 import { useNavigate } from "react-router-dom";
-import { LoadContainer } from '../Detail';
+import { LoadContainer } from "../Detail";
 
 const Container = styled.div`
   padding: 8rem 0;
@@ -179,7 +179,7 @@ const ChildMinting = () => {
         warnAlert("트랜잭션은 요청하였으나 처리가 지연되고 있습니다.");
       }
     }
-    navigate(`/artist/${userInfo.address}`, { replace: true });
+    // navigate(`/artist/${userInfo.address}`, { replace: true });
   };
 
   const validateTitle = () => {
